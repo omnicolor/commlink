@@ -6,6 +6,7 @@ namespace Tests\Feature\Http\Responses\Slack;
 
 use App\Http\Responses\Slack\SlackResponse;
 use Omnicolor\Slack\Attachments\TextAttachment;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -22,6 +23,7 @@ final class SlackResponseTest extends TestCase
     /**
      * Set up the subject under test.
      */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

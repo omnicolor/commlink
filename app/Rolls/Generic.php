@@ -15,7 +15,6 @@ use Override;
 
 use function array_shift;
 use function array_sum;
-use function count;
 use function explode;
 use function implode;
 use function preg_match;
@@ -41,7 +40,7 @@ class Generic extends Roll
         // First, pull the description part out, if it exists.
         $parts = explode(' ', $content);
         $expression = array_shift($parts);
-        if (0 !== count($parts)) {
+        if ([] !== $parts) {
             $this->description = implode(' ', $parts);
         }
 

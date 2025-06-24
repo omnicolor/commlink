@@ -55,7 +55,7 @@ class Help extends Roll
 
             $this->data[] = [
                 'title' => 'Player',
-                'text' => 'You\'re playing ' . (string)$this->character
+                'text' => 'You\'re playing ' . $this->character
                     . ' in this channel' . PHP_EOL
                     . sprintf(
                         '· `composure` - Make a composure roll (%d)' . PHP_EOL

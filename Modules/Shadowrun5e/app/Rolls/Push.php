@@ -149,6 +149,7 @@ class Push extends Number
     /**
      * Format the text and title for a critical glitch.
      */
+    #[Override]
     protected function formatCriticalGlitch(): void
     {
         $this->title = sprintf(
@@ -168,6 +169,7 @@ class Push extends Number
     /**
      * Format the text and title for a normal roll.
      */
+    #[Override]
     protected function formatRoll(): void
     {
         $this->title = $this->formatTitle();
@@ -188,6 +190,7 @@ class Push extends Number
     /**
      * Format the title part of the roll.
      */
+    #[Override]
     protected function formatTitle(): string
     {
         return sprintf(
@@ -205,6 +208,7 @@ class Push extends Number
     /**
      * Roll the requested number of dice, checking for successes and failures.
      */
+    #[Override]
     protected function roll(): void
     {
         for ($i = 0; $i < $this->dice + $this->character->edge; $i++) {
@@ -288,6 +292,7 @@ class Push extends Number
     /**
      * Return whether the roll was a glitch.
      */
+    #[Override]
     protected function isGlitch(): bool
     {
         if (0 === $this->fails) {
@@ -302,6 +307,7 @@ class Push extends Number
     /**
      * Return whether the roll was a critical glitch.
      */
+    #[Override]
     protected function isCriticalGlitch(): bool
     {
         return $this->isGlitch() && 0 === $this->successes;

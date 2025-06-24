@@ -6,6 +6,7 @@ namespace Modules\Cyberpunkred\Tests\Feature\Models;
 
 use Modules\Cyberpunkred\Models\Weapon;
 use Modules\Cyberpunkred\Models\WeaponArray;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -24,6 +25,7 @@ final class WeaponArrayTest extends TestCase
     /**
      * Set up a clean subject.
      */
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

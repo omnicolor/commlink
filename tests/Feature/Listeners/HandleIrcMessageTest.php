@@ -107,7 +107,7 @@ final class HandleIrcMessageTest extends TestCase
         $campaign = Campaign::factory()->create([
             'system' => 'shadowrun5e',
         ]);
-        $channel = Channel::factory()->create([
+        Channel::factory()->create([
             'campaign_id' => $campaign,
             'channel_id' => '#test-channel',
             'server_id' => 'chat.freenode.com',

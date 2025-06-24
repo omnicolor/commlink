@@ -7,6 +7,7 @@ namespace Tests\Feature\Policies;
 use App\Models\ChatUser;
 use App\Models\User;
 use App\Policies\ChatUserPolicy;
+use Override;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
@@ -18,6 +19,7 @@ final class ChatUserPolicyTest extends TestCase
     private User $other_user;
     private ChatUser $chat_user;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -82,25 +84,11 @@ final class ChatUserPolicyTest extends TestCase
 
     public function testNoOneCanRestore(): void
     {
-        self::assertFalse(
-            // @phpstan-ignore arguments.count
-            $this->policy->restore($this->owner, $this->chat_user),
-        );
-        self::assertFalse(
-            // @phpstan-ignore arguments.count
-            $this->policy->restore($this->other_user, $this->chat_user),
-        );
+        self::assertFalse($this->policy->restore());
     }
 
     public function testNoOneCanForceDelete(): void
     {
-        self::assertFalse(
-            // @phpstan-ignore arguments.count
-            $this->policy->forceDelete($this->owner, $this->chat_user),
-        );
-        self::assertFalse(
-            // @phpstan-ignore arguments.count
-            $this->policy->forceDelete($this->other_user, $this->chat_user),
-        );
+        self::assertFalse($this->policy->forceDelete());
     }
 }

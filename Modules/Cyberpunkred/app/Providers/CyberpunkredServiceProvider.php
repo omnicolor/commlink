@@ -6,6 +6,7 @@ namespace Modules\Cyberpunkred\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 use function array_merge;
 use function config;
@@ -40,6 +41,7 @@ class CyberpunkredServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
@@ -125,6 +127,7 @@ class CyberpunkredServiceProvider extends ServiceProvider
      *
      * @return array<string>
      */
+    #[Override]
     public function provides(): array
     {
         return [];

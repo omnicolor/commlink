@@ -255,7 +255,7 @@ final class UsersControllerTest extends TestCase
         $patch = [
             'patch' => [
                 [
-                    'path' => '/roles/' . (string)$role?->id,
+                    'path' => '/roles/' . $role?->id,
                     'op' => 'replace',
                     'value' => 'false',
                 ],

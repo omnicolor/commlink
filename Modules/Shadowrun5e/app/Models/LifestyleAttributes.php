@@ -37,11 +37,11 @@ final class LifestyleAttributes
             throw new RuntimeException('Lifestyle attributes missing');
         }
 
-        $this->comforts = (int)$attributes['comforts'];
-        $this->comfortsMax = (int)$attributes['comfortsMax'];
-        $this->neighborhood = (int)$attributes['neighborhood'];
-        $this->neighborhoodMax = (int)$attributes['neighborhoodMax'];
-        $this->security = (int)$attributes['security'];
-        $this->securityMax = (int)$attributes['securityMax'];
+        $this->comforts = $attributes['comforts'];
+        $this->comfortsMax = $attributes['comfortsMax'];
+        $this->neighborhood = $attributes['neighborhood'];
+        $this->neighborhoodMax = $attributes['neighborhoodMax'];
+        $this->security = $attributes['security'];
+        $this->securityMax = $attributes['securityMax'];
     }
 }

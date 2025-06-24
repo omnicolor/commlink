@@ -7,6 +7,7 @@ namespace Tests\Feature\Policies;
 use App\Models\Campaign;
 use App\Models\User;
 use App\Policies\CampaignPolicy;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -17,6 +18,7 @@ final class CampaignPolicyTest extends TestCase
 {
     protected CampaignPolicy $policy;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

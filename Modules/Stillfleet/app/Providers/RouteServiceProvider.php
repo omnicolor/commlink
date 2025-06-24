@@ -6,6 +6,7 @@ namespace Modules\Stillfleet\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Override;
 
 use function module_path;
 
@@ -16,6 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * Register any model bindings or pattern based filters.
      */
+    #[Override]
     public function boot(): void
     {
         parent::boot();

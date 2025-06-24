@@ -77,7 +77,7 @@ final class InitiativesControllerTest extends TestCase
     {
         $gm = User::factory()->create();
         $campaign = Campaign::factory()->create([]);
-        $initiative = Initiative::factory()->create([
+        Initiative::factory()->create([
             'campaign_id' => $campaign,
         ]);
 

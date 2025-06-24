@@ -113,7 +113,7 @@ class Shadowrun5eConverter implements ConverterInterface
 
     protected function endOfFile(): bool
     {
-        return 0 === count($this->file);
+        return [] === $this->file;
     }
 
     protected function nextLineIsMajorHeading(): bool
@@ -415,7 +415,7 @@ class Shadowrun5eConverter implements ConverterInterface
             }
 
             $rating = null;
-            if (false !== str_contains($name, '(')) {
+            if (str_contains($name, '(')) {
                 [$name, $rating] = explode(' (', $name);
                 $rating = substr($rating, 0, -1);
             }

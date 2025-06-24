@@ -54,12 +54,8 @@ class EventPolicy
         /** @var User */
         $player = $campaignUsers->find($user->id);
         $status = $player->pivot->status;
-        if ('invited' === $status || 'accepted' === $status) {
-            // User is a player (in good standing) in the campaign.
-            return true;
-        }
-
-        return false;
+        // User is a player (in good standing) in the campaign.
+        return 'invited' === $status || 'accepted' === $status;
     }
 
     /**
@@ -83,11 +79,7 @@ class EventPolicy
     public function createForCampaign(User $user, Campaign $campaign): bool
     {
         $gamemaster = $campaign->gamemaster;
-        if (null !== $gamemaster && $gamemaster->is($user)) {
-            return true;
-        }
-
-        return false;
+        return null !== $gamemaster && $gamemaster->is($user);
     }
 
     /**
@@ -103,11 +95,7 @@ class EventPolicy
         }
 
         $gamemaster = $event->campaign->gamemaster;
-        if (null !== $gamemaster && $gamemaster->is($user)) {
-            return true;
-        }
-
-        return false;
+        return null !== $gamemaster && $gamemaster->is($user);
     }
 
     /**
@@ -123,11 +111,7 @@ class EventPolicy
         }
 
         $gamemaster = $event->campaign->gamemaster;
-        if (null !== $gamemaster && $gamemaster->is($user)) {
-            return true;
-        }
-
-        return false;
+        return null !== $gamemaster && $gamemaster->is($user);
     }
 
     /**
@@ -143,11 +127,7 @@ class EventPolicy
         }
 
         $gamemaster = $event->campaign->gamemaster;
-        if (null !== $gamemaster && $gamemaster->is($user)) {
-            return true;
-        }
-
-        return false;
+        return null !== $gamemaster && $gamemaster->is($user);
     }
 
     /**

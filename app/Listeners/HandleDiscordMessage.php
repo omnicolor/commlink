@@ -8,6 +8,7 @@ use App\Enums\ChannelType;
 use App\Events\DiscordMessageReceived;
 use App\Events\RollEvent;
 use App\Models\Channel;
+use App\Rolls\Generic;
 use App\Rolls\Roll;
 use Error;
 use ErrorException;
@@ -48,7 +49,7 @@ class HandleDiscordMessage
 
         // See if the requested roll is XdY or something similar.
         if (1 === preg_match('/\d+d\d+/i', $args[0])) {
-            $roll = new \App\Rolls\Generic(
+            $roll = new Generic(
                 $event->content,
                 $channel->username,
                 $channel

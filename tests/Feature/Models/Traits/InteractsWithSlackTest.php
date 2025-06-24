@@ -8,6 +8,7 @@ use App\Enums\ChannelType;
 use App\Models\Channel;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -24,6 +25,7 @@ final class InteractsWithSlackTest extends TestCase
 
     protected Channel $mock;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

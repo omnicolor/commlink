@@ -10,6 +10,7 @@ use Modules\Shadowrun5e\Models\ActiveSkill;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\KnowledgeSkill;
 use Modules\Shadowrun5e\Models\PartialCharacter;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -22,6 +23,7 @@ use function route;
 #[Medium]
 final class CharactersControllerTest extends TestCase
 {
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

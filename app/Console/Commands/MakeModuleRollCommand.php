@@ -9,6 +9,7 @@ use Nwidart\Modules\Commands\Make\GeneratorCommand;
 use Nwidart\Modules\Laravel\LaravelFileRepository;
 use Nwidart\Modules\Support\Stub;
 use Nwidart\Modules\Traits\ModuleCommandTrait;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 
 use function config;
@@ -34,6 +35,7 @@ class MakeModuleRollCommand extends GeneratorCommand
     /** @var string */
     protected $description = 'Create a new roll for the specified module.';
 
+    #[Override]
     public function handle(): int
     {
         /**
@@ -86,6 +88,7 @@ class MakeModuleRollCommand extends GeneratorCommand
         return Str::studly($this->argument('roll'));
     }
 
+    #[Override]
     public function getDefaultNamespace(): string
     {
         return config('modules.paths.generator.roll.namespace')

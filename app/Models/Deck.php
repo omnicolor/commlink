@@ -174,7 +174,7 @@ abstract class Deck implements Countable
      */
     public function peek(): Card
     {
-        if (0 === count($this->currentCards)) {
+        if ([] === $this->currentCards) {
             throw new UnderflowException('Insufficient cards remain in deck');
         }
         return end($this->currentCards);

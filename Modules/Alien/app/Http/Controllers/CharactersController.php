@@ -367,7 +367,6 @@ class CharactersController extends Controller
         $career = $character->career;
 
         $needsQuantity = [];
-        /** @var array<int, array<string, int|string>> */
         foreach ($career->gear as $row) {
             /** @var array<string, int|string> $item */
             foreach ($row as $item) {

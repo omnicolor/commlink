@@ -26,28 +26,6 @@ final class LifestyleAttributesTest extends TestCase
     }
 
     /**
-     * Test initializing lifestyle attributes with garbage.
-     */
-    public function testGarbageAttributes(): void
-    {
-        // @phpstan-ignore argument.type
-        $attributes = new LifestyleAttributes([
-            'comforts' => 'a',
-            'comfortsMax' => 'b',
-            'neighborhood' => 'c',
-            'neighborhoodMax' => 'd',
-            'security' => 'e',
-            'securityMax' => 'f',
-        ]);
-        self::assertSame(0, $attributes->comforts);
-        self::assertSame(0, $attributes->comfortsMax);
-        self::assertSame(0, $attributes->neighborhood);
-        self::assertSame(0, $attributes->neighborhoodMax);
-        self::assertSame(0, $attributes->security);
-        self::assertSame(0, $attributes->securityMax);
-    }
-
-    /**
      * Test initializing lifestyle attributes with data.
      */
     public function testAttributes(): void

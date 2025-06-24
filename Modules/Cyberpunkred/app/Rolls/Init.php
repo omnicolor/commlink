@@ -9,6 +9,7 @@ use App\Models\Channel;
 use App\Models\Initiative;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
+use Modules\Cyberpunkred\Models\Character;
 use Omnicolor\Slack\Attachments\TextAttachment;
 use Omnicolor\Slack\Exceptions\SlackException;
 use Omnicolor\Slack\Response;
@@ -65,7 +66,7 @@ class Init extends Roll
         array_shift($args);
         $this->args = $args;
 
-        if (null === $this->character && 0 === count($this->args)) {
+        if (null === $this->character && [] === $this->args) {
             $this->error = 'Rolling initiative without a linked character '
                 . 'requires your reflexes, and optionally any modififers: '
                 . '`/roll init 8 -2` for a character with 8 REF and a wound '
@@ -82,7 +83,7 @@ class Init extends Roll
     {
         // Rolls with a character attached shouldn't need to enter reflexes.
         if (isset($this->character)) {
-            /** @var \Modules\Cyberpunkred\Models\Character */
+            /** @var Character */
             $character = $this->character;
             $this->username = (string)$character;
             if (2 === count($this->args)) {
