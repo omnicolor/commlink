@@ -29,7 +29,7 @@ use function is_numeric;
  * @property string|null $other_names
  * @property int $page
  * @property int|string $price
- * @property string|null $range
+ * @property int|null $range
  * @property string $ruleset
  * @property int $tech_cost
  * @property TechStrata $tech_strata
@@ -57,7 +57,7 @@ class Weapon extends Model implements Stringable
      *     other_names: string|null,
      *     page: int,
      *     price: int|string,
-     *     range: null,
+     *     range: int|null,
      *     ruleset: string,
      *     tech_cost: int,
      *     tech_strata: TechStrata,
