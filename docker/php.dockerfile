@@ -1,4 +1,4 @@
-FROM php:8.3-fpm
+FROM php:8.4-fpm
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libzip-dev libcurl4-openssl-dev pkg-config libssl-dev \
