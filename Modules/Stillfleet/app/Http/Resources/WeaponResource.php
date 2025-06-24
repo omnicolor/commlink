@@ -7,6 +7,7 @@ namespace Modules\Stillfleet\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Stillfleet\Models\Weapon;
+use Override;
 
 use function route;
 
@@ -34,6 +35,7 @@ class WeaponResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [
