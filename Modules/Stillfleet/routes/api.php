@@ -8,9 +8,11 @@ use Modules\Stillfleet\Http\Controllers\CharactersController;
 use Modules\Stillfleet\Http\Resources\PowerResource;
 use Modules\Stillfleet\Http\Resources\RoleResource;
 use Modules\Stillfleet\Http\Resources\SpeciesResource;
+use Modules\Stillfleet\Http\Resources\WeaponResource;
 use Modules\Stillfleet\Models\Power;
 use Modules\Stillfleet\Models\Role;
 use Modules\Stillfleet\Models\Species;
+use Modules\Stillfleet\Models\Weapon;
 
 Route::middleware('auth:sanctum')
     ->prefix('stillfleet')
@@ -42,4 +44,12 @@ Route::middleware('auth:sanctum')
         Route::get('species/{species}', function (Species $species) {
             return new SpeciesResource($species);
         })->name('species.show');
+
+        Route::get('weapons', function (): AnonymousResourceCollection {
+            return WeaponResource::collection(Weapon::all())
+                ->additional(['links' => ['self' => route('stillfleet.weapons.index')]]);
+        })->name('weapons.index');
+        Route::get('weapons/{weapon}', function (Weapon $weapon) {
+            return new WeaponResource($weapon);
+        })->name('weapons.show');
     });

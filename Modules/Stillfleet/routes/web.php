@@ -22,6 +22,22 @@ Route::prefix('characters/stillfleet')
             'create/class',
             [CharactersController::class, 'saveClass'],
         )->name('create-class');
+        Route::post(
+            'create/class-powers',
+            [CharactersController::class, 'saveClassPowers'],
+        )->name('create-class-powers');
+        Route::post(
+            'create/species',
+            [CharactersController::class, 'saveSpecies'],
+        )->name('create-species');
+        Route::post(
+            'create/species-powers',
+            [CharactersController::class, 'saveSpeciesPowers'],
+        )->name('create-species-powers');
+        Route::post(
+            'create/attributes',
+            [CharactersController::class, 'saveAttributes']
+        )->name('create-attributes');
     });
 
 // Allow character sheets to be viewed without being logged in.

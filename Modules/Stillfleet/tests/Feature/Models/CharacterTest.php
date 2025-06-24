@@ -9,6 +9,7 @@ use LogicException;
 use Modules\Stillfleet\Models\Character;
 use Modules\Stillfleet\Models\Power;
 use Modules\Stillfleet\Models\Role;
+use Modules\Stillfleet\Models\Species;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -177,6 +178,20 @@ final class CharacterTest extends TestCase
             'species_powers' => ['invalid'],
         ]);
         self::assertCount(3, $character->species->powers ?? []);
+    }
+
+    public function testSetSpeciesObject(): void
+    {
+        $character = new Character(['species' => 'fleeter']);
+        $character->species = Species::findOrFail('shoodtha');
+        self::assertSame('shoodtha', $character->species?->id);
+    }
+
+    public function testSetSpeciesString(): void
+    {
+        $character = new Character(['species' => 'fleeter']);
+        $character->species = 'shoodtha';
+        self::assertSame('shoodtha', $character->species?->id);
     }
 
     public function testAllPowers(): void

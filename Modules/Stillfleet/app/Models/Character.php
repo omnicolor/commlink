@@ -42,7 +42,10 @@ use function assert;
  * @property-read int $reason_modifier
  * @property-read array<int, Role> $roles
  * @property-write array<int, array{id: string, level: int, powers: array<int, string>}> $roles
- * @property Species|null $species
+ * @property-read Species|null $species
+ * @property-write Species|string $species
+ * @property-read array<int, Power> $species_powers
+ * @property-write array<int, string> $species_powers
  * @property string $will
  * @property-read int $will_modifier
  */
@@ -291,6 +294,12 @@ class Character extends BaseCharacter implements Stringable
                     } catch (ModelNotFoundException) {
                         // Ignore.
                     }
+                }
+                return $species;
+            },
+            set: function (Species|string $species): string {
+                if ($species instanceof Species) {
+                    return $species->id;
                 }
                 return $species;
             },
