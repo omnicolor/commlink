@@ -191,7 +191,7 @@ class CharactersController extends Controller
                         ->withErrors(['You must choose a species before powers.']);
                 }
                 if (0 === $character->species->powers_choose) {
-                    return redirect()->route('stillfleet.create', 'assign-attributes');
+                    return redirect()->route('stillfleet.create', 'attributes');
                 }
                 $chosen_powers = collect($character->species->added_powers)
                     ->pluck('id')

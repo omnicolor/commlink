@@ -36,7 +36,7 @@ class CharacterResource extends JsonResource
      *         health_current: int
      *     },
      *     rank: integer,
-     *     roles: AnonymousResourceCollection,
+     *     classes: AnonymousResourceCollection,
      *     species: SpeciesResource,
      *     id: string,
      *     owner: UserMinimalResource,
@@ -65,7 +65,7 @@ class CharacterResource extends JsonResource
                 'health_current' => $this->health_current,
             ],
             'rank' => $this->rank,
-            'roles' => RoleResource::collection($this->roles),
+            'classes' => RoleResource::collection($this->roles),
             'species' => new SpeciesResource($this->species),
             'id' => $this->id,
             'owner' => new UserMinimalResource($this->user()),

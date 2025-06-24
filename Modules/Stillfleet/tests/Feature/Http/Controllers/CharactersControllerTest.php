@@ -304,6 +304,18 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
+    public function testCreateSpecies(): void
+    {
+        $character = PartialCharacter::create([
+            'owner' => $this->user->email,
+        ]);
+        session(['stillfleet-partial' => $character->id]);
+        self::actingAs($this->user)
+            ->get(route('stillfleet.create', 'species'))
+            ->assertSee('Become a Fleeter');
+        $character->delete();
+    }
+
     public function testSaveSpeciesWithPowersToChoose(): void
     {
         $character = PartialCharacter::create([
@@ -354,6 +366,45 @@ final class CharactersControllerTest extends TestCase
             ->assertRedirect(route('stillfleet.create', 'attributes'));
         $character->refresh();
         self::assertCount(0, $character->species_powers);
+        $character->delete();
+    }
+
+    public function testCreateSpeciesPowersNoSpeciesChosen(): void
+    {
+        $character = PartialCharacter::create([
+            'owner' => $this->user->email,
+        ]);
+        session(['stillfleet-partial' => $character->id]);
+        self::actingAs($this->user)
+            ->get(route('stillfleet.create', 'species-powers'))
+            ->assertRedirect(route('stillfleet.create', 'species'));
+        $character->delete();
+    }
+
+    public function testCreateSpeciesPowers(): void
+    {
+        $character = PartialCharacter::create([
+            'owner' => $this->user->email,
+            'species' => 'fleeter',
+        ]);
+        session(['stillfleet-partial' => $character->id]);
+        self::actingAs($this->user)
+            ->get(route('stillfleet.create', 'species-powers'))
+            ->assertSee('Fleeter powers')
+            ->assertSee('Choose 1');
+        $character->delete();
+    }
+
+    public function testCreateSpeciesPowersNoChoices(): void
+    {
+        $character = PartialCharacter::create([
+            'owner' => $this->user->email,
+            'species' => 'shoodtha',
+        ]);
+        session(['stillfleet-partial' => $character->id]);
+        self::actingAs($this->user)
+            ->get(route('stillfleet.create', 'species-powers'))
+            ->assertRedirect(route('stillfleet.create', 'attributes'));
         $character->delete();
     }
 
@@ -460,7 +511,7 @@ final class CharactersControllerTest extends TestCase
                     'name' => $this->user->name,
                 ],
                 'rank' => null,
-                'roles' => [],
+                'classes' => [],
                 'species' => null,
                 'system' => 'stillfleet',
             ]);
@@ -487,7 +538,7 @@ final class CharactersControllerTest extends TestCase
                     'name' => $this->user->name,
                 ],
                 'rank' => null,
-                'roles' => [],
+                'classes' => [],
                 'species' => null,
                 'system' => 'stillfleet',
             ]);

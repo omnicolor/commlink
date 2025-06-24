@@ -5,10 +5,12 @@ declare(strict_types=1);
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Route;
 use Modules\Stillfleet\Http\Controllers\CharactersController;
+use Modules\Stillfleet\Http\Resources\ArmorResource;
 use Modules\Stillfleet\Http\Resources\PowerResource;
 use Modules\Stillfleet\Http\Resources\RoleResource;
 use Modules\Stillfleet\Http\Resources\SpeciesResource;
 use Modules\Stillfleet\Http\Resources\WeaponResource;
+use Modules\Stillfleet\Models\Armor;
 use Modules\Stillfleet\Models\Power;
 use Modules\Stillfleet\Models\Role;
 use Modules\Stillfleet\Models\Species;
@@ -18,6 +20,14 @@ Route::middleware('auth:sanctum')
     ->prefix('stillfleet')
     ->name('stillfleet.')
     ->group(function (): void {
+        Route::get('armor', function (): AnonymousResourceCollection {
+            return ArmorResource::collection(Armor::all())
+                ->additional(['links' => ['self' => route('stillfleet.armor.index')]]);
+        })->name('armor.index');
+        Route::get('armor/{armor}', function (Armor $armor) {
+            return new ArmorResource($armor);
+        })->name('armor.show');
+
         Route::resource('characters', CharactersController::class)
             ->only(['index', 'show']);
 
