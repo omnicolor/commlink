@@ -42,10 +42,10 @@ final class PartialCharacterTest extends TestCase
     public static function startingMoneyAttributeProvider(): array
     {
         return [
-            ['d12', 'd4', 1600],
-            ['d10', 'd6', 1600],
-            ['d6', 'd6', 1200],
-            ['d4', 'd4', 800],
+            ['d12', 'd4', 160],
+            ['d10', 'd6', 160],
+            ['d6', 'd6', 120],
+            ['d4', 'd4', 80],
         ];
     }
 

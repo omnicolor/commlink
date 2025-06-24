@@ -73,7 +73,7 @@ class PartialCharacter extends Character
             throw new RuntimeException('Character must have attributes set');
         }
 
-        return 100 * (
+        return 10 * (
             DiceService::rollMax($this->charm)
             + DiceService::rollMax($this->will)
         );

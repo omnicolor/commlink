@@ -527,7 +527,7 @@ final class CharactersControllerTest extends TestCase
 
         self::actingAs($this->user)
             ->get(route('stillfleet.create', 'gear'))
-            ->assertSee('1400 voidguilder');
+            ->assertSee('140 voidguilder');
 
         $character->delete();
     }
