@@ -10,6 +10,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
+use function sprintf;
+
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Small]
@@ -405,17 +407,35 @@ final class PartialCharacterTest extends TestCase
     }
 
     /**
-     * Test validating a character with unspent attribute points.
+     * @return array<int, array<int, int|string>>
      */
-    public function testValidateAttributesUnspent(): void
+    public static function unspentSumToTenAttributesProvider(): array
     {
+        return [
+            ['A', 'B', 'C', 'D', 'E', 16],
+            ['B', 'C', 'D', 'E', 'A', 14],
+            ['C', 'D', 'E', 'A', 'B', 12],
+            ['D', 'E', 'A', 'B', 'C', 24],
+            ['E', 'A', 'B', 'C', 'D', 20],
+        ];
+    }
+
+    #[DataProvider('unspentSumToTenAttributesProvider')]
+    public function testValidateAttributesUnspentSumToTen(
+        string $metatype,
+        string $magic,
+        string $attribute,
+        string $skill,
+        string $resource,
+        int $remaining,
+    ): void {
         $character = new PartialCharacter([
             'priorities' => [
-                'metatypePriority' => 'A',
-                'magicPriority' => 'B',
-                'attributePriority' => 'C',
-                'skillPriority' => 'D',
-                'resourcePriority' => 'E',
+                'metatypePriority' => $metatype,
+                'magicPriority' => $magic,
+                'attributePriority' => $attribute,
+                'skillPriority' => $skill,
+                'resourcePriority' => $resource,
                 'metatype' => 'elf',
             ],
             'knowledgeSkills' => [
@@ -424,7 +444,50 @@ final class PartialCharacterTest extends TestCase
         ]);
         $character->validate();
         self::assertSame(
-            ['You have 16 unspent attribute points'],
+            [sprintf('You have %d unspent attribute points', $remaining)],
+            $character->errors,
+        );
+    }
+
+    /**
+     * @return array<int, array<int, int|string>>
+     */
+    public static function unspentStandardAttributesProvider(): array
+    {
+        return [
+            ['attributes', 'skills', 'magic', 'metatype', 'resources', 24],
+            ['skills', 'magic', 'metatype', 'resources', 'attributes', 12],
+            ['magic', 'metatype', 'resources', 'attributes', 'skills', 14],
+            ['metatype', 'resources', 'attributes', 'skills', 'magic', 16],
+            ['resources', 'attributes', 'skills', 'magic', 'metatype', 20],
+        ];
+    }
+
+    #[DataProvider('unspentStandardAttributesProvider')]
+    public function testValidateAttributesUnspentStandard(
+        string $a,
+        string $b,
+        string $c,
+        string $d,
+        string $e,
+        int $remaining,
+    ): void {
+        $character = new PartialCharacter([
+            'priorities' => [
+                'a' => $a,
+                'b' => $b,
+                'c' => $c,
+                'd' => $d,
+                'e' => $e,
+                'metatype' => 'elf',
+            ],
+            'knowledgeSkills' => [
+                ['name' => 'English', 'category' => 'language', 'level' => 'N'],
+            ],
+        ]);
+        $character->validate();
+        self::assertSame(
+            [sprintf('You have %d unspent attribute points', $remaining)],
             $character->errors,
         );
     }

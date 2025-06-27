@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Shadowrun5e\Database\Factories\PartialCharacterFactory;
 use Override;
 use Stringable;
@@ -14,17 +15,15 @@ use function sprintf;
 /**
  * Representation of a character currently being built.
  * @method static self create(array<string, mixed> $attributes)
+ * @mixin Model
  */
 class PartialCharacter extends Character implements Stringable
 {
-    protected const PRIORITY_STANDARD = 'standard';
-    protected const PRIORITY_SUM_TO_TEN = 'sum-to-ten';
-    protected const PRIORITY_KARMA = 'karma';
+    protected const string PRIORITY_STANDARD = 'standard';
+    protected const string PRIORITY_SUM_TO_TEN = 'sum-to-ten';
+    protected const string PRIORITY_KARMA = 'karma';
 
     protected const int DEFAULT_MAX_ATTRIBUTE = 6;
-
-    /** @var string */
-    protected $connection = 'mongodb';
 
     /** @var string */
     protected $table = 'characters-partial';
@@ -33,9 +32,6 @@ class PartialCharacter extends Character implements Stringable
     public array $errors = [];
 
     protected string $priority_method;
-
-    /** @var array<string, mixed> */
-    protected array $priorities = [];
 
     /**
      * Return the starting maximum for a character based on their metatype and
@@ -87,7 +83,7 @@ class PartialCharacter extends Character implements Stringable
      */
     public function isMagicallyActive(): bool
     {
-        return isset($this->priorities, $this->priorities['magic'])
+        return isset($this->priorities['magic'])
             && 'technomancer' !== $this->priorities['magic'];
     }
 
@@ -96,7 +92,7 @@ class PartialCharacter extends Character implements Stringable
      */
     public function isTechnomancer(): bool
     {
-        return isset($this->priorities, $this->priorities['magic'])
+        return isset($this->priorities['magic'])
             && 'technomancer' === $this->priorities['magic'];
     }
 
@@ -185,7 +181,7 @@ class PartialCharacter extends Character implements Stringable
                         // E priority is worth zero.
                         break;
                     case 'D':
-                        $sumToTen -= 1;
+                        $sumToTen--;
                         break;
                     case 'C':
                         $sumToTen -= 2;
@@ -252,8 +248,8 @@ class PartialCharacter extends Character implements Stringable
     {
         $errors = [];
         $attributePoints = 0;
-        if (self::PRIORITY_STANDARD === $this->priority_method) {
-            switch (array_search('attributes', $this->priorities, true)) {
+        if (self::PRIORITY_STANDARD === ($this->priority_method ?? 'unknown')) {
+            switch (array_search('attributes', $this->priorities ?? [], true)) {
                 case 'a':
                     $attributePoints = 24;
                     break;
