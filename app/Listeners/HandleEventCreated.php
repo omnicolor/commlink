@@ -11,6 +11,7 @@ use App\Models\Event;
 use Exception;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -27,6 +28,9 @@ class HandleEventCreated
     use InteractsWithSockets;
     use SerializesModels;
 
+    /**
+     * @throws ConnectionException
+     */
     public function handle(EventCreated $event): bool
     {
         /** @var Channel $channel */
@@ -38,11 +42,17 @@ class HandleEventCreated
                 case ChannelType::Discord: // @codeCoverageIgnore
                     $this->sendToDiscord($event->event, $channel);
                     break;
+                case ChannelType::Irc: // @codeCoverageIgnore
+                    // Ignore.
+                    break;
             }
         }
         return true;
     }
 
+    /**
+     * @throws ConnectionException
+     */
     protected function sendToSlack(Event $event, Channel $channel): void
     {
         $data = [
@@ -78,7 +88,7 @@ class HandleEventCreated
                 'type' => 'section',
                 'text' => [
                     'type' => 'plain_text',
-                    'text' => $event->description ?? '',
+                    'text' => $event->description,
                 ],
             ];
         }
