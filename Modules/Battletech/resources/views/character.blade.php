@@ -175,7 +175,7 @@
                 </div>
                 @foreach ($character->skills as $skill)
                 <div class="row">
-                    <div class="col">{{ $skill }}
+                    <div class="col">{{ $skill }}</div>
                 </div>
                 @endforeach
             </div>

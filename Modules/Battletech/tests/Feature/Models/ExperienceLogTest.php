@@ -91,9 +91,11 @@ final class ExperienceLogTest extends TestCase
             new ExperienceItem(100, ExperienceItemType::Skill, 'foo'),
         );
         $total = 0;
-        foreach ($log as $item) {
+        $number = 0;
+        foreach ($log as $key => $item) {
             self::assertInstanceOf(ExperienceItem::class, $item);
             $total += $item->amount;
+            self::assertSame($number++, $key);
         }
         self::assertSame(700, $total);
     }
