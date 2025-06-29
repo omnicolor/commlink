@@ -89,13 +89,10 @@ class Channel extends Model
         if (null === $chatUser) {
             return null;
         }
-        $chatCharacter = ChatCharacter::where('channel_id', $this->id)
+        return ChatCharacter::where('channel_id', $this->id)
             ->where('chat_user_id', $chatUser->id)
-            ->first();
-        if (null === $chatCharacter) {
-            return null;
-        }
-        return $chatCharacter->getCharacter();
+            ->first()
+            ?->getCharacter();
     }
 
     /**
@@ -223,7 +220,7 @@ class Channel extends Model
         string $guild_id,
         string $webhook_id,
     ): ?self {
-        return Channel::discord()
+        return self::discord()
             ->where('server_id', $guild_id)
             ->where(
                 'webhook',

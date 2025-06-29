@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Traits;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use RuntimeException;
 
@@ -24,11 +25,12 @@ trait InteractsWithDiscord
 {
     /**
      * Create and return the webhook for a Discord channel.
+     * @throws ConnectionException
      */
     public function createDiscordWebhook(string $snowflake): ?string
     {
         $filename = public_path('images/commlink.png');
-        $fileHandle = fopen($filename, 'r');
+        $fileHandle = fopen($filename, 'rb');
         // @codeCoverageIgnoreStart
         if (false === $fileHandle || 0 === (int)filesize($filename)) {
             return null;
@@ -68,6 +70,7 @@ trait InteractsWithDiscord
 
     /**
      * Given a Discord Channel ID (snowflake), return the channel's name.
+     * @throws ConnectionException
      */
     public function getDiscordChannelName(string $snowflake): ?string
     {
@@ -85,6 +88,7 @@ trait InteractsWithDiscord
 
     /**
      * Given a Discord User ID (snowflake), return the user's discriminator.
+     * @throws ConnectionException
      */
     public function getDiscordUserName(string $snowflake): ?string
     {
@@ -102,6 +106,7 @@ trait InteractsWithDiscord
 
     /**
      * Given a Discord server ID, return the server (guild) name.
+     * @throws ConnectionException
      */
     public function getDiscordServerName(string $serverId): ?string
     {
@@ -119,6 +124,7 @@ trait InteractsWithDiscord
 
     /**
      * Gets an access token from Discord's Oauth2 service.
+     * @throws ConnectionException
      * @throws RuntimeException
      */
     public function getDiscordAccessToken(string $code): string
@@ -146,6 +152,7 @@ trait InteractsWithDiscord
     /**
      * Gets a user's information from the Discord API from the Oauth2 token.
      * @return array<string, ?string>
+     * @throws ConnectionException
      * @throws RuntimeException
      */
     public function getDiscordUser(string $token): array
@@ -183,6 +190,7 @@ trait InteractsWithDiscord
      *     name: string,
      *     snowflake: string
      * }>
+     * @throws ConnectionException
      * @throws RuntimeException
      */
     public function getDiscordGuilds(string $token): array

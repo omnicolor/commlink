@@ -66,7 +66,7 @@ class HandleDiscordMessage
                     ucfirst($channel->system),
                 );
                 try {
-                    /** @var Roll */
+                    /** @var Roll $roll */
                     $roll = new $class(
                         $event->content,
                         optional($event->user)->username,
@@ -87,7 +87,7 @@ class HandleDiscordMessage
                 ucfirst($args[0])
             );
             try {
-                /** @var Roll */
+                /** @var Roll $roll */
                 $roll = new $class(
                     $event->content,
                     optional($event->user)->username,
@@ -107,7 +107,7 @@ class HandleDiscordMessage
         // Try generic rolls.
         try {
             $class = sprintf('\\App\\Rolls\\%s', ucfirst($args[0]));
-            /** @var Roll */
+            /** @var Roll $roll */
             $roll = new $class(
                 $event->content,
                 $event->user->username ?? $event->user?->displayname,
@@ -126,7 +126,7 @@ class HandleDiscordMessage
                 '\\App\\Http\\Responses\\Discord\\%sResponse',
                 ucfirst($args[0])
             );
-            /** @var Stringable */
+            /** @var Stringable $class */
             $class = new $class($event);
             $response = (string)$class;
             if ('' !== $response) {

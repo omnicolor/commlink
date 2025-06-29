@@ -211,5 +211,4 @@
             <h2 class="mb-0 mt-2">k. damage reduction</h2>
         </div>
     </div>
-    </div>
 </x-app>

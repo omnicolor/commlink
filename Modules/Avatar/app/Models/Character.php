@@ -155,7 +155,7 @@ class Character extends BaseCharacter implements Stringable
             },
             set: function (array $conditions): array {
                 foreach ($conditions as $key => $condition) {
-                    if ($conditions[$key] instanceof Condition) {
+                    if ($condition instanceof Condition) {
                         $conditions[$key] = $condition->value;
                     }
                 }
@@ -238,7 +238,7 @@ class Character extends BaseCharacter implements Stringable
             },
             set: function (array $moves): array {
                 foreach ($moves as $key => $move) {
-                    if ($moves[$key] instanceof Move) {
+                    if ($move instanceof Move) {
                         $moves[$key] = $move->id;
                     }
                 }
@@ -293,7 +293,7 @@ class Character extends BaseCharacter implements Stringable
             },
             set: function (array $statuses): array {
                 foreach ($statuses as $key => $status) {
-                    if ($statuses[$key] instanceof Status) {
+                    if ($status instanceof Status) {
                         $statuses[$key] = $status->id;
                     }
                 }
@@ -317,7 +317,7 @@ class Character extends BaseCharacter implements Stringable
             },
             set: function (array $techniques): array {
                 foreach ($techniques as $key => $technique) {
-                    if ($techniques[$key] instanceof Technique) {
+                    if ($technique instanceof Technique) {
                         $temp = [
                             'id' => $technique->id,
                             'level' => $technique->level->value,

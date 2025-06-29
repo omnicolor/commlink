@@ -454,8 +454,7 @@ $campaignUsers = $campaignUsers->merge($campaign->users);
                             </label>
                             <input aria-describedby="invitee-name-help"
                                 class="form-control" id="invitee-name"
-                                type="string" required>
-                            </input>
+                                type="text" required>
                             <div class="invalid-feedback">
                                 Name is required
                             </div>

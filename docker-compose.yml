@@ -4,11 +4,11 @@ services:
     logging:
       driver: "none"
     ports:
-      - 8338:8025
+        - "8338:8025"
   mongo:
     image: mongo:latest
     ports:
-      - 8339:27017
+      - "8339:27017"
     volumes:
       - mongo-data:/data/db
   mysql:
@@ -21,7 +21,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_USER: ${DB_USERNAME}
     ports:
-      - 8336:3306
+      - "8336:3306"
   php:
     build:
       context: ./
@@ -52,7 +52,7 @@ services:
     volumes:
       - ./:/var/www/html
     ports:
-      - 8337:80
+      - "8337:80"
 
 volumes:
   mongo-data:

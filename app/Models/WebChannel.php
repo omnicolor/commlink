@@ -12,7 +12,7 @@ use Override;
 use function config;
 
 /**
- * A normal channel is on a chat server (Slack, Discord, etc). A WebChannel is
+ * A normal channel is on a chat server (Slack, Discord, etc.). A WebChannel is
  * kind of a hack to allow using a Roll object from an API or web page, but
  * still getting the broadcasting. There's no concept of a ChatUser with
  * a WebChannel, but there should be a Character that is viewed.
@@ -54,7 +54,7 @@ class WebChannel extends Channel
     public function serverName(): Attribute
     {
         return Attribute::make(
-            get: function (): string {
+            get: static function (): string {
                 return config('app.name');
             },
         );
@@ -67,7 +67,7 @@ class WebChannel extends Channel
             get: function (): string {
                 return $this->character->system;
             },
-            set: function (): string {
+            set: static function (): string {
                 throw new LogicException(
                     'WebChannels use the character\'s system'
                 );
@@ -78,10 +78,10 @@ class WebChannel extends Channel
     public function type(): Attribute
     {
         return Attribute::make(
-            get: function (): string {
+            get: static function (): string {
                 return 'web';
             },
-            set: function (): string {
+            set: static function (): string {
                 throw new LogicException('WebChannel types can not be set');
             },
         );

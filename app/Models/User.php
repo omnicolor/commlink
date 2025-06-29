@@ -146,11 +146,11 @@ class User extends Authenticatable implements Stringable
     public function getFeatures(): array
     {
         $features = Feature::for($this)->all();
-        $features = array_filter($features, function (bool $feature): bool {
+        $features = array_filter($features, static function (bool $feature): bool {
             return $feature;
         });
         $features = array_keys($features);
-        array_walk($features, function (string &$value): void {
+        array_walk($features, static function (string &$value): void {
             $value = str_replace('App\\Features\\', '', $value);
         });
         sort($features);

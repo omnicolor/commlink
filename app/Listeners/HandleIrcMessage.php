@@ -51,7 +51,7 @@ class HandleIrcMessage
                     ucfirst($channel->system),
                 );
                 try {
-                    /** @var Roll */
+                    /** @var Roll $roll */
                     $roll = new $class(
                         $event->content,
                         $channel->user,
@@ -73,7 +73,7 @@ class HandleIrcMessage
                 ucfirst($args[0])
             );
             try {
-                /** @var Roll */
+                /** @var Roll $roll */
                 $roll = new $class($event->content, $channel->user, $channel);
                 $event->client->say($this->irc_channel, $roll->forIrc());
 
@@ -89,7 +89,7 @@ class HandleIrcMessage
         // Try generic rolls.
         try {
             $class = sprintf('\\App\\Rolls\\%s', ucfirst($args[0]));
-            /** @var Roll */
+            /** @var Roll $roll */
             $roll = new $class(
                 $event->content,
                 $channel->username,
@@ -114,11 +114,8 @@ class HandleIrcMessage
             ->where('channel_id', $this->irc_channel)
             ->where('server_id', $this->irc_server)
             ->first();
-        if (null !== $channel) {
-            return $channel;
-        }
 
-        return new Channel([
+        return $channel ?? new Channel([
             'channel_id' => $this->irc_channel,
             'server_id' => $this->irc_server,
             'type' => ChannelType::Irc,

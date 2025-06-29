@@ -268,15 +268,14 @@
             <td colspan=2>
                 <div class="box" id="experience" style="height:3em;padding-top:.7em;">
                     <div class="legend"><div>Experience</div></div>
-                        @for ($i = 1; $i <= 10; $i++)
-                        <input class="btn-check"
-                            @if ($character->experience >= $i) checked @endif
-                            id="experience-{{ $i }}" type="checkbox">
-                        <label class="btn btn-outline-success btn-sm my-1" for="experience-{{ $i }}">
-                            X
-                        </label>
-                        @endfor
-                    </div>
+                    @for ($i = 1; $i <= 10; $i++)
+                    <input class="btn-check"
+                        @if ($character->experience >= $i) checked @endif
+                        id="experience-{{ $i }}" type="checkbox">
+                    <label class="btn btn-outline-success btn-sm my-1" for="experience-{{ $i }}">
+                        X
+                    </label>
+                    @endfor
                 </div>
             </td>
         </tr>
@@ -326,14 +325,13 @@
             <td>
                 <div class="box" id="story-points" style="height:3em;padding-top:.7em;">
                     <div class="legend"><div>Story Points</div></div>
-                        @for ($i = 1; $i <= 3; $i++)
-                        <input class="btn-check"
-                            id="story-points-{{ $i }}" type="checkbox">
-                        <label class="btn btn-outline-success btn-sm my-1" for="story-points-{{ $i }}">
-                            X
-                        </label>
-                        @endfor
-                    </div>
+                    @for ($i = 1; $i <= 3; $i++)
+                    <input class="btn-check"
+                        id="story-points-{{ $i }}" type="checkbox">
+                    <label class="btn btn-outline-success btn-sm my-1" for="story-points-{{ $i }}">
+                        X
+                    </label>
+                    @endfor
                 </div>
             </td>
         </tr>

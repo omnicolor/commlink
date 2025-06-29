@@ -39,11 +39,11 @@ class ChatUser extends Model
     use InteractsWithDiscord;
     use InteractsWithSlack;
 
-    public const TYPE_DISCORD = 'discord';
-    public const TYPE_IRC = 'irc';
-    public const TYPE_SLACK = 'slack';
+    public const string TYPE_DISCORD = 'discord';
+    public const string TYPE_IRC = 'irc';
+    public const string TYPE_SLACK = 'slack';
 
-    public const VALID_TYPES = [
+    public const array VALID_TYPES = [
         self::TYPE_DISCORD,
         self::TYPE_IRC,
         self::TYPE_SLACK,
