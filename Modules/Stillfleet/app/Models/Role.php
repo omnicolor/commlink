@@ -23,6 +23,7 @@ use function json_decode;
  * @property-read array<int, string> $advanced_powers_lists
  * @property-read Power $marquee_power
  * @property-read string $name
+ * @property-read int $optional_choices
  * @property-read array<int, Power> $optional_powers
  * @property-read array<int, Power> $other_powers
  * @property-read int $page
@@ -60,6 +61,7 @@ class Role extends Model implements Stringable
      *     id: string,
      *     name: string,
      *     page: integer,
+     *     optional_choices: int,
      *     power_advanced: string,
      *     power_marque: string,
      *     power_optional: string,

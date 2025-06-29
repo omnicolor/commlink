@@ -12,24 +12,30 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
-use Modules\Stillfleet\Http\Requests\RoleRequest;
+use Modules\Stillfleet\Http\Requests\AttributesRequest;
+use Modules\Stillfleet\Http\Requests\ClassPowersRequest;
+use Modules\Stillfleet\Http\Requests\ClassRequest;
+use Modules\Stillfleet\Http\Requests\DetailsRequest;
+use Modules\Stillfleet\Http\Requests\SpeciesPowersRequest;
+use Modules\Stillfleet\Http\Requests\SpeciesRequest;
 use Modules\Stillfleet\Http\Resources\CharacterResource;
 use Modules\Stillfleet\Models\Character;
+use Modules\Stillfleet\Models\CharacterDetails;
 use Modules\Stillfleet\Models\PartialCharacter;
 use Modules\Stillfleet\Models\Role;
+use Modules\Stillfleet\Models\Species;
+use RuntimeException;
 
 use function abort;
 use function abort_if;
 use function assert;
 use function count;
+use function in_array;
 use function route;
 use function view;
 
 class CharactersController extends Controller
 {
-    /**
-     * View all of the logged in user's characters.
-     */
     public function list(): View
     {
         return view('stillfleet::characters');
@@ -47,13 +53,14 @@ class CharactersController extends Controller
                 'owner' => $user->email->address,
             ]);
             $request->session()->put('stillfleet-partial', $character->id);
-            return new RedirectResponse(route('stillfleet.create', 'class'));
+            return new RedirectResponse(route('stillfleet.create', 'details'));
         }
 
         $character = $this->findPartialCharacter($request, $user, $step);
         if (null !== $character && $step === $character->id) {
-            return new RedirectResponse(route('stillfleet.create', 'class'));
+            return new RedirectResponse(route('stillfleet.create', 'details'));
         }
+
         if (null === $character) {
             // No current character, see if they already have a character they
             // might want to continue.
@@ -78,10 +85,29 @@ class CharactersController extends Controller
         }
 
         if (null === $step || $step === $character->id) {
-            $step = 'class';
+            $step = 'details';
         }
 
         switch ($step) {
+            case 'attributes':
+                if (!isset($character->roles[0])) {
+                    return redirect()->route('stillfleet.create', 'class')
+                        ->withErrors(['You must choose a class before attributes.']);
+                }
+
+                $grit = $character->roles[0]->grit;
+                foreach ($grit as &$attribute) {
+                    $attribute = strtoupper(substr($attribute, 0, 3));
+                }
+                return view(
+                    'stillfleet::create-attributes',
+                    [
+                        'character' => $character,
+                        'creating' => 'attributes',
+                        'option' => $request->old('dice-option') ?? $character->attribute_dice_option ?? null,
+                        'grit' => $grit,
+                    ],
+                );
             case 'class':
                 $chosenRole = null;
                 if (isset($character->roles[0])) {
@@ -98,7 +124,109 @@ class CharactersController extends Controller
                     ],
                 );
             case 'class-powers':
-                return view('stillfleet::create-class-powers');
+                if (!isset($character->roles[0])) {
+                    return redirect()->route('stillfleet.create', 'class')
+                        ->withErrors(['You must choose a class before powers.']);
+                }
+                $role = $character->roles[0];
+
+                $choices = $role->optional_choices;
+                $choices2 = null;
+                $list = collect($role->optional_powers)->keyBy('id');
+                $list2 = [];
+                // @codeCoverageIgnoreStart
+                if (in_array($role->id, ['jackal', 'mouse'], true)) {
+                    $choices = 2;
+                    $choices2 = 1;
+
+                    $list2 = $list->except(['rat-out', 'steal', 'vanish']);
+                    $list = $list->only(['rat-out', 'steal', 'vanish']);
+                } elseif ('pir' === $role->id) {
+                    $choices = 2;
+                    $choices2 = 1;
+
+                    $list2 = $list->except(['aetherspeak', 'augur', 'listen', 'regenerate']);
+                    $list = $list->only(['aetherspeak', 'augur', 'listen', 'regenerate']);
+                }
+                // @codeCoverageIgnoreEnd
+
+                return view(
+                    'stillfleet::create-class-powers',
+                    [
+                        'character' => $character,
+                        'choices' => $choices,
+                        'choices2' => $choices2,
+                        'creating' => 'class-powers',
+                        'list' => $list,
+                        'list2' => $list2,
+                        'role' => $role,
+                        'chosen_powers' => collect($role->added_powers)->pluck('id')->toArray(),
+                    ],
+                );
+            case 'details':
+                $details = $character->details;
+                return view(
+                    'stillfleet::create-details',
+                    [
+                        'appearance' => $request->old('appearance') ?? $details->appearance,
+                        'character' => $character,
+                        'company' => $request->old('appearance') ?? $details->company,
+                        'creating' => 'details',
+                        'crew_nickname' => $request->old('crew_nickname') ?? $details->crew_nickname,
+                        'family' => $request->old('family') ?? $details->family,
+                        'motivation' => $request->old('motivation') ?? $details->motivation,
+                        'origin' => $request->old('origin') ?? $details->origin,
+                        'others' => $request->old('others') ?? $details->others,
+                        'name' => $request->old('name') ?? $character->name ?? null,
+                        'refactor' => $request->old('refactor') ?? $details->refactor,
+                        'team' => $request->old('team') ?? $details->team,
+                    ]
+                );
+            case 'gear':
+                try {
+                    $money = $character->startingMoney();
+                } catch (RuntimeException) {
+                    return redirect()
+                        ->route('stillfleet.create', 'attributes')
+                        ->withErrors(['You must set attributes before buying gear.']);
+                }
+                return view(
+                    'stillfleet::create-gear',
+                    [
+                        'character' => $character,
+                        'creating' => 'gear',
+                        'money' => $money,
+                    ],
+                );
+            case 'species':
+                return view(
+                    'stillfleet::create-species',
+                    [
+                        'all_species' => Species::all(),
+                        'character' => $character,
+                        'chosen_species' => $character->species,
+                        'creating' => 'species',
+                    ],
+                );
+            case 'species-powers':
+                if (null === $character->species) {
+                    return redirect()->route('stillfleet.create', 'species')
+                        ->withErrors(['You must choose a species before powers.']);
+                }
+                if (0 === $character->species->powers_choose) {
+                    return redirect()->route('stillfleet.create', 'attributes');
+                }
+                $chosen_powers = collect($character->species->added_powers)
+                    ->pluck('id')
+                    ->toArray();
+                return view(
+                    'stillfleet::create-species-powers',
+                    [
+                        'character' => $character,
+                        'chosen_powers' => $chosen_powers,
+                        'creating' => 'species-powers',
+                    ],
+                );
             default:
                 abort(
                     Response::HTTP_NOT_FOUND,
@@ -107,7 +235,29 @@ class CharactersController extends Controller
         }
     }
 
-    public function saveClass(RoleRequest $request): RedirectResponse
+    public function saveAttributes(AttributesRequest $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+
+        $characterId = $request->session()->get('stillfleet-partial');
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email->address)
+            ->firstOrFail();
+
+        $character->attribute_dice_option = $request->input('dice-option');
+        $character->charm = $request->input('CHA');
+        $character->combat = $request->input('COM');
+        $character->movement = $request->input('MOV');
+        $character->reason = $request->input('REA');
+        $character->will = $request->input('WIL');
+        $character->save();
+
+        return new RedirectResponse(route('stillfleet.create', 'gear'));
+    }
+
+    public function saveClass(ClassRequest $request): RedirectResponse
     {
         /** @var User */
         $user = $request->user();
@@ -135,7 +285,9 @@ class CharactersController extends Controller
 
         if ($chosenRole->id === $request->role) {
             // Updating to the same class.
-            return new RedirectResponse(route('stillfleet.create', 'class-powers'));
+            return new RedirectResponse(
+                route('stillfleet.create', 'class-powers'),
+            );
         }
 
         // Choosing a new class, remove their powers.
@@ -148,6 +300,110 @@ class CharactersController extends Controller
         ];
         $character->save();
         return new RedirectResponse(route('stillfleet.create', 'class-powers'));
+    }
+
+    public function saveClassPowers(ClassPowersRequest $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+
+        $characterId = $request->session()->get('stillfleet-partial');
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email->address)
+            ->firstOrFail();
+
+        if (1 !== count($character->roles)) {
+            return redirect()
+                ->route('stillfleet.create', 'class')
+                ->withErrors([
+                    'class' => 'You must choose a class before powers.',
+                ]);
+        }
+
+        $role = $character->roles[0];
+        $raw_role = [
+            'id' => $role->id,
+            'level' => $role->level,
+            'powers' => $request->powers,
+        ];
+        $character->roles = [$raw_role];
+        $character->save();
+
+        return new RedirectResponse(route('stillfleet.create', 'species'));
+    }
+
+    public function saveDetails(DetailsRequest $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+
+        $characterId = $request->session()->get('stillfleet-partial');
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email->address)
+            ->firstOrFail();
+
+        $character->name = $request->name;
+        $character->details = CharacterDetails::make($request->input());
+        $character->save();
+
+        return new RedirectResponse(route('stillfleet.create', 'class'));
+    }
+
+    public function saveSpecies(SpeciesRequest $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+
+        $characterId = $request->session()->get('stillfleet-partial');
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email->address)
+            ->firstOrFail();
+
+        if ($character->species?->id !== $request->species) {
+            // Choosing a new species, remove any powers.
+            $character->species = $request->species;
+            $character->species_powers = [];
+            $character->save();
+        }
+
+        if (0 === $character->species?->powers_choose) {
+            return redirect()->route('stillfleet.create', 'attributes');
+        }
+
+        return new RedirectResponse(route('stillfleet.create', 'species-powers'));
+    }
+
+    public function saveSpeciesPowers(SpeciesPowersRequest $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+
+        $characterId = $request->session()->get('stillfleet-partial');
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email->address)
+            ->firstOrFail();
+
+        if (null === $character->species) {
+            return redirect()
+                ->route('stillfleet.create', 'species')
+                ->withErrors(['species' => 'You must choose a species before powers.']);
+        }
+
+        $character->species_powers = $request->input('powers');
+        $character->save();
+
+        return new RedirectResponse(route('stillfleet.create', 'attributes'));
+    }
+
+    public function saveForLater(Request $request): RedirectResponse
+    {
+        $request->session()->forget('stillfleet-partial');
+
+        return new RedirectResponse(route('dashboard'));
     }
 
     protected function findPartialCharacter(
