@@ -145,10 +145,7 @@ class ImportChummerData extends Command implements Isolatable
      */
     protected string $chummerRepository;
 
-    /**
-     * The console command description.
-     * @var ?string
-     */
+    /** @var string */
     protected $description = 'Import data from Chummer\'s GitHub repository';
 
     /**
@@ -156,10 +153,7 @@ class ImportChummerData extends Command implements Isolatable
      */
     protected string $outputDir = 'storage/app/shadowrun5e-data';
 
-    /**
-     * The name and signature of the console command.
-     * @var string
-     */
+    /** @var string */
     protected $signature = 'commlink:import-chummer-data
         {--type=* : Type of data to import}
         {--skip-pull : Don\'t update Chummer\'s git repository}
@@ -167,9 +161,6 @@ class ImportChummerData extends Command implements Isolatable
         {--output-dir=storage/app/shadowrun5e-data : Set the output directory}
         {--list-types : List the types of data you can import, then exit}';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): int
     {
         if (true === $this->option('list-types')) {
