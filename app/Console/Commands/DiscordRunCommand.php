@@ -32,16 +32,10 @@ use function str_starts_with;
  */
 class DiscordRunCommand extends Command
 {
-    /**
-     * The console command description.
-     * @var ?string
-     */
+    /** @var string */
     protected $description = 'Start the Discord bot server';
 
-    /**
-     * The name and signature of the console command.
-     * @var string
-     */
+    /** @var string */
     protected $signature = 'commlink:discord-run';
 
     protected string $id;
