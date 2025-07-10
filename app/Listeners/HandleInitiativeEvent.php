@@ -96,7 +96,7 @@ class HandleInitiativeEvent
             ),
         ];
 
-        /** @var string */
+        /** @var string $url */
         $url = $channel->webhook;
 
         try {
