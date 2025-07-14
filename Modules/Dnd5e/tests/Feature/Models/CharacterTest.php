@@ -6,11 +6,13 @@ namespace Modules\Dnd5e\Tests\Feature\Models;
 
 use App\Models\Character as BaseCharacter;
 use Modules\Dnd5e\Models\Character;
+use Modules\Dnd5e\ValueObjects\AbilityValue;
+use Modules\Dnd5e\ValueObjects\CharacterLevel;
 use OutOfRangeException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
-use RuntimeException;
 use Tests\TestCase;
+use TypeError;
 
 use function is_subclass_of;
 
@@ -18,45 +20,25 @@ use function is_subclass_of;
 #[Small]
 final class CharacterTest extends TestCase
 {
-    /**
-     * Test displaying the character as a string.
-     */
     public function testToString(): void
     {
         $character = new Character(['name' => 'Conan the Agrarian']);
         self::assertSame('Conan the Agrarian', (string)$character);
     }
 
-    /**
-     * Test that the character's system is set correctly.
-     */
     public function testSystem(): void
     {
         $character = new Character();
         self::assertSame('dnd5e', $character->system);
     }
 
-    /**
-     * Test loading a D&D 5E character.
-     */
     public function testLoad(): void
     {
-        /** @var BaseCharacter */
+        /** @var BaseCharacter $createdCharacter */
         $createdCharacter = BaseCharacter::create(['system' => 'dnd5e']);
         $character = BaseCharacter::where('_id', $createdCharacter->id)
             ->firstOrFail();
         self::assertFalse(is_subclass_of($character, Character::class));
-    }
-
-    /**
-     * Test getting the character's ability modifier for an invalid attribute.
-     */
-    public function testGetAbilityModifierInvalid(): void
-    {
-        $character = new Character();
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Invalid attribute');
-        $character->getAbilityModifier('invalid');
     }
 
     /**
@@ -68,7 +50,8 @@ final class CharacterTest extends TestCase
         $character = new Character(['charisma' => 0]);
         self::expectException(OutOfRangeException::class);
         self::expectExceptionMessage('Attribute value is out of range');
-        $character->getAbilityModifier('charisma');
+        // @phpstan-ignore expr.resultUnused
+        $character->charisma;
     }
 
     /**
@@ -85,12 +68,12 @@ final class CharacterTest extends TestCase
             'strength' => 25,
             'wisdom' => 30,
         ]);
-        self::assertSame(-3, $character->getAbilityModifier('charisma'));
-        self::assertSame(0, $character->getAbilityModifier('constitution'));
-        self::assertSame(2, $character->getAbilityModifier('dexterity'));
-        self::assertSame(5, $character->getAbilityModifier('intelligence'));
-        self::assertSame(7, $character->getAbilityModifier('strength'));
-        self::assertSame(10, $character->getAbilityModifier('wisdom'));
+        self::assertSame(-3, $character->charisma->modifier);
+        self::assertSame(0, $character->constitution->modifier);
+        self::assertSame(2, $character->dexterity->modifier);
+        self::assertSame(5, $character->intelligence->modifier);
+        self::assertSame(7, $character->strength->modifier);
+        self::assertSame(10, $character->wisdom->modifier);
     }
 
     /**
@@ -99,8 +82,9 @@ final class CharacterTest extends TestCase
     public function testGetArmorClassNotSet(): void
     {
         $character = new Character();
-        self::expectException(RuntimeException::class);
-        $character->getArmorClass();
+        self::expectException(TypeError::class);
+        // @phpstan-ignore expr.resultUnused
+        $character->armor_class;
     }
 
     /**
@@ -111,7 +95,8 @@ final class CharacterTest extends TestCase
     {
         $character = new Character(['dexterity' => 99]);
         self::expectException(OutOfRangeException::class);
-        $character->getArmorClass();
+        // @phpstan-ignore expr.resultUnused
+        $character->armor_class;
     }
 
     /**
@@ -119,10 +104,38 @@ final class CharacterTest extends TestCase
      */
     public function testGetArmorClass(): void
     {
-        $character = new Character(['dexterity' => random_int(1, 30)]);
+        $dexterity = random_int(1, 30);
+        $character = new Character(['dexterity' => $dexterity]);
         self::assertSame(
-            (int)floor($character->dexterity / 2) - 5 + 10,
-            $character->getArmorClass()
+            (int)floor($dexterity / 2) - 5 + 10,
+            $character->armor_class,
         );
+    }
+
+    public function testGetAttributes(): void
+    {
+        $character = new Character([
+            'strength' => 17,
+            'dexterity' => 10,
+            'constitution' => 16,
+            'intelligence' => 8,
+            'wisdom' => 13,
+            'charisma' => 12,
+        ]);
+        self::assertEquals(new AbilityValue(17), $character->strength);
+        self::assertEquals(new AbilityValue(10), $character->dexterity);
+        self::assertEquals(new AbilityValue(16), $character->constitution);
+        self::assertEquals(new AbilityValue(8), $character->intelligence);
+        self::assertEquals(new AbilityValue(13), $character->wisdom);
+        self::assertEquals(new AbilityValue(12), $character->charisma);
+    }
+
+    public function testGetLevel(): void
+    {
+        $character = new Character([]);
+        self::assertEquals('1', (string)$character->level);
+
+        $character = new Character(['experience_points' => 1_000_000]);
+        self::assertEquals('20', (string)$character->level);
     }
 }

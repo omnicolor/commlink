@@ -4,47 +4,51 @@ declare(strict_types=1);
 
 namespace Modules\Dnd5e\Models;
 
-use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
 use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Dnd5e\Casts\AsAbilityValue;
 use Modules\Dnd5e\Database\Factories\CharacterFactory;
-use OutOfRangeException;
+use Modules\Dnd5e\ValueObjects\AbilityValue;
+use Modules\Dnd5e\ValueObjects\CharacterLevel;
 use Override;
-use RuntimeException;
 use Stringable;
-
-use function floor;
 
 /**
  * Representation of a D&D 5E character sheet.
- * @property int $charisma
- * @property int $constitution
- * @property int $dexterity
- * @property int $intelligence
+ * @property-read int $armor_class
+ * @property AbilityValue $charisma
+ * @property AbilityValue $constitution
+ * @property AbilityValue $dexterity
+ * @property int $experience_points
+ * @property AbilityValue $intelligence
+ * @property-read CharacterLevel $level
  * @property string $name
  * @property Email $owner
- * @property int $strength
+ * @property AbilityValue $strength
  * @property string $system
- * @property int $wisdom
+ * @property AbilityValue $wisdom
  */
 class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
-
-    public const int ATTRIBUTE_MIN = 1;
-    public const int ATTRIBUTE_MAX = 30;
 
     /** @var array<string, mixed> */
     protected $attributes = [
         'system' => 'dnd5e',
     ];
 
-    /** @var array<string, string> */
+    /** @var array<string, class-string> */
     protected $casts = [
-        'owner' => AsEmail::class,
+        'charisma' => AsAbilityValue::class,
+        'constitution' => AsAbilityValue::class,
+        'dexterity' => AsAbilityValue::class,
+        'intelligence' => AsAbilityValue::class,
+        'strength' => AsAbilityValue::class,
+        'wisdom' => AsAbilityValue::class,
     ];
 
     /** @var list<string> */
@@ -55,7 +59,7 @@ class Character extends BaseCharacter implements Stringable
         'constitution',
         'dexterity',
         'equipment',
-        'experience',
+        'experience_points',
         'languages',
         'hitDice',
         'hitDieType',
@@ -88,39 +92,31 @@ class Character extends BaseCharacter implements Stringable
     {
         static::addGlobalScope(
             'dnd5e',
-            function (Builder $builder): void {
+            static function (Builder $builder): void {
                 $builder->where('system', 'dnd5e');
             }
         );
     }
 
     /**
-     * Return the ability modifier for the given attribute.
-     * @throws OutOfRangeException If the attribute is < 1 or > 30
-     * @throws RuntimeException If the attribute isn't set
+     * Return the character's armor class.
      */
-    public function getAbilityModifier(string $attribute): int
+    protected function armorClass(): Attribute
     {
-        if (!isset($this->attributes[$attribute])) {
-            throw new RuntimeException('Invalid attribute');
-        }
-
-        $value = $this->attributes[$attribute];
-        if (self::ATTRIBUTE_MIN > $value || self::ATTRIBUTE_MAX < $value) {
-            throw new OutOfRangeException('Attribute value is out of range');
-        }
-
-        return -5 + (int)floor($value / 2);
+        return Attribute::make(
+            get: function (): int {
+                return 10 + $this->dexterity->modifier;
+            },
+        );
     }
 
-    /**
-     * Return the character's armor class.
-     * @throws OutOfRangeException If the character's dexterity is invalid
-     * @throws RuntimeException If the character's dexterity isn't set
-     */
-    public function getArmorClass(): int
+    protected function level(): Attribute
     {
-        return 10 + $this->getAbilityModifier('dexterity');
+        return Attribute::make(
+            get: function (): CharacterLevel {
+                return new CharacterLevel($this->attributes['experience_points'] ?? 0);
+            },
+        );
     }
 
     #[Override]
