@@ -104,7 +104,7 @@ abstract class Deck implements Countable
      */
     public function drawOne(): Card
     {
-        return $this->draw(1)[0];
+        return $this->draw()[0];
     }
 
     /**
@@ -113,20 +113,20 @@ abstract class Deck implements Countable
      */
     public static function find(int $id): Deck
     {
-        /** @var object{type: string, campaign_id: int, cards: string} */
+        /** @var object{type: string, campaign_id: int, cards: string} $row */
         $row = DB::table('decks')->find($id);
         if (null === $row) {
             throw new RuntimeException('Deck not found');
         }
         try {
-            /** @var Deck */
+            /** @var Deck $deck */
             $deck = new $row->type();
         } catch (Error) {
             throw new RuntimeException('Deck type not found');
         }
 
         $deck->campaign_id = $row->campaign_id;
-        $deck->currentCards = unserialize($row->cards);
+        $deck->currentCards = unserialize($row->cards, [Card::class]);
         $deck->id = $id;
         return $deck;
     }
@@ -143,13 +143,13 @@ abstract class Deck implements Countable
         $decks = [];
         foreach ($rows as $row) {
             try {
-                /** @var Deck */
+                /** @var Deck $deck */
                 $deck = new $row->type();
             } catch (Error) {
                 continue;
             }
             $deck->campaign_id = (int)$row->campaign_id;
-            $deck->currentCards = unserialize($row->cards);
+            $deck->currentCards = unserialize($row->cards, [Card::class]);
             $deck->id = (int)$row->id;
             $decks[] = $deck;
         }
