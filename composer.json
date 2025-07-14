@@ -103,6 +103,7 @@
             "@phpcs",
             "@php-cs-fixer",
             "@phpstan",
+            "@rector",
             "@coverage",
             "@lint-openapi"
         ],

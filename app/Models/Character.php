@@ -23,7 +23,7 @@ use function ucfirst;
  * Generic model representing a role playing character.
  * @method ?Campaign campaign()
  * @method static int count()
- * @method ?Character find(string $id)
+ * @method static ?Character find(string $id)
  * @method string getSystem()
  * @method static Builder where(string $field, mixed $search)
  * @mixin Model
@@ -111,11 +111,11 @@ class Character extends Model implements Stringable
         $class = 'Modules\\' . ucfirst($attributes->system)
             . '\\Models\\Character';
         if (
-            null !== Module::find($attributes->system)
+            class_exists($class)
+            && null !== Module::find($attributes->system)
             && Module::isEnabled($attributes->system)
-            && class_exists($class)
         ) {
-            /** @var Character */
+            /** @var Character $character */
             $character = new $class((array)$attributes);
         } else {
             $character = new Character((array)$attributes);

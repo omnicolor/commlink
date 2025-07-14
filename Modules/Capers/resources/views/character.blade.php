@@ -444,7 +444,7 @@ use Modules\Capers\Models\Character;
                                 @can('view data')
                                 <span data-bs-toggle="tooltip" title="{{ $boost->description }}">
                                 @else
-                                    </span>
+                                <span>
                                 @endcan
                                     {{ $boost }}<br>
                                 </span>
