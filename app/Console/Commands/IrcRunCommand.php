@@ -26,36 +26,17 @@ class IrcRunCommand extends SignalAwareCommand
 {
     protected IrcClient $client;
 
-    /**
-     * The console command description.
-     * @var ?string
-     */
+    /** @var string */
     protected $description = 'Start the IRC bot server';
 
-    /**
-     * Nickname to use for the IRC bot.
-     */
     protected string $nickname;
-
-    /**
-     * Port to connect to.
-     */
     protected string $port;
-
-    /**
-     * IRC server's hostname.
-     */
     protected string $server;
 
-    /**
-     * @var array<string, User>
-     */
+    /** @var array<string, User> */
     protected array $users = [];
 
-    /**
-     * The name and signature of the console command.
-     * @var string
-     */
+    /** @var string */
     protected $signature = 'commlink:irc-run';
 
     public function __construct()

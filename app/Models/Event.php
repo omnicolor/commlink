@@ -77,11 +77,7 @@ class Event extends Model
     #[Override]
     public function __toString(): string
     {
-        if (null !== $this->name) {
-            return $this->name;
-        }
-
-        return (new CarbonImmutable($this->real_start))->toDayDateTimeString();
+        return $this->name ?? (new CarbonImmutable($this->real_start))->toDayDateTimeString();
     }
 
     public function campaign(): BelongsTo

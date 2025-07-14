@@ -24,16 +24,10 @@ use const FILTER_VALIDATE_EMAIL;
  */
 class CreateUser extends Command
 {
-    /**
-     * The name and signature of the console command.
-     * @var string
-     */
+    /** @var string */
     protected $signature = 'commlink:create-user';
 
-    /**
-     * The console command description.
-     * @var ?string
-     */
+    /** @var string */
     protected $description = 'Create a new user, prompting for all information';
 
     public function handle(): int

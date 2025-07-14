@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Traits;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 
 use function config;
@@ -17,6 +18,7 @@ trait InteractsWithSlack
 {
     /**
      * Return the name of a Slack channel ID.
+     * @throws ConnectionException
      */
     public function getSlackChannelName(string $channelId): ?string
     {
@@ -38,6 +40,7 @@ trait InteractsWithSlack
 
     /**
      * Using a Slack team ID, try to return the name of the team.
+     * @throws ConnectionException
      */
     public function getSlackTeamName(string $slackTeam): ?string
     {
@@ -64,6 +67,7 @@ trait InteractsWithSlack
 
     /**
      * Given a Slack User ID, return the user's name.
+     * @throws ConnectionException
      */
     public function getSlackUserName(string $user): ?string
     {

@@ -127,7 +127,7 @@ class Campaign extends Model implements Stringable
         $connection = null,
     ): static {
         if (
-            $attributes instanceof Campaign
+            $attributes instanceof self
             || $attributes instanceof stdClass
         ) {
             $attributes = (array)$attributes;
@@ -135,11 +135,11 @@ class Campaign extends Model implements Stringable
         $system = $attributes['system'];
         $class = 'Modules\\' . ucfirst($system) . '\\Models\\Campaign';
         if (
-            null !== Module::find($system)
+            class_exists($class)
+            && null !== Module::find($system)
             && Module::isEnabled($system)
-            && class_exists($class)
         ) {
-            /** @var Campaign */
+            /** @var Campaign $campaign */
             $campaign = new $class($attributes);
         } else {
             $campaign = new Campaign($attributes);
