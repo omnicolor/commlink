@@ -45,28 +45,20 @@ class ValidateDataFiles extends Command
         'transformers' => 'Modules/Transformers/data/',
     ];
 
-    /**
-     * The name and signature of the console command.
-     * @var string
-     */
+    /** @var string */
     protected $signature = 'commlink:validate-data-files';
 
-    /**
-     * The console command description.
-     * @var ?string
-     */
+    /** @var string */
     protected $description = 'Check data files installed for all enabled systems';
 
     /**
-     * @var array<string, string> Paths configured to where system data is kept.
+     * Paths configured to where system data is kept.
+     * @var array<string, string>
      */
     protected array $paths;
 
     protected int $return = self::SUCCESS;
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): int
     {
         $systems = config('commlink.systems');

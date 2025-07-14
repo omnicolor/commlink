@@ -13,22 +13,13 @@ use Override;
  */
 class MakeRollCommand extends GeneratorCommand
 {
-    /**
-     * The name and signature of the console command.
-     * @var string
-     */
+    /** @var string */
     protected $signature = 'make:roll {name}';
 
-    /**
-     * The console command description.
-     * @var ?string
-     */
+    /** @var string */
     protected $description = 'Create a new server- and system-agnostic Roll';
 
-    /**
-     * Type of the object to be created.
-     * @var string
-     */
+    /** @var string */
     protected $type = 'Roll';
 
     protected function getStub(): string

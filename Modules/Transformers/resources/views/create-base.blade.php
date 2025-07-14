@@ -43,7 +43,7 @@
     <div class="row mt-1">
         <label class="col-1 col-form-label">Prime.Color</label>
         <div class="col">
-            <input aria=describedby="color-help" class="form-control"
+            <input aria-describedby="color-help" class="form-control"
                 id="color-prime" name="color_primary" required type="text"
                 value="{{ $color_primary }}">
             <div class="form-text" id="color-help">
@@ -55,7 +55,7 @@
     <div class="row mt-1">
         <label class="col-1 col-form-label">Secd.Color</label>
         <div class="col">
-            <input aria=describedby="color-help" class="form-control"
+            <input aria-describedby="color-help" class="form-control"
                 id="color-secondary" name="color_secondary" required
                 type="text" value="{{ $color_secondary }}">
         </div>

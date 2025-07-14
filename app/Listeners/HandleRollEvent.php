@@ -11,6 +11,7 @@ use App\Rolls\Roll;
 use Exception;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 
@@ -25,6 +26,7 @@ class HandleRollEvent
 
     /**
      * Handle the event.
+     * @throws ConnectionException
      */
     public function handle(RollEvent $event): void
     {
@@ -60,6 +62,7 @@ class HandleRollEvent
 
     /**
      * Send the roll to a linked Slack channel.
+     * @throws ConnectionException
      */
     protected function sendToSlack(Roll $roll, Channel $channel): void
     {
@@ -82,6 +85,7 @@ class HandleRollEvent
 
     /**
      * Send the roll to a linked Discord channel.
+     * @throws ConnectionException
      */
     protected function sendToDiscord(Roll $roll, Channel $channel): void
     {
@@ -90,7 +94,7 @@ class HandleRollEvent
             'content' => $content,
         ];
 
-        /** @var string */
+        /** @var string $url */
         $url = $channel->webhook;
 
         // TODO: Add error handling.

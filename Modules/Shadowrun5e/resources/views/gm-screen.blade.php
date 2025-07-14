@@ -218,12 +218,14 @@ use Modules\Shadowrun5e\Models\Contact;
         </div>
         <table class="card-body m-1">
             <thead>
-                <th scope="col">Character</th>
-                <th scope="col">Skill</th>
-                <th scope="col"><small>Cat / Att<small></th>
-                <th scope="col">Rat</th>
-                <th scope="col">Att</th>
-                <th class="text-end" scope="col">Dice</th>
+                <tr>
+                    <th scope="col">Character</th>
+                    <th scope="col">Skill</th>
+                    <th scope="col"><small>Cat / Att<small></th>
+                    <th scope="col">Rat</th>
+                    <th scope="col">Att</th>
+                    <th class="text-end" scope="col">Dice</th>
+                </tr>
             </thead>
             <tbody>
                 @foreach ($characters as $character)
@@ -648,7 +650,7 @@ use Modules\Shadowrun5e\Models\Contact;
                             </label>
                             <textarea aria-describedby="contact-notes-help"
                                 class="form-control" id="contact-notes"
-                                row="3"></textarea>
+                                rows="3"></textarea>
                             <div class="form-text" id="contact-notes-help">
                                 Notes that you want available to the player(s)
                                 that have met the contact. This might be where
@@ -663,7 +665,7 @@ use Modules\Shadowrun5e\Models\Contact;
                             </label>
                             <textarea aria-describedby="contact-gm-notes-help"
                                 class="form-control" id="contact-gm-notes"
-                                row="3"></textarea>
+                                rows="3"></textarea>
                             <div class="form-text" id="contact-gm-notes-help">
                                 Notes you want to make about the contact, but
                                 not show to the players. Might be things like
