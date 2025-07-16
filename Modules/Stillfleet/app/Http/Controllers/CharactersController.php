@@ -12,6 +12,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
+use Modules\Stillfleet\Enums\VoidwareType;
 use Modules\Stillfleet\Http\Requests\AttributesRequest;
 use Modules\Stillfleet\Http\Requests\ClassPowersRequest;
 use Modules\Stillfleet\Http\Requests\ClassRequest;
@@ -21,6 +22,7 @@ use Modules\Stillfleet\Http\Requests\SpeciesRequest;
 use Modules\Stillfleet\Http\Resources\CharacterResource;
 use Modules\Stillfleet\Models\Character;
 use Modules\Stillfleet\Models\CharacterDetails;
+use Modules\Stillfleet\Models\Gear;
 use Modules\Stillfleet\Models\PartialCharacter;
 use Modules\Stillfleet\Models\Role;
 use Modules\Stillfleet\Models\Species;
@@ -29,6 +31,7 @@ use RuntimeException;
 use function abort;
 use function abort_if;
 use function assert;
+use function collect;
 use function count;
 use function in_array;
 use function route;
@@ -195,7 +198,11 @@ class CharactersController extends Controller
                     [
                         'character' => $character,
                         'creating' => 'gear',
+                        'gear' => Gear::all(),
                         'money' => $money,
+                        'types' => collect(VoidwareType::cases())
+                            ->pluck('name', 'value'),
+                        'user' => $user,
                     ],
                 );
             case 'species':
