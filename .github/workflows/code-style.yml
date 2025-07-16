@@ -1,5 +1,8 @@
 name: PHP Code Style
 
+permissions:
+  contents: read
+
 on: pull_request
 
 jobs:
