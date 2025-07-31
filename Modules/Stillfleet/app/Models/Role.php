@@ -59,7 +59,7 @@ class Role extends Model implements Stringable
      *     grit: string,
      *     id: string,
      *     name: string,
-     *     page: integer,
+     *     page: int,
      *     power_advanced: string,
      *     power_marque: string,
      *     power_optional: string,

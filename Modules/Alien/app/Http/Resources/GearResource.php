@@ -24,8 +24,8 @@ class GearResource extends JsonResource
      *     effects: stdClass,
      *     effects_text: string,
      *     name: string,
-     *     page: integer,
-     *     quantity: integer,
+     *     page: int,
+     *     quantity: int,
      *     ruleset: string,
      *     weight: ?float
      * }
