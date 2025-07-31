@@ -23,6 +23,7 @@ use const JSON_THROW_ON_ERROR;
  * @property-read string $id
  * @property-read string $name
  * @property-read int $page
+ * @property-read Ability $primary_ability
  * @property-read string $ruleset
  * @property-read array<int, Ability> $saving_throw_proficiencies
  */
@@ -39,6 +40,18 @@ class Role extends Model implements Stringable
         return $this->name;
     }
 
+    /**
+     * @return array<int, array{
+     *     id: string,
+     *     description: string,
+     *     hit_die: int,
+     *     name: string,
+     *     page: int,
+     *     primary_ability: Ability,
+     *     ruleset: string,
+     *     saving_throw_proficiencies: string
+     * }>
+     */
     public function getRows(): array
     {
         $filename = config('dnd5e.data_path') . 'classes.php';

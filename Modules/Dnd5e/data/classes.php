@@ -13,6 +13,6 @@ return [
         'page' => 45,
         'primary_ability' => Ability::Strength,
         'ruleset' => 'core',
-        'saving_throw_proficiencies' => json_encode([Ability::Strength, Ability::Constitution], JSON_THROW_ON_ERROR),
-    ]
+        'saving_throw_proficiencies' => json_encode([Ability::Strength, Ability::Constitution]),
+    ],
 ];
