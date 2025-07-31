@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Modules\Dnd5e\Tests\Feature\Models;
 
 use App\Models\Character as BaseCharacter;
+use Modules\Dnd5e\Enums\CoinType;
 use Modules\Dnd5e\Models\Character;
 use Modules\Dnd5e\ValueObjects\AbilityValue;
-use Modules\Dnd5e\ValueObjects\CharacterLevel;
 use OutOfRangeException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -137,5 +137,20 @@ final class CharacterTest extends TestCase
 
         $character = new Character(['experience_points' => 1_000_000]);
         self::assertEquals('20', (string)$character->level);
+    }
+
+    public function testEmptyWallet(): void
+    {
+        $character = new Character();
+        self::assertSame(0, $character->wallet[CoinType::Platinum]);
+    }
+
+    public function testWallet(): void
+    {
+        $character = new Character([
+            'wallet' => '{"pp":20,"gp":100}',
+        ]);
+        self::assertSame(20, $character->wallet[CoinType::Platinum]);
+        self::assertSame(100, $character->wallet[CoinType::Gold]);
     }
 }
