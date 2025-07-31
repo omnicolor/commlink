@@ -14,8 +14,13 @@ use Modules\Dnd5e\Casts\AsAbilityValue;
 use Modules\Dnd5e\Database\Factories\CharacterFactory;
 use Modules\Dnd5e\ValueObjects\AbilityValue;
 use Modules\Dnd5e\ValueObjects\CharacterLevel;
+use Modules\Dnd5e\ValueObjects\Wallet;
 use Override;
 use Stringable;
+
+use function json_encode;
+
+use const JSON_THROW_ON_ERROR;
 
 /**
  * Representation of a D&D 5E character sheet.
@@ -30,6 +35,7 @@ use Stringable;
  * @property Email $owner
  * @property AbilityValue $strength
  * @property string $system
+ * @property Wallet $wallet
  * @property AbilityValue $wisdom
  */
 class Character extends BaseCharacter implements Stringable
@@ -70,6 +76,7 @@ class Character extends BaseCharacter implements Stringable
         'name',
         'race',
         'strength',
+        'wallet',
         'wisdom',
     ];
 
@@ -123,5 +130,23 @@ class Character extends BaseCharacter implements Stringable
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();
+    }
+
+    protected function wallet(): Attribute
+    {
+        return Attribute::make(
+            get: function (string|null $wallet): Wallet {
+                if (null === $wallet) {
+                    return Wallet::make();
+                }
+                return Wallet::fromJson($wallet);
+            },
+            set: function (Wallet|string $wallet): string {
+                if ($wallet instanceof Wallet) {
+                    return json_encode($wallet, JSON_THROW_ON_ERROR);
+                }
+                return $wallet;
+            },
+        );
     }
 }
