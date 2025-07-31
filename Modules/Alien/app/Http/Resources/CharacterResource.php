@@ -48,10 +48,10 @@ class CharacterResource extends JsonResource
      *     talents: AnonymousResourceCollection<Talent>,
      *     weapons: AnonymousResourceCollection<Weapon>,
      *     id: string,
-     *     campaign_id: integer,
+     *     campaign_id: int,
      *     system: string,
      *     owner: array{
-     *         id: integer,
+     *         id: int,
      *         name: string
      *     },
      *     links: array{
