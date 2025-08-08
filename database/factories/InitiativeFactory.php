@@ -6,6 +6,7 @@ namespace Database\Factories;
 
 use App\Models\Initiative;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Override;
 
 /**
  * @extends Factory<Initiative>

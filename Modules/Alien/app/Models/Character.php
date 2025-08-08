@@ -36,7 +36,6 @@ use function current;
  * @property int $experience
  * @property-read array<int, Gear> $gear
  * @property-write array<int, Gear|array<string, int|string>> $gear
- * @property int $health
  * @property int $health_current
  * @property-read int $health_maximum
  * @property-read array<int, Injury> $injuries

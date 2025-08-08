@@ -7,6 +7,7 @@ namespace Database\Factories\Slack;
 use App\Models\Channel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Override;
 
 use function config;
 
@@ -24,6 +25,7 @@ class ChannelFactory extends Factory
      *     system: string
      * }
      */
+    #[Override]
     public function definition(): array
     {
         return [

@@ -20,7 +20,7 @@ final class DamageEvent
     public function __construct(
         public Character $character,
         public Campaign $campaign,
-        public stdClass $damage
+        public stdClass $damage,
     ) {
     }
 }
