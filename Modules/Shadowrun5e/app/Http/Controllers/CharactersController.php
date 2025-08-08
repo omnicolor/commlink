@@ -224,7 +224,7 @@ class CharactersController extends Controller
         Request $request,
         ?string $step = null
     ): RedirectResponse | Redirector | View {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         if ('new' === $step) {
@@ -942,7 +942,7 @@ class CharactersController extends Controller
                     ]
                 );
             default:
-                return abort(
+                abort(
                     Response::HTTP_NOT_FOUND,
                     'That step of character creation was not found.',
                 );

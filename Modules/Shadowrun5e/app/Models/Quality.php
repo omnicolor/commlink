@@ -38,7 +38,7 @@ final class Quality implements Stringable
     public readonly int $karma;
     public string $name;
     public readonly string $ruleset;
-    //public readonly null|string $type;
+    public string|null $severity;
 
     /**
      * List of all qualities.
@@ -72,6 +72,7 @@ final class Quality implements Stringable
         $this->name = $quality['name'];
         $this->ruleset = $quality['ruleset'] ?? 'core';
 
+        $this->severity = $quality['severity'] ?? null;
         if ('Addiction' === $quality['name']) {
             $this->name .= ' (' . $quality['severity'];
             if (isset($raw['addiction'])) {

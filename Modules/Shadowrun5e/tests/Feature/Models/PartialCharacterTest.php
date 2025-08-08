@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
+use Modules\Shadowrun5e\Models\ActiveSkill;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -19,7 +20,6 @@ final class PartialCharacterTest extends TestCase
     {
         $character = new PartialCharacter([
             'handle' => 'Test SR5E character',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         $character->save();
 
@@ -156,5 +156,40 @@ final class PartialCharacterTest extends TestCase
             $maximum,
             $character->getStartingMaximumAttribute($attribute)
         );
+    }
+
+    /**
+     * @return array<int, array<int, int|string|null>>
+     */
+    public static function skillSortProvider(): array
+    {
+        return [
+            // At low levels, the level is more important.
+            [1, null, 2, null, 1],
+            [2, null, 1, null, -1],
+            [1, null, 1, null, 0],
+            [1, 'test', 2, null, 1],
+            [2, null, 1, 'test', -1],
+            // At higher levels the specialization matters.
+            [3, 'test', 3, null, 1],
+            [3, null, 3, 'test', -1],
+            [3, 'test', 3, 'test', 0],
+            [3, 'test', 4, null, 1],
+            [4, 'test', 3, 'test', -1],
+        ];
+    }
+
+    #[Group('current')]
+    #[DataProvider('skillSortProvider')]
+    public function testSortSkills(
+        int $a,
+        string|null $a_specialization,
+        int $b,
+        string|null $b_specialization,
+        int $expected,
+    ): void {
+        $a = new ActiveSkill('automatics', $a, $a_specialization);
+        $b = new ActiveSkill('computer', $b, $b_specialization);
+        self::assertSame($expected, PartialCharacter::sortSkills($a, $b));
     }
 }
