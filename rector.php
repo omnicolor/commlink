@@ -7,6 +7,8 @@ use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\CodingStyle\Rector\Stmt\RemoveUselessAliasInUseStatementRector;
 use Rector\Config\RectorConfig;
+use Rector\DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector;
+use Rector\DeadCode\Rector\Expression\RemoveDeadStmtRector;
 use Rector\Php53\Rector\FuncCall\DirNameFileConstantToDirConstantRector;
 use Rector\Php70\Rector\FunctionLike\ExceptionHandlerTypehintRector;
 use Rector\Php70\Rector\MethodCall\ThisCallOnStaticMethodToStaticCallRector;
@@ -52,5 +54,11 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         NewlineAfterStatementRector::class,
+        RemoveDeadStmtRector::class => [
+            __DIR__ . '/Modules/Battletech/tests/Feature/Models/CharacterTest.php',
+        ],
+        RemoveUnusedVariableAssignRector::class => [
+            __DIR__ . '/Modules/Battletech/tests/Feature/Models/CharacterTest.php',
+        ],
         SimplifyIfElseToTernaryRector::class,
     ]);
