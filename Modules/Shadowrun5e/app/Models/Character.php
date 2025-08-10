@@ -188,7 +188,7 @@ class Character extends BaseCharacter implements Stringable
     {
         static::addGlobalScope(
             'shadowrun5e',
-            function (Builder $builder): void {
+            static function (Builder $builder): void {
                 $builder->where('system', 'shadowrun5e');
             }
         );
@@ -527,7 +527,7 @@ class Character extends BaseCharacter implements Stringable
     public function getMartialArtsStyles(): MartialArtsStyleArray
     {
         $styles = new MartialArtsStyleArray();
-        if (!isset($this->martialArts, $this->martialArts['styles'])) {
+        if (!isset($this->martialArts['styles'])) {
             return $styles;
         }
         foreach ($this->martialArts['styles'] as $style) {
@@ -550,7 +550,7 @@ class Character extends BaseCharacter implements Stringable
     public function getMartialArtsTechniques(): MartialArtsTechniqueArray
     {
         $techniques = new MartialArtsTechniqueArray();
-        if (!isset($this->martialArts, $this->martialArts['techniques'])) {
+        if (!isset($this->martialArts['techniques'])) {
             return $techniques;
         }
         foreach ($this->martialArts['techniques'] as $technique) {
@@ -837,7 +837,7 @@ class Character extends BaseCharacter implements Stringable
     public function getSpells(): SpellArray
     {
         $spells = new SpellArray();
-        if (!isset($this->magics, $this->magics['spells'])) {
+        if (!isset($this->magics['spells'])) {
             return $spells;
         }
         foreach ($this->magics['spells'] as $spell) {
@@ -860,7 +860,7 @@ class Character extends BaseCharacter implements Stringable
     public function getSpirits(): SpiritArray
     {
         $spirits = new SpiritArray();
-        if (!isset($this->magics, $this->magics['spirits'])) {
+        if (!isset($this->magics['spirits'])) {
             return $spirits;
         }
         foreach ($this->magics['spirits'] as $spirit) {
@@ -886,7 +886,7 @@ class Character extends BaseCharacter implements Stringable
     public function getSprites(): SpriteArray
     {
         $sprites = new SpriteArray();
-        if (!isset($this->technomancer, $this->technomancer['sprites'])) {
+        if (!isset($this->technomancer['sprites'])) {
             return $sprites;
         }
         foreach ($this->technomancer['sprites'] as $sprite) {
@@ -911,7 +911,7 @@ class Character extends BaseCharacter implements Stringable
      */
     public function getTradition(): ?Tradition
     {
-        if (!isset($this->magics, $this->magics['tradition'])) {
+        if (!isset($this->magics['tradition'])) {
             return null;
         }
         try {
