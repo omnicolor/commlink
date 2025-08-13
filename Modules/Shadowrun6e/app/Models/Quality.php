@@ -4,59 +4,47 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun6e\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
 use Override;
-use RuntimeException;
 use Stringable;
+use Sushi\Sushi;
 
 use function config;
-use function sprintf;
-use function strtolower;
+use function json_decode;
 
-class Quality implements Stringable
+use const JSON_THROW_ON_ERROR;
+
+/**
+ * @property string $description
+ * @property array<int, mixed>|null $effects
+ * @property string $id
+ * @property int $karma_cost
+ * @property int|string|null $level
+ * @property string $name
+ * @property int $page
+ * @property string $ruleset
+ */
+class Quality extends Model implements Stringable
 {
-    public string $description;
-    public int $karma_cost;
-    public ?int $level;
-    public string $name;
-    public int $page;
-    public string $ruleset;
+    use Sushi;
+
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     /**
-     * @var array<string, mixed>
+     * @var list<string>
      */
-    public array $effects;
-
-    /**
-     * Collection of all qualities.
-     * @var ?array<string, array<string, array<string, mixed>|int|string>>
-     */
-    public static ?array $qualities;
-
-    /**
-     * @throws RuntimeException
-     */
-    public function __construct(public string $id)
-    {
-        $filename = config('shadowrun6e.data_path') . 'qualities.php';
-        self::$qualities ??= require $filename;
-
-        $id = strtolower($id);
-        if (!isset(self::$qualities[$id])) {
-            throw new RuntimeException(sprintf(
-                'Shadowrun 6E quality ID "%s" is invalid',
-                $this->id
-            ));
-        }
-
-        $quality = self::$qualities[$this->id];
-        $this->description = $quality['description'];
-        $this->effects = $quality['effects'] ?? [];
-        $this->karma_cost = $quality['karma_cost'];
-        $this->level = $quality['level'] ?? null;
-        $this->name = $quality['name'];
-        $this->page = $quality['page'];
-        $this->ruleset = $quality['ruleset'];
-    }
+    protected $fillable = [
+        'description',
+        'effects',
+        'id',
+        'karma_cost',
+        'level',
+        'name',
+        'page',
+        'ruleset',
+    ];
 
     #[Override]
     public function __toString(): string
@@ -64,28 +52,46 @@ class Quality implements Stringable
         return $this->name;
     }
 
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'description' => 'string',
+            'id' => 'string',
+            'karma_cost' => 'integer',
+            'name' => 'string',
+            'page' => 'integer',
+            'ruleset' => 'string',
+        ];
+    }
+
+    protected function effects(): Attribute
+    {
+        return Attribute::make(
+            get: static function (string|null $effects): array {
+                if (null === $effects) {
+                    return [];
+                }
+                return json_decode($effects, true, 512, JSON_THROW_ON_ERROR);
+            },
+        );
+    }
+
     /**
-     * Try to find a quality by its name.
-     * @return array<int, Quality>
-     * @throws RuntimeException
+     * @return array{
+     *     description: string,
+     *     effects: string|null,
+     *     karma_cost: int,
+     *     level: int|string|null,
+     *     id: string,
+     *     name: string,
+     *     page: int,
+     *     ruleset: string
+     * }
      */
-    public static function findByName(string $name): array
+    public function getRows(): array
     {
         $filename = config('shadowrun6e.data_path') . 'qualities.php';
-        self::$qualities ??= require $filename;
-
-        $qualities = [];
-        foreach (self::$qualities ?? [] as $id => $quality) {
-            if (strtolower((string)$quality['name']) === strtolower($name)) {
-                $qualities[] = new Quality($id);
-            }
-        }
-        if ([] === $qualities) {
-            throw new RuntimeException(sprintf(
-                'Unable to find Shadowrun 6E quality "%s"',
-                $name
-            ));
-        }
-        return $qualities;
+        return require $filename;
     }
 }

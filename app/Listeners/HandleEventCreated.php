@@ -44,7 +44,7 @@ class HandleEventCreated
                     break;
                 case ChannelType::Irc: // @codeCoverageIgnore
                     // Ignore.
-                    break;
+                    break; // @codeCoverageIgnore
             }
         }
         return true;

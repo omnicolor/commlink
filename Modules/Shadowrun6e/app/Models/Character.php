@@ -8,49 +8,55 @@ use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
 use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Casts\Attribute as EloquentAttribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Modules\Shadowrun6e\Database\Factories\CharacterFactory;
+use Modules\Shadowrun6e\ValueObjects\Attribute;
 use Override;
-use RuntimeException;
 use Stringable;
 
 /**
  * Representation of a Shadowrun 6E character.
- * @property int $agility
+ * @property array<int, ActiveSkill> $active_skills
+ * @property-read Attribute $agility
  * @property array<int, string> $armor
  * @property array<int, string> $augmentations
- * @property int $body
- * @property int $charisma
- * @property array<int, mixed> $complex_forms
+ * @property-read Attribute $body
+ * @property-read Attribute $charisma
+ * @property-read int $composure
  * @property array<int, mixed> $contacts
- * @property int $edge
+ * @property int|null $drain_dice
+ * @property-read Attribute $edge
+ * @property-read Attribute $edge_current
  * @property array<int, mixed> $gear
  * @property ?string $handle
  * @property-read string $id
  * @property array<int, mixed> $identities
  * @property-read int $initiative_base
  * @property-read int $initiative_dice
- * @property int $intuition
+ * @property-read Attribute $intuition
+ * @property-read int $judge_intentions
  * @property int $karma
  * @property int $karma_total
- * @property int $logic
- * @property ?int $magic
+ * @property-read int $lift
+ * @property-read Attribute $logic
+ * @property-read Attribute|null $magic
+ * @property-read int $memory
  * @property ?string $name
  * @property int $nuyen
  * @property Email $owner
- * @property array<int, mixed> $powers
- * @property array<int, array<string, int|string>> $qualities
- * @property int $reaction
- * @property ?int $resonance
- * @property array<int, mixed> $skills
- * @property array<int, mixed> $spells
- * @property int $strength
+ * @property array<int, Quality> $qualities
+ * @property-read Attribute $reaction
+ * @property-read Attribute|null $resonance
+ * @property-read Attribute $strength
+ * @property-read int $surprise_dice
+ * @property-read Tradition|null $tradition
  * @property array<int, mixed> $vehicles
  * @property array<int, mixed> $weapons
- * @property int $willpower
+ * @property Attribute $willpower
  */
 class Character extends BaseCharacter implements Stringable
 {
@@ -63,23 +69,15 @@ class Character extends BaseCharacter implements Stringable
 
     /** @var array<string, string> */
     protected $casts = [
-        'agility' => 'integer',
-        'body' => 'integer',
-        'charisma' => 'integer',
-        'edge' => 'integer',
-        'intuition' => 'integer',
         'karma' => 'integer',
         'karma_total' => 'integer',
-        'logic' => 'integer',
         'owner' => AsEmail::class,
         'nuyen' => 'integer',
-        'reaction' => 'integer',
-        'strength' => 'integer',
-        'willpower' => 'integer',
     ];
 
     /** @var list<string> */
     protected $fillable = [
+        'active_skills',
         'agility',
         'armor',
         'augmentations',
@@ -88,6 +86,7 @@ class Character extends BaseCharacter implements Stringable
         'complex_forms',
         'contacts',
         'edge',
+        'edge_current',
         'gear',
         'handle',
         'identities',
@@ -102,9 +101,9 @@ class Character extends BaseCharacter implements Stringable
         'qualities',
         'reaction',
         'resonance',
-        'skills',
         'spells',
         'strength',
+        'tradition',
         'vehicles',
         'weapons',
         'willpower',
@@ -121,6 +120,43 @@ class Character extends BaseCharacter implements Stringable
         return $this->handle ?? $this->name ?? 'Unnamed Character';
     }
 
+    protected function activeSkills(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: static function (array|null $active_skills): array {
+                if (null === $active_skills) {
+                    return [];
+                }
+                array_walk(
+                    $active_skills,
+                    static function (array &$skill): void {
+                        // @phpstan-ignore larastan.noModelMake, argument.type
+                        $skill = ActiveSkill::make($skill);
+                    },
+                );
+                return $active_skills;
+            },
+        );
+    }
+
+    protected function agility(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (int $agility): Attribute {
+                return new Attribute($agility, $this);
+            },
+        );
+    }
+
+    protected function body(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (int $body): Attribute {
+                return new Attribute($body, $this);
+            },
+        );
+    }
+
     /**
      * Force this model to only load for Shadowrun 6E characters.
      * @codeCoverageIgnore
@@ -130,57 +166,250 @@ class Character extends BaseCharacter implements Stringable
     {
         static::addGlobalScope(
             'shadowrun6e',
-            function (Builder $builder): void {
+            static function (Builder $builder): void {
                 $builder->where('system', 'shadowrun6e');
             }
         );
     }
 
-    /**
-     * Return a collection of the character's qualities.
-     * @return array<int, Quality>
-     */
-    public function getQualities(): array
+    protected function charisma(): EloquentAttribute
     {
-        $qualities = [];
-        foreach ($this->qualities ?? [] as $quality) {
-            try {
-                $qualities[] = new Quality((string)$quality['id']);
-            } catch (RuntimeException) {
-                Log::warning(
-                    'Shadowrun 6E character "{name}" ({id}) has invalid quality ID "{quality}"',
-                    [
-                        'name' => $this->handle,
-                        'id' => $this->id,
-                        'quality' => $quality['id'],
-                    ]
-                );
-            }
-        }
-        return $qualities;
-    }
-
-    public function initiativeBase(): Attribute
-    {
-        return Attribute::make(
-            get: function (): int {
-                return $this->intuition + $this->reaction;
+        return EloquentAttribute::make(
+            get: function (int $charisma): Attribute {
+                return new Attribute($charisma, $this);
             },
         );
     }
 
-    public function initiativeDice(): Attribute
+    protected function composure(): EloquentAttribute
     {
-        return Attribute::make(
+        return EloquentAttribute::make(
             get: function (): int {
+                return $this->charisma->value + $this->willpower->value;
+            },
+        );
+    }
+
+    protected function drainDice(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (): int|null {
+                if (null === $this->tradition) {
+                    return null;
+                }
+                $attributes = $this->tradition->drain_attributes;
+                return (new Attribute($this->attributes[$attributes[0]], $this))->value
+                    + (new Attribute($this->attributes[$attributes[1]], $this))->value;
+            },
+        );
+    }
+
+    protected function edge(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (int $edge): Attribute {
+                return new Attribute($edge, $this);
+            },
+        );
+    }
+
+    protected function edgeCurrent(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (int|null $edge_current): Attribute {
+                if (null === $edge_current) {
+                    return $this->edge;
+                }
+                return new Attribute($edge_current, $this);
+            },
+        );
+    }
+
+    protected function initiativeBase(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (): int {
+                return $this->intuition->value + $this->reaction->value;
+            },
+        );
+    }
+
+    protected function initiativeDice(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: static function (): int {
                 return 1;
             },
         );
     }
 
+    protected function intuition(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (int $intuition): Attribute {
+                return new Attribute($intuition, $this);
+            },
+        );
+    }
+
+    public function isAwakened(): bool
+    {
+        return $this->isMagical() || $this->isTechnomancer();
+    }
+
+    public function isMagical(): bool
+    {
+        return null !== $this->magic;
+    }
+
+    public function isTechnomancer(): bool
+    {
+        return null !== $this->resonance;
+    }
+
+    protected function judgeIntentions(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (): int {
+                return $this->intuition->value + $this->willpower->value;
+            },
+        );
+    }
+
+    protected function lift(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (): int {
+                return $this->body->value + $this->willpower->value;
+            },
+        );
+    }
+
+    protected function logic(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (int $logic): Attribute {
+                return new Attribute($logic, $this);
+            },
+        );
+    }
+
+    protected function magic(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (int|null $magic): Attribute|null {
+                if (null === $magic) {
+                    return null;
+                }
+                return new Attribute($magic, $this);
+            },
+        );
+    }
+
+    protected function memory(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (): int {
+                return $this->intuition->value + $this->logic->value;
+            },
+        );
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
     #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();
+    }
+
+    protected function qualities(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (array|null $qualities): array {
+                if (null === $qualities) {
+                    return [];
+                }
+                array_walk($qualities, function (array &$quality): void {
+                    try {
+                        $quality = Quality::findOrFail((string)$quality['id']);
+                    } catch (ModelNotFoundException) {
+                        Log::warning(
+                            'Shadowrun 6E character "{name}" ({id}) has invalid quality ID "{quality}"',
+                            [
+                                'name' => $this->handle,
+                                'id' => $this->id,
+                                'quality' => $quality['id'],
+                            ],
+                        );
+                        $quality = null;
+                    }
+                });
+                return array_filter($qualities, static function (Quality|null $quality): bool {
+                    return $quality instanceof Quality;
+                });
+            },
+        );
+    }
+
+    protected function reaction(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (int $reaction): Attribute {
+                return new Attribute($reaction, $this);
+            },
+        );
+    }
+
+    protected function resonance(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (int|null $resonance): Attribute|null {
+                if (null === $resonance) {
+                    return null;
+                }
+                return new Attribute($resonance, $this);
+            },
+        );
+    }
+
+    protected function strength(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (int $strength): Attribute {
+                return new Attribute($strength, $this);
+            },
+        );
+    }
+
+    protected function surpriseDice(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (): int {
+                return $this->intuition->value + $this->reaction->value;
+            },
+        );
+    }
+
+    protected function tradition(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (string|null $tradition): Tradition|null {
+                if (null === $tradition) {
+                    return null;
+                }
+                return Tradition::findOrFail($tradition);
+            },
+        );
+    }
+
+    protected function willpower(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (int $willpower): Attribute {
+                return new Attribute($willpower, $this);
+            },
+        );
     }
 }
