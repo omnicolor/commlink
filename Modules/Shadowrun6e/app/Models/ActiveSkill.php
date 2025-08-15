@@ -25,6 +25,7 @@ use const JSON_THROW_ON_ERROR;
  * @property array<int, string> $attributes_secondary
  * @property string $description
  * @property array<int, string> $example_specializations
+ * @property string $id
  * @property int $level
  * @property string $name
  * @property int $page
@@ -43,9 +44,7 @@ class ActiveSkill extends Model implements Stringable
     public $incrementing = false;
     protected $keyType = 'string';
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $fillable = [
         'attribute',
         'attributes_secondary',

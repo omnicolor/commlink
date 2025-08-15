@@ -1,0 +1,41 @@
+complex-forms:
+  get:
+    summary: Shadowrun 6E complex forms
+    operationId: shadowrun6e-complexForms-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/ComplexForm'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 6E complex forms.
+    tags:
+      - shadowrun
+
+skills:
+  get:
+    summary: Shadowrun 6E skills
+    operationId: shadowrun6e-skills-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Skill'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 6E skills.
+    tags:
+      - shadowrun

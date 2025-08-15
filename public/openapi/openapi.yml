@@ -1448,6 +1448,10 @@ paths:
     $ref: './modules/shadowrun5e/paths.yml#/weapon-modifications'
   /shadowrun5e/weapons:
     $ref: './modules/shadowrun5e/paths.yml#/weapons'
+  /shadowrun6e/complex-forms:
+    $ref: './modules/shadowrun6e/paths.yml#/complex-forms'
+  /shadowrun6e/skills:
+      $ref: './modules/shadowrun6e/paths.yml#/skills'
   /startrekadventures/characters:
     $ref: './modules/startrekadventures/paths.yml#/characters'
   /stillfleet/armor:

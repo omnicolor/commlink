@@ -1,0 +1,114 @@
+Attribute:
+  enum:
+    - agility
+    - body
+    - charisma
+    - intuition
+    - logic
+    - reaction
+    - strength
+    - willpower
+  type: string
+
+ComplexForm:
+  example:
+    description: |
+      Make an Electronics + Resonance test. Each hit reduces your Overwatch Score by 1.
+    duration: P
+    fade_value: 2
+    id: cleaner
+    name: Cleaner
+    page: 190
+    ruleset: core
+    links:
+      self: https://commlink.digitaldarkness.com/api/shadowrun6e/complex-forms/cleaner
+      collection": https://commlink.digitaldarkness.com/api/shadowrun6e/complex-forms
+  properties:
+    description:
+      type: string
+    duration:
+      type: string
+    fade_value:
+      nullable: true
+      type: integer
+    id:
+      $ref: '../../openapi.yml#/components/schemas/ItemId'
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+    name:
+      type: string
+    page:
+      type: integer
+    ruleset:
+      type: string
+  required:
+    - duration
+    - fade_value
+    - id
+    - links
+    - name
+    - page
+    - ruleset
+  type: object
+
+Skill:
+  example:
+    attribute: intuition
+    attributes_secondary:
+      - willpower
+    description: |
+      This skill can only be used by full or aspected magicians, or by
+      adepts and mystic adepts who have chosen the Astral Perception
+      adept power. It has two primary uses—one is for assensing astral
+      auras, as described on p. 159. The other is for astral combat, as
+      described on p. 160.
+    example_specializations:
+      - Astral Combat
+      - Astral Signatures
+      - Emotional States
+      - Spirit Types
+    id: astral
+    level: 3
+    name: Astral
+    page: 93
+    untrained: false
+    links:
+      self: https://commlink.digitaldarkness.com/api/shadowrun6e/skills/astral
+      collection: https://commlink-dev.digitaldarkness.com/api/shadowrun6e/skills
+  properties:
+    attribute:
+      $ref: '#/Attribute'
+    attributes_secondary:
+      nullable: true
+      items:
+        $ref: '#/Attribute'
+      type: array
+    description:
+      type: string
+    example_specializations:
+      items:
+        type: string
+      type: array
+    id:
+      $ref: '../../openapi.yml#/components/schemas/ItemId'
+    level:
+      maximum: 10
+      minimum: 1
+      type: integer
+    name:
+      type: string
+    page:
+      type: integer
+    untrained:
+      type: boolean
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+  required:
+    - attribute
+    - attributes_secondary
+    - example_specializations
+    - id
+    - name
+    - page
+    - untrained
+    - links

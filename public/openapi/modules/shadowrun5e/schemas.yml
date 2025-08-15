@@ -27,6 +27,8 @@ AdeptPower:
       type: string
     effects:
       type: object
+    id:
+      $ref: '../../openapi.yml#/components/schemas/ItemId'
     incompatible_with:
       items:
         type: string
@@ -78,7 +80,7 @@ Ammunition:
     description:
       type: string
     id:
-      type: string
+      $ref: '../../openapi.yml#/components/schemas/ItemId'
     links:
       $ref: '../../openapi.yml#/components/schemas/Links'
     name:
