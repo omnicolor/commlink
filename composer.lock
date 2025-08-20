@@ -313,16 +313,16 @@
         },
         {
             "name": "discord-php/http",
-            "version": "v10.4.7",
+            "version": "v10.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP-Http",
-                "reference": "429221da59ab0a82149c7694880dc034c7280bc2"
+                "reference": "1e8c90d6c20011b3d444e725cb885dade40d349d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP-Http/zipball/429221da59ab0a82149c7694880dc034c7280bc2",
-                "reference": "429221da59ab0a82149c7694880dc034c7280bc2",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP-Http/zipball/1e8c90d6c20011b3d444e725cb885dade40d349d",
+                "reference": "1e8c90d6c20011b3d444e725cb885dade40d349d",
                 "shasum": ""
             },
             "require": {
@@ -361,7 +361,7 @@
                 }
             ],
             "description": "Handles HTTP requests to Discord servers",
-            "time": "2025-07-26T13:43:09+00:00"
+            "time": "2025-08-20T13:08:46+00:00"
         },
         {
             "name": "discord/interactions",
@@ -5741,23 +5741,23 @@
         },
         {
             "name": "react/promise",
-            "version": "v3.2.0",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/promise.git",
-                "reference": "8a164643313c71354582dc850b42b33fa12a4b63"
+                "reference": "23444f53a813a3296c1368bb104793ce8d88f04a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/promise/zipball/8a164643313c71354582dc850b42b33fa12a4b63",
-                "reference": "8a164643313c71354582dc850b42b33fa12a4b63",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/23444f53a813a3296c1368bb104793ce8d88f04a",
+                "reference": "23444f53a813a3296c1368bb104793ce8d88f04a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1.0"
             },
             "require-dev": {
-                "phpstan/phpstan": "1.10.39 || 1.4.10",
+                "phpstan/phpstan": "1.12.28 || 1.4.10",
                 "phpunit/phpunit": "^9.6 || ^7.5"
             },
             "type": "library",
@@ -5802,7 +5802,7 @@
             ],
             "support": {
                 "issues": "https://github.com/reactphp/promise/issues",
-                "source": "https://github.com/reactphp/promise/tree/v3.2.0"
+                "source": "https://github.com/reactphp/promise/tree/v3.3.0"
             },
             "funding": [
                 {
@@ -5810,7 +5810,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-05-24T10:39:05+00:00"
+            "time": "2025-08-19T18:57:03+00:00"
         },
         {
             "name": "react/socket",
@@ -7730,7 +7730,7 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.32.0",
+            "version": "v1.33.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
@@ -7791,7 +7791,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.32.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.33.0"
             },
             "funding": [
                 {
@@ -7803,6 +7803,10 @@
                     "type": "github"
                 },
                 {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
                     "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
                     "type": "tidelift"
                 }
@@ -7811,7 +7815,7 @@
         },
         {
             "name": "symfony/polyfill-php80",
-            "version": "v1.32.0",
+            "version": "v1.33.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
@@ -7871,7 +7875,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php80/tree/v1.32.0"
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.33.0"
             },
             "funding": [
                 {
@@ -7883,6 +7887,10 @@
                     "type": "github"
                 },
                 {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
                     "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
                     "type": "tidelift"
                 }
@@ -7891,16 +7899,16 @@
         },
         {
             "name": "symfony/polyfill-php83",
-            "version": "v1.32.0",
+            "version": "v1.33.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php83.git",
-                "reference": "2fb86d65e2d424369ad2905e83b236a8805ba491"
+                "reference": "17f6f9a6b1735c0f163024d959f700cfbc5155e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php83/zipball/2fb86d65e2d424369ad2905e83b236a8805ba491",
-                "reference": "2fb86d65e2d424369ad2905e83b236a8805ba491",
+                "url": "https://api.github.com/repos/symfony/polyfill-php83/zipball/17f6f9a6b1735c0f163024d959f700cfbc5155e5",
+                "reference": "17f6f9a6b1735c0f163024d959f700cfbc5155e5",
                 "shasum": ""
             },
             "require": {
@@ -7947,7 +7955,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php83/tree/v1.32.0"
+                "source": "https://github.com/symfony/polyfill-php83/tree/v1.33.0"
             },
             "funding": [
                 {
@@ -7959,11 +7967,15 @@
                     "type": "github"
                 },
                 {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
                     "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-09T11:45:10+00:00"
+            "time": "2025-07-08T02:45:35+00:00"
         },
         {
             "name": "symfony/polyfill-php84",
@@ -8857,16 +8869,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.18.45",
+            "version": "v10.18.50",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP",
-                "reference": "d10da1437bdd9b094452db6f76b567605c16ee71"
+                "reference": "7959e20ca8207e1d3b8c600c91ae7ebcb1555d2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/d10da1437bdd9b094452db6f76b567605c16ee71",
-                "reference": "d10da1437bdd9b094452db6f76b567605c16ee71",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/7959e20ca8207e1d3b8c600c91ae7ebcb1555d2a",
+                "reference": "7959e20ca8207e1d3b8c600c91ae7ebcb1555d2a",
                 "shasum": ""
             },
             "require": {
@@ -8930,7 +8942,7 @@
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
-            "time": "2025-08-13T12:22:56+00:00"
+            "time": "2025-08-19T21:36:24+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
