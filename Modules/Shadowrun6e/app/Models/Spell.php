@@ -36,6 +36,7 @@ use const JSON_THROW_ON_ERROR;
  * @property-read string $name
  * @property-read int $page
  * @property-read SpellRange $range
+ * @property-read string $ruleset
  * @property-read SpellType $type
  */
 class Spell extends Model implements Stringable
@@ -83,12 +84,13 @@ class Spell extends Model implements Stringable
     }
 
     /**
-     * @return array<string, class-string>
+     * @return array<string, class-string|string>
      */
     protected function casts(): array
     {
         return [
             'category' => SpellCategory::class,
+            'indirect' => 'bool',
             'range' => SpellRange::class,
             'type' => SpellType::class,
         ];

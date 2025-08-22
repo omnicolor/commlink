@@ -17,7 +17,7 @@ use function route;
 #[Group('shadowrun')]
 #[Group('shadowrun6e')]
 #[Medium]
-final class SkillsControllerTest extends TestCase
+final class RitualsControllerTest extends TestCase
 {
     #[Override]
     protected function setUp(): void
@@ -31,18 +31,21 @@ final class SkillsControllerTest extends TestCase
     public function testIndex(): void
     {
         self::actingAs(User::factory()->create())
-            ->getJson(route('shadowrun6e.skills.index'))
+            ->getJson(route('shadowrun6e.rituals.index'))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
                     '*' => [
-                        'attribute',
-                        'attributes_secondary',
-                        'example_specializations',
+                        'anchored',
                         'id',
+                        'material_link',
+                        'minion',
                         'name',
                         'page',
-                        'untrained',
+                        'ruleset',
+                        'spell',
+                        'spotter',
+                        'threshold',
                         'links',
                     ],
                 ],
@@ -54,18 +57,21 @@ final class SkillsControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole('trusted');
         self::actingAs($user)
-            ->getJson(route('shadowrun6e.skills.show', 'astral'))
+            ->getJson(route('shadowrun6e.rituals.show', 'circle-of-healing'))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
-                    'attribute',
-                    'attributes_secondary',
+                    'anchored',
                     'description',
-                    'example_specializations',
                     'id',
+                    'material_link',
+                    'minion',
                     'name',
                     'page',
-                    'untrained',
+                    'ruleset',
+                    'spell',
+                    'spotter',
+                    'threshold',
                     'links',
                 ],
             ]);

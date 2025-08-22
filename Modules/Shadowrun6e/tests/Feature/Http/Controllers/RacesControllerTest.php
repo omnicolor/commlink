@@ -17,7 +17,7 @@ use function route;
 #[Group('shadowrun')]
 #[Group('shadowrun6e')]
 #[Medium]
-final class ComplexFormsControllerTest extends TestCase
+final class RacesControllerTest extends TestCase
 {
     #[Override]
     protected function setUp(): void
@@ -31,40 +31,31 @@ final class ComplexFormsControllerTest extends TestCase
     public function testIndex(): void
     {
         self::actingAs(User::factory()->create())
-            ->getJson(route('shadowrun6e.complex-forms.index'))
+            ->getJson(route('shadowrun6e.races.index'))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
                     '*' => [
-                        'duration',
-                        'fade_value',
+                        'agility' => ['min', 'max'],
+                        'body' => ['min', 'max'],
+                        'charisma' => ['min', 'max'],
+                        'dermal_armor',
+                        'edge' => ['min', 'max'],
                         'id',
+                        'intuition' => ['min', 'max'],
+                        'logic' => ['min', 'max'],
                         'name',
                         'page',
+                        'reach',
+                        'reaction' => ['min', 'max'],
                         'ruleset',
+                        'special_points',
+                        'strength' => ['min', 'max'],
+                        'willpower' => ['min', 'max'],
                         'links',
                     ],
                 ],
             ]);
-    }
-
-    public function testShow(): void
-    {
-        self::actingAs(User::factory()->create())
-            ->getJson(route('shadowrun6e.complex-forms.show', 'cleaner'))
-            ->assertOk()
-            ->assertJsonStructure([
-                'data' => [
-                    'duration',
-                    'fade_value',
-                    'id',
-                    'name',
-                    'page',
-                    'ruleset',
-                    'links',
-                ],
-            ])
-            ->assertJsonMissingPath('data.description');
     }
 
     public function testShowTrusted(): void
@@ -72,17 +63,33 @@ final class ComplexFormsControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole('trusted');
         self::actingAs($user)
-            ->getJson(route('shadowrun6e.complex-forms.show', 'cleaner'))
+            ->getJson(route('shadowrun6e.races.show', 'dwarf'))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
+                    'agility' => ['min', 'max'],
+                    'body' => ['min', 'max'],
+                    'charisma' => ['min', 'max'],
+                    'dermal_armor',
                     'description',
-                    'duration',
-                    'fade_value',
+                    'edge' => ['min', 'max'],
                     'id',
+                    'intuition' => ['min', 'max'],
+                    'logic' => ['min', 'max'],
                     'name',
                     'page',
+                    'reach',
+                    'reaction' => ['min', 'max'],
                     'ruleset',
+                    'special_points' => [
+                        'A',
+                        'B',
+                        'C',
+                        'D',
+                        'E',
+                    ],
+                    'strength' => ['min', 'max'],
+                    'willpower' => ['min', 'max'],
                     'links',
                 ],
             ]);

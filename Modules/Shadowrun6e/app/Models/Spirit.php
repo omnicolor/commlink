@@ -99,9 +99,6 @@ class Spirit extends Model implements Stringable
     protected function force(): Attribute
     {
         return Attribute::make(
-            get: function (int $force): int {
-                return $force;
-            },
             set: function (int $force): int {
                 if (1 > $force) {
                     throw new RangeException('Force must be a positive integer');

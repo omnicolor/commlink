@@ -16,14 +16,14 @@ use function json_decode;
 use const JSON_THROW_ON_ERROR;
 
 /**
- * @property string $description
- * @property array<int, mixed>|null $effects
- * @property string $id
- * @property int $karma_cost
- * @property int|string|null $level
- * @property string $name
- * @property int $page
- * @property string $ruleset
+ * @property-read string $description
+ * @property-read array<string, mixed>|null $effects
+ * @property-read string $id
+ * @property-read int $karma_cost
+ * @property-read int|string|null $level
+ * @property-read string $name
+ * @property-read int $page
+ * @property-read string $ruleset
  */
 class Quality extends Model implements Stringable
 {
@@ -52,19 +52,6 @@ class Quality extends Model implements Stringable
         return $this->name;
     }
 
-    #[Override]
-    protected function casts(): array
-    {
-        return [
-            'description' => 'string',
-            'id' => 'string',
-            'karma_cost' => 'integer',
-            'name' => 'string',
-            'page' => 'integer',
-            'ruleset' => 'string',
-        ];
-    }
-
     protected function effects(): Attribute
     {
         return Attribute::make(
@@ -72,7 +59,7 @@ class Quality extends Model implements Stringable
                 if (null === $effects) {
                     return [];
                 }
-                return json_decode($effects, true, 512, JSON_THROW_ON_ERROR);
+                return json_decode($effects, true, flags: JSON_THROW_ON_ERROR);
             },
         );
     }

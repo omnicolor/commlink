@@ -15,7 +15,7 @@ use const PHP_INT_MAX;
 #[Group('shadowrun')]
 #[Group('shadowrun6e')]
 #[Small]
-class AttackRangeTest extends TestCase
+final class AttackRangeTest extends TestCase
 {
     /**
      * @return array<int, array<int, AttackRange|int>>

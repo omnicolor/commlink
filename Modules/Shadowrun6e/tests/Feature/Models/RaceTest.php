@@ -84,6 +84,21 @@ final class RaceTest extends TestCase
         );
     }
 
+    public function testSpecialPoints(): void
+    {
+        $race = Race::findOrFail('dwarf');
+        self::assertEquals(
+            (object)[
+                'A' => 13,
+                'B' => 11,
+                'C' => 9,
+                'D' => 4,
+                'E' => 1,
+            ],
+            $race->special_points,
+        );
+    }
+
     public function testStrength(): void
     {
         $race = Race::findOrFail('dwarf');

@@ -10,8 +10,12 @@ use Modules\Shadowrun6e\ValueObjects\BaselineAttribute;
 use Override;
 use Stringable;
 use Sushi\Sushi;
+use stdClass;
 
 use function config;
+use function json_decode;
+
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @property-read int $agi_max
@@ -42,7 +46,7 @@ use function config;
  * @property-read BaselineAttribute $reaction
  * @property-read int $reach
  * @property-read string $ruleset
- * @property-read string $special_points
+ * @property-read array{A?: int, B?: int, C: int, D: int, E: int} $special_points
  * @property-read int $str_max
  * @property-read int $str_min
  * @property-read BaselineAttribute $strength
@@ -75,7 +79,6 @@ class Race extends Model implements Stringable
         'id',
         'int_max',
         'int_min',
-        'lifestyle_cost_modifier',
         'log_max',
         'log_min',
         'name',
@@ -222,6 +225,15 @@ class Race extends Model implements Stringable
                     $this->rea_max,
                     'reaction',
                 );
+            },
+        );
+    }
+
+    protected function specialPoints(): Attribute
+    {
+        return Attribute::make(
+            get: static function (string $points): stdClass {
+                return json_decode($points, flags: JSON_THROW_ON_ERROR);
             },
         );
     }

@@ -52,6 +52,18 @@ class Ritual extends Model implements Stringable
         return $this->name;
     }
 
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'anchored' => 'bool',
+            'material_link' => 'bool',
+            'minion' => 'bool',
+            'spell' => 'bool',
+            'spotter' => 'bool',
+        ];
+    }
+
     /**
      * @return array{
      *     anchored: bool,

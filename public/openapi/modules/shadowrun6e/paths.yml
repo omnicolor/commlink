@@ -1,7 +1,28 @@
+adept-powers:
+  get:
+    summary: Shadowrun 6E adept powers
+    operationId: shadowrun6e.adept-powers.index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/AdeptPower'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 6E adept powers.
+    tags:
+      - shadowrun
+
 complex-forms:
   get:
     summary: Shadowrun 6E complex forms
-    operationId: shadowrun6e-complexForms-index
+    operationId: shadowrun6e.complex-forms.index
     responses:
       '200':
         content:
@@ -19,10 +40,136 @@ complex-forms:
     tags:
       - shadowrun
 
+echoes:
+  get:
+    summary: Shadowrun 6E resonance echoes
+    operationId: shadowrun6e.echoes.index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Echo'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 6E resonance echoes.
+    tags:
+      - shadowrun
+
+mentor-spirits:
+  get:
+    summary: Shadowrun 6E mentor spirits
+    operationId: shadowrun6e.mentor-spirits.index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/MentorSpirit'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 6E mentor spirits.
+    tags:
+      - shadowrun
+
+metamagics:
+  get:
+    summary: Shadowrun 6E metamagics
+    operationId: shadowrun6e.metamagics.index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Metamagic'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 6E metamagics.
+    tags:
+      - shadowrun
+
+programs:
+  get:
+    summary: Shadowrun 6E programs
+    operationId: shadowrun6e.programs.index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Program'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 6E programs.
+    tags:
+      - shadowrun
+
+qualities:
+  get:
+    summary: Shadowrun 6E qualities
+    operationId: shadowrun6e.qualities.index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Quality'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 6E qualities.
+    tags:
+      - shadowrun
+
+races:
+  get:
+    summary: Shadowrun 6E races
+    operationId: shadowrun6e.races.index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Race'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 6E races.
+    tags:
+      - shadowrun
+
 skills:
   get:
     summary: Shadowrun 6E skills
-    operationId: shadowrun6e-skills-index
+    operationId: shadowrun6e.skills.index
     responses:
       '200':
         content:
@@ -37,5 +184,81 @@ skills:
                   $ref: '../../openapi.yml#/components/schemas/Links'
               type: object
         description: All Shadowrun 6E skills.
+    tags:
+      - shadowrun
+
+spells:
+  get:
+    summary: Shadowrun 6E spells
+    operationId: shadowrun6e.spells.index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Spell'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 6E spells.
+    tags:
+      - shadowrun
+
+spirits:
+  get:
+    summary: Shadowrun 6E spirits
+    operationId: shadowrun6e.spirits.index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Spirit'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 6E spirits.
+    tags:
+      - shadowrun
+
+spirit:
+  get:
+    summary: A Shadowrun 6E spirit
+    operationId: shadowrun6e.spirits.show
+    parameters:
+      - name: spirit
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: force
+        in: query
+        required: false
+        schema:
+          type: integer
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Spirit'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: |
+          A Shadowrun 6E spirit. If the force parameter is given, the spirit's
+          attributes will be calculated.
     tags:
       - shadowrun

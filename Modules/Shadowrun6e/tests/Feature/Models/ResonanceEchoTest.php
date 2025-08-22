@@ -12,7 +12,7 @@ use Tests\TestCase;
 #[Group('shadowrun')]
 #[Group('shadowrun6e')]
 #[Small]
-class ResonanceEchoTest extends TestCase
+final class ResonanceEchoTest extends TestCase
 {
     public function testToString(): void
     {

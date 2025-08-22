@@ -81,6 +81,7 @@ paths:
     $ref: './modules/alien/paths.yml#/talents'
   /alien/weapons:
     $ref: './modules/alien/paths.yml#/weapons'
+
   /avatar/characters:
     $ref: './modules/avatar/paths.yml#/characters'
   /avatar/moves:
@@ -89,8 +90,10 @@ paths:
     $ref: './modules/avatar/paths.yml#/playbooks'
   /avatar/statuses:
     $ref: './modules/avatar/paths.yml#/statuses'
+
   /blistercritters/characters:
     $ref: './modules/blistercritters/paths.yml#/characters'
+
   /capers/characters:
     $ref: './modules/capers/paths.yml#/characters'
   /capers/gear:
@@ -105,6 +108,7 @@ paths:
     $ref: './modules/capers/paths.yml#/vices'
   /capers/virtues:
     $ref: './modules/capers/paths.yml#/virtues'
+
   /campaigns:
     get:
       summary: Return all campaigns for the user
@@ -628,6 +632,7 @@ paths:
           description: User has already been invited or is already playing.
       tags:
         - campaign
+
   /channels/{channel_id}:
     parameters:
       - name: channel_id
@@ -675,6 +680,7 @@ paths:
           $ref: '#/components/responses/ErrorUnprocessableContent'
       tags:
         - interactivity
+
   /characters:
     get:
       summary: All characters owned by the current user from all systems
@@ -699,6 +705,7 @@ paths:
           $ref: '#/components/responses/ErrorUnauthenticated'
       tags:
         - character
+
   /cyberpunkred/armor:
     $ref: './modules/cyberpunkred/paths.yml#/armor'
   /cyberpunkred/characters:
@@ -709,8 +716,10 @@ paths:
     $ref: './modules/cyberpunkred/paths.yml#/skills'
   /cyberpunkred/weapons:
     $ref: './modules/cyberpunkred/paths.yml#/weapons'
+
   /dnd5e/characters:
     $ref: './modules/dnd5e/paths.yml#/characters'
+
   /events:
     get:
       summary: Collection of the user's events.
@@ -1084,6 +1093,7 @@ paths:
           $ref: '#/components/responses/ErrorNotFound'
       tags:
         - events
+
   /expanse/backgrounds:
     $ref: './modules/expanse/paths.yml#/backgrounds'
   /expanse/characters:
@@ -1096,6 +1106,7 @@ paths:
     $ref: './modules/expanse/paths.yml#/social-classes'
   /expanse/talents:
     $ref: './modules/expanse/paths.yml#/talents'
+
   /fakes/names:
     get:
       summary: Generate some fake names
@@ -1364,6 +1375,7 @@ paths:
                 type: object
       tags:
         - interactivity
+
   /root/characters:
     $ref: './modules/root/paths.yml#/characters'
   /root/moves:
@@ -1372,6 +1384,7 @@ paths:
     $ref: './modules/root/paths.yml#/natures'
   /root/playbooks:
     $ref: './modules/root/paths.yml#/playbooks'
+
   /shadowrun5e/adept-powers:
     $ref: './modules/shadowrun5e/paths.yml#/adept-powers'
   /shadowrun5e/ammunitions:
@@ -1448,12 +1461,35 @@ paths:
     $ref: './modules/shadowrun5e/paths.yml#/weapon-modifications'
   /shadowrun5e/weapons:
     $ref: './modules/shadowrun5e/paths.yml#/weapons'
+
+  /shadowrun6e/adept-powers:
+    $ref: './modules/shadowrun6e/paths.yml#/adept-powers'
   /shadowrun6e/complex-forms:
     $ref: './modules/shadowrun6e/paths.yml#/complex-forms'
+  /shadowrun6e/echoes:
+    $ref: './modules/shadowrun6e/paths.yml#/echoes'
+  /shadowrun6e/mentor-spirits:
+    $ref: './modules/shadowrun6e/paths.yml#/mentor-spirits'
+  /shadowrun6e/metamagics:
+    $ref: './modules/shadowrun6e/paths.yml#/metamagics'
+  /shadowrun6e/programs:
+    $ref: './modules/shadowrun6e/paths.yml#/programs'
+  /shadowrun6e/qualities:
+    $ref: './modules/shadowrun6e/paths.yml#/qualities'
+  /shadowrun6e/races:
+    $ref: './modules/shadowrun6e/paths.yml#/races'
   /shadowrun6e/skills:
-      $ref: './modules/shadowrun6e/paths.yml#/skills'
+    $ref: './modules/shadowrun6e/paths.yml#/skills'
+  /shadowrun6e/spells:
+    $ref: './modules/shadowrun6e/paths.yml#/spells'
+  /shadowrun6e/spirits:
+    $ref: './modules/shadowrun6e/paths.yml#/spirits'
+  /shadowrun6e/spirits/{spirit}:
+    $ref: './modules/shadowrun6e/paths.yml#/spirit'
+
   /startrekadventures/characters:
     $ref: './modules/startrekadventures/paths.yml#/characters'
+
   /stillfleet/armor:
     $ref: './modules/stillfleet/paths.yml#/armor'
   /stillfleet/characters:
@@ -1468,6 +1504,7 @@ paths:
     $ref: './modules/stillfleet/paths.yml#/species'
   /stillfleet/weapons:
     $ref: './modules/stillfleet/paths.yml#/weapons'
+
   /subversion/backgrounds:
     $ref: './modules/subversion/paths.yml#/backgrounds'
   /subversion/castes:
@@ -1488,8 +1525,10 @@ paths:
     $ref: './modules/subversion/paths.yml#/origins'
   /subversion/skills:
     $ref: './modules/subversion/paths.yml#/skills'
+
   /transformers/characters:
     $ref: './modules/transformers/paths.yml#/characters'
+
   /users:
     get:
       summary: All users
@@ -1651,6 +1690,7 @@ paths:
           $ref: '#/components/responses/ErrorNotFound'
       tags:
         - user
+
   /varz:
     get:
       summary: Statistics about the system

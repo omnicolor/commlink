@@ -17,7 +17,7 @@ use function route;
 #[Group('shadowrun')]
 #[Group('shadowrun6e')]
 #[Medium]
-final class SkillsControllerTest extends TestCase
+final class ProgramsTest extends TestCase
 {
     #[Override]
     protected function setUp(): void
@@ -31,18 +31,15 @@ final class SkillsControllerTest extends TestCase
     public function testIndex(): void
     {
         self::actingAs(User::factory()->create())
-            ->getJson(route('shadowrun6e.skills.index'))
+            ->getJson(route('shadowrun6e.programs.index'))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
                     '*' => [
-                        'attribute',
-                        'attributes_secondary',
-                        'example_specializations',
                         'id',
                         'name',
                         'page',
-                        'untrained',
+                        'ruleset',
                         'links',
                     ],
                 ],
@@ -54,18 +51,15 @@ final class SkillsControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole('trusted');
         self::actingAs($user)
-            ->getJson(route('shadowrun6e.skills.show', 'astral'))
+            ->getJson(route('shadowrun6e.programs.show', 'baby-monitor'))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
-                    'attribute',
-                    'attributes_secondary',
                     'description',
-                    'example_specializations',
                     'id',
                     'name',
                     'page',
-                    'untrained',
+                    'ruleset',
                     'links',
                 ],
             ]);
