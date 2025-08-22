@@ -36,7 +36,7 @@ class CharacterResource extends JsonResource
      *         health_current: int
      *     },
      *     gear: AnonymousResourceCollection,
-     *     rank: integer,
+     *     rank: int,
      *     classes: AnonymousResourceCollection,
      *     species: SpeciesResource,
      *     id: string,
