@@ -64,7 +64,7 @@ class Power extends Model implements Stringable
      *     effects: ?string,
      *     id: string,
      *     name: string,
-     *     page: integer,
+     *     page: int,
      *     ruleset: string,
      *     type: string
      * }
