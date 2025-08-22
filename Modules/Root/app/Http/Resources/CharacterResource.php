@@ -45,10 +45,10 @@ class CharacterResource extends JsonResource
      *     injury_max: int<0, 5>,
      *   },
      *   id: string,
-     *   campaign_id: MissingValue|integer,
+     *   campaign_id: MissingValue|int,
      *   system: string,
      *   owner: array{
-     *     id: integer,
+     *     id: int,
      *     name: string
      *   },
      *   links: array{

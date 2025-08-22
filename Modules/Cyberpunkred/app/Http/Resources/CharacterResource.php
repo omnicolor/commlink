@@ -49,7 +49,7 @@ class CharacterResource extends JsonResource
      *     },
      *     campaign_id?: null,
      *     owner: array{
-     *         id: integer,
+     *         id: int,
      *         name: string
      *     },
      *     system: string,

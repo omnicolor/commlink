@@ -121,7 +121,6 @@ class HealthzController extends Controller
             $statuses['irc'] = $this->checkIrc();
         }
 
-        // @phpstan-ignore function.alreadyNarrowedType
         if (in_array(false, $statuses, true)) {
             $status = JsonResponse::HTTP_SERVICE_UNAVAILABLE;
         } else {
