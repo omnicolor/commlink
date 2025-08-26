@@ -12,6 +12,7 @@ use Discord\Builders\Components\ActionRow;
 use Discord\Builders\Components\Button;
 use Discord\Builders\MessageBuilder;
 use Discord\Parts\Interactions\Interaction;
+use Discord\Parts\Interactions\MessageComponent;
 use Facades\App\Services\DiceService;
 use MathPHP\Probability\Combinatorics;
 use Modules\Shadowrun5e\Models\Character;
@@ -291,7 +292,7 @@ class Number extends Roll
             ->sendToChannel();
     }
 
-    public function secondChance(Interaction $interaction): void
+    public function secondChance(MessageComponent $interaction): void
     {
         assert(null !== $interaction->user);
         assert(null !== $interaction->message?->referenced_message?->author);

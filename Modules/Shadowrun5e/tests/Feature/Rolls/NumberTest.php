@@ -15,7 +15,7 @@ use Discord\Discord;
 use Discord\Parts\Channel\Channel as DiscordChannel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\Guild\Guild;
-use Discord\Parts\Interactions\Interaction;
+use Discord\Parts\Interactions\MessageComponent;
 use Discord\Parts\User\User;
 use Facades\App\Services\DiceService;
 use Modules\Shadowrun5e\Models\Character;
@@ -407,7 +407,7 @@ final class NumberTest extends TestCase
 
         $interactedMessage = self::createStub(Message::class);
         $interactedMessage->method('__get')->willReturn($message);
-        $interaction = $this->createMock(Interaction::class);
+        $interaction = $this->createMock(MessageComponent::class);
         $interaction->method('__get')->willReturn($interactedMessage);
         $roll->secondChance($interaction);
 
@@ -459,7 +459,7 @@ final class NumberTest extends TestCase
 
         $event = new DiscordMessageReceived(
             $messageMock,
-            self::createStub(Discord::class)
+            self::createStub(Discord::class),
         );
         $roll = (new Number('6 3', (string)$character, $channel, $event));
         $roll->forDiscord();
@@ -472,7 +472,7 @@ final class NumberTest extends TestCase
             ['message', $interactedMessageMock],
             ['user', $user],
         ];
-        $interactionMock = $this->createMock(Interaction::class);
+        $interactionMock = $this->createMock(MessageComponent::class);
         $interactionMock->method('__get')->willReturnMap($interactionMap);
 
         $roll->secondChance($interactionMock);
