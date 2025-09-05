@@ -14,6 +14,7 @@ use MongoDB\Laravel\Eloquent\Model;
 use Nwidart\Modules\Facades\Module;
 use Override;
 use Stringable;
+use UnitEnum;
 use stdClass;
 
 use function class_exists;
@@ -99,7 +100,7 @@ class Character extends Model implements Stringable
     /**
      * Create a new Character, subclassed if available.
      * @param stdClass $attributes
-     * @param ?string $connection
+     * @param string|UnitEnum|null $connection
      * @phpstan-ignore method.childParameterType
      */
     #[Override]
