@@ -3,13 +3,16 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Finder;
-use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 
 $rules = [
-    'array_syntax' => ['syntax' => 'short'],
+    'array_syntax' => [
+        'syntax' => 'short',
+    ],
     'binary_operator_spaces' => [
         'default' => 'single_space',
-        'operators' => ['=>' => null],
+        'operators' => [
+            '=>' => null,
+        ],
     ],
     'blank_line_after_namespace' => true,
     'blank_line_after_opening_tag' => true,
@@ -53,7 +56,9 @@ $rules = [
     'heredoc_to_nowdoc' => true,
     'implode_call' => true,
     'include' => true,
-    'increment_style' => ['style' => 'post'],
+    'increment_style' => [
+        'style' => 'post',
+    ],
     'indentation_type' => true,
     'is_null' => true,
     'lambda_not_used_import' => true,
@@ -123,7 +128,11 @@ $rules = [
     'object_operator_without_whitespace' => true,
     'ordered_imports' => [
         'case_sensitive' => true,
-        'imports_order' => ['class', 'function', 'const'],
+        'imports_order' => [
+            'class',
+            'function',
+            'const',
+        ],
         'sort_algorithm' => 'alpha',
     ],
     'ordered_interfaces' => true,
@@ -158,7 +167,9 @@ $rules = [
     'single_import_per_statement' => true,
     'single_line_after_imports' => true,
     'single_line_comment_style' => [
-        'comment_types' => ['hash'],
+        'comment_types' => [
+            'hash',
+        ],
     ],
     'single_quote' => true,
     'single_space_around_construct' => true,
@@ -192,7 +203,6 @@ $finder = Finder::create()
     ->ignoreVCS(true);
 
 return (new PhpCsFixer\Config())
-    ->setParallelConfig(ParallelConfigFactory::detect())
     ->setFinder($finder)
     ->setRules($rules)
     ->setRiskyAllowed(true);
