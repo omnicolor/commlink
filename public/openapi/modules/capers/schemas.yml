@@ -258,6 +258,8 @@ Power:
       type: string
     max_rank:
       type: integer
+    name:
+      type: string
     range:
       type: string
     target:

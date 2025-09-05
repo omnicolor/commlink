@@ -25,6 +25,8 @@ Armor:
       type: string
     stopping_power:
       type: integer
+    type:
+      type: string
     links:
       $ref: '../../openapi.yml#/components/schemas/Links'
   required:
@@ -309,10 +311,16 @@ Weapon:
         - standard
         - excellent
       type: object
+    hands_required:
+      type: integer
     id:
       type: string
     links:
       $ref: '../../openapi.yml#/components/schemas/Links'
+    rate_of_fire:
+      type: integer
+    skill:
+      type: string
     type:
       type: string
   required:
