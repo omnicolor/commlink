@@ -291,6 +291,11 @@ class Number extends Roll
             ->sendToChannel();
     }
 
+    /**
+     * Interaction is not actually deprecated, the maintainer is (mis)using
+     * deprecation to mean the class should be abstract.
+     * @phpstan-ignore parameter.deprecatedClass
+     */
     public function secondChance(Interaction $interaction): void
     {
         assert(null !== $interaction->user);
