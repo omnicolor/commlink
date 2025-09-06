@@ -40,7 +40,11 @@ return RectorConfig::configure()
         __DIR__ . '/bootstrap/cache',
     ])
     ->withAttributesSets(all: true)
-    ->withComposerBased(phpunit: true, symfony: true)
+    ->withComposerBased(
+        phpunit: true,
+        symfony: true,
+        laravel: true,
+    )
     ->withImportNames(removeUnusedImports: true)
     ->withPreparedSets(
         deadCode: true,
@@ -54,6 +58,8 @@ return RectorConfig::configure()
         carbon: true,
         rectorPreset: true,
         phpunitCodeQuality: true,
+        symfonyCodeQuality: true,
+        symfonyConfigs: true,
     )
     ->withRules([
         AddOverrideAttributeToOverriddenMethodsRector::class,
