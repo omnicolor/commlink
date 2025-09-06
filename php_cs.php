@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 $rules = [
@@ -202,7 +203,7 @@ $finder = Finder::create()
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
-return (new PhpCsFixer\Config())
+return (new Config())
     ->setFinder($finder)
     ->setRules($rules)
     ->setRiskyAllowed(true);

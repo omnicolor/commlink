@@ -56,7 +56,7 @@ class GearModificationsController extends Controller
      */
     public function index(): Response
     {
-        foreach ($this->mods as $key => $value) {
+        foreach (array_keys($this->mods) as $key) {
             $this->mods[$key]['links']['self'] = route(
                 'shadowrun5e.gear-modifications.show',
                 $key,

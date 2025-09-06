@@ -44,9 +44,7 @@ class ExpanseConverter implements ConverterInterface
                 flags: JSON_THROW_ON_ERROR,
             );
         } catch (JsonException $ex) {
-            throw new RuntimeException(
-                'File does not appear to be a World Anvil file'
-            );
+            throw new RuntimeException('File does not appear to be a World Anvil file', $ex->getCode(), $ex);
         }
 
         if (

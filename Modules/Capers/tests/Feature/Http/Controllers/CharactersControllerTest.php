@@ -142,7 +142,7 @@ final class CharactersControllerTest extends TestCase
             ->get('/characters/capers/create/new')
             ->assertOk()
             ->assertSee('The basics')
-            ->assertSessionHas('capers-partial', function ($value) use ($character) {
+            ->assertSessionHas('capers-partial', static function ($value) use ($character): bool {
                 return $value !== $character->id;
             });
         $character->delete();

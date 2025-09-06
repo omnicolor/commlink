@@ -43,7 +43,7 @@ final class ExpireApiTokenSentUnencryptedTest extends TestCase
             'Your API key has been revoked. Do not use API keys on an '
                 . 'unsecured connection.',
         );
-        $this->middleware->handle($request, function (): void {
+        $this->middleware->handle($request, function (): never {
             self::fail('Closure called');
         });
     }

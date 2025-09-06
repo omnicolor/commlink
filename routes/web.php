@@ -13,6 +13,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SlackController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\View\View;
 
 Route::get('discord/auth', [DiscordController::class, 'redirectToDiscord']);
 Route::get('discord/callback', [DiscordController::class, 'handleCallback']);
@@ -51,7 +52,7 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/discord', [DiscordController::class, 'save'])
         ->name('discord.save');
 
-    Route::prefix('import')->name('import.')->group(function (): void {
+    Route::prefix('import')->name('import.')->group(static function (): void {
         Route::get('chummer5', [Chummer5Controller::class, 'view'])
             ->name('chummer5.view');
         Route::post('chummer5', [Chummer5Controller::class, 'upload'])
@@ -70,7 +71,7 @@ Route::middleware('auth')->group(function (): void {
 
     Route::permanentRedirect('/settings', '/settings/chat-users')
         ->name('settings');
-    Route::prefix('/settings')->name('settings.')->group(function (): void {
+    Route::prefix('/settings')->name('settings.')->group(static function (): void {
         Route::get(
             '/chat-users',
             [SettingsController::class, 'chatUsers'],
@@ -91,18 +92,28 @@ Route::middleware('auth')->group(function (): void {
     });
 });
 
-Route::group(['middleware' => ['auth', 'permission:admin users']], function (): void {
+Route::group(['middleware' => ['auth', 'permission:admin users']], static function (): void {
     Route::get('users', [UsersController::class, 'view'])->name('users.view');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
-Route::get('/about/systems', function () { return view('systems'); })
-    ->name('about.systems');
+Route::get(
+    '/',
+    static function (): View {
+        return view('welcome');
+    }
+)->name('welcome');
+Route::get(
+    '/about',
+    static function (): View {
+        return view('about');
+    }
+)->name('about');
+Route::get(
+    '/about/systems',
+    static function (): View {
+        return view('systems');
+    }
+)->name('about.systems');
 
 // Routes for new-to-Commlink users to respond to an invitation.
 Route::get(

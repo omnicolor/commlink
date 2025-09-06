@@ -445,7 +445,7 @@ class Character extends BaseCharacter implements Stringable
     public function judgeIntentions(): Attribute
     {
         return Attribute::make(
-            get: function () {
+            get: function (): int {
                 return $this->getModifiedAttribute('intuition') +
                     $this->getModifiedAttribute('charisma');
             },
@@ -527,7 +527,7 @@ class Character extends BaseCharacter implements Stringable
     public function getMartialArtsStyles(): MartialArtsStyleArray
     {
         $styles = new MartialArtsStyleArray();
-        if (!isset($this->martialArts, $this->martialArts['styles'])) {
+        if (!isset($this->martialArts['styles'])) {
             return $styles;
         }
         foreach ($this->martialArts['styles'] as $style) {

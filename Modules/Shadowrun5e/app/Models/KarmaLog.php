@@ -892,7 +892,8 @@ final class KarmaLog extends ArrayObject
     public function fromArray(array $log): KarmaLog
     {
         foreach ($log as $entry) {
-            $realDate = $gameDate = null;
+            $realDate = null;
+            $gameDate = null;
             if (isset($entry['realDate'])) {
                 $realDate = new DateTimeImmutable($entry['realDate']);
             }

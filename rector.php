@@ -3,9 +3,13 @@
 declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
+use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
+use Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector;
+use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
 use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\CodingStyle\Rector\Stmt\RemoveUselessAliasInUseStatementRector;
+use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
 use Rector\Php53\Rector\FuncCall\DirNameFileConstantToDirConstantRector;
 use Rector\Php70\Rector\FunctionLike\ExceptionHandlerTypehintRector;
@@ -25,16 +29,21 @@ return RectorConfig::configure()
         __DIR__ . '/app',
         __DIR__ . '/bootstrap',
         __DIR__ . '/config',
+        __DIR__ . '/database',
         __DIR__ . '/routes',
         __DIR__ . '/tests',
     ])
+    ->withRootFiles()
+    ->withSkip([
+        __DIR__ . '/bootstrap/cache',
+    ])
     ->withAttributesSets()
-    ->withCodeQualityLevel(30)
-    ->withCodingStyleLevel(5)
-    ->withComposerBased(symfony: true, phpunit: true)
+    ->withCodeQualityLevel(50)
+    ->withCodingStyleLevel(12)
+    ->withComposerBased(phpunit: true, symfony: true)
     ->withImportNames(removeUnusedImports: true)
     ->withPreparedSets(deadCode: true)
-    ->withTypeCoverageLevel(34)
+    ->withTypeCoverageLevel(50)
     ->withRules([
         AddOverrideAttributeToOverriddenMethodsRector::class,
         AddTypeToConstRector::class,
@@ -51,6 +60,10 @@ return RectorConfig::configure()
         ThisCallOnStaticMethodToStaticCallRector::class,
     ])
     ->withSkip([
+        CatchExceptionNameMatchingTypeRector::class,
+        IssetOnPropertyObjectToPropertyExistsRector::class,
         NewlineAfterStatementRector::class,
+        NewlineBeforeNewAssignSetRector::class,
         SimplifyIfElseToTernaryRector::class,
+        SymplifyQuoteEscapeRector::class,
     ]);
