@@ -19,11 +19,9 @@ use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 use function assert;
-use function config;
 use function e;
 use function route;
 use function session;
-use function sprintf;
 
 #[Group('capers')]
 #[Medium]
@@ -31,9 +29,6 @@ final class CharactersControllerTest extends TestCase
 {
     use WithFaker;
 
-    /**
-     * Test loading a character view.
-     */
     public function testViewCharacter(): void
     {
         $user = User::factory()->create();
@@ -50,9 +45,6 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * Test loading an individual character from a different system.
-     */
     public function testShowCharacterOtherSystem(): void
     {
         $user = User::factory()->create();
@@ -66,9 +58,6 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * Test trying to create a brand new character.
-     */
     public function testCreateNewCharacter(): void
     {
         $user = User::factory()->create();
@@ -76,7 +65,7 @@ final class CharactersControllerTest extends TestCase
         $characters = PartialCharacter::where('owner', $user->email)->get();
         self::assertCount(0, $characters);
         self::actingAs($user)
-            ->get('/characters/capers/create')
+            ->get(route('capers.character', 'create'))
             ->assertOk()
             ->assertSee('The basics');
         $characters = PartialCharacter::where('owner', $user->email->address)
@@ -88,9 +77,6 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * Test trying to resume building a character if the user has multiple.
-     */
     public function testCreateNewCharacterChoose(): void
     {
         $user = User::factory()->create();
@@ -102,7 +88,7 @@ final class CharactersControllerTest extends TestCase
         ]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create')
+            ->get(route('capers.character', 'create'))
             ->assertOk()
             ->assertSee('Choose character');
 
@@ -110,9 +96,6 @@ final class CharactersControllerTest extends TestCase
         $character2->delete();
     }
 
-    /**
-     * Test choosing which character to continue.
-     */
     public function testCreateNewCharacterContinue(): void
     {
         $user = User::factory()->create();
@@ -121,15 +104,12 @@ final class CharactersControllerTest extends TestCase
         ]);
 
         self::actingAs($user)
-            ->get(sprintf('/characters/capers/create/%s', $character->id))
-            ->assertRedirect('/characters/capers/create/basics');
+            ->get(route('capers.create', $character->id))
+            ->assertRedirect(route('capers.create', 'basics'));
 
         $character->delete();
     }
 
-    /**
-     * Test trying to switch to a new character from an in-progress character.
-     */
     public function testCreateNewAfterContinuing(): void
     {
         $user = User::factory()->create();
@@ -139,7 +119,7 @@ final class CharactersControllerTest extends TestCase
         session(['capers-partial' => $character->id]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create/new')
+            ->get(route('capers.create', 'new'))
             ->assertOk()
             ->assertSee('The basics')
             ->assertSessionHas('capers-partial', static function ($value) use ($character): bool {
@@ -181,9 +161,7 @@ final class CharactersControllerTest extends TestCase
                 ]
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(
-                config('app.url') . '/characters/capers/create/anchors'
-            );
+            ->assertRedirect(route('capers.create', 'anchors'));
         $character->refresh();
 
         self::assertSame($name, $character->name);
@@ -192,9 +170,6 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * Test trying to load the anchors page.
-     */
     public function testAnchorsPage(): void
     {
         $user = User::factory()->create();
@@ -204,7 +179,7 @@ final class CharactersControllerTest extends TestCase
         session(['capers-partial' => $character->id]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create/anchors')
+            ->get(route('capers.create', 'anchors'))
             ->assertOk()
             ->assertSee('Anchors');
 
@@ -222,9 +197,6 @@ final class CharactersControllerTest extends TestCase
             ->assertSessionHasErrors(['identity', 'nav', 'vice', 'virtue']);
     }
 
-    /**
-     * Test trying to save a character's anchors.
-     */
     public function testCreateAnchors(): void
     {
         $user = User::factory()->create();
@@ -245,9 +217,7 @@ final class CharactersControllerTest extends TestCase
                 ]
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(
-                config('app.url') . '/characters/capers/create/anchors'
-            );
+            ->assertRedirect(route('capers.create', 'anchors'));
         $character->refresh();
 
         // @phpstan-ignore staticMethod.impossibleType
@@ -256,9 +226,6 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * Test trying to load the traits page.
-     */
     public function testTraitsPage(): void
     {
         $user = User::factory()->create();
@@ -268,7 +235,7 @@ final class CharactersControllerTest extends TestCase
         session(['capers-partial' => $character->id]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create/traits')
+            ->get(route('capers.create', 'traits'))
             ->assertOk()
             ->assertSee('Traits');
 
@@ -299,9 +266,6 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * Test trying to set a character's traits to invalid attributes.
-     */
     public function testCreateTraitsInvalidAttributes(): void
     {
         $user = User::factory()->create();
@@ -324,9 +288,6 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * Test trying to set a character's traits to valid attributes.
-     */
     public function testCreateTraits(): void
     {
         $user = User::factory()->create();
@@ -357,9 +318,6 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * Test trying to load the skills page.
-     */
     public function testSkillsPage(): void
     {
         $user = User::factory()->create();
@@ -369,20 +327,17 @@ final class CharactersControllerTest extends TestCase
         session(['capers-partial' => $character->id]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create/skills')
+            ->get(route('capers.create', 'skills'))
             ->assertOk()
             ->assertSee('Skills');
 
         $character->delete();
     }
 
-    /**
-     * Test trying to save a character's skills.
-     */
     public function testCreateSkills(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
         ]);
@@ -420,7 +375,7 @@ final class CharactersControllerTest extends TestCase
         session(['capers-partial' => $character->id]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create/perks')
+            ->get(route('capers.create', 'perks'))
             ->assertStatus(Response::HTTP_NOT_IMPLEMENTED);
 
         $character->delete();
@@ -439,8 +394,8 @@ final class CharactersControllerTest extends TestCase
         session(['capers-partial' => $character->id]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create/perks')
-            ->assertRedirect('/characters/capers/create/basics')
+            ->get(route('capers.create', 'perks'))
+            ->assertRedirect(route('capers.create', 'basics'))
             ->assertSessionHasErrors([
                 'type' => 'Only Exceptionals can choose perks.',
             ]);
@@ -461,8 +416,8 @@ final class CharactersControllerTest extends TestCase
         session(['capers-partial' => $character->id]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create/powers')
-            ->assertRedirect('/characters/capers/create/basics')
+            ->get(route('capers.create', 'powers'))
+            ->assertRedirect(route('capers.create', 'basics'))
             ->assertSessionHasErrors([
                 'type' => 'Only Capers can choose powers.',
             ]);
@@ -486,7 +441,7 @@ final class CharactersControllerTest extends TestCase
         session(['capers-partial' => $character->id]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create/powers')
+            ->get(route('capers.create', 'powers'))
             ->assertOk()
             ->assertSee('Powers');
 
@@ -561,7 +516,7 @@ final class CharactersControllerTest extends TestCase
     public function testCreatePowersOneMajor(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
             'owner' => $user->email->address,
@@ -584,7 +539,7 @@ final class CharactersControllerTest extends TestCase
         $character->refresh();
 
         self::assertNotEmpty($character->powers);
-        /** @var Power */
+        /** @var Power $power */
         $power = $character->powers['animal-affinity'];
         self::assertSame(1, $power->rank);
 
@@ -782,7 +737,7 @@ final class CharactersControllerTest extends TestCase
     public function testCreatePowersOneMinor(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
             'owner' => $user->email->address,
@@ -805,7 +760,7 @@ final class CharactersControllerTest extends TestCase
         $character->refresh();
 
         self::assertNotEmpty($character->powers);
-        /** @var Power */
+        /** @var Power $power */
         $power = $character->powers['alter-form'];
         self::assertSame(2, $power->rank);
 
@@ -841,10 +796,10 @@ final class CharactersControllerTest extends TestCase
         $character->refresh();
 
         self::assertCount(2, $character->powers);
-        /** @var Power */
+        /** @var Power $alterForm */
         $alterForm = $character->powers['alter-form'];
         self::assertSame(1, $alterForm->rank);
-        /** @var Power */
+        /** @var Power $bodyArmor */
         $bodyArmor = $character->powers['body-armor'];
         self::assertSame(1, $bodyArmor->rank);
 
@@ -864,8 +819,8 @@ final class CharactersControllerTest extends TestCase
         session(['capers-partial' => $character->id]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create/boosts')
-            ->assertRedirect('/characters/capers/create/basics')
+            ->get(route('capers.create', 'boosts'))
+            ->assertRedirect(route('capers.create', 'basics'))
             ->assertSessionHasErrors([
                 'type' => 'Only Capers can choose boosts.',
             ]);
@@ -887,8 +842,8 @@ final class CharactersControllerTest extends TestCase
         session(['capers-partial' => $character->id]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create/boosts')
-            ->assertRedirect('/characters/capers/create/powers')
+            ->get(route('capers.create', 'boosts'))
+            ->assertRedirect(route('capers.create', 'powers'))
             ->assertSessionHasErrors([
                 'type' => 'You must choose powers before boosts.',
             ]);
@@ -918,7 +873,7 @@ final class CharactersControllerTest extends TestCase
         session(['capers-partial' => $character->id]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create/boosts')
+            ->get(route('capers.create', 'boosts'))
             ->assertOk()
             ->assertSee('Boosts');
 
@@ -1018,7 +973,7 @@ final class CharactersControllerTest extends TestCase
         ]);
         session(['capers-partial' => $character->id]);
 
-        /** @var Power */
+        /** @var Power $power */
         $power = $character->powers['alter-form'];
         self::assertEmpty($power->boosts);
         self::actingAs($user)
@@ -1039,7 +994,7 @@ final class CharactersControllerTest extends TestCase
             ]);
         $character->refresh();
 
-        /** @var Power */
+        /** @var Power $power */
         $power = $character->powers['alter-form'];
         self::assertEmpty($power->boosts);
 
@@ -1082,7 +1037,7 @@ final class CharactersControllerTest extends TestCase
             ]);
 
         $character->refresh();
-        /** @var Power */
+        /** @var Power $power */
         $power = $character->powers['alter-form'];
         self::assertEmpty($power->boosts);
 
@@ -1107,7 +1062,7 @@ final class CharactersControllerTest extends TestCase
         ]);
         session(['capers-partial' => $character->id]);
 
-        /** @var Power */
+        /** @var Power $power */
         $power = $character->powers['alter-form'];
         self::assertEmpty($power->boosts);
         self::actingAs($user)
@@ -1125,16 +1080,13 @@ final class CharactersControllerTest extends TestCase
             ->assertSessionHasNoErrors();
         $character->refresh();
 
-        /** @var Power */
+        /** @var Power $power */
         $power = $character->powers['alter-form'];
         self::assertNotEmpty($power->boosts);
 
         $character->delete();
     }
 
-    /**
-     * Test trying to load the gear page.
-     */
     public function testGearPage(): void
     {
         $user = User::factory()->create();
@@ -1147,7 +1099,7 @@ final class CharactersControllerTest extends TestCase
         session(['capers-partial' => $character->id]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create/gear')
+            ->get(route('capers.create', 'gear'))
             ->assertOk()
             ->assertSee('Gear')
             ->assertSee('Men’s tie, silk')
@@ -1157,9 +1109,6 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * Test saving some gear.
-     */
     public function testCreateGear(): void
     {
         $user = User::factory()->create();
@@ -1188,14 +1137,12 @@ final class CharactersControllerTest extends TestCase
             ->assertSessionHasNoErrors();
         $character->refresh();
 
+        // Women's skirt was not added since the quantity was zero.
         self::assertCount(1, $character->gear);
 
         $character->delete();
     }
 
-    /**
-     * Test trying to load the review page.
-     */
     public function testReviewPage(): void
     {
         $user = User::factory()->create();
@@ -1205,16 +1152,13 @@ final class CharactersControllerTest extends TestCase
         session(['capers-partial' => $character->id]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create/review')
+            ->get(route('capers.create', 'review'))
             ->assertOk()
             ->assertSee('No skills chosen');
 
         $character->delete();
     }
 
-    /**
-     * Test saving a character.
-     */
     public function testSave(): void
     {
         $user = User::factory()->create();
@@ -1229,7 +1173,7 @@ final class CharactersControllerTest extends TestCase
             ->post(route('capers.create-save'), [])
             ->assertSessionHasNoErrors();
         self::assertModelMissing($character);
-        /** @var Character */
+        /** @var Character $character */
         $character = Character::where('name', 'Save test')
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -1239,9 +1183,6 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * Test trying to load an invalid page.
-     */
     public function testUnknownPage(): void
     {
         $user = User::factory()->create();
@@ -1251,7 +1192,7 @@ final class CharactersControllerTest extends TestCase
         session(['capers-partial' => $character->id]);
 
         self::actingAs($user)
-            ->get('/characters/capers/create/invalid')
+            ->get(route('capers.create', 'invalid'))
             ->assertNotFound();
 
         $character->delete();
@@ -1264,9 +1205,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole($trusted);
 
-        /** @var Character */
         $character1 = Character::factory()->create(['owner' => $user->email]);
-        /** @var Character */
         $character2 = Character::factory()->create(['owner' => $user->email]);
 
         self::actingAs($user)

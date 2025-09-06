@@ -384,7 +384,7 @@ class CharactersController extends Controller
     public function storeGear(GearRequest $request): RedirectResponse
     {
         $characterId = $request->session()->get('capers-partial');
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $character = PartialCharacter::where('_id', $characterId)
@@ -395,9 +395,6 @@ class CharactersController extends Controller
         $gearQuantities = $request->input('quantity', []);
         $gear = [];
         foreach ($gearIds as $key => $id) {
-            if (!isset($gearQuantities[$key])) {
-                continue;
-            }
             if (1 > (int)$gearQuantities[$key]) {
                 continue;
             }
