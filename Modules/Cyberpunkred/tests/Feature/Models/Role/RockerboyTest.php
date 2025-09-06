@@ -17,7 +17,7 @@ final class RockerboyTest extends TestCase
     /**
      * Subject under test.
      */
-    protected Rockerboy $role;
+    private Rockerboy $role;
 
     /**
      * Set up the subject under test.

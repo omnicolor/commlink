@@ -25,7 +25,7 @@ use const DIRECTORY_SEPARATOR;
 #[Small]
 final class Shadowrun5eConverterTest extends TestCase
 {
-    protected static string $dataDirectory;
+    private static string $dataDirectory;
 
     #[Override]
     public static function setUpBeforeClass(): void

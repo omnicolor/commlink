@@ -20,7 +20,7 @@ final class KnowledgeSkillTest extends TestCase
     /**
      * @var KnowledgeSkill Subject under test
      */
-    protected KnowledgeSkill $skill;
+    private KnowledgeSkill $skill;
 
     /**
      * Set up a clean subject under test.

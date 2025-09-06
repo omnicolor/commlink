@@ -36,12 +36,18 @@ return RectorConfig::configure()
     ->withSkip([
         __DIR__ . '/bootstrap/cache',
     ])
-    ->withAttributesSets()
-    ->withCodeQualityLevel(60)
+    ->withAttributesSets(all: true)
     ->withComposerBased(phpunit: true, symfony: true)
     ->withImportNames(removeUnusedImports: true)
-    ->withPreparedSets(deadCode: true, codingStyle: true)
-    ->withTypeCoverageLevel(60)
+    ->withPreparedSets(
+        deadCode: true,
+        codeQuality: true,
+        codingStyle: true,
+        typeDeclarations: true,
+        privatization: true,
+        instanceOf: true,
+        earlyReturn: true,
+    )
     ->withRules([
         AddOverrideAttributeToOverriddenMethodsRector::class,
         AddTypeToConstRector::class,

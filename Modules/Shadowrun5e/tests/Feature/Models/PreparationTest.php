@@ -20,7 +20,7 @@ final class PreparationTest extends TestCase
     /**
      * Subject under test.
      */
-    protected Preparation $preparation;
+    private Preparation $preparation;
 
     /**
      * Set up the subject under test.

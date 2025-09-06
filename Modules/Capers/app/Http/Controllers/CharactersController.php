@@ -395,10 +395,12 @@ class CharactersController extends Controller
         $gearQuantities = $request->input('quantity', []);
         $gear = [];
         foreach ($gearIds as $key => $id) {
-            if (!isset($gearQuantities[$key]) || 1 > (int)$gearQuantities[$key]) {
+            if (!isset($gearQuantities[$key])) {
                 continue;
             }
-
+            if (1 > (int)$gearQuantities[$key]) {
+                continue;
+            }
             $gear[] = [
                 'id' => $id,
                 'quantity' => (int)$gearQuantities[$key],

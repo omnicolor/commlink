@@ -22,7 +22,7 @@ final class SpriteArrayTest extends TestCase
      * Subject under test.
      * @var SpriteArray<Sprite>
      */
-    protected SpriteArray $sprites;
+    private SpriteArray $sprites;
 
     /**
      * Set up a clean subject.

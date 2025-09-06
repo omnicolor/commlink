@@ -31,7 +31,7 @@ final class KarmaLogTest extends TestCase
     /**
      * Subject under test.
      */
-    protected KarmaLog $log;
+    private KarmaLog $log;
 
     /**
      * Set up a clean subject under test.
@@ -46,7 +46,7 @@ final class KarmaLogTest extends TestCase
     /**
      * Return a boring base character.
      */
-    protected function createCharacter(): Character
+    private function createCharacter(): Character
     {
         return new Character([
             'priorities' => [

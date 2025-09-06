@@ -40,7 +40,7 @@ final class HandleDiscordMessageTest extends TestCase
     /**
      * Return a Discord username.
      */
-    protected function createDiscordTag(): string
+    private function createDiscordTag(): string
     {
         return $this->faker->word . '#' . $this->faker->randomNumber(4, true);
     }

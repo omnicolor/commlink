@@ -20,7 +20,7 @@ final class SkillGroupTest extends TestCase
     /**
      * @var SkillGroup Subject under test
      */
-    protected SkillGroup $skillGroup;
+    private SkillGroup $skillGroup;
 
     /**
      * Set up a clean subject under test.

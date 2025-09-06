@@ -107,7 +107,10 @@ class Gear implements Stringable
 
         $gear = new GearArray();
         foreach (self::$gear ?? [] as $id => $item) {
-            if ('explosive' === $item['type'] || 'weapon' === $item['type']) {
+            if ('explosive' === $item['type']) {
+                continue;
+            }
+            if ('weapon' === $item['type']) {
                 continue;
             }
             $gear[] = new self($id, 1);

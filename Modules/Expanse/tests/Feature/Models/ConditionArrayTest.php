@@ -21,7 +21,7 @@ final class ConditionArrayTest extends TestCase
      * Subject under test.
      * @var ConditionArray<Condition>
      */
-    protected ConditionArray $array;
+    private ConditionArray $array;
 
     /**
      * Set up a clean subject.
