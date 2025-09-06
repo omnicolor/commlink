@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Rolls;
 
 use App\Events\InitiativeAdded;
+use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Initiative;
 use App\Rolls\Roll;
@@ -80,7 +81,7 @@ final class Blitz extends Init
             ],
             ['initiative' => $this->initiativeScore + array_sum($this->dice)],
         );
-        if (null !== $this->campaign) {
+        if ($this->campaign instanceof Campaign) {
             InitiativeAdded::dispatch(
                 $initiative,
                 $this->campaign,

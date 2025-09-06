@@ -6,7 +6,10 @@ namespace Tests\Feature\Services\Chummer;
 
 use App\Services\Chummer5\Shadowrun5eConverter;
 use Modules\Shadowrun5e\Models\Identity;
+use Modules\Shadowrun5e\Models\Quality;
+use Modules\Shadowrun5e\Models\Skill;
 use Modules\Shadowrun5e\Models\Tradition;
+use Modules\Shadowrun5e\Models\Weapon;
 use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -160,7 +163,7 @@ final class Shadowrun5eConverterTest extends TestCase
                 break;
             }
         }
-        if (null === $english) {
+        if (!$english instanceof Skill) {
             self::fail('Could not find knowledge skill under test');
         }
         self::assertSame('Written', $english->specialization);
@@ -183,7 +186,7 @@ final class Shadowrun5eConverterTest extends TestCase
                 break;
             }
         }
-        if (null === $combat) {
+        if (!$combat instanceof Skill) {
             self::fail('Could not find active skill under test');
         }
         self::assertSame(
@@ -222,7 +225,7 @@ final class Shadowrun5eConverterTest extends TestCase
                 break;
             }
         }
-        if (null === $ak) {
+        if (!$ak instanceof Weapon) {
             self::fail('Could not find weapon under test');
         }
         self::assertSame('AK-98', $ak->name);
@@ -244,7 +247,7 @@ final class Shadowrun5eConverterTest extends TestCase
                 break;
             }
         }
-        if (null === $albinism) {
+        if (!$albinism instanceof Quality) {
             self::fail('Could not find quality under test');
         }
         self::assertSame('Albinism', $albinism->name);

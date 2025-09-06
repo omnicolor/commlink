@@ -36,7 +36,7 @@ final class CostCategoryTest extends TestCase
     {
         self::expectException(TypeError::class);
         self::expectExceptionMessage(
-            'Modules\\Cyberpunkred\\Enums\\CostCategory::from(): Argument #1 '
+            CostCategory::class . '::from(): Argument #1 '
                 . '($value) must be of type string, int given'
         );
         CostCategory::from(1);

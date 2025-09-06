@@ -78,10 +78,10 @@ class CharactersController extends Controller
         }
 
         $character = $this->findPartialCharacter($request, $step);
-        if (null !== $character && $step === $character->id) {
+        if ($character instanceof PartialCharacter && $step === $character->id) {
             return new RedirectResponse('/characters/capers/create/basics');
         }
-        if (null === $character) {
+        if (!$character instanceof PartialCharacter) {
             // No current character, see if they already have a character they
             // might want to continue.
             $characters = PartialCharacter::where('owner', $user->email->address)->get();

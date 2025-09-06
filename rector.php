@@ -5,10 +5,9 @@ declare(strict_types=1);
 use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
 use Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector;
+use Rector\CodingStyle\Rector\ClassMethod\MakeInheritedMethodVisibilitySameAsParentRector;
 use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
-use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
-use Rector\CodingStyle\Rector\Stmt\RemoveUselessAliasInUseStatementRector;
 use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
 use Rector\Php53\Rector\FuncCall\DirNameFileConstantToDirConstantRector;
@@ -38,30 +37,28 @@ return RectorConfig::configure()
         __DIR__ . '/bootstrap/cache',
     ])
     ->withAttributesSets()
-    ->withCodeQualityLevel(50)
-    ->withCodingStyleLevel(12)
+    ->withCodeQualityLevel(60)
     ->withComposerBased(phpunit: true, symfony: true)
     ->withImportNames(removeUnusedImports: true)
-    ->withPreparedSets(deadCode: true)
-    ->withTypeCoverageLevel(50)
+    ->withPreparedSets(deadCode: true, codingStyle: true)
+    ->withTypeCoverageLevel(60)
     ->withRules([
         AddOverrideAttributeToOverriddenMethodsRector::class,
         AddTypeToConstRector::class,
         ArrayKeyFirstLastRector::class,
-        CountArrayToEmptyArrayComparisonRector::class,
         DirNameFileConstantToDirConstantRector::class,
         ExceptionHandlerTypehintRector::class,
         ExplicitNullableParamTypeRector::class,
         MultiExceptionCatchRector::class,
         ReadOnlyAnonymousClassRector::class,
         ReadOnlyPropertyRector::class,
-        RemoveUselessAliasInUseStatementRector::class,
         RoundingModeEnumRector::class,
         ThisCallOnStaticMethodToStaticCallRector::class,
     ])
     ->withSkip([
         CatchExceptionNameMatchingTypeRector::class,
         IssetOnPropertyObjectToPropertyExistsRector::class,
+        MakeInheritedMethodVisibilitySameAsParentRector::class,
         NewlineAfterStatementRector::class,
         NewlineBeforeNewAssignSetRector::class,
         SimplifyIfElseToTernaryRector::class,

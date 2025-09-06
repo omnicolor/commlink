@@ -812,7 +812,7 @@ class Character extends BaseCharacter implements Stringable
             $modifier += $augmentation->effects['damage-resistance'];
         }
         $mentor = $this->getMentorSpirit();
-        if (null !== $mentor) {
+        if ($mentor instanceof MentorSpirit) {
             $modifier += $mentor->effects['damage-resistance'] ?? 0;
         }
         return $this->getModifiedAttribute('body') + $modifier

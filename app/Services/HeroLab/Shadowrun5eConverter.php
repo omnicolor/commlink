@@ -551,7 +551,7 @@ class Shadowrun5eConverter implements ConverterInterface
     protected function parseSpells(
         ?SimpleXMLElement $spells
     ): Shadowrun5eConverter {
-        if (null === $spells || 0 === count($spells)) {
+        if (!$spells instanceof SimpleXMLElement || 0 === count($spells)) {
             return $this;
         }
         $magics = $this->character->magics;
@@ -576,7 +576,7 @@ class Shadowrun5eConverter implements ConverterInterface
     protected function parsePowers(
         ?SimpleXMLElement $powers
     ): Shadowrun5eConverter {
-        if (null === $powers || 0 === count($powers)) {
+        if (!$powers instanceof SimpleXMLElement || 0 === count($powers)) {
             return $this;
         }
         $powersArray = [];
@@ -603,7 +603,7 @@ class Shadowrun5eConverter implements ConverterInterface
     protected function parseMetamagics(
         ?SimpleXMLElement $meta
     ): Shadowrun5eConverter {
-        if (null === $meta || 0 === count($meta)) {
+        if (!$meta instanceof SimpleXMLElement || 0 === count($meta)) {
             return $this;
         }
 
@@ -1195,7 +1195,7 @@ class Shadowrun5eConverter implements ConverterInterface
             }
             next($stats);
         }
-        if (null === $vehicle) {
+        if (!$vehicle instanceof Vehicle) {
             throw new RuntimeException(sprintf(
                 'Could not parse stats for "%s"',
                 $name,

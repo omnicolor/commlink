@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Alien\Rolls;
 
 use App\Models\Channel;
+use App\Models\Character;
 use App\Rolls\Roll;
 use Omnicolor\Slack\Attachments\TextAttachment;
 use Omnicolor\Slack\Response;
@@ -49,7 +50,7 @@ class Help extends Roll
         ];
         if ($this->isGm()) {
             // TODO
-        } elseif (null !== $this->character) {
+        } elseif ($this->character instanceof Character) {
             $this->data[] = [
                 'title' => 'Player',
                 'text' => 'You\'re playing ' . $this->character

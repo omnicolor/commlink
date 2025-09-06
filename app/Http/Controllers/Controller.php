@@ -24,7 +24,7 @@ class Controller extends BaseController
      * Links to include in the payload.
      * @var array<string, string>
      */
-    protected array $links;
+    protected array $links = [];
 
     public function __construct()
     {
@@ -34,6 +34,5 @@ class Controller extends BaseController
             'Content-Language' => 'en-US',
             'Expires' => (new DateTimeImmutable('+1 month'))->format('r'),
         ];
-        $this->links = [];
     }
 }

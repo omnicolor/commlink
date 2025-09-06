@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Cyberpunkred\Rolls;
 
 use App\Models\Channel;
+use App\Models\ChatUser;
 use App\Rolls\Roll;
 use Modules\Cyberpunkred\Models\Character;
 use Omnicolor\Slack\Attachments\TextAttachment;
@@ -49,7 +50,7 @@ class Help extends Roll
                 'color' => TextAttachment::COLOR_INFO,
             ],
         ];
-        if (null !== $this->character) {
+        if ($this->character instanceof \App\Models\Character) {
             /** @var Character */
             $character = $this->character;
             $this->data[] = [
@@ -76,7 +77,7 @@ class Help extends Roll
             ];
             return;
         }
-        if (null === $this->chatUser) {
+        if (!$this->chatUser instanceof ChatUser) {
             $this->data[] = [
                 'color' => TextAttachment::COLOR_DANGER,
                 'discordText' => sprintf(
