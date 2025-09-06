@@ -830,7 +830,7 @@ class Shadowrun5eConverter implements ConverterInterface
                 $identity['sin'] = (int)$rawLicense['rating'];
             }
             $identitiesArray[] = $identity;
-            $i++;
+            ++$i;
         }
         $this->character->identities = $identitiesArray;
         return $this;
@@ -850,7 +850,7 @@ class Shadowrun5eConverter implements ConverterInterface
                 'name' => (string)$contact['name'],
                 'notes' => (string)$contact->description,
             ];
-            $i++;
+            ++$i;
         }
         $this->character->contacts = $contactsArray;
         return $this;
@@ -1168,7 +1168,7 @@ class Shadowrun5eConverter implements ConverterInterface
                     [, $mods] = explode(']', $mods);
                     $mods = str_replace('w/ ', '', trim($mods));
                     $mods = explode(', ', $mods);
-                    for ($i = 0, $c = count($mods); $i < $c; $i++) {
+                    for ($i = 0, $c = count($mods); $i < $c; ++$i) {
                         if ('Smartgun System' === $mods[$i]) {
                             // Exploding on a comma doesn't work with data
                             // including commas...

@@ -21,6 +21,7 @@ use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRecto
 use Rector\Php83\Rector\Class_\ReadOnlyAnonymousClassRector;
 use Rector\Php84\Rector\FuncCall\RoundingModeEnumRector;
 use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
+use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -49,6 +50,7 @@ return RectorConfig::configure()
         earlyReturn: true,
         strictBooleans: true,
         carbon: true,
+        rectorPreset: true,
     )
     ->withRules([
         AddOverrideAttributeToOverriddenMethodsRector::class,
@@ -65,6 +67,8 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         CatchExceptionNameMatchingTypeRector::class,
+        // Adds strict_types grot to blade files in modules.
+        DeclareStrictTypesRector::class,
         IssetOnPropertyObjectToPropertyExistsRector::class,
         MakeInheritedMethodVisibilitySameAsParentRector::class,
         NewlineAfterStatementRector::class,

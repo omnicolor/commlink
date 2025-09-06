@@ -69,7 +69,7 @@ final class Blitz extends Init
 
         $this->roll();
 
-        $character->edgeCurrent--;
+        --$character->edgeCurrent;
         $character->save();
 
         $initiative = Initiative::updateOrCreate(

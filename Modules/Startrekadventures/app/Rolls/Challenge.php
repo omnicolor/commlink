@@ -99,12 +99,12 @@ class Challenge extends Roll
 
     protected function roll(): void
     {
-        for ($i = 0; $i < $this->number; $i++) {
+        for ($i = 0; $i < $this->number; ++$i) {
             $roll = DiceService::rollOne(6);
             $this->dice[] = $roll;
             if (5 === $roll || 6 === $roll) {
                 $this->effect = true;
-                $this->score++;
+                ++$this->score;
                 continue;
             }
             if (3 <= $roll) {

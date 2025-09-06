@@ -19,7 +19,7 @@ use Tests\TestCase;
 use function str_contains;
 
 #[Medium]
-class TimerJobTest extends TestCase
+final class TimerJobTest extends TestCase
 {
     #[Group('irc')]
     public function testCreateForIrc(): void

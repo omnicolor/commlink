@@ -122,7 +122,7 @@ final class KarmaLog extends ArrayObject
         }
         $carry += (int)$item->level;
         if (isset($item->specialization)) {
-            $carry++;
+            ++$carry;
         }
         return $carry;
     }
@@ -476,7 +476,7 @@ final class KarmaLog extends ArrayObject
             'intuition' => $this->character->intuition,
             'charisma' => $this->character->charisma,
         ];
-        for ($i = array_sum($attributeList) - 8 - $this->attributePoints; $i > 0; $i--) {
+        for ($i = array_sum($attributeList) - 8 - $this->attributePoints; $i > 0; --$i) {
             asort($attributeList);
             $value = (int)current($attributeList);
             $key = key($attributeList);
@@ -489,7 +489,7 @@ final class KarmaLog extends ArrayObject
                 // anymore.
                 unset($attributeList[$key]);
             } else {
-                $attributeList[$key]--;
+                --$attributeList[$key];
             }
         }
     }
@@ -552,7 +552,7 @@ final class KarmaLog extends ArrayObject
                 $this->skillGroupPoints -= $group->level;
                 continue;
             }
-            for ($i = $this->skillGroupPoints; $i < $group->level; $i++) {
+            for ($i = $this->skillGroupPoints; $i < $group->level; ++$i) {
                 $this[] = new KarmaLogEntry(
                     sprintf(
                         'Raise skill group %s to %d',
@@ -562,7 +562,7 @@ final class KarmaLog extends ArrayObject
                     ($i + 1) * -5
                 );
                 if ($this->skillGroupPoints > 0) {
-                    $this->skillGroupPoints--;
+                    --$this->skillGroupPoints;
                 }
             }
         }
@@ -654,7 +654,7 @@ final class KarmaLog extends ArrayObject
                     ),
                     -1 * self::KARMA_SPECIALIZATION
                 );
-                $deficit--;
+                --$deficit;
                 continue;
             }
 
@@ -668,8 +668,8 @@ final class KarmaLog extends ArrayObject
                 ),
                 $skill->level * self::KARMA_SKILL * -1,
             );
-            $skill->level--;
-            $deficit--;
+            --$skill->level;
+            --$deficit;
         }
     }
 
@@ -722,7 +722,7 @@ final class KarmaLog extends ArrayObject
                     ),
                     -1 * self::KARMA_SPECIALIZATION
                 );
-                $deficit--;
+                --$deficit;
                 continue;
             }
 
@@ -736,8 +736,8 @@ final class KarmaLog extends ArrayObject
                 ),
                 $skill->level * self::KARMA_KNOWLEDGE * -1,
             );
-            $skill->level--;
-            $deficit--;
+            --$skill->level;
+            --$deficit;
         }
     }
 
@@ -776,7 +776,7 @@ final class KarmaLog extends ArrayObject
             return;
         }
         foreach ($this->character->getSpells() as $spell) {
-            $this->spells--;
+            --$this->spells;
             if ($this->spells >= 0) {
                 continue;
             }
@@ -834,7 +834,7 @@ final class KarmaLog extends ArrayObject
 
         foreach ($this->character->getComplexForms() as $form) {
             if ($this->complexForms > 0) {
-                $this->complexForms--;
+                --$this->complexForms;
                 continue;
             }
             $this[] = new KarmaLogEntry(

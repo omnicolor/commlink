@@ -15,7 +15,7 @@ class NamesController extends Controller
     {
         $faker = Faker::create();
         $names = [];
-        for ($i = (int)$request->query('quantity', '5'); $i > 0; $i--) {
+        for ($i = (int)$request->query('quantity', '5'); $i > 0; --$i) {
             $names[] = $faker->name;
         }
         return new JsonResponse([

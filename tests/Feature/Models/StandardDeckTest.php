@@ -43,7 +43,7 @@ final class StandardDeckTest extends TestCase
         $count = 0;
         while ('A♠' === (string)$deck->peek()) {
             $deck->shuffle();
-            $count++;
+            ++$count;
             if (5 === $count) {
                 self::fail('A♠ on top of deck after 5 shuffles');
             }

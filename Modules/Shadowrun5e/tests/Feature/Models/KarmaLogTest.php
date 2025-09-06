@@ -129,7 +129,7 @@ final class KarmaLogTest extends TestCase
         foreach ($this->log as $entry) {
             self::assertSame('Test', $entry->description);
             self::assertSame($count, $entry->karma);
-            $count++;
+            ++$count;
         }
     }
 

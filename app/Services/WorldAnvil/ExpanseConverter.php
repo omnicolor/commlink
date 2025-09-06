@@ -158,7 +158,7 @@ class ExpanseConverter implements ConverterInterface
     {
         $talents = [];
         // World Anvil sheets have room for 20 talents.
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 20; ++$i) {
             $property = 'talent_name_' . Str::padLeft((string)$i, 2, '0');
             $talent = strtolower($this->rawCharacter->$property);
             if ('' === $talent) {

@@ -58,7 +58,7 @@ $rules = [
     'implode_call' => true,
     'include' => true,
     'increment_style' => [
-        'style' => 'post',
+        'style' => 'pre',
     ],
     'indentation_type' => true,
     'is_null' => true,

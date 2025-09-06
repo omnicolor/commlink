@@ -493,8 +493,8 @@ class CharactersController extends Controller
             'resilience' => 2,
             'strength' => 2,
         ];
-        $attributes[$request->input('trait-high')]++;
-        $attributes[$request->input('trait-low')]--;
+        ++$attributes[$request->input('trait-high')];
+        --$attributes[$request->input('trait-low')];
         $character->fill($attributes)->save();
 
         return new RedirectResponse(sprintf(
