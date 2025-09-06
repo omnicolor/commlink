@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
+use Iterator;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -83,9 +84,9 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Data provider for testing maximum attributes.
-     * @return array<int, array<int, PartialCharacter|int|string>>
+     * @return Iterator<int, array<int, (int | PartialCharacter | string)>>
      */
-    public static function maximumAttributeDataProvider(): array
+    public static function maximumAttributeDataProvider(): Iterator
     {
         $human = new PartialCharacter(['priorities' => ['metatype' => 'human']]);
         $elf = new PartialCharacter(['priorities' => ['metatype' => 'elf']]);
@@ -106,41 +107,39 @@ final class PartialCharacterTest extends TestCase
             'priorities' => ['metatype' => 'human'],
             'qualities' => [['id' => 'albinism-2']],
         ]);
-        return [
-            [$human, 'body', 6],
-            [$human, 'agility', 6],
-            [$human, 'reaction', 6],
-            [$human, 'strength', 6],
-            [$human, 'willpower', 6],
-            [$human, 'logic', 6],
-            [$human, 'intuition', 6],
-            [$human, 'charisma', 6],
-            [$human, 'edge', 7],
-            [$elf, 'body', 6],
-            [$elf, 'agility', 7],
-            [$elf, 'reaction', 6],
-            [$elf, 'strength', 6],
-            [$elf, 'willpower', 6],
-            [$elf, 'logic', 6],
-            [$elf, 'intuition', 6],
-            [$elf, 'charisma', 8],
-            [$elf, 'edge', 6],
-            [$oldHuman, 'body', 4],
-            [$oldHuman, 'agility', 4],
-            [$oldHuman, 'reaction', 4],
-            [$oldHuman, 'strength', 4],
-            [$exceptionalHuman, 'body', 7],
-            [$luckyHuman, 'edge', 8],
-            [$unchanged, 'body', 6],
-            [$unchanged, 'agility', 6],
-            [$unchanged, 'reaction', 6],
-            [$unchanged, 'strength', 6],
-            [$unchanged, 'willpower', 6],
-            [$unchanged, 'logic', 6],
-            [$unchanged, 'intuition', 6],
-            [$unchanged, 'charisma', 6],
-            [$unchanged, 'edge', 7],
-        ];
+        yield [$human, 'body', 6];
+        yield [$human, 'agility', 6];
+        yield [$human, 'reaction', 6];
+        yield [$human, 'strength', 6];
+        yield [$human, 'willpower', 6];
+        yield [$human, 'logic', 6];
+        yield [$human, 'intuition', 6];
+        yield [$human, 'charisma', 6];
+        yield [$human, 'edge', 7];
+        yield [$elf, 'body', 6];
+        yield [$elf, 'agility', 7];
+        yield [$elf, 'reaction', 6];
+        yield [$elf, 'strength', 6];
+        yield [$elf, 'willpower', 6];
+        yield [$elf, 'logic', 6];
+        yield [$elf, 'intuition', 6];
+        yield [$elf, 'charisma', 8];
+        yield [$elf, 'edge', 6];
+        yield [$oldHuman, 'body', 4];
+        yield [$oldHuman, 'agility', 4];
+        yield [$oldHuman, 'reaction', 4];
+        yield [$oldHuman, 'strength', 4];
+        yield [$exceptionalHuman, 'body', 7];
+        yield [$luckyHuman, 'edge', 8];
+        yield [$unchanged, 'body', 6];
+        yield [$unchanged, 'agility', 6];
+        yield [$unchanged, 'reaction', 6];
+        yield [$unchanged, 'strength', 6];
+        yield [$unchanged, 'willpower', 6];
+        yield [$unchanged, 'logic', 6];
+        yield [$unchanged, 'intuition', 6];
+        yield [$unchanged, 'charisma', 6];
+        yield [$unchanged, 'edge', 7];
     }
 
     /**

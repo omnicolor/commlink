@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Cyberpunkred\Tests\Feature\Enums;
 
+use Iterator;
 use Modules\Cyberpunkred\Enums\CostCategory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -44,20 +45,18 @@ final class CostCategoryTest extends TestCase
 
     /**
      * Provider for testing cost category to EB mapping.
-     * @return array<int, array<int, int|string>>
+     * @return Iterator<int, array<int, (int | string)>>
      */
-    public static function categoryProvider(): array
+    public static function categoryProvider(): Iterator
     {
-        return [
-            ['Cheap', 10],
-            ['Everyday', 20],
-            ['Costly', 50],
-            ['Premium', 100],
-            ['Expensive', 500],
-            ['V. Expensive', 1000],
-            ['Luxury', 5000],
-            ['Super Luxury', 10000],
-        ];
+        yield ['Cheap', 10];
+        yield ['Everyday', 20];
+        yield ['Costly', 50];
+        yield ['Premium', 100];
+        yield ['Expensive', 500];
+        yield ['V. Expensive', 1000];
+        yield ['Luxury', 5000];
+        yield ['Super Luxury', 10000];
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Tests\Feature\ValueObjects;
 
 use App\ValueObjects\Email;
 use InvalidArgumentException;
+use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
@@ -14,15 +15,13 @@ use PHPUnit\Framework\TestCase;
 final class EmailTest extends TestCase
 {
     /**
-     * @return array<int, array<int, string>>
+     * @return Iterator<int, array<int, string>>
      */
-    public static function validEmailProvider(): array
+    public static function validEmailProvider(): Iterator
     {
-        return [
-            ['bob@example.com'],
-            ['bob+something@example.org'],
-            ['bob_king@example.co.uk'],
-        ];
+        yield ['bob@example.com'];
+        yield ['bob+something@example.org'];
+        yield ['bob_king@example.co.uk'];
     }
 
     #[DataProvider('validEmailProvider')]
@@ -33,18 +32,16 @@ final class EmailTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, string>>
+     * @return Iterator<int, array<int, string>>
      */
-    public static function invalidEmailProvider(): array
+    public static function invalidEmailProvider(): Iterator
     {
-        return [
-            [''],
-            ['@foo'],
-            ['@example.com'],
-            ['bob'],
-            ['bob@.com'],
-            ['bob@gmail'],
-        ];
+        yield [''];
+        yield ['@foo'];
+        yield ['@example.com'];
+        yield ['bob'];
+        yield ['bob@.com'];
+        yield ['bob@gmail'];
     }
 
     #[DataProvider('invalidEmailProvider')]

@@ -50,7 +50,7 @@ final class SkillGroupTest extends TestCase
      */
     public function testSetsId(): void
     {
-        self::assertEquals('firearms', $this->skillGroup->id);
+        self::assertSame('firearms', $this->skillGroup->id);
     }
 
     /**
@@ -58,7 +58,7 @@ final class SkillGroupTest extends TestCase
      */
     public function testSetsLevel(): void
     {
-        self::assertEquals(3, $this->skillGroup->level);
+        self::assertSame(3, $this->skillGroup->level);
     }
 
     /**
@@ -66,7 +66,7 @@ final class SkillGroupTest extends TestCase
      */
     public function testSetsName(): void
     {
-        self::assertEquals('Firearms', $this->skillGroup->name);
+        self::assertSame('Firearms', $this->skillGroup->name);
     }
 
     /**
@@ -77,7 +77,7 @@ final class SkillGroupTest extends TestCase
     {
         foreach ($this->skillGroup->skills as $skill) {
             self::assertInstanceOf(ActiveSkill::class, $skill);
-            self::assertEquals(0, $skill->level);
+            self::assertSame(0, $skill->level);
         }
     }
 
@@ -86,6 +86,6 @@ final class SkillGroupTest extends TestCase
      */
     public function testToString(): void
     {
-        self::assertEquals('Firearms', (string)$this->skillGroup);
+        self::assertSame('Firearms', (string)$this->skillGroup);
     }
 }

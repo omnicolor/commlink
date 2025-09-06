@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Root\Tests\Feature\Models;
 
 use DomainException;
+use Iterator;
 use Modules\Root\Models\Character;
 use Modules\Root\Models\Move;
 use Modules\Root\Models\Nature;
@@ -31,17 +32,15 @@ final class CharacterTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, string>>
+     * @return Iterator<int, array<int, string>>
      */
-    public static function attributeProvider(): array
+    public static function attributeProvider(): Iterator
     {
-        return [
-            ['charm'],
-            ['cunning'],
-            ['finesse'],
-            ['luck'],
-            ['might'],
-        ];
+        yield ['charm'];
+        yield ['cunning'];
+        yield ['finesse'];
+        yield ['luck'];
+        yield ['might'];
     }
 
     #[DataProvider('attributeProvider')]

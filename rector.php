@@ -10,6 +10,8 @@ use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
+use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitSelfCallRector;
+use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
 use Rector\Php53\Rector\FuncCall\DirNameFileConstantToDirConstantRector;
 use Rector\Php70\Rector\FunctionLike\ExceptionHandlerTypehintRector;
 use Rector\Php70\Rector\MethodCall\ThisCallOnStaticMethodToStaticCallRector;
@@ -51,6 +53,7 @@ return RectorConfig::configure()
         strictBooleans: true,
         carbon: true,
         rectorPreset: true,
+        phpunitCodeQuality: true,
     )
     ->withRules([
         AddOverrideAttributeToOverriddenMethodsRector::class,
@@ -60,6 +63,7 @@ return RectorConfig::configure()
         ExceptionHandlerTypehintRector::class,
         ExplicitNullableParamTypeRector::class,
         MultiExceptionCatchRector::class,
+        PreferPHPUnitSelfCallRector::class,
         ReadOnlyAnonymousClassRector::class,
         ReadOnlyPropertyRector::class,
         RoundingModeEnumRector::class,
@@ -73,6 +77,7 @@ return RectorConfig::configure()
         MakeInheritedMethodVisibilitySameAsParentRector::class,
         NewlineAfterStatementRector::class,
         NewlineBeforeNewAssignSetRector::class,
+        PreferPHPUnitThisCallRector::class,
         SimplifyIfElseToTernaryRector::class,
         SymplifyQuoteEscapeRector::class,
     ]);

@@ -213,7 +213,7 @@ final class Shadowrun5eConverterTest extends TestCase
             $character->priorities
         );
 
-        self::assertEquals([], $hl->getErrors());
+        self::assertSame([], $hl->getErrors());
     }
 
     /**

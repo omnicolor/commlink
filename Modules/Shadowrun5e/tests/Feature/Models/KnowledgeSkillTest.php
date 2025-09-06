@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
+use Iterator;
 use Modules\Shadowrun5e\Models\KnowledgeSkill;
 use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -53,7 +54,7 @@ final class KnowledgeSkillTest extends TestCase
      */
     public function testToString(): void
     {
-        self::assertEquals(
+        self::assertSame(
             'Police procedures',
             (string)$this->skill,
             'Failed to return knowledge skill name when cast to string'
@@ -65,7 +66,7 @@ final class KnowledgeSkillTest extends TestCase
      */
     public function testAttribute(): void
     {
-        self::assertEquals(
+        self::assertSame(
             'logic',
             $this->skill->attribute,
             'Failed to return attribute for knowledge skill'
@@ -74,17 +75,15 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Provider for testing category to attribute mappings.
-     * @return array<string[]>
+     * @return Iterator<(int | string), array<string>>
      */
-    public static function provideCategoryAttributeMappings(): array
+    public static function provideCategoryAttributeMappings(): Iterator
     {
-        return [
-            ['academic', 'logic'],
-            ['interests', 'intuition'],
-            ['language', 'intuition'],
-            ['professional', 'logic'],
-            ['street', 'intuition'],
-        ];
+        yield ['academic', 'logic'];
+        yield ['interests', 'intuition'];
+        yield ['language', 'intuition'];
+        yield ['professional', 'logic'];
+        yield ['street', 'intuition'];
     }
 
     /**
@@ -96,7 +95,7 @@ final class KnowledgeSkillTest extends TestCase
         string $attribute
     ): void {
         $skill = new KnowledgeSkill('unused', $category, 1);
-        self::assertEquals(
+        self::assertSame(
             $attribute,
             $skill->attribute,
             'Failed attribute mapping for ' . $category
@@ -105,17 +104,15 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Return a mapping of full category names to short names.
-     * @return array<int, array<int, string>>
+     * @return Iterator<int, array<int, string>>
      */
-    public static function provideShortCategoryMappings(): array
+    public static function provideShortCategoryMappings(): Iterator
     {
-        return [
-            ['academic', 'acad'],
-            ['interests', 'int'],
-            ['language', 'lang'],
-            ['professional', 'prof'],
-            ['street', 'str'],
-        ];
+        yield ['academic', 'acad'];
+        yield ['interests', 'int'];
+        yield ['language', 'lang'];
+        yield ['professional', 'prof'];
+        yield ['street', 'str'];
     }
 
     /**
@@ -129,17 +126,15 @@ final class KnowledgeSkillTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, string>>
+     * @return Iterator<int, array<int, string>>
      */
-    public static function namesProvider(): array
+    public static function namesProvider(): Iterator
     {
-        return [
-            ['Or\'zet', 'Orzet'],
-            ['Iñtërnâtiônàlizætiøn', 'Itrntinliztin'],
-            ['20th Century Comic Books', '20th-Century-Comic-Books'],
-            ['Bars (city)', 'Bars-city'],
-            ['<script>alert(\'XSS\');</script>', 'scriptalertXSSscript'],
-        ];
+        yield ['Or\'zet', 'Orzet'];
+        yield ['Iñtërnâtiônàlizætiøn', 'Itrntinliztin'];
+        yield ['20th Century Comic Books', '20th-Century-Comic-Books'];
+        yield ['Bars (city)', 'Bars-city'];
+        yield ['<script>alert(\'XSS\');</script>', 'scriptalertXSSscript'];
     }
 
     /**

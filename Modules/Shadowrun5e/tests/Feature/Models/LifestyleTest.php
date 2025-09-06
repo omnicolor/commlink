@@ -131,11 +131,11 @@ final class LifestyleTest extends TestCase
         $lifestyle = new Lifestyle('low');
         $hotTub = new LifestyleOption('increase-neighborhood');
         $lifestyle->options[] = $hotTub;
-        self::assertEquals(2200, $lifestyle->getCost());
+        self::assertSame(2200, $lifestyle->getCost());
 
         $pool = new LifestyleOption('swimming-pool');
         $lifestyle->options[] = $pool;
-        self::assertEquals(2300, $lifestyle->getCost());
+        self::assertSame(2300, $lifestyle->getCost());
     }
 
     /**
