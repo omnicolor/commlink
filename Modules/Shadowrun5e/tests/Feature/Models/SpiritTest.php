@@ -43,7 +43,7 @@ final class SpiritTest extends TestCase
     public function testSpiritWithoutForce(): void
     {
         $spirit = new Spirit('air');
-        self::assertEquals('F+3', $spirit->agility);
+        self::assertSame('F+3', $spirit->agility);
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Force has not been set');
         $spirit->getAgility();
@@ -55,10 +55,10 @@ final class SpiritTest extends TestCase
     public function testSpiritWithForce(): void
     {
         $spirit = new Spirit('air', 5);
-        self::assertEquals('Spirit of Air', $spirit->name);
-        self::assertEquals('F+3', $spirit->agility);
+        self::assertSame('Spirit of Air', $spirit->name);
+        self::assertSame('F+3', $spirit->agility);
         self::assertEquals(8, $spirit->getAgility());
-        self::assertEquals('F-2', $spirit->body);
+        self::assertSame('F-2', $spirit->body);
         self::assertEquals(3, $spirit->getBody());
         self::assertEquals(5, $spirit->getCharisma());
         self::assertEquals(2, $spirit->getEdge());
@@ -69,8 +69,8 @@ final class SpiritTest extends TestCase
         self::assertEquals(9, $spirit->getReaction());
         self::assertEquals(2, $spirit->getStrength());
         self::assertEquals(5, $spirit->getWillpower());
-        self::assertEquals([10, 3], $spirit->getAstralInitiative());
-        self::assertEquals([14, 2], $spirit->getInitiative());
+        self::assertSame([10, 3], $spirit->getAstralInitiative());
+        self::assertSame([14, 2], $spirit->getInitiative());
     }
 
     /**
@@ -102,7 +102,7 @@ final class SpiritTest extends TestCase
     public function testToString(): void
     {
         $spirit = new Spirit('air', 5);
-        self::assertEquals('Spirit of Air', (string)$spirit);
+        self::assertSame('Spirit of Air', (string)$spirit);
     }
 
     /**
@@ -112,7 +112,7 @@ final class SpiritTest extends TestCase
     {
         $spirit = new Spirit('air', 6);
         $spirit->setForce(3);
-        self::assertEquals(3, $spirit->force);
+        self::assertSame(3, $spirit->force);
     }
 
     /**

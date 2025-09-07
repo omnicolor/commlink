@@ -18,7 +18,7 @@ use function json_encode;
 use const JSON_THROW_ON_ERROR;
 
 #[Medium]
-class TimerTest extends TestCase
+final class TimerTest extends TestCase
 {
     #[Group('discord')]
     public function testTimerDiscordWithoutWebhook(): void

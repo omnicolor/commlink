@@ -136,13 +136,13 @@ class Number extends Roll
      */
     protected function roll(): void
     {
-        for ($i = 0; $i < $this->dice; $i++) {
+        for ($i = 0; $i < $this->dice; ++$i) {
             $this->rolls[] = $roll = DiceService::rollOne(6);
             if (self::MIN_SUCCESS <= $roll) {
-                $this->successes++;
+                ++$this->successes;
             }
             if (self::FAILURE === $roll) {
-                $this->fails++;
+                ++$this->fails;
             }
         }
         rsort($this->rolls, SORT_NUMERIC);
@@ -313,18 +313,18 @@ class Number extends Roll
             if (self::MIN_SUCCESS <= $roll) {
                 continue;
             }
-            $rerolled++;
+            ++$rerolled;
             $this->rolls[$key] = $roll = DiceService::rollOne(6);
             if (self::MIN_SUCCESS <= $roll) {
-                $this->successes++;
+                ++$this->successes;
             }
             if (self::FAILURE === $roll) {
-                $this->fails++;
+                ++$this->fails;
             }
         }
 
         // Charge the character some edge.
-        $this->character->edgeCurrent--;
+        --$this->character->edgeCurrent;
         $this->character->save();
 
         $this->formatRoll();

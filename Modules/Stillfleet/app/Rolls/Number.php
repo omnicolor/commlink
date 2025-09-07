@@ -49,8 +49,8 @@ class Number extends Roll
         $this->die = (int)array_shift($args);
         if (
             !in_array(
-                haystack: self::VALID_DICE,
                 needle: $this->die,
+                haystack: self::VALID_DICE,
                 strict: true
             )
         ) {

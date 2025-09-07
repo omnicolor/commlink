@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 $rules = [
@@ -57,7 +58,7 @@ $rules = [
     'implode_call' => true,
     'include' => true,
     'increment_style' => [
-        'style' => 'post',
+        'style' => 'pre',
     ],
     'indentation_type' => true,
     'is_null' => true,
@@ -202,7 +203,7 @@ $finder = Finder::create()
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
-return (new PhpCsFixer\Config())
+return (new Config())
     ->setFinder($finder)
     ->setRules($rules)
     ->setRiskyAllowed(true);

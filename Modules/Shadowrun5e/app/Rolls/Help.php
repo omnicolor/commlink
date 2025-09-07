@@ -49,7 +49,7 @@ class Help extends Roll
                     . 'removing any existing rolls' . PHP_EOL,
                 'color' => TextAttachment::COLOR_INFO,
             ];
-        } elseif (null !== $this->character) {
+        } elseif ($this->character instanceof \App\Models\Character) {
             /** @var Character */
             $character = $this->character;
 

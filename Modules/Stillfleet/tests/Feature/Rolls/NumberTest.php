@@ -21,7 +21,7 @@ use const PHP_EOL;
 #[Medium]
 final class NumberTest extends TestCase
 {
-    protected Channel $channel;
+    private Channel $channel;
 
     #[Override]
     protected function setUp(): void

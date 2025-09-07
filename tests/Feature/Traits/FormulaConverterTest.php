@@ -12,7 +12,7 @@ use Tests\TestCase;
 #[Small]
 final class FormulaConverterTest extends TestCase
 {
-    protected object $formula_converter;
+    private object $formula_converter;
 
     #[Override]
     public function setUp(): void

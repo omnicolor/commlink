@@ -21,7 +21,7 @@ use function sprintf;
 #[Small]
 final class InteractsWithDiscordTest extends TestCase
 {
-    protected Channel $mock;
+    private Channel $mock;
 
     #[Override]
     public function setUp(): void

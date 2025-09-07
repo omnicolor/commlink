@@ -216,7 +216,7 @@ class Shadowrun5eConverter implements ConverterInterface
                 'loyalty' => (int)$contact->loyalty,
                 'name' => (string)$contact->name,
             ];
-            $i++;
+            ++$i;
         }
         $this->character->contacts = $contacts;
         return $this;
@@ -305,7 +305,7 @@ class Shadowrun5eConverter implements ConverterInterface
             }
 
             $identities[] = $identity;
-            $i++;
+            ++$i;
         }
         if ([] === $identities) {
             // The character has no fake SINs, thus no identities to attach

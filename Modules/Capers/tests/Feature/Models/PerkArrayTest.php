@@ -21,7 +21,7 @@ final class PerkArrayTest extends TestCase
      * Subject under test.
      * @var PerkArray<Perk>
      */
-    protected PerkArray $perks;
+    private PerkArray $perks;
 
     /**
      * Set up a clean subject.

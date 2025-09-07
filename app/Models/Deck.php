@@ -94,7 +94,7 @@ abstract class Deck implements Countable
             $card = array_pop($this->currentCards);
             assert($card instanceof Card);
             $cards[] = $card;
-            $number--;
+            --$number;
         }
         return $cards;
     }

@@ -9,6 +9,7 @@ use App\Events\RollEvent;
 use App\Http\Requests\SlackRequest;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
+use App\Models\Character;
 use App\Models\ChatUser;
 use App\Models\User;
 use App\Rolls\Generic;
@@ -75,7 +76,7 @@ class SlackController extends Controller
         $channel = $this->getChannel($request->team_id, $request->channel_id);
         $channel->user = $request->user_id;
         $character = $channel->character();
-        if (null !== $character) {
+        if ($character instanceof Character) {
             $channel->username = (string)$character;
         } else {
             $channel->username = $request->user_name ?? '';

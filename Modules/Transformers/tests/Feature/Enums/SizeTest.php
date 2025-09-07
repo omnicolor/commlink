@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Transformers\Tests\Feature\Enums;
 
+use Iterator;
 use Modules\Transformers\Enums\Size;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -15,21 +16,19 @@ use Tests\TestCase;
 final class SizeTest extends TestCase
 {
     /**
-     * @return array<int, array<int, int|null|string>>
+     * @return Iterator<int, array<int, (int | string | null)>>
      */
-    public static function actionProvider(): array
+    public static function actionProvider(): Iterator
     {
-        return [
-            [0, null],
-            [1, 'avoid'],
-            [2, 'avoid'],
-            [3, null],
-            [4, 'size-dmg'],
-            [5, 'size-dmg'],
-            [6, 'size-dmg'],
-            [7, 'size-dmg'],
-            [8, 'size-dmg'],
-        ];
+        yield [0, null];
+        yield [1, 'avoid'];
+        yield [2, 'avoid'];
+        yield [3, null];
+        yield [4, 'size-dmg'];
+        yield [5, 'size-dmg'];
+        yield [6, 'size-dmg'];
+        yield [7, 'size-dmg'];
+        yield [8, 'size-dmg'];
     }
 
     #[DataProvider('actionProvider')]
@@ -40,21 +39,19 @@ final class SizeTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, int>>
+     * @return Iterator<int, array<int, int>>
      */
-    public static function energonProvider(): array
+    public static function energonProvider(): Iterator
     {
-        return [
-            [0, 4],
-            [1, 3],
-            [2, 1],
-            [3, 0],
-            [4, -1],
-            [5, -3],
-            [6, -5],
-            [7, -8],
-            [8, -10],
-        ];
+        yield [0, 4];
+        yield [1, 3];
+        yield [2, 1];
+        yield [3, 0];
+        yield [4, -1];
+        yield [5, -3];
+        yield [6, -5];
+        yield [7, -8];
+        yield [8, -10];
     }
 
     #[DataProvider('energonProvider')]
@@ -65,21 +62,19 @@ final class SizeTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, int>>
+     * @return Iterator<int, array<int, int>>
      */
-    public static function hpProvider(): array
+    public static function hpProvider(): Iterator
     {
-        return [
-            [0, -4],
-            [1, -3],
-            [2, -1],
-            [3, 0],
-            [4, 1],
-            [5, 2],
-            [6, 5],
-            [7, 8],
-            [8, 30],
-        ];
+        yield [0, -4];
+        yield [1, -3];
+        yield [2, -1];
+        yield [3, 0];
+        yield [4, 1];
+        yield [5, 2];
+        yield [6, 5];
+        yield [7, 8];
+        yield [8, 30];
     }
 
     #[DataProvider('hpProvider')]

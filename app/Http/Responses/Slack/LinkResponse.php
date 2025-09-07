@@ -33,13 +33,13 @@ class LinkResponse extends SlackResponse
         ?Channel $channel = null,
     ) {
         parent::__construct($content, $status, $headers, $channel);
-        assert(null !== $channel);
+        assert($channel instanceof Channel);
 
         /** @var ChatUser */
         $chatUser = $channel->getChatUser();
         $this->requireCommlink($chatUser);
 
-        if (null !== $channel->character()) {
+        if ($channel->character() instanceof Character) {
             throw new SlackException(
                 'This channel is already linked to a character.'
             );

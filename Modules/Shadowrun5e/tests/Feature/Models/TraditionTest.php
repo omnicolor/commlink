@@ -31,8 +31,8 @@ final class TraditionTest extends TestCase
     public function testConstructor(): void
     {
         $tradition = new Tradition('norse');
-        self::assertEquals('Willpower + Logic', $tradition->drain);
-        self::assertEquals(
+        self::assertSame('Willpower + Logic', $tradition->drain);
+        self::assertSame(
             [
                 'combat' => 'Guardian',
                 'detection' => 'Earth',
@@ -42,10 +42,10 @@ final class TraditionTest extends TestCase
             ],
             $tradition->elements
         );
-        self::assertEquals('norse', $tradition->id);
-        self::assertEquals('Norse', $tradition->name);
-        self::assertEquals(4, $tradition->page);
-        self::assertEquals('shadow-spells', $tradition->ruleset);
+        self::assertSame('norse', $tradition->id);
+        self::assertSame('Norse', $tradition->name);
+        self::assertSame(4, $tradition->page);
+        self::assertSame('shadow-spells', $tradition->ruleset);
     }
 
     /**
@@ -54,7 +54,7 @@ final class TraditionTest extends TestCase
     public function testToString(): void
     {
         $tradition = new Tradition('norse');
-        self::assertEquals('Norse', (string)$tradition);
+        self::assertSame('Norse', (string)$tradition);
     }
 
     /**
@@ -63,7 +63,7 @@ final class TraditionTest extends TestCase
     public function testGetDrainAttributes(): void
     {
         $tradition = new Tradition('norse');
-        self::assertEquals(
+        self::assertSame(
             ['Willpower', 'Logic'],
             $tradition->getDrainAttributes()
         );

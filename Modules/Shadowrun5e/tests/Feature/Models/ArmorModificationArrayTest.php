@@ -23,7 +23,7 @@ final class ArmorModificationArrayTest extends TestCase
      * Subject under test.
      * @var ArmorModificationArray<ArmorModification|GearModification>
      */
-    protected ArmorModificationArray $mods;
+    private ArmorModificationArray $mods;
 
     /**
      * Set up a clean subject.

@@ -23,7 +23,7 @@ final class GearArrayTest extends TestCase
      * Subject under test.
      * @var GearArray<Gear>
      */
-    protected GearArray $gears;
+    private GearArray $gears;
 
     /**
      * Set up a clean subject.
