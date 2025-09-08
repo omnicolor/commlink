@@ -16,7 +16,7 @@ use Tests\TestCase;
 
 #[Group('battletech')]
 #[Small]
-class CharacterTest extends TestCase
+final class CharacterTest extends TestCase
 {
     use WithFaker;
 

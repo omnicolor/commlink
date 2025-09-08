@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Battletech\Tests\Feature\Models;
 
 use DomainException;
+use Iterator;
 use Modules\Battletech\Enums\ActionRating;
 use Modules\Battletech\Enums\Attribute;
 use Modules\Battletech\Enums\TrainingRating;
@@ -83,16 +84,14 @@ final class SkillTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, int|null>>
+     * @return Iterator<int, array<int, (int | null)>>
      */
-    public static function skillLevelCostProvider(): array
+    public static function skillLevelCostProvider(): Iterator
     {
-        return [
-            [null, 20, 16, 24],
-            [0, 10, 8, 12],
-            [1, 20, 16, 24],
-            [9, 100, 80, 120],
-        ];
+        yield [null, 20, 16, 24];
+        yield [0, 10, 8, 12];
+        yield [1, 20, 16, 24];
+        yield [9, 100, 80, 120];
     }
 
     #[DataProvider('skillLevelCostProvider')]

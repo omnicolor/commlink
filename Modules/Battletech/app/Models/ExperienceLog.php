@@ -47,7 +47,7 @@ class ExperienceLog implements ArrayAccess, Countable, Iterator
     #[Override]
     public function next(): void
     {
-        $this->pointer++;
+        ++$this->pointer;
     }
 
     #[Override]
@@ -98,7 +98,7 @@ class ExperienceLog implements ArrayAccess, Countable, Iterator
         ExperienceItemType|null $type = null,
         string|null $name = null,
     ): int {
-        if (null !== $type && null !== $name) {
+        if ($type instanceof ExperienceItemType && null !== $name) {
             return collect($this->items)
                 ->where('type', $type)
                 ->where('name', $name)
@@ -106,7 +106,7 @@ class ExperienceLog implements ArrayAccess, Countable, Iterator
                 ->sum();
         }
 
-        if (null !== $type) {
+        if ($type instanceof ExperienceItemType) {
             return collect($this->items)->where('type', $type)
                 ->pluck('amount')
                 ->sum();

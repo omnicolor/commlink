@@ -27,14 +27,14 @@ final class AppearanceTest extends TestCase
         ]);
 
         self::assertNull($appearance->extra);
-        self::assertEquals('blue', $appearance->eyes);
-        self::assertEquals('red', $appearance->hair);
+        self::assertSame('blue', $appearance->eyes);
+        self::assertSame('red', $appearance->hair);
     }
 
     public function testToArrayEmpty(): void
     {
         $appearance = new Appearance();
-        self::assertEquals([], $appearance->toArray());
+        self::assertSame([], $appearance->toArray());
     }
 
     public function testToArray(): void

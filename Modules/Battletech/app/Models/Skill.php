@@ -50,7 +50,7 @@ class Skill extends Model implements Stringable
             $name = sprintf('%s/%s', $name, $this->sub_name);
         }
         if (null !== $this->specialty) {
-            $name = sprintf('%s (%s)', $name, $this->specialty);
+            return sprintf('%s (%s)', $name, $this->specialty);
         }
         return $name;
     }

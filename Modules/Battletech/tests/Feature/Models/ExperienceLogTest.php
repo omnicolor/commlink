@@ -63,8 +63,8 @@ final class ExperienceLogTest extends TestCase
         $log = new ExperienceLog(
             new ExperienceItem(200, ExperienceItemType::Skill, 'foo'),
         );
-        self::assertTrue(isset($log[0]));
-        self::assertFalse(isset($log[1]));
+        self::assertArrayHasKey(0, $log);
+        self::assertArrayNotHasKey(1, $log);
     }
 
     public function testUnset(): void
