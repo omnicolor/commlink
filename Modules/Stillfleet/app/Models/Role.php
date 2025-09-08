@@ -18,9 +18,10 @@ use function json_decode;
 
 /**
  * The character's class (job, vocation, role).
+ * @property-read array<int, string> $advanced_powers_lists
  * @property-read string $description
  * @property-read array<int, string> $grit
- * @property-read array<int, string> $advanced_powers_lists
+ * @property string $id
  * @property-read Power $marquee_power
  * @property-read string $name
  * @property-read int $optional_choices
@@ -90,7 +91,7 @@ class Role extends Model implements Stringable
         return Attribute::make(
             get: function (): array {
                 $lists = json_decode($this->attributes['power_advanced'], true);
-                array_walk($lists, function (&$list): void {
+                array_walk($lists, static function (&$list): void {
                     $list = AdvancedPowersCategory::from($list);
                 });
                 return $lists;
@@ -113,7 +114,7 @@ class Role extends Model implements Stringable
         return Attribute::make(
             get: function (): array {
                 $powers = json_decode($this->attributes['power_optional'], true);
-                array_walk($powers, function (&$power): void {
+                array_walk($powers, static function (&$power): void {
                     $power = Power::findOrFail($power);
                 });
                 return $powers;
@@ -126,7 +127,7 @@ class Role extends Model implements Stringable
         return Attribute::make(
             get: function (): array {
                 $powers = json_decode($this->attributes['power_other'], true);
-                array_walk($powers, function (&$power): void {
+                array_walk($powers, static function (string &$power): void {
                     $power = Power::findOrFail($power);
                 });
                 return $powers;

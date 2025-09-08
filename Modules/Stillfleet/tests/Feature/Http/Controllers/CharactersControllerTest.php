@@ -109,7 +109,7 @@ final class CharactersControllerTest extends TestCase
         $character = PartialCharacter::create(['owner' => $this->user->email]);
         self::actingAs($this->user)
             ->get(route('stillfleet.create', $character->id))
-            ->assertRedirect(route('stillfleet.create', 'details'));
+            ->assertRedirect(route('stillfleet.create', 'class'));
         self::assertSame($character->_id, session('stillfleet-partial'));
         $character->delete();
     }

@@ -48,7 +48,7 @@ class CharactersController extends Controller
         Request $request,
         ?string $step = null
     ): RedirectResponse | Redirector | View {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         if ('new' === $step) {
@@ -244,11 +244,11 @@ class CharactersController extends Controller
 
     public function saveAttributes(AttributesRequest $request): RedirectResponse
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('stillfleet-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -266,11 +266,11 @@ class CharactersController extends Controller
 
     public function saveClass(ClassRequest $request): RedirectResponse
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('stillfleet-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -311,11 +311,11 @@ class CharactersController extends Controller
 
     public function saveClassPowers(ClassPowersRequest $request): RedirectResponse
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('stillfleet-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -342,11 +342,11 @@ class CharactersController extends Controller
 
     public function saveDetails(DetailsRequest $request): RedirectResponse
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('stillfleet-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -360,11 +360,11 @@ class CharactersController extends Controller
 
     public function saveSpecies(SpeciesRequest $request): RedirectResponse
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('stillfleet-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -385,11 +385,11 @@ class CharactersController extends Controller
 
     public function saveSpeciesPowers(SpeciesPowersRequest $request): RedirectResponse
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('stillfleet-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -434,7 +434,7 @@ class CharactersController extends Controller
         }
 
         // Maybe they're choosing to continue a character right now.
-        /** @var ?PartialCharacter */
+        /** @var ?PartialCharacter $character */
         $character = PartialCharacter::where('owner', $user->email->address)
             ->find($step);
         if (null !== $character) {
@@ -445,7 +445,7 @@ class CharactersController extends Controller
 
     public function index(Request $request): AnonymousResourceCollection
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         return CharacterResource::collection(
@@ -456,7 +456,7 @@ class CharactersController extends Controller
 
     public function show(Request $request, Character $character): CharacterResource
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $campaign = $character->campaign();

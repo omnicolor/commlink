@@ -21,12 +21,12 @@ use Modules\Stillfleet\Models\Weapon;
 Route::middleware('auth:sanctum')
     ->prefix('stillfleet')
     ->name('stillfleet.')
-    ->group(function (): void {
-        Route::get('armor', function (): AnonymousResourceCollection {
+    ->group(static function (): void {
+        Route::get('armor', static function (): AnonymousResourceCollection {
             return ArmorResource::collection(Armor::all())
                 ->additional(['links' => ['self' => route('stillfleet.armor.index')]]);
         })->name('armor.index');
-        Route::get('armor/{armor}', function (Armor $armor): ArmorResource {
+        Route::get('armor/{armor}', static function (Armor $armor): ArmorResource {
             return new ArmorResource($armor);
         })->name('armor.show');
 
@@ -41,11 +41,11 @@ Route::middleware('auth:sanctum')
             return new RoleResource($class);
         })->name('classes.show');
 
-        Route::get('gear', function (): AnonymousResourceCollection {
+        Route::get('gear', static function (): AnonymousResourceCollection {
             return GearResource::collection(Gear::all())
                 ->additional(['links' => ['self' => route('stillfleet.gear.index')]]);
         })->name('gear.index');
-        Route::get('gear/{gear}', function (Gear $gear): GearResource {
+        Route::get('gear/{gear}', static function (Gear $gear): GearResource {
             return new GearResource($gear);
         })->name('gear.show');
 
@@ -65,11 +65,11 @@ Route::middleware('auth:sanctum')
             return new SpeciesResource($species);
         })->name('species.show');
 
-        Route::get('weapons', function (): AnonymousResourceCollection {
+        Route::get('weapons', static function (): AnonymousResourceCollection {
             return WeaponResource::collection(Weapon::all())
                 ->additional(['links' => ['self' => route('stillfleet.weapons.index')]]);
         })->name('weapons.index');
-        Route::get('weapons/{weapon}', function (Weapon $weapon): WeaponResource {
+        Route::get('weapons/{weapon}', static function (Weapon $weapon): WeaponResource {
             return new WeaponResource($weapon);
         })->name('weapons.show');
     });
