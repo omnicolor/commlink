@@ -78,6 +78,7 @@
         "calebdw/fakerstan": "^1.0",
         "captainhook/captainhook-phar": "^5.23",
         "cypresslab/gitelephant": "^4.5",
+        "driftingly/rector-laravel": "^2.0",
         "friendsofphp/php-cs-fixer": "^3.49",
         "larastan/larastan": "^3.0",
         "laravel/breeze": "^2.0",
