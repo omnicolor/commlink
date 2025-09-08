@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Dnd5e\Tests\Feature\ValueObjects;
 
+use Iterator;
 use Modules\Dnd5e\ValueObjects\CharacterLevel;
 use OutOfRangeException;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -12,33 +13,31 @@ use PHPUnit\Framework\TestCase;
 final class CharacterLevelTest extends TestCase
 {
     /**
-     * @return array<int, array<int, int>>
+     * @return Iterator<int, array<int, int>>
      */
-    public static function experienceProvider(): array
+    public static function experienceProvider(): Iterator
     {
-        return [
-            [0, 1],
-            [299, 1],
-            [300, 2],
-            [900, 3],
-            [2_701, 4],
-            [6_500, 5],
-            [14_000, 6],
-            [23_999, 7],
-            [34_000, 8],
-            [48_000, 9],
-            [64_000, 10],
-            [85_000, 11],
-            [100_000, 12],
-            [120_000, 13],
-            [140_000, 14],
-            [165_000, 15],
-            [195_000, 16],
-            [225_000, 17],
-            [265_000, 18],
-            [349_999, 19],
-            [355_000, 20],
-        ];
+        yield [0, 1];
+        yield [299, 1];
+        yield [300, 2];
+        yield [900, 3];
+        yield [2_701, 4];
+        yield [6_500, 5];
+        yield [14_000, 6];
+        yield [23_999, 7];
+        yield [34_000, 8];
+        yield [48_000, 9];
+        yield [64_000, 10];
+        yield [85_000, 11];
+        yield [100_000, 12];
+        yield [120_000, 13];
+        yield [140_000, 14];
+        yield [165_000, 15];
+        yield [195_000, 16];
+        yield [225_000, 17];
+        yield [265_000, 18];
+        yield [349_999, 19];
+        yield [355_000, 20];
     }
 
     #[DataProvider('experienceProvider')]
@@ -56,32 +55,30 @@ final class CharacterLevelTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, int>>
+     * @return Iterator<int, array<int, int>>
      */
-    public static function levelProvider(): array
+    public static function levelProvider(): Iterator
     {
-        return [
-            [0, 1],
-            [300, 2],
-            [900, 3],
-            [2_700, 4],
-            [6_500, 5],
-            [14_000, 6],
-            [23_000, 7],
-            [34_000, 8],
-            [48_000, 9],
-            [64_000, 10],
-            [85_000, 11],
-            [100_000, 12],
-            [120_000, 13],
-            [140_000, 14],
-            [165_000, 15],
-            [195_000, 16],
-            [225_000, 17],
-            [265_000, 18],
-            [305_000, 19],
-            [355_000, 20],
-        ];
+        yield [0, 1];
+        yield [300, 2];
+        yield [900, 3];
+        yield [2_700, 4];
+        yield [6_500, 5];
+        yield [14_000, 6];
+        yield [23_000, 7];
+        yield [34_000, 8];
+        yield [48_000, 9];
+        yield [64_000, 10];
+        yield [85_000, 11];
+        yield [100_000, 12];
+        yield [120_000, 13];
+        yield [140_000, 14];
+        yield [165_000, 15];
+        yield [195_000, 16];
+        yield [225_000, 17];
+        yield [265_000, 18];
+        yield [305_000, 19];
+        yield [355_000, 20];
     }
 
     #[DataProvider('levelProvider')]

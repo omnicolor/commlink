@@ -64,7 +64,7 @@ class Wallet implements ArrayAccess, Countable, Iterator, JsonSerializable
     #[Override]
     public function current(): int|null
     {
-        if (null === $this->position) {
+        if (!$this->position instanceof CoinType) {
             return null;
         }
         return $this->coins[$this->position->value];

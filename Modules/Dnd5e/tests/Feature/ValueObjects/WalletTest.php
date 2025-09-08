@@ -63,12 +63,12 @@ final class WalletTest extends TestCase
 
     public function testIsset(): void
     {
-        self::assertTrue(isset($this->wallet[CoinType::Platinum]));
-        self::assertTrue(isset($this->wallet[CoinType::Gold]));
-        self::assertTrue(isset($this->wallet[CoinType::Silver]));
-        self::assertTrue(isset($this->wallet[CoinType::Copper]));
-        self::assertTrue(isset($this->wallet[CoinType::Electrum]));
-        self::assertFalse(isset($this->wallet[0]));
+        self::assertArrayHasKey(CoinType::Platinum, $this->wallet);
+        self::assertArrayHasKey(CoinType::Gold, $this->wallet);
+        self::assertArrayHasKey(CoinType::Silver, $this->wallet);
+        self::assertArrayHasKey(CoinType::Copper, $this->wallet);
+        self::assertArrayHasKey(CoinType::Electrum, $this->wallet);
+        self::assertArrayNotHasKey(0, $this->wallet);
     }
 
     public function testAdd(): void
@@ -109,7 +109,7 @@ final class WalletTest extends TestCase
         foreach ($wallet as $key => $value) {
             self::assertSame($expected[$index]->key, $key);
             self::assertSame($expected[$index]->value, $value);
-            $index++;
+            ++$index;
         }
         self::assertNull($wallet->current());
     }
