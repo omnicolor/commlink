@@ -6,6 +6,7 @@ namespace App\Http\Responses\Slack;
 
 use App\Events\ChannelLinked;
 use App\Models\Channel;
+use App\Models\ChatUser;
 use Omnicolor\Slack\Attachments\TextAttachment;
 use Omnicolor\Slack\Exceptions\SlackException;
 
@@ -36,7 +37,7 @@ class RegisterResponse extends SlackResponse
         ?Channel $channel = null,
     ) {
         parent::__construct('', $status, $headers, $channel);
-        if (null === $channel) {
+        if (!$channel instanceof Channel) {
             throw new SlackException('Channel is required');
         }
         if (null !== $channel->system) {
@@ -46,7 +47,7 @@ class RegisterResponse extends SlackResponse
             ));
         }
         $chatUser = $this->channel?->getChatUser();
-        if (null === $chatUser) {
+        if (!$chatUser instanceof ChatUser) {
             throw new SlackException(sprintf(
                 'You must have already created an account on <%s|%s> and '
                     . 'linked it to this server before you can register a '

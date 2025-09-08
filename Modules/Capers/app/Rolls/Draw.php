@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Rolls;
 
+use App\Models\Campaign;
 use App\Models\Card;
 use App\Models\Channel;
 use App\Rolls\Roll;
@@ -89,7 +90,7 @@ class Draw extends Roll
     protected function findOrCreateDeck(): void
     {
         // Constructor makes sure $this->campaign is set.
-        assert(null !== $this->campaign);
+        assert($this->campaign instanceof Campaign);
         try {
             $this->deck = StandardDeck::findForCampaignAndPlayer(
                 $this->campaign,

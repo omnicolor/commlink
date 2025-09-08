@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Cyberpunkred\Tests\Feature\Models;
 
+use Iterator;
 use Modules\Cyberpunkred\Models\Armor;
 use Modules\Cyberpunkred\Models\Character;
 use Modules\Cyberpunkred\Models\Role\Fixer;
@@ -121,17 +122,15 @@ final class CharacterTest extends TestCase
 
     /**
      * Return different datasets for testing hit points.
-     * @return array<int, array<int, int>>
+     * @return Iterator<int, array<int, int>>
      */
-    public static function hitPointsProvider(): array
+    public static function hitPointsProvider(): Iterator
     {
-        return [
-            [0, 0, 10],
-            [1, 0, 15],
-            [0, 1, 15],
-            [0, 10, 35],
-            [10, 10, 60],
-        ];
+        yield [0, 0, 10];
+        yield [1, 0, 15];
+        yield [0, 1, 15];
+        yield [0, 10, 35];
+        yield [10, 10, 60];
     }
 
     /**
@@ -146,16 +145,14 @@ final class CharacterTest extends TestCase
 
     /**
      * Return different data sets for calculating the character's humanity.
-     * @return array<int, array<int, int>>
+     * @return Iterator<int, array<int, int>>
      */
-    public static function humanityProvider(): array
+    public static function humanityProvider(): Iterator
     {
-        return [
-            [0, 0],
-            [1, 10],
-            [2, 20],
-            [10, 100],
-        ];
+        yield [0, 0];
+        yield [1, 10];
+        yield [2, 20];
+        yield [10, 100];
     }
 
     /**
@@ -170,15 +167,13 @@ final class CharacterTest extends TestCase
 
     /**
      * Return different datasets for testing getting the threshold.
-     * @return array<int, array<int, int>>
+     * @return Iterator<int, array<int, int>>
      */
-    public static function woundThresholdProvider(): array
+    public static function woundThresholdProvider(): Iterator
     {
-        return [
-            [0, 0, 5],
-            [10, 10, 30],
-            [15, 10, 38],
-        ];
+        yield [0, 0, 5];
+        yield [10, 10, 30];
+        yield [15, 10, 38];
     }
 
     /**

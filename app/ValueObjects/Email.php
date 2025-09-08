@@ -14,7 +14,7 @@ use const FILTER_VALIDATE_EMAIL;
 
 readonly class Email implements Stringable
 {
-    public function __construct(public readonly string $address)
+    public function __construct(public string $address)
     {
         if (false === filter_var($address, FILTER_VALIDATE_EMAIL)) {
             throw new InvalidArgumentException('Email address is not valid');

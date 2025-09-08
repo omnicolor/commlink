@@ -59,7 +59,7 @@ abstract class Roll
         $this->campaign = $channel->campaign;
         $this->character = $channel->character();
         $this->chatUser = $channel->getChatUser();
-        if (null !== $this->character) {
+        if ($this->character instanceof Character) {
             $this->username = (string)$this->character;
         }
     }
@@ -84,12 +84,12 @@ abstract class Roll
      */
     public function isGm(): bool
     {
-        if (null === $this->campaign) {
+        if (!$this->campaign instanceof Campaign) {
             // You can't be a GM if there's no campaign.
             return false;
         }
 
-        if (null === $this->chatUser || null === $this->chatUser->user) {
+        if (!$this->chatUser instanceof ChatUser || null === $this->chatUser->user) {
             // It doesn't matter if you're the GM if you're not registered, we
             // don't know who you are.
             return false;

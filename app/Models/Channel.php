@@ -86,7 +86,7 @@ class Channel extends Model
     public function character(): ?Character
     {
         $chatUser = $this->getChatUser();
-        if (null === $chatUser) {
+        if (!$chatUser instanceof ChatUser) {
             return null;
         }
         return ChatCharacter::where('channel_id', $this->id)

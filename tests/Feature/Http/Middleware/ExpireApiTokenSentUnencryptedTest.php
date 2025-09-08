@@ -33,7 +33,7 @@ final class ExpireApiTokenSentUnencryptedTest extends TestCase
         $user = self::createStub(User::class);
         $user->method('currentAccessToken')->willReturn($token);
 
-        $request = Request::create('http://example.com/testing', 'GET');
+        $request = Request::create('http://example.com/testing');
         $request->setUserResolver(function () use ($user): User {
             return $user;
         });
@@ -43,7 +43,7 @@ final class ExpireApiTokenSentUnencryptedTest extends TestCase
             'Your API key has been revoked. Do not use API keys on an '
                 . 'unsecured connection.',
         );
-        $this->middleware->handle($request, function (): void {
+        $this->middleware->handle($request, function (): never {
             self::fail('Closure called');
         });
     }
@@ -53,7 +53,7 @@ final class ExpireApiTokenSentUnencryptedTest extends TestCase
         $user = self::createStub(User::class);
         $user->method('currentAccessToken')->willReturn(null);
 
-        $request = Request::create('http://example.com/testing', 'GET');
+        $request = Request::create('http://example.com/testing');
         $request->setUserResolver(function () use ($user): User {
             return $user;
         });
@@ -73,7 +73,7 @@ final class ExpireApiTokenSentUnencryptedTest extends TestCase
         $user = self::createStub(User::class);
         $user->method('currentAccessToken')->willReturn($token);
 
-        $request = Request::create('https://example.com/testing', 'GET');
+        $request = Request::create('https://example.com/testing');
         $request->setUserResolver(function () use ($user): User {
             return $user;
         });

@@ -8,6 +8,7 @@ use App\Enums\ChannelType;
 use App\Events\ChannelLinked;
 use App\Models\Campaign as CampaignModel;
 use App\Models\Channel;
+use App\Models\ChatUser;
 use Omnicolor\Slack\Exceptions\SlackException;
 use Omnicolor\Slack\Headers\Header;
 use Omnicolor\Slack\Response;
@@ -67,7 +68,7 @@ class Campaign extends Roll
             return;
         }
 
-        if (null === $this->chatUser) {
+        if (!$this->chatUser instanceof ChatUser) {
             $this->error = sprintf(
                 'You must have already created an account on %s (%s) and '
                     . 'linked it to this server before you can register a '
@@ -78,7 +79,7 @@ class Campaign extends Roll
             return;
         }
 
-        if (null === $this->campaign) {
+        if (!$this->campaign instanceof CampaignModel) {
             $this->error = sprintf(
                 'No campaign was found for ID "%d".',
                 $this->campaignId

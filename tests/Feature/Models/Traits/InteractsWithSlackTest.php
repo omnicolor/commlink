@@ -23,7 +23,7 @@ final class InteractsWithSlackTest extends TestCase
     protected const string API_TEAMS = 'https://slack.com/api/auth.teams.list';
     protected const string API_USERS = 'https://slack.com/api/users.info';
 
-    protected Channel $mock;
+    private Channel $mock;
 
     #[Override]
     public function setUp(): void

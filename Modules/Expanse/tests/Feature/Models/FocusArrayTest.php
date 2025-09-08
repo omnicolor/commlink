@@ -21,7 +21,7 @@ final class FocusArrayTest extends TestCase
      * Subject under test.
      * @var FocusArray<Focus>
      */
-    protected FocusArray $array;
+    private FocusArray $array;
 
     /**
      * Set up a clean subject.

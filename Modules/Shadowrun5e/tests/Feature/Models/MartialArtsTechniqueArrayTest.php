@@ -22,7 +22,7 @@ final class MartialArtsTechniqueArrayTest extends TestCase
      * Subject under test.
      * @var MartialArtsTechniqueArray<MartialArtsTechnique>
      */
-    protected MartialArtsTechniqueArray $techniques;
+    private MartialArtsTechniqueArray $techniques;
 
     /**
      * Set up a clean subject.

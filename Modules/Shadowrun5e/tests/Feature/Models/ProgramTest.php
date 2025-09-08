@@ -34,16 +34,16 @@ final class ProgramTest extends TestCase
     public function testConstructor(): void
     {
         $program = new Program('armor');
-        self::assertEquals(['cyberdeck', 'rcc'], $program->allowedDevices);
-        self::assertEquals('4R', $program->availability);
-        self::assertEquals(250, $program->cost);
+        self::assertSame(['cyberdeck', 'rcc'], $program->allowedDevices);
+        self::assertSame('4R', $program->availability);
+        self::assertSame(250, $program->cost);
         self::assertNotEmpty($program->effects);
-        self::assertEquals('armor', $program->id);
-        self::assertEquals('Armor', $program->name);
-        self::assertEquals(245, $program->page);
+        self::assertSame('armor', $program->id);
+        self::assertSame('Armor', $program->name);
+        self::assertSame(245, $program->page);
         self::assertNull($program->rating);
         self::assertFalse($program->running);
-        self::assertEquals('core', $program->ruleset);
+        self::assertSame('core', $program->ruleset);
     }
 
     /**
@@ -64,7 +64,7 @@ final class ProgramTest extends TestCase
     public function testToString(): void
     {
         $program = new Program('armor');
-        self::assertEquals('Armor', (string)$program);
+        self::assertSame('Armor', (string)$program);
     }
 
     /**

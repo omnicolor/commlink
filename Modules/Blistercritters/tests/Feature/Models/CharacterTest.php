@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 #[Group('blistercritters')]
 #[Small]
-class CharacterTest extends TestCase
+final class CharacterTest extends TestCase
 {
     use WithFaker;
 

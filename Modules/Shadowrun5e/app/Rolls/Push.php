@@ -142,7 +142,7 @@ class Push extends Number
             $this->formatRoll();
         }
 
-        $character->edgeCurrent--;
+        --$character->edgeCurrent;
         $character->save();
     }
 
@@ -211,19 +211,19 @@ class Push extends Number
     #[Override]
     protected function roll(): void
     {
-        for ($i = 0; $i < $this->dice + $this->character->edge; $i++) {
+        for ($i = 0; $i < $this->dice + $this->character->edge; ++$i) {
             $this->rolls[] = $roll = DiceService::rollOne(6);
             if (self::EXPLODING_SIX === $roll) {
                 // Explode the six.
-                $i--;
-                $this->exploded++;
+                --$i;
+                ++$this->exploded;
             }
             if (self::MIN_SUCCESS <= $roll) {
-                $this->successes++;
+                ++$this->successes;
                 continue;
             }
             if (self::FAILURE === $roll) {
-                $this->fails++;
+                ++$this->fails;
             }
         }
         rsort($this->rolls, SORT_NUMERIC);

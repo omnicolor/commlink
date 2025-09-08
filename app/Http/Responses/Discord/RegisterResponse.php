@@ -8,6 +8,7 @@ use App\Enums\ChannelType;
 use App\Events\ChannelLinked;
 use App\Events\DiscordMessageReceived;
 use App\Models\Channel;
+use App\Models\ChatUser;
 use Discord\Parts\Channel\Channel as TextChannel;
 use Override;
 use Stringable;
@@ -59,7 +60,7 @@ class RegisterResponse implements Stringable
 
         $channel = $this->createNewChannel($discordChannel, $system);
         $chatUser = $channel->getChatUser();
-        if (null === $chatUser) {
+        if (!$chatUser instanceof ChatUser) {
             $this->sendMustRegisterError();
             return;
         }

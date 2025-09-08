@@ -22,7 +22,7 @@ final class Campaign extends BaseCampaign
                 if (!isset($contacts[(string)$contact])) {
                     $contacts[(string)$contact] = $contact;
                 }
-                assert(null !== $contacts[(string)$contact]);
+                assert($contacts[(string)$contact] instanceof Contact);
                 $contacts[(string)$contact]->characters[] = [
                     'character' => (string)$character,
                     'loyalty' => $contact->loyalty,

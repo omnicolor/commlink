@@ -31,7 +31,7 @@ class HandleInitiativeEvent
     {
         /** @var Channel $channel */
         foreach ($event->campaign->channels ?? [] as $channel) {
-            if (null !== $event->source && $event->source->id === $channel->id) {
+            if ($event->source instanceof Channel && $event->source->id === $channel->id) {
                 // Don't broadcast back to the original channel. The event's
                 // source will be null if it came from the web, which means it
                 // should get broadcast to all other channels.

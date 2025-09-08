@@ -116,7 +116,7 @@ final class Lifestyle implements Stringable
             if ('Increase Neighborhood' !== $option->name) {
                 continue;
             }
-            $value++;
+            ++$value;
         }
         return $value;
     }

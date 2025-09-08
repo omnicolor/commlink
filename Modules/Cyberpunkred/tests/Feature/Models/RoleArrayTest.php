@@ -21,7 +21,7 @@ final class RoleArrayTest extends TestCase
      * Subject under test.
      * @var RoleArray<Role>
      */
-    protected RoleArray $roles;
+    private RoleArray $roles;
 
     /**
      * Set up a clean subject.

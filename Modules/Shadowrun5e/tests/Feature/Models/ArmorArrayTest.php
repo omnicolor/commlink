@@ -22,7 +22,7 @@ final class ArmorArrayTest extends TestCase
      * Subject under test.
      * @var ArmorArray<Armor>
      */
-    protected ArmorArray $armors;
+    private ArmorArray $armors;
 
     /**
      * Set up a clean subject.

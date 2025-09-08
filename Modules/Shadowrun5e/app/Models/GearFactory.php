@@ -33,7 +33,7 @@ final class GearFactory
      * @param array<string, mixed> $gear
      * @throws RuntimeException
      */
-    protected static function getGearFromArray(array $gear): Gear | Commlink
+    private static function getGearFromArray(array $gear): Gear | Commlink
     {
         $quantity = 1;
         if (isset($gear['quantity']) && is_numeric($gear['quantity'])) {
@@ -57,7 +57,7 @@ final class GearFactory
      * Return a gear item given its ID.
      * @throws RuntimeException
      */
-    protected static function getGearFromId(string $id): Gear
+    private static function getGearFromId(string $id): Gear
     {
         return new Gear($id, 1);
     }

@@ -50,7 +50,7 @@ final class WeaponModificationTest extends TestCase
      */
     public function testConstructorSetsId(): void
     {
-        self::assertEquals('bayonet', $this->modification->id);
+        self::assertSame('bayonet', $this->modification->id);
     }
 
     /**
@@ -58,7 +58,7 @@ final class WeaponModificationTest extends TestCase
      */
     public function testConstructorSetsAvailability(): void
     {
-        self::assertEquals('4R', $this->modification->availability);
+        self::assertSame('4R', $this->modification->availability);
     }
 
     /**
@@ -66,7 +66,7 @@ final class WeaponModificationTest extends TestCase
      */
     public function testConstructorSetsCost(): void
     {
-        self::assertEquals(50, $this->modification->cost);
+        self::assertSame(50, $this->modification->cost);
     }
 
     /**
@@ -82,7 +82,7 @@ final class WeaponModificationTest extends TestCase
      */
     public function testConstructorDoesntChangeEffects(): void
     {
-        self::assertEquals([], $this->modification->effects);
+        self::assertSame([], $this->modification->effects);
     }
 
     /**
@@ -90,7 +90,7 @@ final class WeaponModificationTest extends TestCase
      */
     public function testConstructorDoesntChangeIncompatibilities(): void
     {
-        self::assertEquals([], $this->modification->incompatibleWith);
+        self::assertSame([], $this->modification->incompatibleWith);
     }
 
     /**
@@ -98,7 +98,7 @@ final class WeaponModificationTest extends TestCase
      */
     public function testConstructorSetsMountList(): void
     {
-        self::assertEquals(['top', 'under'], $this->modification->mount);
+        self::assertSame(['top', 'under'], $this->modification->mount);
     }
 
     /**
@@ -106,7 +106,7 @@ final class WeaponModificationTest extends TestCase
      */
     public function testConstructorSetsName(): void
     {
-        self::assertEquals('Bayonet', $this->modification->name);
+        self::assertSame('Bayonet', $this->modification->name);
     }
 
     /**
@@ -114,7 +114,7 @@ final class WeaponModificationTest extends TestCase
      */
     public function testConstructorSetsRuleset(): void
     {
-        self::assertEquals('run-and-gun', $this->modification->ruleset);
+        self::assertSame('run-and-gun', $this->modification->ruleset);
     }
 
     /**
@@ -122,7 +122,7 @@ final class WeaponModificationTest extends TestCase
      */
     public function testConstructorSetsType(): void
     {
-        self::assertEquals('accessory', $this->modification->type);
+        self::assertSame('accessory', $this->modification->type);
     }
 
     /**
@@ -130,7 +130,7 @@ final class WeaponModificationTest extends TestCase
      */
     public function testToString(): void
     {
-        self::assertEquals('Bayonet', (string)$this->modification);
+        self::assertSame('Bayonet', (string)$this->modification);
     }
 
     /**
@@ -148,7 +148,7 @@ final class WeaponModificationTest extends TestCase
     public function testConstructorSetsCostModifier(): void
     {
         $modification = new WeaponModification('smartlink-internal');
-        self::assertEquals(2, $modification->costModifier);
+        self::assertSame(2, $modification->costModifier);
     }
 
     /**
@@ -168,7 +168,7 @@ final class WeaponModificationTest extends TestCase
     public function testConstructorDoesntChangeMountList(): void
     {
         $modification = new WeaponModification('smartlink-internal');
-        self::assertEquals([], $modification->mount);
+        self::assertSame([], $modification->mount);
     }
 
     /**

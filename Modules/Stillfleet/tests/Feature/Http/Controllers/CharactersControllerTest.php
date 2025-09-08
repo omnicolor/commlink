@@ -23,7 +23,7 @@ use function session;
 #[Medium]
 final class CharactersControllerTest extends TestCase
 {
-    protected User $user;
+    private User $user;
 
     #[Override]
     public function setUp(): void
