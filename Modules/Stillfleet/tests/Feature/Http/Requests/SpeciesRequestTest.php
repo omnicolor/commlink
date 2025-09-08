@@ -17,7 +17,7 @@ use Tests\TestCase;
 #[Medium]
 final class SpeciesRequestTest extends TestCase
 {
-    protected User $user;
+    private User $user;
 
     #[Override]
     public function setUp(): void

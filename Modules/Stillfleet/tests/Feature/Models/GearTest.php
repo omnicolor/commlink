@@ -13,7 +13,7 @@ use Tests\TestCase;
 
 #[Group('stillfleet')]
 #[Small]
-class GearTest extends TestCase
+final class GearTest extends TestCase
 {
     public function testScopeByComms(): void
     {

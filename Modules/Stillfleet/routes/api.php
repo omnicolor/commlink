@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')
             return ArmorResource::collection(Armor::all())
                 ->additional(['links' => ['self' => route('stillfleet.armor.index')]]);
         })->name('armor.index');
-        Route::get('armor/{armor}', function (Armor $armor) {
+        Route::get('armor/{armor}', function (Armor $armor): ArmorResource {
             return new ArmorResource($armor);
         })->name('armor.show');
 
@@ -45,7 +45,7 @@ Route::middleware('auth:sanctum')
             return GearResource::collection(Gear::all())
                 ->additional(['links' => ['self' => route('stillfleet.gear.index')]]);
         })->name('gear.index');
-        Route::get('gear/{gear}', function (Gear $gear) {
+        Route::get('gear/{gear}', function (Gear $gear): GearResource {
             return new GearResource($gear);
         })->name('gear.show');
 
@@ -69,7 +69,7 @@ Route::middleware('auth:sanctum')
             return WeaponResource::collection(Weapon::all())
                 ->additional(['links' => ['self' => route('stillfleet.weapons.index')]]);
         })->name('weapons.index');
-        Route::get('weapons/{weapon}', function (Weapon $weapon) {
+        Route::get('weapons/{weapon}', function (Weapon $weapon): WeaponResource {
             return new WeaponResource($weapon);
         })->name('weapons.show');
     });

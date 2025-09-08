@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Tests\Feature\Models;
 
+use Iterator;
 use Modules\Stillfleet\Models\PartialCharacter;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -37,22 +38,20 @@ final class PartialCharacterTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, int|string>>
+     * @return Iterator<int, array<int, (int | string)>>
      */
-    public static function startingMoneyAttributeProvider(): array
+    public static function startingMoneyAttributeProvider(): Iterator
     {
-        return [
-            ['d12', 'd4', 160],
-            ['d10', 'd6', 160],
-            ['d6', 'd6', 120],
-            ['d4', 'd4', 80],
-        ];
+        yield ['d12', 'd4', 160];
+        yield ['d10', 'd6', 160];
+        yield ['d6', 'd6', 120];
+        yield ['d4', 'd4', 80];
     }
 
     #[DataProvider('startingMoneyAttributeProvider')]
     public function testStartingMoneyAttributes(string $will, string $charm, int $expected): void
     {
         $character = new PartialCharacter(['charm' => $charm, 'will' => $will]);
-        self::assertEquals($expected, $character->startingMoney());
+        self::assertSame($expected, $character->startingMoney());
     }
 }

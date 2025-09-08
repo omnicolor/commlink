@@ -17,6 +17,7 @@ use Sushi\Sushi;
 
 use function config;
 use function is_numeric;
+use function sprintf;
 
 /**
  * @method static Builder melee()
@@ -86,7 +87,7 @@ class Weapon extends Model implements Stringable
 
     public static function findByOtherName(string $name): self
     {
-        return self::where('other_names', 'like', "%$name%")
+        return self::where('other_names', 'like', sprintf('%%%s%%', $name))
             ->firstOrFail();
     }
 
