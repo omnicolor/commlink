@@ -158,24 +158,22 @@ final class PartialCharacterTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, int|string|null>>
+     * @return Iterator<int, array<int, (int | string | null)>>
      */
-    public static function skillSortProvider(): array
+    public static function skillSortProvider(): Iterator
     {
-        return [
-            // At low levels, the level is more important.
-            [1, null, 2, null, 1],
-            [2, null, 1, null, -1],
-            [1, null, 1, null, 0],
-            [1, 'test', 2, null, 1],
-            [2, null, 1, 'test', -1],
-            // At higher levels the specialization matters.
-            [3, 'test', 3, null, 1],
-            [3, null, 3, 'test', -1],
-            [3, 'test', 3, 'test', 0],
-            [3, 'test', 4, null, 1],
-            [4, 'test', 3, 'test', -1],
-        ];
+        // At low levels, the level is more important.
+        yield [1, null, 2, null, 1];
+        yield [2, null, 1, null, -1];
+        yield [1, null, 1, null, 0];
+        yield [1, 'test', 2, null, 1];
+        yield [2, null, 1, 'test', -1];
+        // At higher levels the specialization matters.
+        yield [3, 'test', 3, null, 1];
+        yield [3, null, 3, 'test', -1];
+        yield [3, 'test', 3, 'test', 0];
+        yield [3, 'test', 4, null, 1];
+        yield [4, 'test', 3, 'test', -1];
     }
 
     #[DataProvider('skillSortProvider')]

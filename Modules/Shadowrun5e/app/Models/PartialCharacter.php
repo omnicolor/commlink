@@ -168,7 +168,7 @@ class PartialCharacter extends Character implements Stringable
         $this->chargeForAttributes($character, $priority_method, $priorities, $race);
         $this->chargeForSpecialAttributes($character, $priority_method, $priorities, $race);
         $this->chargeForQualities($character);
-        $this->chargeForSkills($character, $priority_method, $priorities);
+        $this->chargeForSkills($priority_method, $priorities);
         //dd($character);
         return $character;
     }
@@ -335,7 +335,6 @@ class PartialCharacter extends Character implements Stringable
      * @param StandardPriority|SumToTenPriority $priorities
      */
     private function chargeForSkills(
-        Character $character,
         string $priority_method,
         array $priorities,
     ): void {

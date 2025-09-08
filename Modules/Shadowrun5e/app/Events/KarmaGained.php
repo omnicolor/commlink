@@ -33,7 +33,7 @@ class KarmaGained extends ShouldBeStored implements ShouldBroadcast
         if (null !== $description) {
             $this->metaData['description'] = $description;
         }
-        if (null !== $gameDate) {
+        if ($gameDate instanceof DateTimeInterface) {
             $this->metaData['gameDate'] = $gameDate->format('Y-m-d H:i:s');
         }
     }
