@@ -3,6 +3,22 @@
 declare(strict_types=1);
 
 return [
+    /*
+    [
+        'agility' => ,
+        'body' => ,
+        'charisma' => ,
+        'id' => '',
+        'intuition' => ,
+        'logic' => ,
+        'name' => '',
+        'page' => ,
+        'reaction' => ,
+        'ruleset' => '',
+        'strength' => ,
+        'willpower' => ,
+    ],
+    */
     [
         'agility' => 3,
         'body' => -2,

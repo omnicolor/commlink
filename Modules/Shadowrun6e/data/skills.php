@@ -6,6 +6,18 @@ declare(strict_types=1);
  * List of skills for Shadowrun 6th edition.
  */
 return [
+    /*
+    [
+        'attribute' => '',
+        'attributes_secondary' => '',
+        'description' => '',
+        'id' => '',
+        'name' => '',
+        'page' => ,
+        'example_specializations' => '',
+        'untrained' => false,
+    ],
+    */
     [
         'attribute' => 'intuition',
         'attributes_secondary' => '["willpower"]',
