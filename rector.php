@@ -3,12 +3,17 @@
 declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
-use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
+use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
+use Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector;
+use Rector\CodingStyle\Rector\ClassMethod\MakeInheritedMethodVisibilitySameAsParentRector;
+use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
-use Rector\CodingStyle\Rector\Stmt\RemoveUselessAliasInUseStatementRector;
+use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector;
 use Rector\DeadCode\Rector\Expression\RemoveDeadStmtRector;
+use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitSelfCallRector;
+use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
 use Rector\Php53\Rector\FuncCall\DirNameFileConstantToDirConstantRector;
 use Rector\Php70\Rector\FunctionLike\ExceptionHandlerTypehintRector;
 use Rector\Php70\Rector\MethodCall\ThisCallOnStaticMethodToStaticCallRector;
@@ -20,6 +25,7 @@ use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRecto
 use Rector\Php83\Rector\Class_\ReadOnlyAnonymousClassRector;
 use Rector\Php84\Rector\FuncCall\RoundingModeEnumRector;
 use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
+use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -27,33 +33,59 @@ return RectorConfig::configure()
         __DIR__ . '/app',
         __DIR__ . '/bootstrap',
         __DIR__ . '/config',
+        __DIR__ . '/database',
         __DIR__ . '/routes',
         __DIR__ . '/tests',
     ])
-    ->withAttributesSets()
-    ->withCodeQualityLevel(30)
-    ->withCodingStyleLevel(5)
-    ->withComposerBased(symfony: true, phpunit: true)
+    ->withRootFiles()
+    ->withSkip([
+        __DIR__ . '/bootstrap/cache',
+    ])
+    ->withAttributesSets(all: true)
+    ->withComposerBased(
+        phpunit: true,
+        symfony: true,
+        laravel: true,
+    )
     ->withImportNames(removeUnusedImports: true)
-    ->withPreparedSets(deadCode: true)
-    ->withTypeCoverageLevel(34)
+    ->withPreparedSets(
+        deadCode: true,
+        codeQuality: true,
+        codingStyle: true,
+        typeDeclarations: true,
+        privatization: true,
+        instanceOf: true,
+        earlyReturn: true,
+        strictBooleans: true,
+        carbon: true,
+        rectorPreset: true,
+        phpunitCodeQuality: true,
+        symfonyCodeQuality: true,
+        symfonyConfigs: true,
+    )
     ->withRules([
         AddOverrideAttributeToOverriddenMethodsRector::class,
         AddTypeToConstRector::class,
         ArrayKeyFirstLastRector::class,
-        CountArrayToEmptyArrayComparisonRector::class,
         DirNameFileConstantToDirConstantRector::class,
         ExceptionHandlerTypehintRector::class,
         ExplicitNullableParamTypeRector::class,
         MultiExceptionCatchRector::class,
+        PreferPHPUnitSelfCallRector::class,
         ReadOnlyAnonymousClassRector::class,
         ReadOnlyPropertyRector::class,
-        RemoveUselessAliasInUseStatementRector::class,
         RoundingModeEnumRector::class,
         ThisCallOnStaticMethodToStaticCallRector::class,
     ])
     ->withSkip([
+        CatchExceptionNameMatchingTypeRector::class,
+        // Adds strict_types grot to blade files in modules.
+        DeclareStrictTypesRector::class,
+        IssetOnPropertyObjectToPropertyExistsRector::class,
+        MakeInheritedMethodVisibilitySameAsParentRector::class,
         NewlineAfterStatementRector::class,
+        NewlineBeforeNewAssignSetRector::class,
+        PreferPHPUnitThisCallRector::class,
         RemoveDeadStmtRector::class => [
             __DIR__ . '/Modules/Battletech/tests/Feature/Models/CharacterTest.php',
         ],
@@ -61,4 +93,5 @@ return RectorConfig::configure()
             __DIR__ . '/Modules/Battletech/tests/Feature/Models/CharacterTest.php',
         ],
         SimplifyIfElseToTernaryRector::class,
+        SymplifyQuoteEscapeRector::class,
     ]);

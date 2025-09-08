@@ -40,7 +40,7 @@ class Injury extends Roll
 
         $roll = (int)implode('', $this->rolls);
         $injury = InjuryModel::findByRoll($roll);
-        if (null === $injury) {
+        if (!$injury instanceof InjuryModel) {
             $this->error = sprintf('Injury result (%d) was invalid', $roll);
         } else {
             $this->injury = $injury;

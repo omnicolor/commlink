@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Capers\Tests\Feature\Models;
 
 use App\Models\Card;
+use Iterator;
 use Modules\Capers\Models\Identity;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -64,16 +65,14 @@ final class IdentityTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, Card|string>>
+     * @return Iterator<int, array<int, (Card | string)>>
      */
-    public static function findForCardProvider(): array
+    public static function findForCardProvider(): Iterator
     {
-        return [
-            [new Card('5', '♦'), 'Crackerjack'],
-            [new Card('5', '♣'), 'Reveler'],
-            [new Card('2', '♥'), 'Autocrat'],
-            [new Card('2', '♠'), 'Planner'],
-        ];
+        yield [new Card('5', '♦'), 'Crackerjack'];
+        yield [new Card('5', '♣'), 'Reveler'];
+        yield [new Card('2', '♥'), 'Autocrat'];
+        yield [new Card('2', '♠'), 'Planner'];
     }
 
     /**

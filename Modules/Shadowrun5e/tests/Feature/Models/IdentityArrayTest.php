@@ -22,7 +22,7 @@ final class IdentityArrayTest extends TestCase
      * Subject under test.
      * @var IdentityArray<Identity>
      */
-    protected IdentityArray $identities;
+    private IdentityArray $identities;
 
     /**
      * Set up a clean subject.

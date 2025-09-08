@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Nwidart\Modules\Facades\Module;
 use Override;
 use Stringable;
+use UnitEnum;
 use stdClass;
 
 use function class_exists;
@@ -119,7 +120,7 @@ class Campaign extends Model implements Stringable
     /**
      * Create a new Campaign, subclassed if available.
      * @param array<string, mixed>|Campaign $attributes
-     * @param ?string $connection
+     * @param string|UnitEnum|null $connection
      */
     #[Override]
     public function newFromBuilder(

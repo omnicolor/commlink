@@ -45,7 +45,7 @@ final class WeaponTest extends TestCase
      */
     public function testWeaponHasId(): void
     {
-        self::assertEquals('ak-98', $this->weapon->id);
+        self::assertSame('ak-98', $this->weapon->id);
     }
 
     /**
@@ -53,7 +53,7 @@ final class WeaponTest extends TestCase
      */
     public function testWeaponHasAvailability(): void
     {
-        self::assertEquals('8F', $this->weapon->availability);
+        self::assertSame('8F', $this->weapon->availability);
     }
 
     /**
@@ -61,7 +61,7 @@ final class WeaponTest extends TestCase
      */
     public function testWeaponHasCost(): void
     {
-        self::assertEquals(1250, $this->weapon->cost);
+        self::assertSame(1250, $this->weapon->cost);
     }
 
     /**
@@ -69,7 +69,7 @@ final class WeaponTest extends TestCase
      */
     public function testWeaponHasDamage(): void
     {
-        self::assertEquals('10P', $this->weapon->damage);
+        self::assertSame('10P', $this->weapon->damage);
     }
 
     /**
@@ -77,7 +77,7 @@ final class WeaponTest extends TestCase
      */
     public function testWeaponHasName(): void
     {
-        self::assertEquals('AK-98', $this->weapon->name);
+        self::assertSame('AK-98', $this->weapon->name);
     }
 
     /**
@@ -93,7 +93,7 @@ final class WeaponTest extends TestCase
      */
     public function testWeaponSetsRuleset(): void
     {
-        self::assertEquals('run-and-gun', $this->weapon->ruleset);
+        self::assertSame('run-and-gun', $this->weapon->ruleset);
     }
 
     /**
@@ -119,7 +119,7 @@ final class WeaponTest extends TestCase
 
     public function testCastWeaponToString(): void
     {
-        self::assertEquals('AK-98', (string)$this->weapon);
+        self::assertSame('AK-98', (string)$this->weapon);
     }
 
     /**
@@ -128,9 +128,9 @@ final class WeaponTest extends TestCase
     public function testUnarmedStrike(): void
     {
         $weapon = new Weapon('unarmed-strike');
-        self::assertEquals('physical', $weapon->accuracy);
-        self::assertEquals('(STR)', $weapon->damage);
-        self::assertEquals(
+        self::assertSame('physical', $weapon->accuracy);
+        self::assertSame('(STR)', $weapon->damage);
+        self::assertSame(
             'Unarmed Combat covers the various '
                 . 'self-defense and attack moves that employ the body as a '
                 . 'primary weapon. This includes a wide array of martial arts '
@@ -138,12 +138,12 @@ final class WeaponTest extends TestCase
                 . 'fighting styles that sprung up around those implants.',
             $weapon->description
         );
-        self::assertEquals('unarmed-strike', $weapon->id);
-        self::assertEquals('Unarmed Strike', $weapon->name);
-        self::assertEquals(0, $weapon->reach);
-        self::assertEquals(132, $weapon->page);
-        self::assertEquals('core', $weapon->ruleset);
-        self::assertEquals('unarmed-combat', $weapon->skill->id);
+        self::assertSame('unarmed-strike', $weapon->id);
+        self::assertSame('Unarmed Strike', $weapon->name);
+        self::assertSame(0, $weapon->reach);
+        self::assertSame(132, $weapon->page);
+        self::assertSame('core', $weapon->ruleset);
+        self::assertSame('unarmed-combat', $weapon->skill->id);
     }
 
     /**
@@ -182,8 +182,8 @@ final class WeaponTest extends TestCase
      */
     public function testGetDamageNotStrengthBased(): void
     {
-        self::assertEquals('10P', $this->weapon->getDamage(5));
-        self::assertEquals('10P', $this->weapon->getDamage(0));
+        self::assertSame('10P', $this->weapon->getDamage(5));
+        self::assertSame('10P', $this->weapon->getDamage(0));
     }
 
     /**
@@ -192,8 +192,8 @@ final class WeaponTest extends TestCase
     public function testGetDamageStrengthBased(): void
     {
         $weapon = new Weapon('combat-knife');
-        self::assertEquals('4P', $weapon->getDamage(2));
-        self::assertEquals('6P', $weapon->getDamage(4));
+        self::assertSame('4P', $weapon->getDamage(2));
+        self::assertSame('6P', $weapon->getDamage(4));
     }
 
     /**
@@ -202,8 +202,8 @@ final class WeaponTest extends TestCase
     public function testGetDamageUnarmedStrike(): void
     {
         $strike = new Weapon('unarmed-strike');
-        self::assertEquals('2S', $strike->getDamage(2));
-        self::assertEquals('5S', $strike->getDamage(5));
+        self::assertSame('2S', $strike->getDamage(2));
+        self::assertSame('5S', $strike->getDamage(5));
     }
 
     /**
@@ -226,9 +226,9 @@ final class WeaponTest extends TestCase
             'link' => 'test-link',
             'loaded' => 'deadb33f',
         ]);
-        self::assertEquals('AK-98', $weapon->name);
-        self::assertEquals('test-link', $weapon->link);
-        self::assertEquals('deadb33f', $weapon->loaded);
+        self::assertSame('AK-98', $weapon->name);
+        self::assertSame('test-link', $weapon->link);
+        self::assertSame('deadb33f', $weapon->loaded);
         self::assertEmpty($weapon->ammunition);
     }
 

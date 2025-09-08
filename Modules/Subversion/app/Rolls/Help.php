@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Subversion\Rolls;
 
 use App\Models\Channel;
+use App\Models\Character;
+use App\Models\ChatUser;
 use App\Rolls\Roll;
 use Omnicolor\Slack\Attachments\TextAttachment;
 use Omnicolor\Slack\Response;
@@ -41,7 +43,7 @@ class Help extends Roll
                 'color' => TextAttachment::COLOR_INFO,
             ],
         ];
-        if (null !== $this->character) {
+        if ($this->character instanceof Character) {
             $this->data[] = [
                 'title' => sprintf(
                     'Subversion commands (as %s):',
@@ -58,7 +60,7 @@ class Help extends Roll
             ];
             return;
         }
-        if (null === $this->chatUser) {
+        if (!$this->chatUser instanceof ChatUser) {
             $this->data[] = [
                 'color' => TextAttachment::COLOR_DANGER,
                 'discordText' => sprintf(

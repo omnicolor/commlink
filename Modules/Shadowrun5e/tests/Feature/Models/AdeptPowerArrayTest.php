@@ -22,7 +22,7 @@ final class AdeptPowerArrayTest extends TestCase
      * Subject under test.
      * @var AdeptPowerArray<AdeptPower>
      */
-    protected AdeptPowerArray $powers;
+    private AdeptPowerArray $powers;
 
     /**
      * Set up a clean subject.

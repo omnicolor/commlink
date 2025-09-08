@@ -32,7 +32,7 @@ class Info extends Roll
     ) {
         parent::__construct($content, $character, $channel);
         $this->chat_user = $this->channel->getChatUser();
-        if (null !== $this->chat_user && null !== $this->chat_user->user) {
+        if ($this->chat_user instanceof ChatUser && null !== $this->chat_user->user) {
             $this->commlink_user = $this->chat_user->user->email->address;
         }
         if (null !== $channel->campaign) {
@@ -43,7 +43,7 @@ class Info extends Roll
 
     protected function setCharacterName(): void
     {
-        if (null === $this->chat_user || null === $this->channel->id) {
+        if (!$this->chat_user instanceof ChatUser || null === $this->channel->id) {
             return;
         }
         $chatCharacter = ChatCharacter::where('channel_id', $this->channel->id)

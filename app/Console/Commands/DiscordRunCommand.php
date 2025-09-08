@@ -103,7 +103,7 @@ class DiscordRunCommand extends Command
             $message->guild_id,
             $message->webhook_id,
         );
-        if (null === $channel) {
+        if (!$channel instanceof Channel) {
             return;
         }
         $footer = $message->embeds[0]->footer?->text;

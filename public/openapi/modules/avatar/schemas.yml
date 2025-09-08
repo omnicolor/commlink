@@ -137,6 +137,8 @@ Character:
         history:
           nullable: true
           type: string
+        id:
+          type: string
         name:
           type: string
         passion:
@@ -184,6 +186,8 @@ Move:
       type: string
     name:
       type: string
+    page:
+      type: integer
     playbook:
       type: string
     ruleset:

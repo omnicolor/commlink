@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Tests\Feature\Enums;
 
+use Iterator;
 use Modules\Expanse\Enums\CrewCompetence;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -16,18 +17,16 @@ final class CrewCompetenceTest extends TestCase
 {
     /**
      * Data provider for testing crew competence bonuses.
-     * @return array<int, array<int, CrewCompetence|int>>
+     * @return Iterator<int, array<int, (int | CrewCompetence)>>
      */
-    public static function competenceProvider(): array
+    public static function competenceProvider(): Iterator
     {
-        return [
-            [CrewCompetence::Incompetent, 0],
-            [CrewCompetence::Poor, 1],
-            [CrewCompetence::Average, 2],
-            [CrewCompetence::Capable, 3],
-            [CrewCompetence::Skilled, 4],
-            [CrewCompetence::Elite, 5],
-        ];
+        yield [CrewCompetence::Incompetent, 0];
+        yield [CrewCompetence::Poor, 1];
+        yield [CrewCompetence::Average, 2];
+        yield [CrewCompetence::Capable, 3];
+        yield [CrewCompetence::Skilled, 4];
+        yield [CrewCompetence::Elite, 5];
     }
 
     #[DataProvider('competenceProvider')]

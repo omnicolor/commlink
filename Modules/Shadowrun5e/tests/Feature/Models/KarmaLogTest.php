@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
+use Iterator;
 use Modules\Shadowrun5e\Enums\AugmentationGrade;
 use Modules\Shadowrun5e\Models\ActiveSkill;
 use Modules\Shadowrun5e\Models\Character;
@@ -31,7 +32,7 @@ final class KarmaLogTest extends TestCase
     /**
      * Subject under test.
      */
-    protected KarmaLog $log;
+    private KarmaLog $log;
 
     /**
      * Set up a clean subject under test.
@@ -46,7 +47,7 @@ final class KarmaLogTest extends TestCase
     /**
      * Return a boring base character.
      */
-    protected function createCharacter(): Character
+    private function createCharacter(): Character
     {
         return new Character([
             'priorities' => [
@@ -129,7 +130,7 @@ final class KarmaLogTest extends TestCase
         foreach ($this->log as $entry) {
             self::assertSame('Test', $entry->description);
             self::assertSame($count, $entry->karma);
-            $count++;
+            ++$count;
         }
     }
 
@@ -238,110 +239,108 @@ final class KarmaLogTest extends TestCase
 
     /**
      * CompareSkill provider.
-     * @return array<int, array<int, callable>>
+     * @return Iterator<int, array<int, callable>>
      */
-    public static function skillProvider(): array
+    public static function skillProvider(): Iterator
     {
-        return [
-            [
-                function (): array {
-                    return [
-                        new ActiveSkill('hacking', 5),
-                        new ActiveSkill('hacking', 4),
-                        1,
-                    ];
-                },
-            ],
-            [
-                function (): array {
-                    return [
-                        new ActiveSkill('hacking', 1),
-                        new ActiveSkill('hacking', 1),
-                        0,
-                    ];
-                },
-            ],
-            [
-                function (): array {
-                    return [
-                        new ActiveSkill('hacking', 3),
-                        new ActiveSkill('hacking', 4),
-                        -1,
-                    ];
-                },
-            ],
-            [
-                function (): array {
-                    return [
-                        new KnowledgeSkill('foo', 'street', 5),
-                        new KnowledgeSkill('foo', 'street', 4),
-                        1,
-                    ];
-                },
-            ],
-            [
-                function (): array {
-                    return [
-                        new KnowledgeSkill('foo', 'street', 1),
-                        new KnowledgeSkill('foo', 'street', 1),
-                        0,
-                    ];
-                },
-            ],
-            [
-                function (): array {
-                    return [
-                        new KnowledgeSkill('foo', 'street', 4),
-                        new KnowledgeSkill('foo', 'street', 5),
-                        -1,
-                    ];
-                },
-            ],
-            [
-                function (): array {
-                    return [
-                        new KnowledgeSkill('English', 'language', 'N'),
-                        new KnowledgeSkill('Spanish', 'language', 'N'),
-                        0,
-                    ];
-                },
-            ],
-            [
-                function (): array {
-                    return [
-                        new KnowledgeSkill('English', 'language', 5),
-                        new KnowledgeSkill('Spanish', 'language', 4),
-                        1,
-                    ];
-                },
-            ],
-            [
-                function (): array {
-                    return [
-                        new KnowledgeSkill('English', 'language', 1),
-                        new KnowledgeSkill('Spanish', 'language', 2),
-                        -1,
-                    ];
-                },
-            ],
-            [
-                function (): array {
-                    return [
-                        new KnowledgeSkill('English', 'language', 'N'),
-                        new KnowledgeSkill('Spanish', 'language', 5),
-                        -1,
-                    ];
-                },
-            ],
-            [
-                function (): array {
-                    return [
-                        new KnowledgeSkill('English', 'language', 3),
-                        new KnowledgeSkill('Spanish', 'language', 'N'),
-                        1,
-                    ];
-                },
-            ],
+        yield [
+            function (): array {
+                return [
+                    new ActiveSkill('hacking', 5),
+                    new ActiveSkill('hacking', 4),
+                    1,
+                ];
+            },
+        ];
+        yield [
+            function (): array {
+                return [
+                    new ActiveSkill('hacking', 1),
+                    new ActiveSkill('hacking', 1),
+                    0,
+                ];
+            },
+        ];
+        yield [
+            function (): array {
+                return [
+                    new ActiveSkill('hacking', 3),
+                    new ActiveSkill('hacking', 4),
+                    -1,
+                ];
+            },
+        ];
+        yield [
+            function (): array {
+                return [
+                    new KnowledgeSkill('foo', 'street', 5),
+                    new KnowledgeSkill('foo', 'street', 4),
+                    1,
+                ];
+            },
+        ];
+        yield [
+            function (): array {
+                return [
+                    new KnowledgeSkill('foo', 'street', 1),
+                    new KnowledgeSkill('foo', 'street', 1),
+                    0,
+                ];
+            },
+        ];
+        yield [
+            function (): array {
+                return [
+                    new KnowledgeSkill('foo', 'street', 4),
+                    new KnowledgeSkill('foo', 'street', 5),
+                    -1,
+                ];
+            },
+        ];
+        yield [
+            function (): array {
+                return [
+                    new KnowledgeSkill('English', 'language', 'N'),
+                    new KnowledgeSkill('Spanish', 'language', 'N'),
+                    0,
+                ];
+            },
+        ];
+        yield [
+            function (): array {
+                return [
+                    new KnowledgeSkill('English', 'language', 5),
+                    new KnowledgeSkill('Spanish', 'language', 4),
+                    1,
+                ];
+            },
+        ];
+        yield [
+            function (): array {
+                return [
+                    new KnowledgeSkill('English', 'language', 1),
+                    new KnowledgeSkill('Spanish', 'language', 2),
+                    -1,
+                ];
+            },
+        ];
+        yield [
+            function (): array {
+                return [
+                    new KnowledgeSkill('English', 'language', 'N'),
+                    new KnowledgeSkill('Spanish', 'language', 5),
+                    -1,
+                ];
+            },
+        ];
+        yield [
+            function (): array {
+                return [
+                    new KnowledgeSkill('English', 'language', 3),
+                    new KnowledgeSkill('Spanish', 'language', 'N'),
+                    1,
+                ];
+            },
         ];
     }
 

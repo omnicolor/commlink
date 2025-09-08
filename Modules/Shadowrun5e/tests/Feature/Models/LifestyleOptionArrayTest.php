@@ -22,7 +22,7 @@ final class LifestyleOptionArrayTest extends TestCase
      * Subject under test.
      * @var LifestyleOptionArray<LifestyleOption>
      */
-    protected LifestyleOptionArray $options;
+    private LifestyleOptionArray $options;
 
     /**
      * Set up a clean subject.

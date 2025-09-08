@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Capers\Rolls;
 
 use App\Models\Channel;
+use App\Models\Character;
 use App\Rolls\Roll;
 use Omnicolor\Slack\Attachments\TextAttachment;
 use Omnicolor\Slack\Response;
@@ -44,7 +45,7 @@ class Help extends Roll
                 'text' => '· `shuffleAll` - Shuffle all decks',
                 'color' => TextAttachment::COLOR_INFO,
             ];
-        } elseif (null !== $this->character) {
+        } elseif ($this->character instanceof Character) {
             $this->data[] = [
                 'title' => 'Player',
                 'text' => (string)$this->character,

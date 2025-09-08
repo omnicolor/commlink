@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
-use DateTimeImmutable;
+use Carbon\CarbonImmutable;
 use Modules\Shadowrun5e\Models\KarmaLogEntry;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -32,17 +32,17 @@ final class KarmaLogEntryTest extends TestCase
      */
     public function testConstructorDates(): void
     {
-        $realDate = new DateTimeImmutable('2020-03-15');
-        $gameDate = new DateTimeImmutable('2080-04-01');
+        $realDate = CarbonImmutable::parse('2020-03-15');
+        $gameDate = CarbonImmutable::parse('2080-04-01');
         $entry = new KarmaLogEntry('Foo', 42, $realDate, $gameDate);
         self::assertSame('Foo', $entry->description);
         self::assertSame(42, $entry->karma);
         self::assertEquals(
-            new DateTimeImmutable('2020-03-15'),
+            CarbonImmutable::parse('2020-03-15'),
             $entry->realDate
         );
         self::assertEquals(
-            new DateTimeImmutable('2080-04-01'),
+            CarbonImmutable::parse('2080-04-01'),
             $entry->gameDate
         );
     }

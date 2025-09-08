@@ -23,7 +23,7 @@ final class SkillArrayTest extends TestCase
      * Subject under test.
      * @var SkillArray<Skill>
      */
-    protected SkillArray $skills;
+    private SkillArray $skills;
 
     /**
      * Set up a clean subject.
