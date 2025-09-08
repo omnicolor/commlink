@@ -24,7 +24,7 @@ final class CampaignTest extends TestCase
      * This creates a new campaign, and makes sure that campaign ID doesn't have
      * any residual characters tied to it.
      */
-    protected function createCleanCampaign(): Campaign
+    private function createCleanCampaign(): Campaign
     {
         $campaign = Campaign::factory()->create();
         $campaign->characters()->each(function (BaseCharacter $character, $key): void {

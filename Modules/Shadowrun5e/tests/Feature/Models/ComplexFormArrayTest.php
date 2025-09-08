@@ -22,7 +22,7 @@ final class ComplexFormArrayTest extends TestCase
      * Subject under test.
      * @var ComplexFormArray<ComplexForm>
      */
-    protected ComplexFormArray $forms;
+    private ComplexFormArray $forms;
 
     /**
      * Set up a clean subject.

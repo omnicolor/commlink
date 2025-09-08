@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Rolls;
 
 use App\Events\InitiativeAdded;
+use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Initiative;
 use App\Rolls\Roll;
@@ -55,7 +56,7 @@ class Init extends Roll
             $this->handleGmCommands();
             return;
         }
-        if (null === $this->campaign) {
+        if (!$this->campaign instanceof Campaign) {
             // For channels without a campaign, anyone can pretend to be the GM.
             $this->handleGmCommands();
 
@@ -98,7 +99,7 @@ class Init extends Roll
             ],
             ['initiative' => $this->initiativeScore + array_sum($this->dice)],
         );
-        if (null !== $this->campaign) {
+        if ($this->campaign instanceof Campaign) {
             InitiativeAdded::dispatch(
                 $initiative,
                 $this->campaign,
@@ -116,7 +117,7 @@ class Init extends Roll
 
         switch ($args[0] ?? '') {
             case 'clear':
-                if (null !== $this->campaign) {
+                if ($this->campaign instanceof Campaign) {
                     Initiative::forCampaign($this->campaign)->delete();
                 } else {
                     Initiative::forChannel($this->channel)->delete();
@@ -125,7 +126,7 @@ class Init extends Roll
                 $this->text = 'The GM has cleared the initiative tracker.';
                 break;
             case 'start':
-                if (null !== $this->campaign) {
+                if ($this->campaign instanceof Campaign) {
                     Initiative::forCampaign($this->campaign)->delete();
                 } else {
                     Initiative::forChannel($this->channel)->delete();

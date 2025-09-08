@@ -22,7 +22,7 @@ use const DIRECTORY_SEPARATOR;
 #[Medium]
 final class CyberpunkRedConverterTest extends TestCase
 {
-    protected static string $testFile;
+    private static string $testFile;
 
     #[Override]
     public static function setUpBeforeClass(): void

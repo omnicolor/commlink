@@ -21,7 +21,7 @@ final class WeaponModificationArrayTest extends TestCase
     /**
      * Subject under test.
      */
-    protected WeaponModificationArray $mods;
+    private WeaponModificationArray $mods;
 
     /**
      * Set up a clean subject.

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Transformers\Tests\Feature\Models;
 
+use Iterator;
 use Modules\Transformers\Models\AltMode;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -16,55 +17,53 @@ use Tests\TestCase;
 final class AltModeTest extends TestCase
 {
     /**
-     * @return array<string, array<string, int|null|string>>
+     * @return Iterator<string, array<int, (int | string | null)>>
      */
-    public static function altModeStatisticProvider(): array
+    public static function altModeStatisticProvider(): Iterator
     {
-        return [
-            'vehicle' => [
-                'mode' => AltMode::TYPE_VEHICLE,
-                'strength' => -2,
-                'intelligence' => 2,
-                'speed' => 4,
-                'endurance' => -2,
-                'rank' => 0,
-                'courage' => 1,
-                'firepower' => null,
-                'skill' => 0,
-            ],
-            'machine' => [
-                'mode' => AltMode::TYPE_MACHINE,
-                'strength' => 1,
-                'intelligence' => 0,
-                'speed' => -2,
-                'endurance' => 2,
-                'rank' => 0,
-                'courage' => 0,
-                'firepower' => null,
-                'skill' => 2,
-            ],
-            'weapon' => [
-                'mode' => AltMode::TYPE_WEAPON,
-                'strength' => null,
-                'intelligence' => 0,
-                'speed' => 0,
-                'endurance' => -2,
-                'rank' => 0,
-                'courage' => 2,
-                'firepower' => 1,
-                'skill' => 2,
-            ],
-            'primitive' => [
-                'mode' => AltMode::TYPE_PRIMITIVE,
-                'strength' => 3,
-                'intelligence' => 0,
-                'speed' => 2,
-                'endurance' => 1,
-                'rank' => 0,
-                'courage' => 0,
-                'firepower' => null,
-                'skill' => -3,
-            ],
+        yield 'vehicle' => [
+            AltMode::TYPE_VEHICLE,
+            -2,
+            2,
+            4,
+            -2,
+            0,
+            1,
+            null,
+            0,
+        ];
+        yield 'machine' => [
+            AltMode::TYPE_MACHINE,
+            1,
+            0,
+            -2,
+            2,
+            0,
+            0,
+            null,
+            2,
+        ];
+        yield 'weapon' => [
+            AltMode::TYPE_WEAPON,
+            null,
+            0,
+            0,
+            -2,
+            0,
+            2,
+            1,
+            2,
+        ];
+        yield 'primitive' => [
+            AltMode::TYPE_PRIMITIVE,
+            3,
+            0,
+            2,
+            1,
+            0,
+            0,
+            null,
+            -3,
         ];
     }
 

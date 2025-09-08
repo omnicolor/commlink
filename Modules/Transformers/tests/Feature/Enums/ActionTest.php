@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Transformers\Tests\Feature\Enums;
 
+use Iterator;
 use Modules\Transformers\Enums\Action;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -15,33 +16,31 @@ use Tests\TestCase;
 final class ActionTest extends TestCase
 {
     /**
-     * @return array<int, array{0: Action, 1: non-empty-string}>
+     * @return Iterator<int, array{Action, non-empty-string}>
      */
-    public static function firstWordProvider(): array
+    public static function firstWordProvider(): Iterator
     {
-        return [
-            [Action::Accuracy, 'Target'],
-            [Action::Acrobatics, 'Jumping'],
-            [Action::Assault, 'Fire'],
-            [Action::Communication, 'Free'],
-            [Action::Construction, 'Creation'],
-            [Action::Dash, 'Roll'],
-            [Action::Data, 'Know'],
-            [Action::Defence, 'Roll'],
-            [Action::Demolition, 'Free'],
-            [Action::Espionage, 'Stealth'],
-            [Action::Intercept, 'Gain'],
-            [Action::Invention, 'Draw'],
-            [Action::Materials, 'Interact'],
-            [Action::MeleeAttack, 'Attack'],
-            [Action::Repair, 'Restore'],
-            [Action::Sabotage, 'Affect'],
-            [Action::Strategy, 'Project'],
-            [Action::Support, 'Roll'],
-            [Action::Surveillance, 'Visual'],
-            [Action::Transform, 'Once'],
-            [Action::Trooper, 'Summon'],
-        ];
+        yield [Action::Accuracy, 'Target'];
+        yield [Action::Acrobatics, 'Jumping'];
+        yield [Action::Assault, 'Fire'];
+        yield [Action::Communication, 'Free'];
+        yield [Action::Construction, 'Creation'];
+        yield [Action::Dash, 'Roll'];
+        yield [Action::Data, 'Know'];
+        yield [Action::Defence, 'Roll'];
+        yield [Action::Demolition, 'Free'];
+        yield [Action::Espionage, 'Stealth'];
+        yield [Action::Intercept, 'Gain'];
+        yield [Action::Invention, 'Draw'];
+        yield [Action::Materials, 'Interact'];
+        yield [Action::MeleeAttack, 'Attack'];
+        yield [Action::Repair, 'Restore'];
+        yield [Action::Sabotage, 'Affect'];
+        yield [Action::Strategy, 'Project'];
+        yield [Action::Support, 'Roll'];
+        yield [Action::Surveillance, 'Visual'];
+        yield [Action::Transform, 'Once'];
+        yield [Action::Trooper, 'Summon'];
     }
 
     /**
@@ -54,33 +53,31 @@ final class ActionTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, int|Action>>
+     * @return Iterator<int, array<int, (int | Action)>>
      */
-    public static function programmingCountProvider(): array
+    public static function programmingCountProvider(): Iterator
     {
-        return [
-            [Action::Accuracy, 1],
-            [Action::Acrobatics, 1],
-            [Action::Assault, 4],
-            [Action::Communication, 1],
-            [Action::Construction, 1],
-            [Action::Dash, 2],
-            [Action::Data, 1],
-            [Action::Defence, 2],
-            [Action::Demolition, 1],
-            [Action::Espionage, 1],
-            [Action::Intercept, 1],
-            [Action::Invention, 1],
-            [Action::Materials, 1],
-            [Action::MeleeAttack, 4],
-            [Action::Repair, 1],
-            [Action::Sabotage, 1],
-            [Action::Strategy, 1],
-            [Action::Support, 1],
-            [Action::Surveillance, 1],
-            [Action::Transform, 4],
-            [Action::Trooper, 1],
-        ];
+        yield [Action::Accuracy, 1];
+        yield [Action::Acrobatics, 1];
+        yield [Action::Assault, 4];
+        yield [Action::Communication, 1];
+        yield [Action::Construction, 1];
+        yield [Action::Dash, 2];
+        yield [Action::Data, 1];
+        yield [Action::Defence, 2];
+        yield [Action::Demolition, 1];
+        yield [Action::Espionage, 1];
+        yield [Action::Intercept, 1];
+        yield [Action::Invention, 1];
+        yield [Action::Materials, 1];
+        yield [Action::MeleeAttack, 4];
+        yield [Action::Repair, 1];
+        yield [Action::Sabotage, 1];
+        yield [Action::Strategy, 1];
+        yield [Action::Support, 1];
+        yield [Action::Surveillance, 1];
+        yield [Action::Transform, 4];
+        yield [Action::Trooper, 1];
     }
 
     #[DataProvider('programmingCountProvider')]
@@ -90,33 +87,31 @@ final class ActionTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, string|Action>>
+     * @return Iterator<int, array<int, (Action | string)>>
      */
-    public static function actionStatisticProvider(): array
+    public static function actionStatisticProvider(): Iterator
     {
-        return [
-            [Action::Accuracy, 'skill'],
-            [Action::Acrobatics, 'skill'],
-            [Action::Assault, 'firepower'],
-            [Action::Communication, 'skill'],
-            [Action::Construction, 'endurance'],
-            [Action::Dash, 'speed'],
-            [Action::Data, 'speed'],
-            [Action::Defence, 'endurance'],
-            [Action::Demolition, 'intelligence'],
-            [Action::Espionage, 'courage'],
-            [Action::Intercept, 'courage'],
-            [Action::Invention, 'intelligence'],
-            [Action::Materials, 'courage'],
-            [Action::MeleeAttack, 'strength'],
-            [Action::Repair, 'skill'],
-            [Action::Sabotage, 'endurance'],
-            [Action::Strategy, 'intelligence'],
-            [Action::Support, 'speed'],
-            [Action::Surveillance, 'intelligence'],
-            [Action::Transform, 'rank'],
-            [Action::Trooper, 'courage'],
-        ];
+        yield [Action::Accuracy, 'skill'];
+        yield [Action::Acrobatics, 'skill'];
+        yield [Action::Assault, 'firepower'];
+        yield [Action::Communication, 'skill'];
+        yield [Action::Construction, 'endurance'];
+        yield [Action::Dash, 'speed'];
+        yield [Action::Data, 'speed'];
+        yield [Action::Defence, 'endurance'];
+        yield [Action::Demolition, 'intelligence'];
+        yield [Action::Espionage, 'courage'];
+        yield [Action::Intercept, 'courage'];
+        yield [Action::Invention, 'intelligence'];
+        yield [Action::Materials, 'courage'];
+        yield [Action::MeleeAttack, 'strength'];
+        yield [Action::Repair, 'skill'];
+        yield [Action::Sabotage, 'endurance'];
+        yield [Action::Strategy, 'intelligence'];
+        yield [Action::Support, 'speed'];
+        yield [Action::Surveillance, 'intelligence'];
+        yield [Action::Transform, 'rank'];
+        yield [Action::Trooper, 'courage'];
     }
 
     #[DataProvider('actionStatisticProvider')]

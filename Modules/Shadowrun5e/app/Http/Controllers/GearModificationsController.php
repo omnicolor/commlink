@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 
 use function abort_if;
@@ -12,7 +13,6 @@ use function array_key_exists;
 use function array_values;
 use function assert;
 use function config;
-use function date;
 use function json_encode;
 use function response;
 use function route;
@@ -48,7 +48,7 @@ class GearModificationsController extends Controller
 
         $stat = stat($this->filename);
         assert(false !== $stat); // require() would have failed.
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = Carbon::createFromTimestamp($stat['mtime'])->format('r');
     }
 
     /**
@@ -56,7 +56,7 @@ class GearModificationsController extends Controller
      */
     public function index(): Response
     {
-        foreach ($this->mods as $key => $value) {
+        foreach (array_keys($this->mods) as $key) {
             $this->mods[$key]['links']['self'] = route(
                 'shadowrun5e.gear-modifications.show',
                 $key,

@@ -44,9 +44,7 @@ class ExpanseConverter implements ConverterInterface
                 flags: JSON_THROW_ON_ERROR,
             );
         } catch (JsonException $ex) {
-            throw new RuntimeException(
-                'File does not appear to be a World Anvil file'
-            );
+            throw new RuntimeException('File does not appear to be a World Anvil file', $ex->getCode(), $ex);
         }
 
         if (
@@ -160,7 +158,7 @@ class ExpanseConverter implements ConverterInterface
     {
         $talents = [];
         // World Anvil sheets have room for 20 talents.
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 20; ++$i) {
             $property = 'talent_name_' . Str::padLeft((string)$i, 2, '0');
             $talent = strtolower($this->rawCharacter->$property);
             if ('' === $talent) {

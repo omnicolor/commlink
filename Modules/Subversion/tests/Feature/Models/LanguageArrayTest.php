@@ -18,7 +18,7 @@ use stdClass;
 final class LanguageArrayTest extends TestCase
 {
     /** @var LanguageArray<Language> */
-    protected LanguageArray $languages;
+    private LanguageArray $languages;
 
     #[Override]
     public function setUp(): void

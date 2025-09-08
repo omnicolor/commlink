@@ -259,12 +259,12 @@ final class Weapon implements Stringable
     {
         $cost = (int)$this->cost;
         foreach ($this->modifications as $mod) {
-            assert(null !== $mod);
+            assert($mod instanceof WeaponModification);
             $cost += $mod->getCost($this);
         }
         foreach ($this->accessories as $mod) {
             // Accessories are might be null for a given slot.
-            if (null === $mod) {
+            if (!$mod instanceof WeaponModification) {
                 continue;
             }
             $cost += $mod->getCost($this);

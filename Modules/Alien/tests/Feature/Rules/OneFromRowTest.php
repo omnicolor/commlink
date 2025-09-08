@@ -44,7 +44,7 @@ final class OneFromRowTest extends TestCase
             'gear' => [],
         ]);
 
-        $rule->validate('unused', 'unused', function (string $message): void {
+        $rule->validate('unused', 'unused', function (): never {
             self::fail('Validator called $fail Closure');
         });
     }
@@ -61,7 +61,7 @@ final class OneFromRowTest extends TestCase
             ],
         ]);
 
-        $rule->validate('unused', 'unused', function (string $message): void {
+        $rule->validate('unused', 'unused', function (): never {
             self::fail('Validator called $fail Closure');
         });
     }

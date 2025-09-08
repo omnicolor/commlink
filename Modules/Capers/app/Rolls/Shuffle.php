@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Rolls;
 
+use App\Models\Campaign;
 use App\Models\Channel;
 use App\Rolls\Roll;
 use Exception;
@@ -59,7 +60,7 @@ class Shuffle extends Roll
     protected function findOrCreateDeck(): void
     {
         // Constructor sets an error if $this->campaign is not set.
-        assert(null !== $this->campaign);
+        assert($this->campaign instanceof Campaign);
         try {
             $this->deck = StandardDeck::findForCampaignAndPlayer(
                 $this->campaign,

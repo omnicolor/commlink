@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Blistercritters\Rolls;
 
 use App\Models\Channel;
+use App\Models\Character;
 use App\Rolls\Roll;
 use Omnicolor\Slack\Attachments\TextAttachment;
 use Omnicolor\Slack\Response;
@@ -43,7 +44,7 @@ class Help extends Roll
                 . 'is for "text"' . PHP_EOL,
             'color' => TextAttachment::COLOR_INFO,
         ];
-        if (null !== $this->character) {
+        if ($this->character instanceof Character) {
             $this->data[] = [
                 'title' => 'Player',
                 'text' => 'You\'re playing ' . $this->character

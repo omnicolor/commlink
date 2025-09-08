@@ -21,7 +21,7 @@ final class PowerArrayTest extends TestCase
      * Subject under test.
      * @var PowerArray<Power>
      */
-    protected PowerArray $powers;
+    private PowerArray $powers;
 
     /**
      * Set up a clean subject.

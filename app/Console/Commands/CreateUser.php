@@ -51,9 +51,9 @@ class CreateUser extends Command
             required: true,
         );
         $roles = multiselect(
-            hint: 'Selecting none creates a normal user',
             label: 'What role(s) should the user have?',
             options: Role::all()->pluck('name'),
+            hint: 'Selecting none creates a normal user',
         );
 
         try {

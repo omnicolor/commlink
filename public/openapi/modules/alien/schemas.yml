@@ -289,6 +289,8 @@ Injury:
       type: integer
     effects:
       type: object
+    effects_text:
+      type: string
     fatal:
       type: boolean
     healing_time:
@@ -530,6 +532,8 @@ Weapon:
       type: integer
     id:
       type: string
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
     modifiers:
       items:
         enum:
@@ -555,6 +559,8 @@ Weapon:
         - medium
         - long
         - extreme
+      type: string
+    ruleset:
       type: string
     weight:
       nullable: true

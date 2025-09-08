@@ -22,7 +22,7 @@ final class ContactArrayTest extends TestCase
      * Subject under test.
      * @var ContactArray<Contact>
      */
-    protected ContactArray $contacts;
+    private ContactArray $contacts;
 
     /**
      * Set up a clean subject.

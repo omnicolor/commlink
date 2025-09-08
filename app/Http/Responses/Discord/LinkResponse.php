@@ -48,7 +48,7 @@ class LinkResponse implements Stringable
             ->where('channel_id', $this->textChannel->id)
             ->where('server_id', $this->event->server->id)
             ->first();
-        if (null === $this->channel) {
+        if (!$this->channel instanceof Channel) {
             $this->sendChannelNotRegisteredError();
             return;
         }
@@ -62,7 +62,7 @@ class LinkResponse implements Stringable
             return;
         }
 
-        if (null !== $this->channel->character()) {
+        if ($this->channel->character() instanceof Character) {
             $this->sendAlreadyLinkedError($this->channel->character());
             return;
         }

@@ -99,15 +99,14 @@ class Number extends Roll
 
     protected function formatText(): string
     {
-        $result = (string)$this->result;
         if (0 !== $this->getStuntPoints()) {
-            $result = sprintf(
+            return sprintf(
                 '%d (%d SP)',
                 $this->result,
                 $this->getStuntPoints()
             );
         }
-        return $result;
+        return (string)$this->result;
     }
 
     protected function formatFooter(): string

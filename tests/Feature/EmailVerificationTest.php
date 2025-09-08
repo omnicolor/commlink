@@ -15,7 +15,7 @@ use Tests\TestCase;
 use function sha1;
 
 #[Medium]
-class EmailVerificationTest extends TestCase
+final class EmailVerificationTest extends TestCase
 {
     public function testEmailVerificationScreenCanBeRendered(): void
     {

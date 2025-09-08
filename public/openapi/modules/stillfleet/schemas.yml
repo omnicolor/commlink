@@ -120,9 +120,9 @@ Character:
       type: string
   required:
     - attributes
+    - classes
     - name
     - rank
-    - roles
     - species
     - id
     - owner
@@ -437,13 +437,15 @@ Weapon:
       type: string
     page:
       type: integer
+    price:
+      type: integer
     range:
       type: integer
     ruleset:
       type: string
     tech_cost:
       type: integer
-    tech_stata:
+    tech_strata:
       $ref: '#/TechStrata'
     type:
       enum:

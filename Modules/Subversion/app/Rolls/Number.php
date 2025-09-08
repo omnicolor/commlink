@@ -56,8 +56,8 @@ class Number extends Roll
         $args = explode(' ', trim($content));
         $this->dice = (int)array_shift($args);
         while ($this->dice < 3) {
-            $this->dice++;
-            $this->dulled--;
+            ++$this->dice;
+            --$this->dulled;
         }
         $this->roll();
     }
