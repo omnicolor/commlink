@@ -27,7 +27,7 @@ final class QualityTest extends TestCase
     public function testLoadingLuckyId(): Quality
     {
         $quality = new Quality('lucky');
-        self::assertEquals('lucky', $quality->id);
+        self::assertSame('lucky', $quality->id);
         return $quality;
     }
 
@@ -35,7 +35,7 @@ final class QualityTest extends TestCase
     public function testLoadingLuckySetsEffects(Quality $quality): void
     {
         $expected = ['maximum-edge' => 1, 'notoriety' => -1];
-        self::assertEquals($expected, $quality->effects);
+        self::assertSame($expected, $quality->effects);
     }
 
     #[Depends('testLoadingLuckyId')]
@@ -45,7 +45,7 @@ final class QualityTest extends TestCase
         $expected = [
             'lucky',
         ];
-        self::assertEquals($expected, $quality->incompatibilities);
+        self::assertSame($expected, $quality->incompatibilities);
     }
 
     /**
@@ -54,7 +54,7 @@ final class QualityTest extends TestCase
     #[Depends('testLoadingLuckyId')]
     public function testLoadingLuckyKarma(Quality $quality): void
     {
-        self::assertEquals(-12, $quality->karma);
+        self::assertSame(-12, $quality->karma);
     }
 
     /**
@@ -63,7 +63,7 @@ final class QualityTest extends TestCase
     #[Depends('testLoadingLuckyId')]
     public function testLoadingLuckyName(Quality $quality): void
     {
-        self::assertEquals('Lucky', $quality->name);
+        self::assertSame('Lucky', $quality->name);
     }
 
     /**
@@ -73,13 +73,13 @@ final class QualityTest extends TestCase
     #[Depends('testLoadingLuckyId')]
     public function testLoadingLuckyRuleset(Quality $quality): void
     {
-        self::assertEquals('core', $quality->ruleset);
+        self::assertSame('core', $quality->ruleset);
     }
 
     #[Depends('testLoadingLuckyId')]
     public function testLoadingLuckyToString(Quality $quality): void
     {
-        self::assertEquals('Lucky', (string)$quality);
+        self::assertSame('Lucky', (string)$quality);
     }
 
     /**
@@ -92,7 +92,7 @@ final class QualityTest extends TestCase
             ['limits' => ['mental', 'mental']]
         );
         self::assertEquals(2, $quality->effects['mental-limit']);
-        self::assertEquals('Indomitable (mental, mental)', (string)$quality);
+        self::assertSame('Indomitable (mental, mental)', (string)$quality);
     }
 
     /**
@@ -104,7 +104,7 @@ final class QualityTest extends TestCase
             'allergy-uncommon-mild',
             ['allergy' => 'alcohol']
         );
-        self::assertEquals(
+        self::assertSame(
             'Allergy (Uncommon Mild - alcohol)',
             (string)$quality
         );
@@ -119,7 +119,7 @@ final class QualityTest extends TestCase
             'addiction-mild',
             ['addiction' => 'alcohol']
         );
-        self::assertEquals(
+        self::assertSame(
             'Addiction (Mild - alcohol)',
             (string)$quality
         );

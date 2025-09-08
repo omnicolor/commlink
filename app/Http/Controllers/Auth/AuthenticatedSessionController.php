@@ -62,7 +62,8 @@ class AuthenticatedSessionController extends Controller
             );
 
             $invitation->status = CampaignInvitationStatus::Responded;
-            $invitation->responded_at = $invitation->updated_at = now()->toDateTimeString();
+            $invitation->responded_at = now()->toDateTimeString();
+            $invitation->updated_at = $invitation->responded_at;
             $invitation->save();
 
             $request->session()->regenerate();

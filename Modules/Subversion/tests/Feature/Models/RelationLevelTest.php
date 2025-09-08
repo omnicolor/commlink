@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Tests\Feature\Models;
 
+use Iterator;
 use Modules\Subversion\Models\RelationLevel;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -34,20 +35,18 @@ final class RelationLevelTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, int|string>>
+     * @return Iterator<int, array<int, (int | string)>>
      */
-    public static function sortDataProvider(): array
+    public static function sortDataProvider(): Iterator
     {
-        return [
-            ['big-shot', 'big-shot', 0],
-            ['big-shot', 'personal-connection', -1],
-            ['personal-connection', 'big-shot', 1],
-            ['big-shot', 'sponsor', -1],
-            ['personal-connection', 'sponsor', -1],
-            ['sponsor', 'big-shot', 1],
-            ['sponsor', 'sponsor', 0],
-            ['friend', 'friend', 0],
-        ];
+        yield ['big-shot', 'big-shot', 0];
+        yield ['big-shot', 'personal-connection', -1];
+        yield ['personal-connection', 'big-shot', 1];
+        yield ['big-shot', 'sponsor', -1];
+        yield ['personal-connection', 'sponsor', -1];
+        yield ['sponsor', 'big-shot', 1];
+        yield ['sponsor', 'sponsor', 0];
+        yield ['friend', 'friend', 0];
     }
 
     #[DataProvider('sortDataProvider')]

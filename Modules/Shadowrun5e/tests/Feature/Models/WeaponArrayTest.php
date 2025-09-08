@@ -22,7 +22,7 @@ final class WeaponArrayTest extends TestCase
      * Subject under test.
      * @var WeaponArray<Weapon>
      */
-    protected WeaponArray $weapons;
+    private WeaponArray $weapons;
 
     /**
      * Set up a clean subject.

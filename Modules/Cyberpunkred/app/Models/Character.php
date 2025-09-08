@@ -150,7 +150,9 @@ class Character extends BaseCharacter implements Stringable
     {
         return Attribute::make(
             get: function (?array $armor): array {
-                $head = $body = $shield = null;
+                $head = null;
+                $body = null;
+                $shield = null;
                 $unworn = [];
                 if (isset($armor['head'])) {
                     $head = new Armor($armor['head']);

@@ -29,7 +29,7 @@
                 "action": "composer phpstan"
             },
             {
-                "action": "composer test"
+                "action": "composer rector"
             }
         ]
     },

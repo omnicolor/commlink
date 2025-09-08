@@ -218,8 +218,8 @@ class Shadowrun5eConverter implements ConverterInterface
         $this->character->logic = (int)$attributes[5];
         $this->character->intuition = (int)$attributes[6];
         $this->character->charisma = (int)$attributes[7];
-        $this->character->edge = $this->character->edgeCurrent
-            = (int)$attributes[8];
+        $this->character->edge = (int)$attributes[8];
+        $this->character->edgeCurrent = (int)$attributes[8];
 
         // Note: That's not a normal dash...
         if ('–' !== $attributes[9]) {

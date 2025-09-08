@@ -6,6 +6,7 @@ namespace Tests\Feature\Services;
 
 use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
+use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -99,20 +100,18 @@ final class DiceServiceTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, int|string>>
+     * @return Iterator<int, array<int, (int | string)>>
      */
-    public static function diceAndPipsProvider(): array
+    public static function diceAndPipsProvider(): Iterator
     {
-        return [
-            ['1d6', 1, 6],
-            ['100d4', 100, 4],
-            ['d20', 1, 20],
-            ['19d100', 19, 100],
-            ['1D6', 1, 6],
-            ['100D4', 100, 4],
-            ['D20', 1, 20],
-            ['19D100', 19, 100],
-        ];
+        yield ['1d6', 1, 6];
+        yield ['100d4', 100, 4];
+        yield ['d20', 1, 20];
+        yield ['19d100', 19, 100];
+        yield ['1D6', 1, 6];
+        yield ['100D4', 100, 4];
+        yield ['D20', 1, 20];
+        yield ['19D100', 19, 100];
     }
 
     #[DataProvider('diceAndPipsProvider')]

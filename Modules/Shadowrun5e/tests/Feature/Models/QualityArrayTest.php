@@ -22,7 +22,7 @@ final class QualityArrayTest extends TestCase
      * Subject under test.
      * @var QualityArray<Quality>
      */
-    protected QualityArray $qualities;
+    private QualityArray $qualities;
 
     /**
      * Set up a clean subject.

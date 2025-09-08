@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Cyberpunkred\Rolls;
 
 use App\Events\InitiativeAdded;
+use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Initiative;
 use App\Rolls\Roll;
@@ -66,7 +67,7 @@ class Init extends Roll
         array_shift($args);
         $this->args = $args;
 
-        if (null === $this->character && [] === $this->args) {
+        if (!$this->character instanceof \App\Models\Character && [] === $this->args) {
             $this->error = 'Rolling initiative without a linked character '
                 . 'requires your reflexes, and optionally any modififers: '
                 . '`/roll init 8 -2` for a character with 8 REF and a wound '
@@ -113,7 +114,7 @@ class Init extends Roll
             ],
             ['initiative' => $this->roll + $this->reflexes + $this->modifier],
         );
-        if (null !== $this->campaign) {
+        if ($this->campaign instanceof Campaign) {
             InitiativeAdded::dispatch(
                 $this->initiative,
                 $this->campaign,

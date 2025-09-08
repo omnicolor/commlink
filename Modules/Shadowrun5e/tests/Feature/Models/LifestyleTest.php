@@ -101,21 +101,21 @@ final class LifestyleTest extends TestCase
         $lifestyle = new Lifestyle('low');
         $lifestyle->attributes->neighborhood = 0;
         self::assertEquals(new LifestyleZone('z'), $lifestyle->getZone());
-        $lifestyle->attributes->neighborhood++;
+        ++$lifestyle->attributes->neighborhood;
         self::assertEquals(new LifestyleZone('e'), $lifestyle->getZone());
-        $lifestyle->attributes->neighborhood++;
+        ++$lifestyle->attributes->neighborhood;
         self::assertEquals(new LifestyleZone('d'), $lifestyle->getZone());
-        $lifestyle->attributes->neighborhood++;
+        ++$lifestyle->attributes->neighborhood;
         self::assertEquals(new LifestyleZone('c'), $lifestyle->getZone());
-        $lifestyle->attributes->neighborhood++;
+        ++$lifestyle->attributes->neighborhood;
         self::assertEquals(new LifestyleZone('b'), $lifestyle->getZone());
-        $lifestyle->attributes->neighborhood++;
+        ++$lifestyle->attributes->neighborhood;
         self::assertEquals(new LifestyleZone('a'), $lifestyle->getZone());
-        $lifestyle->attributes->neighborhood++;
+        ++$lifestyle->attributes->neighborhood;
         self::assertEquals(new LifestyleZone('aa'), $lifestyle->getZone());
-        $lifestyle->attributes->neighborhood++;
+        ++$lifestyle->attributes->neighborhood;
         self::assertEquals(new LifestyleZone('aaa'), $lifestyle->getZone());
-        $lifestyle->attributes->neighborhood++;
+        ++$lifestyle->attributes->neighborhood;
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Neighborhood rating out of range');
         $lifestyle->getZone();
@@ -131,11 +131,11 @@ final class LifestyleTest extends TestCase
         $lifestyle = new Lifestyle('low');
         $hotTub = new LifestyleOption('increase-neighborhood');
         $lifestyle->options[] = $hotTub;
-        self::assertEquals(2200, $lifestyle->getCost());
+        self::assertSame(2200, $lifestyle->getCost());
 
         $pool = new LifestyleOption('swimming-pool');
         $lifestyle->options[] = $pool;
-        self::assertEquals(2300, $lifestyle->getCost());
+        self::assertSame(2300, $lifestyle->getCost());
     }
 
     /**

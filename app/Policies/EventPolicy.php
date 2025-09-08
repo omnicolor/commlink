@@ -29,7 +29,7 @@ class EventPolicy
      */
     public function view(?User $user, Event $event): bool
     {
-        if (null === $user) {
+        if (!$user instanceof User) {
             return false;
         }
 

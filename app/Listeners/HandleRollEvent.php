@@ -30,7 +30,7 @@ class HandleRollEvent
      */
     public function handle(RollEvent $event): void
     {
-        if (null === $event->source) {
+        if (!$event->source instanceof Channel) {
             // Not having a source should not happen.
             return;
         }

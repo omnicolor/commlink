@@ -19,27 +19,27 @@ Route::middleware('auth:sanctum')
         Route::resource('characters', CharactersController::class)
             ->only(['index', 'show']);
 
-        Route::get('classes', function (): AnonymousResourceCollection {
+        Route::get('classes', static function (): AnonymousResourceCollection {
             return RoleResource::collection(Role::all())
                 ->additional(['links' => ['self' => route('stillfleet.classes.index')]]);
         })->name('classes.index');
-        Route::get('classes/{class}', function (Role $class) {
+        Route::get('classes/{class}', static function (Role $class): RoleResource {
             return new RoleResource($class);
         })->name('classes.show');
 
-        Route::get('powers', function (): AnonymousResourceCollection {
+        Route::get('powers', static function (): AnonymousResourceCollection {
             return PowerResource::collection(Power::all())
                 ->additional(['links' => ['self' => route('stillfleet.powers.index')]]);
         })->name('powers.index');
-        Route::get('powers/{power}', function (Power $power) {
+        Route::get('powers/{power}', static function (Power $power): PowerResource {
             return new PowerResource($power);
         })->name('powers.show');
 
-        Route::get('species', function (): AnonymousResourceCollection {
+        Route::get('species', static function (): AnonymousResourceCollection {
             return SpeciesResource::collection(Species::all())
                 ->additional(['links' => ['self' => route('stillfleet.species.index')]]);
         })->name('species.index');
-        Route::get('species/{species}', function (Species $species) {
+        Route::get('species/{species}', static function (Species $species): SpeciesResource {
             return new SpeciesResource($species);
         })->name('species.show');
     });

@@ -454,7 +454,7 @@ class ImportChummerData extends Command implements Isolatable
             return;
         }
 
-        for ($rating = 1; $rating <= (int)$aug->rating; $rating++) {
+        for ($rating = 1; $rating <= (int)$aug->rating; ++$rating) {
             $augmentation['availability'] = $this->cleanAvailability($aug, $rating);
             $augmentation['cost'] = $this->calculateCost((string)$aug->cost, $rating);
             $augmentation['essence'] = $this->calculateEssence((string)$aug->ess, $rating);
@@ -677,7 +677,7 @@ class ImportChummerData extends Command implements Isolatable
             }
 
             $maxRating = min((int)$rawGear->rating, 12);
-            for ($rating = 1; $rating <= $maxRating; $rating++) {
+            for ($rating = 1; $rating <= $maxRating; ++$rating) {
                 $gear['rating'] = $rating;
                 $gear['availability']
                     = $this->cleanAvailability($rawGear, $rating);
@@ -822,7 +822,7 @@ class ImportChummerData extends Command implements Isolatable
             // For some reason Chummer's data file lists the maximum rating for
             // two grenades from Kill Code as 100000 but enforces max level 10.
             $maxRating = (int)((int)$rawWeapon->maxrating / 10000);
-            for ($rating = 1; $rating <= $maxRating; $rating++) {
+            for ($rating = 1; $rating <= $maxRating; ++$rating) {
                 $weapon['availability']
                     = $this->cleanAvailability($rawWeapon, $rating);
                 $weapon['cost']
@@ -957,7 +957,7 @@ class ImportChummerData extends Command implements Isolatable
             }
             if (is_numeric($slots)) {
                 $mod['slots'] = (int)$slots;
-                for ($rating = 1; $rating <= $maxRating; $rating++) {
+                for ($rating = 1; $rating <= $maxRating; ++$rating) {
                     $mod['availability'] = $this->cleanAvailability($rawMod, $rating);
                     $mod['cost']
                         = $this->calculateValueFromFormula($cost, $rating);
@@ -975,7 +975,7 @@ class ImportChummerData extends Command implements Isolatable
             }
 
             if (Str::contains($slots, 'Rating')) {
-                for ($rating = 1; $rating <= $maxRating; $rating++) {
+                for ($rating = 1; $rating <= $maxRating; ++$rating) {
                     $mod['availability'] = $this->cleanAvailability($rawMod, $rating);
                     $mod['cost']
                         = $this->calculateValueFromFormula($cost, $rating);

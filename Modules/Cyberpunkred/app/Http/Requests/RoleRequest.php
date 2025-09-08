@@ -19,7 +19,7 @@ class RoleRequest extends FormRequest
     public function rules(): array
     {
         $roles = Role::all()->getArrayCopy();
-        array_walk($roles, function (&$value): void {
+        array_walk($roles, function (Role &$value): void {
             $value = (string)$value;
         });
         return [

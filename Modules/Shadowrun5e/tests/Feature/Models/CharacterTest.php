@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
+use Iterator;
 use Modules\Shadowrun5e\Enums\AugmentationGrade;
 use Modules\Shadowrun5e\Models\ActiveSkill;
 use Modules\Shadowrun5e\Models\Armor;
@@ -136,47 +137,45 @@ final class CharacterTest extends TestCase
 
     /**
      * Provide different raw armor settings and expected armor value.
-     * @return array<string, array<int, array<int, array<string, array<int, string>|bool|string>>|int>>
+     * @return Iterator<string, array<int, (array<int, array<string, (array<int, string> | bool | string)>> | int)>>
      */
-    public static function armorValueProvider(): array
+    public static function armorValueProvider(): Iterator
     {
-        return [
-            'Has armor, but not active' => [
+        yield 'Has armor, but not active' => [
+            [
+                ['id' => 'armor-jacket'],
+                ['id' => 'berwick-suit'],
+            ],
+            0,
+        ];
+        yield 'Has no armor' => [
+            [],
+            0,
+        ];
+        yield 'Active armor' => [
+            [
+                ['id' => 'armor-jacket', 'active' => true],
+            ],
+            12,
+        ];
+        yield 'Active stackable armor' => [
+            [
+                ['id' => 'berwick-suit', 'active' => true],
+                ['id' => 'ballistic-mask', 'active' => true],
+                ['id' => 'armor-jacket'],
+            ],
+            11,
+        ];
+        yield 'Active armor with modification' => [
+            [
                 [
-                    ['id' => 'armor-jacket'],
-                    ['id' => 'berwick-suit'],
+                    'id' => 'berwick-suit',
+                    'active' => true,
+                    'modifications' => ['gel-packs'],
                 ],
-                0,
+                ['id' => 'ballistic-mask', 'active' => true],
             ],
-            'Has no armor' => [
-                [],
-                0,
-            ],
-            'Active armor' => [
-                [
-                    ['id' => 'armor-jacket', 'active' => true],
-                ],
-                12,
-            ],
-            'Active stackable armor' => [
-                [
-                    ['id' => 'berwick-suit', 'active' => true],
-                    ['id' => 'ballistic-mask', 'active' => true],
-                    ['id' => 'armor-jacket'],
-                ],
-                11,
-            ],
-            'Active armor with modification' => [
-                [
-                    [
-                        'id' => 'berwick-suit',
-                        'active' => true,
-                        'modifications' => ['gel-packs'],
-                    ],
-                    ['id' => 'ballistic-mask', 'active' => true],
-                ],
-                13,
-            ],
+            13,
         ];
     }
 
@@ -1000,7 +999,7 @@ final class CharacterTest extends TestCase
     public function testGetModifiedAttributeInvalid(): void
     {
         $character = new Character();
-        self::assertEquals(0, $character->getModifiedAttribute(''));
+        self::assertSame(0, $character->getModifiedAttribute(''));
     }
 
     /**

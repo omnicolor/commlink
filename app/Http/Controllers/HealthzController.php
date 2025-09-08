@@ -77,8 +77,10 @@ class HealthzController extends Controller
 
     protected function checkQueue(): bool
     {
-        return [] !== $this->lookForProcess('queue:work')
-            || [] !== $this->lookForProcess('queue:listen');
+        if ([] !== $this->lookForProcess('queue:work')) {
+            return true;
+        }
+        return [] !== $this->lookForProcess('queue:listen');
     }
 
     protected function checkSchedule(): bool

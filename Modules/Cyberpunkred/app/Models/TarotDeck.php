@@ -82,7 +82,7 @@ class TarotDeck extends Deck implements Countable
             $card = array_pop($this->currentCards);
             assert($card instanceof TarotCard);
             $cards[] = $card;
-            $number--;
+            --$number;
         }
         return $cards;
     }

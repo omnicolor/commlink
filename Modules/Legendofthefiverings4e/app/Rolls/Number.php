@@ -110,7 +110,7 @@ class Number extends Roll
      */
     protected function roll(): void
     {
-        for ($i = 0; $i < $this->dice; $i++) {
+        for ($i = 0; $i < $this->dice; ++$i) {
             $result = 0;
             do {
                 $roll = DiceService::rollOne(10);

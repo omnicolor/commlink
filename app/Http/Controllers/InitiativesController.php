@@ -74,7 +74,7 @@ class InitiativesController extends Controller
             $score = $request->initiative;
         } else {
             $score = $request->base_initiative;
-            for ($i = 1; $i <= $request->initiative_dice; $i++) {
+            for ($i = 1; $i <= $request->initiative_dice; ++$i) {
                 $score += DiceService::rollOne(6);
             }
         }

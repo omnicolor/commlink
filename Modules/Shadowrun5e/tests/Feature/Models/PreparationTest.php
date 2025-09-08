@@ -20,7 +20,7 @@ final class PreparationTest extends TestCase
     /**
      * Subject under test.
      */
-    protected Preparation $preparation;
+    private Preparation $preparation;
 
     /**
      * Set up the subject under test.
@@ -51,13 +51,13 @@ final class PreparationTest extends TestCase
             ->setPotency(6)
             ->setSpell(new Spell('control-emotions'))
             ->setTrigger('time');
-        self::assertEquals('2019-06-28', $this->preparation->date);
-        self::assertEquals(6, $this->preparation->potency);
-        self::assertEquals(
+        self::assertSame('2019-06-28', $this->preparation->date);
+        self::assertSame(6, $this->preparation->potency);
+        self::assertSame(
             'Control Emotions',
             (string)$this->preparation->spell
         );
-        self::assertEquals('time', $this->preparation->trigger);
+        self::assertSame('time', $this->preparation->trigger);
     }
 
     /**
@@ -66,6 +66,6 @@ final class PreparationTest extends TestCase
     public function testSetSpellId(): void
     {
         $this->preparation->setSpellId('control-emotions');
-        self::assertEquals('Control Emotions', (string)$this->preparation->spell);
+        self::assertSame('Control Emotions', (string)$this->preparation->spell);
     }
 }

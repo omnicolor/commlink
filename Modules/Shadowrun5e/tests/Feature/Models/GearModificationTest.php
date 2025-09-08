@@ -32,15 +32,15 @@ final class GearModificationTest extends TestCase
     {
         $mod = new GearModification('biomonitor');
         self::assertEquals('3', $mod->availability);
-        self::assertEquals(1, $mod->capacityCost);
-        self::assertEquals('commlink|cyberdeck|rcc', $mod->containerType);
-        self::assertEquals(300, $mod->cost);
+        self::assertSame(1, $mod->capacityCost);
+        self::assertSame('commlink|cyberdeck|rcc', $mod->containerType);
+        self::assertSame(300, $mod->cost);
         self::assertEmpty($mod->effects);
-        self::assertEquals('biomonitor', $mod->id);
-        self::assertEquals('Biomonitor', $mod->name);
+        self::assertSame('biomonitor', $mod->id);
+        self::assertSame('Biomonitor', $mod->name);
         self::assertNull($mod->page);
         self::assertNull($mod->rating);
-        self::assertEquals('core', $mod->ruleset);
+        self::assertSame('core', $mod->ruleset);
         self::assertEmpty($mod->wirelessEffects);
     }
 
@@ -50,13 +50,13 @@ final class GearModificationTest extends TestCase
     public function testConstructorRating(): void
     {
         $mod = new GearModification('attack-dongle-2');
-        self::assertEquals(0, $mod->capacityCost);
-        self::assertEquals('commlink', $mod->containerType);
-        self::assertEquals(12000, $mod->cost);
-        self::assertEquals(['attack' => 2], $mod->effects);
-        self::assertEquals(61, $mod->page);
-        self::assertEquals(2, $mod->rating);
-        self::assertEquals('data-trails', $mod->ruleset);
+        self::assertSame(0, $mod->capacityCost);
+        self::assertSame('commlink', $mod->containerType);
+        self::assertSame(12000, $mod->cost);
+        self::assertSame(['attack' => 2], $mod->effects);
+        self::assertSame(61, $mod->page);
+        self::assertSame(2, $mod->rating);
+        self::assertSame('data-trails', $mod->ruleset);
     }
 
     /**
@@ -65,7 +65,7 @@ final class GearModificationTest extends TestCase
     public function testToString(): void
     {
         $mod = new GearModification('attack-dongle-2');
-        self::assertEquals('Attack dongle', (string)$mod);
+        self::assertSame('Attack dongle', (string)$mod);
     }
 
     /**

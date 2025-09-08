@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Tests\Feature\ValueObjects;
 
+use Iterator;
 use Modules\Avatar\ValueObjects\GrowthAdvancements;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -50,16 +51,14 @@ final class GrowthAdvancementsTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, string>>
+     * @return Iterator<int, array<int, string>>
      */
-    public static function advancementProvider(): array
+    public static function advancementProvider(): Iterator
     {
-        return [
-            ['new_move_from_my_playbook'],
-            ['new_move_from_another_playbook'],
-            ['shift_your_center'],
-            ['unlock_your_moment_of_balance'],
-        ];
+        yield ['new_move_from_my_playbook'];
+        yield ['new_move_from_another_playbook'];
+        yield ['shift_your_center'];
+        yield ['unlock_your_moment_of_balance'];
     }
 
     #[DataProvider('advancementProvider')]

@@ -22,7 +22,7 @@ final class SpeciesTest extends TestCase
 
     public function testToString(): void
     {
-        self::assertEquals('Fleeter', (string)$this->species);
+        self::assertSame('Fleeter', (string)$this->species);
     }
 
     public function testAddPowers(): void
