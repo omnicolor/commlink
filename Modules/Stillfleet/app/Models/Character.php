@@ -69,16 +69,6 @@ class Character extends BaseCharacter implements Stringable
         'system' => 'stillfleet',
     ];
 
-    /** @var array<string, string> */
-    protected $casts = [
-        'combat' => 'string',
-        'grit_current' => 'integer',
-        'health_current' => 'integer',
-        'money' => 'integer',
-        'movement' => 'string',
-        'owner' => AsEmail::class,
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'armor',
@@ -128,14 +118,14 @@ class Character extends BaseCharacter implements Stringable
     protected function armor(): Attribute
     {
         return Attribute::make(
-            get: function (?array $armor): array {
+            get: static function (?array $armor): array {
                 $returnedArmor = [];
                 foreach ($armor ?? [] as $armorId) {
                     $returnedArmor[] = Armor::findOrFail($armorId);
                 }
                 return $returnedArmor;
             },
-            set: function (array $armor): array {
+            set: static function (array $armor): array {
                 if (current($armor) instanceof Armor) {
                     $rawArmor = [];
                     foreach ($armor as $item) {
@@ -156,10 +146,25 @@ class Character extends BaseCharacter implements Stringable
     {
         static::addGlobalScope(
             'stillfleet',
-            function (Builder $builder): void {
+            static function (Builder $builder): void {
                 $builder->where('system', 'stillfleet');
             }
         );
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'combat' => 'string',
+            'grit_current' => 'integer',
+            'health_current' => 'integer',
+            'money' => 'integer',
+            'movement' => 'string',
+            'owner' => AsEmail::class,
+        ];
     }
 
     public function charmModifier(): Attribute
@@ -174,10 +179,10 @@ class Character extends BaseCharacter implements Stringable
     public function details(): Attribute
     {
         return Attribute::make(
-            get: function (array|null $values): CharacterDetails {
+            get: static function (array|null $values): CharacterDetails {
                 return CharacterDetails::make($values);
             },
-            set: function (array|CharacterDetails $details): array {
+            set: static function (array|CharacterDetails $details): array {
                 if ($details instanceof CharacterDetails) {
                     return ['details' => $details->toArray()];
                 }
@@ -214,10 +219,10 @@ class Character extends BaseCharacter implements Stringable
             throw new RuntimeException('Not enough health to convert');
         }
         $this->health_current -= 3;
-        $this->grit_current += 1;
+        ++$this->grit_current;
     }
 
-    public function grit(): Attribute
+    protected function grit(): Attribute
     {
         return Attribute::make(
             get: function (): int {
@@ -244,19 +249,19 @@ class Character extends BaseCharacter implements Stringable
 
                 return $grit;
             },
-            set: function (): never {
+            set: static function (): never {
                 throw new LogicException('Grit is a calculated attribute');
             },
         );
     }
 
-    public function gritCurrent(): Attribute
+    protected function gritCurrent(): Attribute
     {
         return Attribute::make(
             get: function (): int {
                 return $this->attributes['grit_current'] ?? $this->grit;
             },
-            set: function (int $grit): int {
+            set: static function (int $grit): int {
                 return $grit;
             },
         );
@@ -265,14 +270,14 @@ class Character extends BaseCharacter implements Stringable
     protected function gear(): Attribute
     {
         return Attribute::make(
-            get: function (?array $gear): array {
+            get: static function (?array $gear): array {
                 $returnedGear = [];
                 foreach ($gear ?? [] as $gearId) {
                     $returnedGear[] = Gear::findOrFail($gearId);
                 }
                 return $returnedGear;
             },
-            set: function (array $gear): array {
+            set: static function (array $gear): array {
                 if (current($gear) instanceof Gear) {
                     $rawGear = [];
                     foreach ($gear as $item) {
@@ -285,7 +290,7 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function health(): Attribute
+    protected function health(): Attribute
     {
         return Attribute::make(
             get: function (): int {
@@ -295,19 +300,19 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function healthCurrent(): Attribute
+    protected function healthCurrent(): Attribute
     {
         return Attribute::make(
             get: function (): int {
                 return $this->attributes['health_current'] ?? $this->health;
             },
-            set: function (int $health): int {
+            set: static function (int $health): int {
                 return $health;
             },
         );
     }
 
-    public function movementModifier(): Attribute
+    protected function movementModifier(): Attribute
     {
         return Attribute::make(
             get: function (): int {
@@ -322,7 +327,7 @@ class Character extends BaseCharacter implements Stringable
         return CharacterFactory::new();
     }
 
-    public function reasonModifier(): Attribute
+    protected function reasonModifier(): Attribute
     {
         return Attribute::make(
             get: function (): int {
@@ -331,17 +336,17 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function roles(): Attribute
+    protected function roles(): Attribute
     {
         return Attribute::make(
             get: function (): array {
                 $roles = [];
                 foreach ($this->attributes['roles'] ?? [] as $role) {
-                    /** @var Role */
+                    /** @var Role $new_role */
                     $new_role = Role::findOrFail($role['id']);
                     $new_role->level = $role['level'];
                     $powers = $role['powers'] ?? [];
-                    array_walk($powers, function (string &$power): void {
+                    array_walk($powers, static function (string &$power): void {
                         $power = Power::findOrFail($power);
                     });
                     $new_role->addPowers(...$powers);
@@ -352,7 +357,7 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function species(): Attribute
+    protected function species(): Attribute
     {
         return Attribute::make(
             get: function (): Species|null {
@@ -373,7 +378,7 @@ class Character extends BaseCharacter implements Stringable
                 }
                 return $species;
             },
-            set: function (Species|string $species): string {
+            set: static function (Species|string $species): string {
                 if ($species instanceof Species) {
                     return $species->id;
                 }
@@ -385,14 +390,14 @@ class Character extends BaseCharacter implements Stringable
     protected function weapons(): Attribute
     {
         return Attribute::make(
-            get: function (?array $weapons): array {
+            get: static function (?array $weapons): array {
                 $returnedWeapons = [];
                 foreach ($weapons ?? [] as $weaponId) {
                     $returnedWeapons[] = Weapon::findOrFail($weaponId);
                 }
                 return $returnedWeapons;
             },
-            set: function (array $weapons): array {
+            set: static function (array $weapons): array {
                 if (current($weapons) instanceof Weapon) {
                     $rawWeapons = [];
                     foreach ($weapons as $weapon) {
@@ -405,7 +410,7 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function willModifier(): Attribute
+    protected function willModifier(): Attribute
     {
         return Attribute::make(
             get: function (): int {

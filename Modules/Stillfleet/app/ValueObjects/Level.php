@@ -7,6 +7,11 @@ namespace Modules\Stillfleet\ValueObjects;
 use Override;
 use Stringable;
 
+/**
+ * @property int $base_rate
+ * @property int $score_bonus
+ * @property int $total_pool
+ */
 readonly class Level implements Stringable
 {
     public function __construct(public int $level)
@@ -18,11 +23,11 @@ readonly class Level implements Stringable
         if ('base_rate' === $name) {
             return $this->getBaseRate();
         }
-        if ('total_pool' === $name) {
-            return $this->getTotalPool();
-        }
         if ('score_bonus' === $name) {
             return $this->getScoreBonus();
+        }
+        if ('total_pool' === $name) {
+            return $this->getTotalPool();
         }
         return null;
     }

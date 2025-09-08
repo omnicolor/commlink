@@ -22,6 +22,9 @@ enum DirectorateRank: string
     case Director = 'director';
     case DirectorPrime = 'director-prime';
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function roll(int $roll): self
     {
         return match ($roll) {

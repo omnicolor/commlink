@@ -29,6 +29,9 @@ enum StillfleeterRank: string
     case Achteradmiraal = 'achteradmiraal';
     case Admiraal = 'admiraal';
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function roll(int $roll): self
     {
         return match ($roll) {
