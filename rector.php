@@ -12,6 +12,7 @@ use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitSelfCallRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
+use Rector\PHPUnit\CodeQuality\Rector\MethodCall\MatchAssertSameExpectedTypeRector;
 use Rector\Php53\Rector\FuncCall\DirNameFileConstantToDirConstantRector;
 use Rector\Php70\Rector\FunctionLike\ExceptionHandlerTypehintRector;
 use Rector\Php70\Rector\MethodCall\ThisCallOnStaticMethodToStaticCallRector;
@@ -81,6 +82,10 @@ return RectorConfig::configure()
         DeclareStrictTypesRector::class,
         IssetOnPropertyObjectToPropertyExistsRector::class,
         MakeInheritedMethodVisibilitySameAsParentRector::class,
+        MatchAssertSameExpectedTypeRector::class => [
+            __DIR__ . '/Modules/Shadowrun6e/tests/Feature/Models/SpiritTest.php',
+            __DIR__ . '/Modules/Shadowrun6e/tests/Feature/Models/SpriteTest.php',
+        ],
         NewlineAfterStatementRector::class,
         NewlineBeforeNewAssignSetRector::class,
         PreferPHPUnitThisCallRector::class,

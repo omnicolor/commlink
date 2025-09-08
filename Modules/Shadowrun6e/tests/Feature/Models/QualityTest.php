@@ -29,7 +29,7 @@ final class QualityTest extends TestCase
         self::assertSame('ambidextrous', $quality->id);
         self::assertSame(4, $quality->karma_cost);
         self::assertEmpty($quality->effects);
-        self::assertStringContainsString('off-hand', $quality->description);
+        self::assertStringContainsString('off-hand', (string)$quality->description);
         self::assertSame('core', $quality->ruleset);
         self::assertSame(70, $quality->page);
         self::assertNull($quality->level);

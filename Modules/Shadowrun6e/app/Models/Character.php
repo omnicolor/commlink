@@ -254,7 +254,10 @@ class Character extends BaseCharacter implements Stringable
 
     public function isAwakened(): bool
     {
-        return $this->isMagical() || $this->isTechnomancer();
+        if ($this->isMagical()) {
+            return true;
+        }
+        return $this->isTechnomancer();
     }
 
     public function isMagical(): bool

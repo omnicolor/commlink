@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun6e\Tests\Feature\Enums;
 
+use Iterator;
 use Modules\Shadowrun6e\Enums\AttackRange;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -18,23 +19,21 @@ use const PHP_INT_MAX;
 final class AttackRangeTest extends TestCase
 {
     /**
-     * @return array<int, array<int, AttackRange|int>>
+     * @return Iterator<int, array<int, (int | AttackRange)>>
      */
-    public static function rangeProvider(): array
+    public static function rangeProvider(): Iterator
     {
-        return [
-            [0, AttackRange::Close],
-            [1, AttackRange::Close],
-            [3, AttackRange::Close],
-            [4, AttackRange::Near],
-            [50, AttackRange::Near],
-            [51, AttackRange::Medium],
-            [250, AttackRange::Medium],
-            [251, AttackRange::Far],
-            [500, AttackRange::Far],
-            [501, AttackRange::Extreme],
-            [PHP_INT_MAX, AttackRange::Extreme],
-        ];
+        yield [0, AttackRange::Close];
+        yield [1, AttackRange::Close];
+        yield [3, AttackRange::Close];
+        yield [4, AttackRange::Near];
+        yield [50, AttackRange::Near];
+        yield [51, AttackRange::Medium];
+        yield [250, AttackRange::Medium];
+        yield [251, AttackRange::Far];
+        yield [500, AttackRange::Far];
+        yield [501, AttackRange::Extreme];
+        yield [PHP_INT_MAX, AttackRange::Extreme];
     }
 
     #[DataProvider('rangeProvider')]

@@ -142,7 +142,7 @@ class Spell extends Model implements Stringable
             }
             foreach ($this->adjustments as $adjustment) {
                 if (SpellAdjustment::AmpUp === $adjustment) {
-                    $net_hits++;
+                    ++$net_hits;
                 }
             }
             return new Damage($damage, $net_hits);
