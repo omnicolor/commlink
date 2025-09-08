@@ -34,7 +34,7 @@ final class ArmorTest extends TestCase
     public function testLoadingArmorJacketId(): Armor
     {
         $armor = new Armor('armor-jacket');
-        self::assertEquals('armor-jacket', $armor->id);
+        self::assertSame('armor-jacket', $armor->id);
         return $armor;
     }
 
@@ -53,7 +53,7 @@ final class ArmorTest extends TestCase
     #[Depends('testLoadingArmorJacketId')]
     public function testLoadingArmorJacketCost(Armor $armor): void
     {
-        self::assertEquals(1000, $armor->cost);
+        self::assertSame(1000, $armor->cost);
     }
 
     /**
@@ -62,7 +62,7 @@ final class ArmorTest extends TestCase
     #[Depends('testLoadingArmorJacketId')]
     public function testLoadingArmorJacketName(Armor $armor): void
     {
-        self::assertEquals('Armor Jacket', $armor->name);
+        self::assertSame('Armor Jacket', $armor->name);
     }
 
     /**
@@ -71,7 +71,7 @@ final class ArmorTest extends TestCase
     #[Depends('testLoadingArmorJacketId')]
     public function testLoadingArmorJacketRating(Armor $armor): void
     {
-        self::assertEquals(12, $armor->rating);
+        self::assertSame(12, $armor->rating);
     }
 
     /**
@@ -80,7 +80,7 @@ final class ArmorTest extends TestCase
     #[Depends('testLoadingArmorJacketId')]
     public function testLoadingArmorJacketRulesetDefault(Armor $armor): void
     {
-        self::assertEquals('core', $armor->ruleset);
+        self::assertSame('core', $armor->ruleset);
     }
 
     /**
@@ -89,7 +89,7 @@ final class ArmorTest extends TestCase
     public function testLoadingArmorDifferentBookDifferentRuleset(): void
     {
         $armor = new Armor('berwick-suit');
-        self::assertEquals('run-and-gun', $armor->ruleset);
+        self::assertSame('run-and-gun', $armor->ruleset);
     }
 
     /**
@@ -98,7 +98,7 @@ final class ArmorTest extends TestCase
     #[Depends('testLoadingArmorJacketId')]
     public function testLoadingArmorJacketToString(Armor $armor): void
     {
-        self::assertEquals('Armor Jacket', (string)$armor);
+        self::assertSame('Armor Jacket', (string)$armor);
     }
 
     /**
@@ -111,7 +111,7 @@ final class ArmorTest extends TestCase
             'concealability' => -2,
             'social-limit' => 1,
         ];
-        self::assertEquals($expected, $armor->effects);
+        self::assertSame($expected, $armor->effects);
     }
 
     /**
@@ -120,7 +120,7 @@ final class ArmorTest extends TestCase
     #[Depends('testLoadingArmorJacketId')]
     public function testGetModifiedRatingUnmodified(Armor $armor): void
     {
-        self::assertEquals(12, $armor->getModifiedRating());
+        self::assertSame(12, $armor->getModifiedRating());
     }
 
     /**
@@ -131,7 +131,7 @@ final class ArmorTest extends TestCase
     {
         $armor = new Armor('armor-jacket');
         $armor->modifications[] = new ArmorModification('gel-packs');
-        self::assertEquals(14, $armor->getModifiedRating());
+        self::assertSame(14, $armor->getModifiedRating());
     }
 
     /**
@@ -142,7 +142,7 @@ final class ArmorTest extends TestCase
     {
         $armor = new Armor('armor-jacket');
         $armor->modifications[] = new ArmorModification('auto-injector');
-        self::assertEquals(12, $armor->getModifiedRating());
+        self::assertSame(12, $armor->getModifiedRating());
     }
 
     /**

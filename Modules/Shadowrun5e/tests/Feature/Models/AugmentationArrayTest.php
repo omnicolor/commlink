@@ -22,7 +22,7 @@ final class AugmentationArrayTest extends TestCase
      * Subject under test.
      * @var AugmentationArray<Augmentation>
      */
-    protected AugmentationArray $augmentations;
+    private AugmentationArray $augmentations;
 
     /**
      * Set up a clean subject.

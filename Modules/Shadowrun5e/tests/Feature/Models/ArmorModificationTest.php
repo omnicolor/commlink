@@ -34,7 +34,7 @@ final class ArmorModificationTest extends TestCase
     {
         ArmorModification::$modifications = null;
         $mod = new ArmorModification('auto-injector');
-        self::assertEquals('auto-injector', $mod->id);
+        self::assertSame('auto-injector', $mod->id);
         return $mod;
     }
 
@@ -45,7 +45,7 @@ final class ArmorModificationTest extends TestCase
     public function testLoadArmorModificationSetsCost(
         ArmorModification $mod
     ): void {
-        self::assertEquals(1500, $mod->cost);
+        self::assertSame(1500, $mod->cost);
     }
 
     /**
@@ -65,7 +65,7 @@ final class ArmorModificationTest extends TestCase
     public function testLoadArmorModificationSetsRuleset(
         ArmorModification $mod
     ): void {
-        self::assertEquals('run-and-gun', $mod->ruleset);
+        self::assertSame('run-and-gun', $mod->ruleset);
     }
 
     /**
@@ -86,7 +86,7 @@ final class ArmorModificationTest extends TestCase
     public function testLoadArmorModificationSetsName(
         ArmorModification $mod
     ): void {
-        self::assertEquals('Auto-injector', $mod->name);
+        self::assertSame('Auto-injector', $mod->name);
     }
 
     /**
@@ -95,7 +95,7 @@ final class ArmorModificationTest extends TestCase
     #[Depends('testLoadArmorModificationSetsId')]
     public function testToString(ArmorModification $mod): void
     {
-        self::assertEquals('Auto-injector', (string)$mod);
+        self::assertSame('Auto-injector', (string)$mod);
     }
 
     /**
@@ -104,7 +104,7 @@ final class ArmorModificationTest extends TestCase
     public function testLoadArmorModSetRating(): void
     {
         $mod = new ArmorModification('fire-resistance-2');
-        self::assertEquals(2, $mod->rating);
+        self::assertSame(2, $mod->rating);
     }
 
     /**
@@ -113,7 +113,7 @@ final class ArmorModificationTest extends TestCase
     public function testArmorModWithCostMultiplier(): void
     {
         $mod = new ArmorModification('ynt-softweave-armor');
-        self::assertEquals(0, $mod->cost);
+        self::assertSame(0, $mod->cost);
         self::assertEquals(2, $mod->costModifier);
     }
 

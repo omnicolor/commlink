@@ -23,7 +23,7 @@ use const DIRECTORY_SEPARATOR;
 #[Medium]
 final class ExpanseConverterTest extends TestCase
 {
-    protected static string $testFile;
+    private static string $testFile;
 
     public static function setUpBeforeClass(): void
     {

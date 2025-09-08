@@ -62,7 +62,8 @@ final class PowerTest extends TestCase
      */
     public function testLoadAll(): void
     {
-        $hasMajor = $hasMinor = false;
+        $hasMajor = false;
+        $hasMinor = false;
         $powers = Power::all();
         self::assertNotEmpty($powers);
         foreach ($powers as $power) {

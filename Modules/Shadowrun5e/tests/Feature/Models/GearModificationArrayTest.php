@@ -22,7 +22,7 @@ final class GearModificationArrayTest extends TestCase
      * Subject under test.
      * @var GearModificationArray<GearModification>
      */
-    protected GearModificationArray $mods;
+    private GearModificationArray $mods;
 
     /**
      * Set up a clean subject.

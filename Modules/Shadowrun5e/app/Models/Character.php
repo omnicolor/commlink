@@ -445,7 +445,7 @@ class Character extends BaseCharacter implements Stringable
     public function judgeIntentions(): Attribute
     {
         return Attribute::make(
-            get: function () {
+            get: function (): int {
                 return $this->getModifiedAttribute('intuition') +
                     $this->getModifiedAttribute('charisma');
             },
@@ -812,7 +812,7 @@ class Character extends BaseCharacter implements Stringable
             $modifier += $augmentation->effects['damage-resistance'];
         }
         $mentor = $this->getMentorSpirit();
-        if (null !== $mentor) {
+        if ($mentor instanceof MentorSpirit) {
             $modifier += $mentor->effects['damage-resistance'] ?? 0;
         }
         return $this->getModifiedAttribute('body') + $modifier

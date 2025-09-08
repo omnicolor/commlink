@@ -62,7 +62,9 @@ final class GearTest extends TestCase
      */
     public function testAll(): void
     {
-        $hasExplosive = $hasWeapon = $hasRealEstate = false;
+        $hasExplosive = false;
+        $hasWeapon = false;
+        $hasRealEstate = false;
         $gear = Gear::all();
         self::assertNotEmpty($gear);
 

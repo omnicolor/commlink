@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Rolls;
 
 use App\Models\Channel;
+use App\Models\ChatUser;
 use Omnicolor\Slack\Attachments\TextAttachment;
 use Omnicolor\Slack\Response;
 use Override;
@@ -81,7 +82,7 @@ class Help extends Roll
             'title' => sprintf('About %s', config('app.name')),
         ];
 
-        if (null === $this->chatUser) {
+        if (!$this->chatUser instanceof ChatUser) {
             $this->addHelpForUnlinkedUser();
         }
         if (null === $this->channel->system) {

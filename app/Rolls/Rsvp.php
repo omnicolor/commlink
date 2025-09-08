@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolls;
 
+use App\Models\ChatUser;
 use App\Models\Event;
 use App\Models\EventRsvp;
 use App\Policies\EventPolicy;
@@ -81,7 +82,7 @@ class Rsvp extends Roll
             ['event' => ['id' => $event->id, 'name' => $event->name]],
         );
 
-        if (null === $this->chatUser) {
+        if (!$this->chatUser instanceof ChatUser) {
             $data = [
                 'channel' => $this->channel->channel_id,
                 'user' => $this->channel->user,

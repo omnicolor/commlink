@@ -21,7 +21,7 @@ final class BoostArrayTest extends TestCase
      * Subject under test.
      * @var BoostArray<Boost>
      */
-    protected BoostArray $boosts;
+    private BoostArray $boosts;
 
     /**
      * Set up a clean subject.

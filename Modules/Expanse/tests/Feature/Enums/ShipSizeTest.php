@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Tests\Feature\Enums;
 
+use Iterator;
 use Modules\Expanse\Enums\ShipSize;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -16,20 +17,18 @@ final class ShipSizeTest extends TestCase
 {
     /**
      * Data provider for length tests.
-     * @return array<int, array<ShipSize|string>>
+     * @return Iterator<int, array<(ShipSize | string)>>
      */
-    public static function lengthProvider(): array
+    public static function lengthProvider(): Iterator
     {
-        return [
-            [ShipSize::Tiny, '5m'],
-            [ShipSize::Small, '10m'],
-            [ShipSize::Medium, '25m'],
-            [ShipSize::Large, '50m'],
-            [ShipSize::Huge, '100m'],
-            [ShipSize::Gigantic, '250m'],
-            [ShipSize::Colossal, '500m'],
-            [ShipSize::Titanic, '1km+'],
-        ];
+        yield [ShipSize::Tiny, '5m'];
+        yield [ShipSize::Small, '10m'];
+        yield [ShipSize::Medium, '25m'];
+        yield [ShipSize::Large, '50m'];
+        yield [ShipSize::Huge, '100m'];
+        yield [ShipSize::Gigantic, '250m'];
+        yield [ShipSize::Colossal, '500m'];
+        yield [ShipSize::Titanic, '1km+'];
     }
 
     #[DataProvider('lengthProvider')]
@@ -40,20 +39,18 @@ final class ShipSizeTest extends TestCase
 
     /**
      * Data provider for hull tests.
-     * @return array<int, array<ShipSize|string>>
+     * @return Iterator<int, array<(ShipSize | string)>>
      */
-    public static function hullProvider(): array
+    public static function hullProvider(): Iterator
     {
-        return [
-            [ShipSize::Tiny, '1d1'],
-            [ShipSize::Small, '1d3'],
-            [ShipSize::Medium, '1d6'],
-            [ShipSize::Large, '2d6'],
-            [ShipSize::Huge, '3d6'],
-            [ShipSize::Gigantic, '4d6'],
-            [ShipSize::Colossal, '5d6'],
-            [ShipSize::Titanic, '6d6'],
-        ];
+        yield [ShipSize::Tiny, '1d1'];
+        yield [ShipSize::Small, '1d3'];
+        yield [ShipSize::Medium, '1d6'];
+        yield [ShipSize::Large, '2d6'];
+        yield [ShipSize::Huge, '3d6'];
+        yield [ShipSize::Gigantic, '4d6'];
+        yield [ShipSize::Colossal, '5d6'];
+        yield [ShipSize::Titanic, '6d6'];
     }
 
     #[DataProvider('hullProvider')]
@@ -64,20 +61,18 @@ final class ShipSizeTest extends TestCase
 
     /**
      * Data provider for crew tests.
-     * @return array<int, array<ShipSize|int>>
+     * @return Iterator<int, array<(int | ShipSize)>>
      */
-    public static function crewProvider(): array
+    public static function crewProvider(): Iterator
     {
-        return [
-            [ShipSize::Tiny, 1, 2],
-            [ShipSize::Small, 1, 2],
-            [ShipSize::Medium, 2, 4],
-            [ShipSize::Large, 4, 16],
-            [ShipSize::Huge, 16, 64],
-            [ShipSize::Gigantic, 64, 512],
-            [ShipSize::Colossal, 256, 2048],
-            [ShipSize::Titanic, 1024, 8192],
-        ];
+        yield [ShipSize::Tiny, 1, 2];
+        yield [ShipSize::Small, 1, 2];
+        yield [ShipSize::Medium, 2, 4];
+        yield [ShipSize::Large, 4, 16];
+        yield [ShipSize::Huge, 16, 64];
+        yield [ShipSize::Gigantic, 64, 512];
+        yield [ShipSize::Colossal, 256, 2048];
+        yield [ShipSize::Titanic, 1024, 8192];
     }
 
     #[DataProvider('crewProvider')]

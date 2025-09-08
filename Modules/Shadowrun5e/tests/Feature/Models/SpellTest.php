@@ -32,17 +32,17 @@ final class SpellTest extends TestCase
     public function testConstructor(): void
     {
         $spell = new Spell('control-emotions');
-        self::assertEquals('Manipulation', $spell->category);
-        self::assertEquals('', $spell->damage);
-        self::assertEquals('F-1', $spell->drain);
-        self::assertEquals('S', $spell->duration);
-        self::assertEquals('control-emotions', $spell->id);
-        self::assertEquals('Control Emotions', $spell->name);
-        self::assertEquals(21, $spell->page);
-        self::assertEquals('LOS', $spell->range);
-        self::assertEquals('shadow-spells', $spell->ruleset);
-        self::assertEquals(['mental'], $spell->tags);
-        self::assertEquals('M', $spell->type);
+        self::assertSame('Manipulation', $spell->category);
+        self::assertSame('', $spell->damage);
+        self::assertSame('F-1', $spell->drain);
+        self::assertSame('S', $spell->duration);
+        self::assertSame('control-emotions', $spell->id);
+        self::assertSame('Control Emotions', $spell->name);
+        self::assertSame(21, $spell->page);
+        self::assertSame('LOS', $spell->range);
+        self::assertSame('shadow-spells', $spell->ruleset);
+        self::assertSame(['mental'], $spell->tags);
+        self::assertSame('M', $spell->type);
     }
 
     /**
@@ -51,7 +51,7 @@ final class SpellTest extends TestCase
     public function testToString(): void
     {
         $spell = new Spell('control-emotions');
-        self::assertEquals('Control Emotions', (string)$spell);
+        self::assertSame('Control Emotions', (string)$spell);
     }
 
     /**
@@ -72,10 +72,10 @@ final class SpellTest extends TestCase
     {
         $spell = new Spell('control-emotions');
         $spell->setForce(6);
-        self::assertEquals(5, $spell->getDrain());
+        self::assertSame(5, $spell->getDrain());
 
         $spell->setForce(3);
-        self::assertEquals(2, $spell->getDrain());
+        self::assertSame(2, $spell->getDrain());
     }
 
     /**

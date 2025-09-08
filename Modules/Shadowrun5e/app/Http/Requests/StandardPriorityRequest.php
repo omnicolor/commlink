@@ -72,7 +72,7 @@ class StandardPriorityRequest extends FormRequest
                     return 'magic' !== $request->input('priority-e');
                 }),
                 function (string $_attribute, string $value, Closure $fail) use ($request, $validMagic): void {
-                    for ($i = ord('a'); $i <= ord('e'); $i++) {
+                    for ($i = ord('a'); $i <= ord('e'); ++$i) {
                         if (
                             'magic' === $request->input('priority-' . chr($i))
                             && !in_array($value, $validMagic[chr($i)], true)

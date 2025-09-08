@@ -22,7 +22,7 @@ final class VehicleArrayTest extends TestCase
      * Subject under test.
      * @var VehicleArray<Vehicle>
      */
-    protected VehicleArray $vehicles;
+    private VehicleArray $vehicles;
 
     /**
      * Set up a clean subject.

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Cyberpunkred\Rolls;
 
+use App\Models\Campaign;
 use App\Models\Channel;
 use App\Rolls\Roll;
 use Exception;
@@ -49,7 +50,7 @@ class Tarot extends Roll
         Channel $channel
     ) {
         parent::__construct($content, $username, $channel);
-        if (null === $this->campaign) {
+        if (!$this->campaign instanceof Campaign) {
             $this->error = 'Tarot decks require a linked Commlink campaign.';
             return;
         }
@@ -92,7 +93,7 @@ class Tarot extends Roll
     protected function findOrCreateDeck(): void
     {
         // Constructor verifies the campaign has been set.
-        assert(null !== $this->campaign);
+        assert($this->campaign instanceof Campaign);
 
         $decks = TarotDeck::findForCampaign($this->campaign);
         foreach ($decks as $deck) {

@@ -78,10 +78,10 @@ class CharactersController extends Controller
         }
 
         $character = $this->findPartialCharacter($request, $step);
-        if (null !== $character && $step === $character->id) {
+        if ($character instanceof PartialCharacter && $step === $character->id) {
             return new RedirectResponse('/characters/capers/create/basics');
         }
-        if (null === $character) {
+        if (!$character instanceof PartialCharacter) {
             // No current character, see if they already have a character they
             // might want to continue.
             $characters = PartialCharacter::where('owner', $user->email->address)->get();
@@ -384,7 +384,7 @@ class CharactersController extends Controller
     public function storeGear(GearRequest $request): RedirectResponse
     {
         $characterId = $request->session()->get('capers-partial');
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $character = PartialCharacter::where('_id', $characterId)
@@ -395,10 +395,9 @@ class CharactersController extends Controller
         $gearQuantities = $request->input('quantity', []);
         $gear = [];
         foreach ($gearIds as $key => $id) {
-            if (!isset($gearQuantities[$key]) || 1 > (int)$gearQuantities[$key]) {
+            if (1 > (int)$gearQuantities[$key]) {
                 continue;
             }
-
             $gear[] = [
                 'id' => $id,
                 'quantity' => (int)$gearQuantities[$key],
@@ -491,8 +490,8 @@ class CharactersController extends Controller
             'resilience' => 2,
             'strength' => 2,
         ];
-        $attributes[$request->input('trait-high')]++;
-        $attributes[$request->input('trait-low')]--;
+        ++$attributes[$request->input('trait-high')];
+        --$attributes[$request->input('trait-low')];
         $character->fill($attributes)->save();
 
         return new RedirectResponse(sprintf(

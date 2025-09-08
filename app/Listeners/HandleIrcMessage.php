@@ -34,7 +34,8 @@ class HandleIrcMessage
         $this->irc_server = $event->client->getConnection()->getServer();
 
         $channel = $this->getChannel();
-        $channel->user = $channel->username = $event->user->nick;
+        $channel->user = $event->user->nick;
+        $channel->username = $event->user->nick;
 
         // See if the requested roll is XdY or something similar.
         if (1 === preg_match('/\d+d\d+/i', $args[0])) {

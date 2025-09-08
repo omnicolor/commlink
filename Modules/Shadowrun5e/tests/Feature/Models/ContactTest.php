@@ -28,12 +28,12 @@ final class ContactTest extends TestCase
             'notes' => 'Player notes',
         ];
         $contact = new Contact($data);
-        self::assertEquals('Fixer', $contact->archetype);
-        self::assertEquals(1, $contact->connection);
-        self::assertEquals('Notes from the GM', $contact->gmNotes);
-        self::assertEquals(5, $contact->loyalty);
-        self::assertEquals('Frank the Fixer', $contact->name);
-        self::assertEquals('Player notes', $contact->notes);
+        self::assertSame('Fixer', $contact->archetype);
+        self::assertSame(1, $contact->connection);
+        self::assertSame('Notes from the GM', $contact->gmNotes);
+        self::assertSame(5, $contact->loyalty);
+        self::assertSame('Frank the Fixer', $contact->name);
+        self::assertSame('Player notes', $contact->notes);
     }
 
     /**
@@ -49,12 +49,12 @@ final class ContactTest extends TestCase
             'notes' => 'Notes',
         ];
         $contact = new Contact($data);
-        self::assertEquals('Talismonger', $contact->archetype);
-        self::assertEquals(2, $contact->connection);
-        self::assertEquals('', $contact->gmNotes);
-        self::assertEquals(3, $contact->loyalty);
-        self::assertEquals('Phil', $contact->name);
-        self::assertEquals('Notes', $contact->notes);
+        self::assertSame('Talismonger', $contact->archetype);
+        self::assertSame(2, $contact->connection);
+        self::assertSame('', $contact->gmNotes);
+        self::assertSame(3, $contact->loyalty);
+        self::assertSame('Phil', $contact->name);
+        self::assertSame('Notes', $contact->notes);
     }
 
     /**
@@ -70,6 +70,6 @@ final class ContactTest extends TestCase
             'notes' => '',
         ];
         $contact = new Contact($data);
-        self::assertEquals('My Name', (string)$contact);
+        self::assertSame('My Name', (string)$contact);
     }
 }

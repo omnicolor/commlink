@@ -33,7 +33,7 @@ class Skill extends Number
     ) {
         Roll::__construct($content, $username, $channel);
 
-        if (null === $this->character) {
+        if (!$this->character instanceof \App\Models\Character) {
             $this->error = 'Skill rolls are only available if you have linked '
                 . 'a character';
             return;
