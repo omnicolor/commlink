@@ -28,7 +28,7 @@ final class EachIsAValidTest extends TestCase
     public function testSuccessEmpty(): void
     {
         $rule = new EachIsAValid(RelationAspect::class);
-        $rule->validate('unused', '', function (string $message): void {
+        $rule->validate('unused', '', function (string $message): never {
             self::fail('Validator called $fail Closure');
         });
     }
@@ -37,7 +37,7 @@ final class EachIsAValidTest extends TestCase
     public function testSuccess(): void
     {
         $rule = new EachIsAValid(RelationAspect::class);
-        $rule->validate('unused', 'adversarial,dues', function (string $message): void {
+        $rule->validate('unused', 'adversarial,dues', function (string $message): never {
             self::fail('Validator called $fail Closure');
         });
     }

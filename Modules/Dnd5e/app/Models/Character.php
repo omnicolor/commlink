@@ -23,6 +23,7 @@ use function floor;
  * @property int $charisma
  * @property int $constitution
  * @property int $dexterity
+ * @property int $experience_points
  * @property int $intelligence
  * @property string $name
  * @property Email $owner
@@ -55,7 +56,7 @@ class Character extends BaseCharacter implements Stringable
         'constitution',
         'dexterity',
         'equipment',
-        'experience',
+        'experience_points',
         'languages',
         'hitDice',
         'hitDieType',

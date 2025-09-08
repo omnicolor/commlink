@@ -25,7 +25,7 @@ final class DefaultToAcceptJsonTest extends TestCase
 
     public function testSetAcceptIfNotSent(): void
     {
-        $request = Request::create('http://example.com/api/testing', 'GET');
+        $request = Request::create('http://example.com/api/testing');
         $request->headers->set('Accept', null);
 
         $this->middleware->handle($request, function (Request $request): JsonResponse {
@@ -36,7 +36,7 @@ final class DefaultToAcceptJsonTest extends TestCase
 
     public function testDoNotOverride(): void
     {
-        $request = Request::create('http://example.com/api/testing', 'GET');
+        $request = Request::create('http://example.com/api/testing');
         $request->headers->set('Accept', 'text/plain');
 
         $this->middleware->handle($request, function () use ($request): JsonResponse {

@@ -31,10 +31,10 @@ final class MartialArtsStyleTest extends TestCase
     public function testConstructor(): void
     {
         $style = new MartialArtsStyle('aikido');
-        self::assertEquals('aikido', $style->id);
-        self::assertEquals('Aikido', $style->name);
-        self::assertEquals(128, $style->page);
-        self::assertEquals('run-and-gun', $style->ruleset);
+        self::assertSame('aikido', $style->id);
+        self::assertSame('Aikido', $style->name);
+        self::assertSame(128, $style->page);
+        self::assertSame('run-and-gun', $style->ruleset);
         self::assertNotEmpty($style->allowedTechniques);
     }
 
@@ -44,6 +44,6 @@ final class MartialArtsStyleTest extends TestCase
     public function testToString(): void
     {
         $style = new MartialArtsStyle('Aikido');
-        self::assertEquals('Aikido', (string)$style);
+        self::assertSame('Aikido', (string)$style);
     }
 }

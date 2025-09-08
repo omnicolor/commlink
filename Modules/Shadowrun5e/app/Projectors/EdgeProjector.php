@@ -29,7 +29,7 @@ class EdgeProjector extends Projector
             self::$reset = false;
         }
 
-        $character->edgeCurrent++;
+        ++$character->edgeCurrent;
         $character->save();
     }
 
@@ -41,7 +41,7 @@ class EdgeProjector extends Projector
             self::$reset = false;
         }
 
-        $character->edgeCurrent--;
+        --$character->edgeCurrent;
         $character->save();
     }
 }

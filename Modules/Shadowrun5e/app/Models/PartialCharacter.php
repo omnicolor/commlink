@@ -230,8 +230,8 @@ class PartialCharacter extends Character implements Stringable
                     $min_attribute_value = $value;
                 }
             }
-            $attribute_points++;
-            $attributes[$min_attribute]--;
+            ++$attribute_points;
+            --$attributes[$min_attribute];
             event(new KarmaSpent(
                 $character,
                 $min_attribute_value * 5,
@@ -272,7 +272,7 @@ class PartialCharacter extends Character implements Stringable
         $points = $race->getSpecialPointsForPriority($metatype_priority);
 
         if ($this->edge > $race->edg_min + $points) {
-            for ($i = $race->edg_min + $points + 1; $i <= $this->edge; $i++) {
+            for ($i = $race->edg_min + $points + 1; $i <= $this->edge; ++$i) {
                 event(new KarmaSpent(
                     $character,
                     $i * 5,
@@ -283,7 +283,7 @@ class PartialCharacter extends Character implements Stringable
                         $i,
                     ),
                 ));
-                $points--;
+                --$points;
             }
         }
         $character->edge = $this->edge;
@@ -366,7 +366,7 @@ class PartialCharacter extends Character implements Stringable
                 continue;
             }
             if (null !== $skill->specialization) {
-                $skill_points--;
+                --$skill_points;
             }
             $skill_points -= $skill->level;
         }

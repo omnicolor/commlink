@@ -435,7 +435,8 @@ class CampaignsController extends Controller
         );
 
         $invitation->status = CampaignInvitationStatus::Responded;
-        $invitation->updated_at = $invitation->responded_at = now()->toDateTimeString();
+        $invitation->updated_at = now()->toDateTimeString();
+        $invitation->responded_at = $invitation->updated_at;
         $invitation->save();
 
         return view(
@@ -464,7 +465,8 @@ class CampaignsController extends Controller
         );
 
         $invitation->status = CampaignInvitationStatus::Spam;
-        $invitation->updated_at = $invitation->responded_at = now()->toDateTimeString();
+        $invitation->updated_at = now()->toDateTimeString();
+        $invitation->responded_at = $invitation->updated_at;
         $invitation->save();
 
         return view(

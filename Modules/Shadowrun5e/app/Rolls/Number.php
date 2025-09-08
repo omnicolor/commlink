@@ -136,13 +136,13 @@ class Number extends Roll
      */
     protected function roll(): void
     {
-        for ($i = 0; $i < $this->dice; $i++) {
+        for ($i = 0; $i < $this->dice; ++$i) {
             $this->rolls[] = $roll = DiceService::rollOne(6);
             if (self::MIN_SUCCESS <= $roll) {
-                $this->successes++;
+                ++$this->successes;
             }
             if (self::FAILURE === $roll) {
-                $this->fails++;
+                ++$this->fails;
             }
         }
         rsort($this->rolls, SORT_NUMERIC);
@@ -291,6 +291,11 @@ class Number extends Roll
             ->sendToChannel();
     }
 
+    /**
+     * Interaction is not actually deprecated, the maintainer is (mis)using
+     * deprecation to mean the class should be abstract.
+     * @phpstan-ignore parameter.deprecatedClass
+     */
     public function secondChance(Interaction $interaction): void
     {
         assert(null !== $interaction->user);
@@ -308,18 +313,18 @@ class Number extends Roll
             if (self::MIN_SUCCESS <= $roll) {
                 continue;
             }
-            $rerolled++;
+            ++$rerolled;
             $this->rolls[$key] = $roll = DiceService::rollOne(6);
             if (self::MIN_SUCCESS <= $roll) {
-                $this->successes++;
+                ++$this->successes;
             }
             if (self::FAILURE === $roll) {
-                $this->fails++;
+                ++$this->fails;
             }
         }
 
         // Charge the character some edge.
-        $this->character->edgeCurrent--;
+        --$this->character->edgeCurrent;
         $this->character->save();
 
         $this->formatRoll();

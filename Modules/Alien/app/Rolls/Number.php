@@ -156,18 +156,18 @@ class Number extends Roll
 
     protected function roll(): void
     {
-        for ($i = 0; $i < $this->dice; $i++) {
+        for ($i = 0; $i < $this->dice; ++$i) {
             $this->rolls[] = $roll = DiceService::rollOne(6);
             if (self::SUCCESS === $roll) {
-                $this->successes++;
+                ++$this->successes;
             }
         }
-        for ($i = 0; $i < $this->stress; $i++) {
+        for ($i = 0; $i < $this->stress; ++$i) {
             $this->rolls[] = $roll = DiceService::rollOne(6);
             if (self::SUCCESS === $roll) {
-                $this->successes++;
+                ++$this->successes;
             } elseif (self::PANIC === $roll) {
-                $this->panics++;
+                ++$this->panics;
             }
         }
     }

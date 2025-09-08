@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Cyberpunkred\Tests\Feature\Models;
 
+use Iterator;
 use Modules\Cyberpunkred\Models\Character;
 use Modules\Cyberpunkred\Models\Skill;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -77,21 +78,19 @@ final class SkillTest extends TestCase
 
     /**
      * Return attributes and what the short form should be.
-     * @return array<int, array<int, string>>
+     * @return Iterator<int, array<int, string>>
      */
-    public static function attributeProvider(): array
+    public static function attributeProvider(): Iterator
     {
-        return [
-            ['body', 'BOD'],
-            ['cool', 'COOL'],
-            ['dexterity', 'DEX'],
-            ['empathy', 'EMP'],
-            ['intelligence', 'INT'],
-            ['reflexes', 'REF'],
-            ['technique', 'TECH'],
-            ['unknown', 'unknown'],
-            ['willpower', 'WILL'],
-        ];
+        yield ['body', 'BOD'];
+        yield ['cool', 'COOL'];
+        yield ['dexterity', 'DEX'];
+        yield ['empathy', 'EMP'];
+        yield ['intelligence', 'INT'];
+        yield ['reflexes', 'REF'];
+        yield ['technique', 'TECH'];
+        yield ['unknown', 'unknown'];
+        yield ['willpower', 'WILL'];
     }
 
     /**

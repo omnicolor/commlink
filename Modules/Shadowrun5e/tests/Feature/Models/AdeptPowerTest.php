@@ -32,13 +32,13 @@ final class AdeptPowerTest extends TestCase
     public function testConstructor(): void
     {
         $power = new AdeptPower('improved-sense-direction-sense');
-        self::assertEquals(0.25, $power->cost);
+        self::assertSame(0.25, $power->cost);
         self::assertNotEmpty($power->effects);
-        self::assertEquals('improved-sense-direction-sense', $power->id);
+        self::assertSame('improved-sense-direction-sense', $power->id);
         self::assertNull($power->level);
-        self::assertEquals('Improved Sense: Direction Sense', $power->name);
-        self::assertEquals(310, $power->page);
-        self::assertEquals('core', $power->ruleset);
+        self::assertSame('Improved Sense: Direction Sense', $power->name);
+        self::assertSame(310, $power->page);
+        self::assertSame('core', $power->ruleset);
     }
 
     /**
@@ -47,6 +47,6 @@ final class AdeptPowerTest extends TestCase
     public function testToString(): void
     {
         $power = new AdeptPower('improved-sense-direction-sense');
-        self::assertEquals('Improved Sense: Direction Sense', (string)$power);
+        self::assertSame('Improved Sense: Direction Sense', (string)$power);
     }
 }

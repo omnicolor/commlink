@@ -20,7 +20,7 @@ use const DIRECTORY_SEPARATOR;
 #[Small]
 final class Shadowrun5eConverterTest extends TestCase
 {
-    protected static string $dataDirectory;
+    private static string $dataDirectory;
 
     public static function setUpBeforeClass(): void
     {
@@ -213,7 +213,7 @@ final class Shadowrun5eConverterTest extends TestCase
             $character->priorities
         );
 
-        self::assertEquals([], $hl->getErrors());
+        self::assertSame([], $hl->getErrors());
     }
 
     /**

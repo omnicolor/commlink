@@ -86,10 +86,10 @@ class CharactersController extends Controller
         }
 
         $character = $this->findPartialCharacter($request, $step);
-        if (null !== $character && $step === $character->id) {
+        if ($character instanceof PartialCharacter && $step === $character->id) {
             return new RedirectResponse('/characters/subversion/create/lineage');
         }
-        if (null === $character) {
+        if (!$character instanceof PartialCharacter) {
             // No current character, see if they already have a character they
             // might want to continue.
             $characters = PartialCharacter::where('owner', $user->email->address)
@@ -416,15 +416,15 @@ class CharactersController extends Controller
             $level = new RelationLevel($request->relation_level[$key]);
             $faction = 'true' === $request->relation_faction[$key];
             $relations[] = (new Relation(
+                name: $name,
+                skills: $skills,
                 archetypes: $archetypes,
                 aspects: $aspects,
-                faction: $faction,
-                level: $level,
-                name: $name,
-                notes: $request->relation_notes[$key],
                 power: $level->power,
                 regard: $level->regard,
-                skills: $skills,
+                notes: $request->relation_notes[$key],
+                level: $level,
+                faction: $faction,
             ))->toArray();
         }
 

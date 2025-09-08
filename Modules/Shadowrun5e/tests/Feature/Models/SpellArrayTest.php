@@ -22,7 +22,7 @@ final class SpellArrayTest extends TestCase
      * Subject under test.
      * @var SpellArray<Spell>
      */
-    protected SpellArray $spells;
+    private SpellArray $spells;
 
     /**
      * Set up a clean subject.

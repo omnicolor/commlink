@@ -82,8 +82,10 @@ class CampaignPolicy
      */
     public function delete(User $user, Campaign $campaign): bool
     {
-        return $user->is($campaign->gamemaster)
-            || $user->is($campaign->registrant);
+        if ($user->is($campaign->gamemaster)) {
+            return true;
+        }
+        return $user->is($campaign->registrant);
     }
 
     /**

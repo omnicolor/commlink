@@ -18,7 +18,7 @@ use stdClass;
 final class GearArrayTest extends TestCase
 {
     /** @var GearArray<Gear> */
-    protected GearArray $gears;
+    private GearArray $gears;
 
     #[Override]
     public function setUp(): void

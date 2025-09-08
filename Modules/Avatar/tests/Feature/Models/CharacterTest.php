@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Avatar\Tests\Feature\Models;
 
 use DomainException;
+use Iterator;
 use Modules\Avatar\Enums\Background;
 use Modules\Avatar\Enums\Condition;
 use Modules\Avatar\Enums\TechniqueLevel;
@@ -278,16 +279,14 @@ final class CharacterTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, string>>
+     * @return Iterator<int, array<int, string>>
      */
-    public static function attributeProvider(): array
+    public static function attributeProvider(): Iterator
     {
-        return [
-            ['creativity'],
-            ['focus'],
-            ['harmony'],
-            ['passion'],
-        ];
+        yield ['creativity'];
+        yield ['focus'];
+        yield ['harmony'];
+        yield ['passion'];
     }
 
     #[DataProvider('attributeProvider')]

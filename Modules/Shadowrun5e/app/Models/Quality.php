@@ -88,7 +88,7 @@ final class Quality implements Stringable
             ];
             $this->name .= ' (' . implode(', ', $limits) . ')';
             foreach ($limits as $limit) {
-                $this->effects[$limit . '-limit']++;
+                ++$this->effects[$limit . '-limit'];
             }
         } elseif ('Allergy' === $quality['name']) {
             $this->name .= ' (' . $quality['severity'];

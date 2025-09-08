@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 use Modules\Avatar\Models\Move;
+use Modules\Avatar\Models\Playbook;
 use Override;
 
 use function route;
@@ -38,7 +39,7 @@ class MoveResource extends JsonResource
         /** @var User */
         $user = $request->user();
         $playbook_link = null;
-        if (null !== $this->playbook) {
+        if ($this->playbook instanceof Playbook) {
             $playbook_link = route('avatar.playbooks.show', $this->playbook->id);
         }
 
@@ -51,7 +52,7 @@ class MoveResource extends JsonResource
             'name' => $this->name,
             'page' => $this->page,
             'playbook' => $this->when(
-                null !== $this->playbook,
+                $this->playbook instanceof Playbook,
                 $this->playbook?->id,
             ),
             'ruleset' => $this->ruleset,

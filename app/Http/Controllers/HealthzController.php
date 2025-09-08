@@ -77,8 +77,10 @@ class HealthzController extends Controller
 
     protected function checkQueue(): bool
     {
-        return [] !== $this->lookForProcess('queue:work')
-            || [] !== $this->lookForProcess('queue:listen');
+        if ([] !== $this->lookForProcess('queue:work')) {
+            return true;
+        }
+        return [] !== $this->lookForProcess('queue:listen');
     }
 
     protected function checkSchedule(): bool
@@ -121,7 +123,6 @@ class HealthzController extends Controller
             $statuses['irc'] = $this->checkIrc();
         }
 
-        // @phpstan-ignore function.alreadyNarrowedType
         if (in_array(false, $statuses, true)) {
             $status = JsonResponse::HTTP_SERVICE_UNAVAILABLE;
         } else {

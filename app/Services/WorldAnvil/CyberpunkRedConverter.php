@@ -157,7 +157,7 @@ class CyberpunkRedConverter implements ConverterInterface
 
         $skills = [];
         $customSkills = [];
-        for ($i = 1; $i <= 75; $i++) {
+        for ($i = 1; $i <= 75; ++$i) {
             $id = Str::padLeft((string)$i, 2, '0');
             $anvilId = 'skill_value_' . $id;
             $level = (int)$this->rawCharacter->$anvilId;
@@ -221,7 +221,7 @@ class CyberpunkRedConverter implements ConverterInterface
     protected function parseWeapons(): self
     {
         $weapons = [];
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 10; ++$i) {
             $id = Str::padLeft((string)$i, 2, '0');
             $name = 'weapon_name_' . $id;
             if ('' === $this->rawCharacter->$name) {

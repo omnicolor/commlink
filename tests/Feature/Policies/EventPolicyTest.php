@@ -17,7 +17,7 @@ use Tests\TestCase;
 #[Medium]
 final class EventPolicyTest extends TestCase
 {
-    protected EventPolicy $policy;
+    private EventPolicy $policy;
 
     #[Override]
     protected function setUp(): void

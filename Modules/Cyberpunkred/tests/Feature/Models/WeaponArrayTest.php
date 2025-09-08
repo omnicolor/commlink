@@ -20,7 +20,7 @@ final class WeaponArrayTest extends TestCase
     /**
      * Subject under test.
      */
-    protected WeaponArray $weapons;
+    private WeaponArray $weapons;
 
     /**
      * Set up a clean subject.

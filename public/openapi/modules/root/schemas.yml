@@ -2,6 +2,8 @@ Character:
   allOf:
     - $ref: '../../openapi.yml#/components/schemas/Character'
     - properties:
+        id:
+          type: string
         name:
           type: string
         meta:
@@ -20,10 +22,18 @@ Character:
           type: array
         nature:
           $ref: '#/Nature'
+        owner:
+          $ref: '../../openapi.yml#/components/schemas/UserMinimal'
         playbook:
           $ref: '#/Playbook'
+        system:
+          enum:
+            - root
+          type: string
         tracks:
           $ref: '#/TracksBlock'
+        links:
+          $ref: '../../openapi.yml#/components/schemas/Links'
       required:
         - id
         - links

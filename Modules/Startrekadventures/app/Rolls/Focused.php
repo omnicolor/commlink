@@ -134,16 +134,16 @@ class Focused extends Roll
 
     protected function roll(): void
     {
-        for ($i = 2 + $this->extraDice; 0 < $i; $i--) {
+        for ($i = 2 + $this->extraDice; 0 < $i; --$i) {
             $roll = DiceService::rollOne(20);
             $this->dice[] = $roll;
             if ($roll <= $this->target) {
-                $this->successes++;
+                ++$this->successes;
             }
             if ($roll <= $this->discipline) {
-                $this->successes++;
+                ++$this->successes;
             } elseif (20 === $roll) {
-                $this->complications++;
+                ++$this->complications;
             }
         }
     }
