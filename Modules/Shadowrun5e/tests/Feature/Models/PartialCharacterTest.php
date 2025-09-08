@@ -406,17 +406,15 @@ final class PartialCharacterTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, int|string>>
+     * @return Iterator<int, array<int, (int | string)>>
      */
-    public static function unspentSumToTenAttributesProvider(): array
+    public static function unspentSumToTenAttributesProvider(): Iterator
     {
-        return [
-            ['A', 'B', 'C', 'D', 'E', 16],
-            ['B', 'C', 'D', 'E', 'A', 14],
-            ['C', 'D', 'E', 'A', 'B', 12],
-            ['D', 'E', 'A', 'B', 'C', 24],
-            ['E', 'A', 'B', 'C', 'D', 20],
-        ];
+        yield ['A', 'B', 'C', 'D', 'E', 16];
+        yield ['B', 'C', 'D', 'E', 'A', 14];
+        yield ['C', 'D', 'E', 'A', 'B', 12];
+        yield ['D', 'E', 'A', 'B', 'C', 24];
+        yield ['E', 'A', 'B', 'C', 'D', 20];
     }
 
     #[DataProvider('unspentSumToTenAttributesProvider')]
@@ -449,17 +447,15 @@ final class PartialCharacterTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, int|string>>
+     * @return Iterator<int, array<int, (int | string)>>
      */
-    public static function unspentStandardAttributesProvider(): array
+    public static function unspentStandardAttributesProvider(): Iterator
     {
-        return [
-            ['attributes', 'skills', 'magic', 'metatype', 'resources', 24],
-            ['skills', 'magic', 'metatype', 'resources', 'attributes', 12],
-            ['magic', 'metatype', 'resources', 'attributes', 'skills', 14],
-            ['metatype', 'resources', 'attributes', 'skills', 'magic', 16],
-            ['resources', 'attributes', 'skills', 'magic', 'metatype', 20],
-        ];
+        yield ['attributes', 'skills', 'magic', 'metatype', 'resources', 24];
+        yield ['skills', 'magic', 'metatype', 'resources', 'attributes', 12];
+        yield ['magic', 'metatype', 'resources', 'attributes', 'skills', 14];
+        yield ['metatype', 'resources', 'attributes', 'skills', 'magic', 16];
+        yield ['resources', 'attributes', 'skills', 'magic', 'metatype', 20];
     }
 
     #[DataProvider('unspentStandardAttributesProvider')]

@@ -181,7 +181,7 @@ class PartialCharacter extends Character implements Stringable
                         // E priority is worth zero.
                         break;
                     case 'D':
-                        $sumToTen--;
+                        --$sumToTen;
                         break;
                     case 'C':
                         $sumToTen -= 2;
@@ -217,7 +217,7 @@ class PartialCharacter extends Character implements Stringable
             if ('N' !== $knowledge->level) {
                 continue;
             }
-            $nativeLanguages++;
+            ++$nativeLanguages;
         }
         $bilingual = false;
         foreach ($this->getQualities() as $quality) {
