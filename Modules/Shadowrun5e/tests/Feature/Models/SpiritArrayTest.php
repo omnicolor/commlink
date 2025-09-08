@@ -22,7 +22,7 @@ final class SpiritArrayTest extends TestCase
      * Subject under test.
      * @var SpiritArray<Spirit>
      */
-    protected SpiritArray $spirits;
+    private SpiritArray $spirits;
 
     /**
      * Set up a clean subject.

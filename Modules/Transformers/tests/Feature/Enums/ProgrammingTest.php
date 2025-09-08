@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Transformers\Tests\Feature\Enums;
 
+use Iterator;
 use Modules\Transformers\Enums\Action;
 use Modules\Transformers\Enums\Programming;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -16,16 +17,14 @@ use Tests\TestCase;
 final class ProgrammingTest extends TestCase
 {
     /**
-     * @return array<int, array<int, Action|string>>
+     * @return Iterator<int, array<int, (Action | string)>>
      */
-    public static function programmingProvider(): array
+    public static function programmingProvider(): Iterator
     {
-        return [
-            ['engineer', Action::Materials],
-            ['gunner', Action::Trooper],
-            ['scout', Action::Espionage],
-            ['warrior', Action::Intercept],
-        ];
+        yield ['engineer', Action::Materials];
+        yield ['gunner', Action::Trooper];
+        yield ['scout', Action::Espionage];
+        yield ['warrior', Action::Intercept];
     }
 
     #[DataProvider('programmingProvider')]
@@ -46,16 +45,14 @@ final class ProgrammingTest extends TestCase
     }
 
     /**
-     * @return array<int, array<int, string|Programming>>
+     * @return Iterator<int, array<int, (Programming | string)>>
      */
-    public static function descriptionProvider(): array
+    public static function descriptionProvider(): Iterator
     {
-        return [
-            [Programming::Engineer, '18%'],
-            [Programming::Gunner, '19%'],
-            [Programming::Scout, '24%'],
-            [Programming::Warrior, '43%'],
-        ];
+        yield [Programming::Engineer, '18%'];
+        yield [Programming::Gunner, '19%'];
+        yield [Programming::Scout, '24%'];
+        yield [Programming::Warrior, '43%'];
     }
 
     #[DataProvider('descriptionProvider')]

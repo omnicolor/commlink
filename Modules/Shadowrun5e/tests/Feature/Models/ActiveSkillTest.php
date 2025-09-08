@@ -33,7 +33,7 @@ final class ActiveSkillTest extends TestCase
     public function testLoadSkillSetsId(): ActiveSkill
     {
         $skill = new ActiveSkill('automatics', 4);
-        self::assertEquals('automatics', $skill->id);
+        self::assertSame('automatics', $skill->id);
         return $skill;
     }
 
@@ -43,7 +43,7 @@ final class ActiveSkillTest extends TestCase
     #[Depends('testLoadSkillSetsId')]
     public function testLoadSkillSetsAttribute(ActiveSkill $skill): void
     {
-        self::assertEquals('agility', $skill->attribute);
+        self::assertSame('agility', $skill->attribute);
     }
 
     /**
@@ -62,7 +62,7 @@ final class ActiveSkillTest extends TestCase
     #[Depends('testLoadSkillSetsId')]
     public function testLoadSkillSetsGroup(ActiveSkill $skill): void
     {
-        self::assertEquals('firearms', $skill->group);
+        self::assertSame('firearms', $skill->group);
     }
 
     /**
@@ -71,7 +71,7 @@ final class ActiveSkillTest extends TestCase
     #[Depends('testLoadSkillSetsId')]
     public function testLoadSkillSetsLevel(ActiveSkill $skill): void
     {
-        self::assertEquals(4, $skill->level);
+        self::assertSame(4, $skill->level);
     }
 
     /**
@@ -80,7 +80,7 @@ final class ActiveSkillTest extends TestCase
     #[Depends('testLoadSkillSetsId')]
     public function testLoadSkillSetsName(ActiveSkill $skill): void
     {
-        self::assertEquals('Automatics', $skill->name);
+        self::assertSame('Automatics', $skill->name);
     }
 
     /**
@@ -89,7 +89,7 @@ final class ActiveSkillTest extends TestCase
     #[Depends('testLoadSkillSetsId')]
     public function testLoadSkillToString(ActiveSkill $skill): void
     {
-        self::assertEquals('Automatics', (string)$skill);
+        self::assertSame('Automatics', (string)$skill);
     }
 
     /**

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 
 use function array_key_exists;
 use function array_values;
 use function assert;
 use function config;
-use function date;
 use function json_encode;
 use function response;
 use function route;
@@ -47,7 +47,7 @@ class LifestyleZonesController extends Controller
 
         $stat = stat($this->filename);
         assert(false !== $stat); // require() would have failed.
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = Carbon::createFromTimestamp($stat['mtime'])->format('r');
     }
 
     /**

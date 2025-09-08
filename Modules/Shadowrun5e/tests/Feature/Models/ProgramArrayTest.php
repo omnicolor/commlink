@@ -22,7 +22,7 @@ final class ProgramArrayTest extends TestCase
      * Subject under test.
      * @var ProgramArray<Program>
      */
-    protected ProgramArray $programs;
+    private ProgramArray $programs;
 
     /**
      * Set up a clean subject.

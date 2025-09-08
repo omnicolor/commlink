@@ -96,7 +96,7 @@ class SlackResponse extends JsonResponse implements Stringable
      */
     protected function requireCommlink(?ChatUser $chatUser): void
     {
-        if (null !== $chatUser) {
+        if ($chatUser instanceof ChatUser) {
             return;
         }
         throw new SlackException(sprintf(

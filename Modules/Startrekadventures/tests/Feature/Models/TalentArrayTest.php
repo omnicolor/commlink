@@ -21,7 +21,7 @@ final class TalentArrayTest extends TestCase
      * Subject under test.
      * @var TalentArray<Talent>
      */
-    protected TalentArray $talents;
+    private TalentArray $talents;
 
     /**
      * Set up a clean subject.

@@ -2078,6 +2078,8 @@ SumToTenPriorites:
           $ref: '#/LetterPriority'
         gameplay:
           type: string
+        magic:
+          type: string
         magic_priority:
           $ref: '#/LetterPriority'
         metatype:

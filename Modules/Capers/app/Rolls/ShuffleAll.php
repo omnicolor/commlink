@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Rolls;
 
+use App\Models\Campaign;
 use App\Models\Channel;
 use App\Rolls\Roll;
 use Illuminate\Support\Facades\DB;
@@ -35,7 +36,7 @@ class ShuffleAll extends Roll
         Channel $channel
     ) {
         parent::__construct($content, $username, $channel);
-        if (null === $this->campaign) {
+        if (!$this->campaign instanceof Campaign) {
             $this->error = 'Decks for Capers require a linked Commlink '
                 . 'campaign.';
             return;

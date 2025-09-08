@@ -33,10 +33,10 @@ final class MartialArtsTechniqueTest extends TestCase
     public function testConstructor(): void
     {
         $technique = new MartialArtsTechnique('constrictors-crush');
-        self::assertEquals('constrictors-crush', $technique->id);
-        self::assertEquals('Constrictor\'s Crush', $technique->name);
-        self::assertEquals(137, $technique->page);
-        self::assertEquals('run-and-gun', $technique->ruleset);
+        self::assertSame('constrictors-crush', $technique->id);
+        self::assertSame('Constrictor\'s Crush', $technique->name);
+        self::assertSame(137, $technique->page);
+        self::assertSame('run-and-gun', $technique->ruleset);
         self::assertNull($technique->subname);
     }
 
@@ -46,7 +46,7 @@ final class MartialArtsTechniqueTest extends TestCase
     public function testConstructorSubname(): void
     {
         $technique = new MartialArtsTechnique('called-shot-disarm');
-        self::assertEquals('Disarm', $technique->subname);
+        self::assertSame('Disarm', $technique->subname);
     }
 
     /**
@@ -55,7 +55,7 @@ final class MartialArtsTechniqueTest extends TestCase
     public function testToString(): void
     {
         $technique = new MartialArtsTechnique('constrictors-crush');
-        self::assertEquals('Constrictor\'s Crush', (string)$technique);
+        self::assertSame('Constrictor\'s Crush', (string)$technique);
     }
 
     /**
@@ -64,6 +64,6 @@ final class MartialArtsTechniqueTest extends TestCase
     public function testToStringSubname(): void
     {
         $technique = new MartialArtsTechnique('called-shot-disarm');
-        self::assertEquals('Called Shot (Disarm)', (string)$technique);
+        self::assertSame('Called Shot (Disarm)', (string)$technique);
     }
 }

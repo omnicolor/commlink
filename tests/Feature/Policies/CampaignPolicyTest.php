@@ -16,7 +16,7 @@ use Tests\TestCase;
 #[Medium]
 final class CampaignPolicyTest extends TestCase
 {
-    protected CampaignPolicy $policy;
+    private CampaignPolicy $policy;
 
     #[Override]
     protected function setUp(): void

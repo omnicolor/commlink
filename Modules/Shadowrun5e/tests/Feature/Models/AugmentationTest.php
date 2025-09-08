@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
+use Iterator;
 use Modules\Shadowrun5e\Enums\AugmentationGrade;
 use Modules\Shadowrun5e\Enums\AugmentationType;
 use Modules\Shadowrun5e\Models\Augmentation;
@@ -116,20 +117,19 @@ final class AugmentationTest extends TestCase
 
     /**
      * Data provider for cyberware grades.
-     * @return array<int, array{0: AugmentationGrade|string, 1: float}> [grade, expected essence]
+     * @return Iterator<int, array{(AugmentationGrade | string), float}> [grade, expected essence]
      */
-    public static function cyberwareGradesAndEssenceProvider(): array
+    public static function cyberwareGradesAndEssenceProvider(): Iterator
     {
-        return [
-            [AugmentationGrade::Standard, 1.0],
-            ['Unknown', 1.0],
-            [AugmentationGrade::Used, 1.25],
-            [AugmentationGrade::Alpha, 0.8],
-            [AugmentationGrade::Beta, 0.7],
-            [AugmentationGrade::Delta, 0.5],
-            [AugmentationGrade::Gamma, 1.0], // Not supported yet
-            [AugmentationGrade::Omega, 1.0], // Not supported yet
-        ];
+        yield [AugmentationGrade::Standard, 1.0];
+        yield ['Unknown', 1.0];
+        yield [AugmentationGrade::Used, 1.25];
+        yield [AugmentationGrade::Alpha, 0.8];
+        yield [AugmentationGrade::Beta, 0.7];
+        yield [AugmentationGrade::Delta, 0.5];
+        yield [AugmentationGrade::Gamma, 1.0];
+        // Not supported yet
+        yield [AugmentationGrade::Omega, 1.0];
     }
 
     /**
@@ -160,7 +160,7 @@ final class AugmentationTest extends TestCase
     {
         $aug = Augmentation::build(['id' => 'bone-lacing-aluminum']);
         self::assertSame('Bone Lacing', $aug->name);
-        self::assertEquals(AugmentationGrade::Standard, $aug->grade);
+        self::assertSame(AugmentationGrade::Standard, $aug->grade);
     }
 
     /**
@@ -193,7 +193,7 @@ final class AugmentationTest extends TestCase
         ];
         $aug = Augmentation::build($array);
         self::assertSame('Skilljack', $aug->name);
-        self::assertEquals(AugmentationGrade::Standard, $aug->grade);
+        self::assertSame(AugmentationGrade::Standard, $aug->grade);
         self::assertTrue($aug->active);
         self::assertSame(['soft-zero'], $aug->softs);
     }
@@ -228,20 +228,19 @@ final class AugmentationTest extends TestCase
 
     /**
      * Data provider for cyberware grades.
-     * @return array<int, array{0: AugmentationGrade|string, 1: int}>
+     * @return Iterator<int, array{(AugmentationGrade | string), int}>
      */
-    public static function cyberwareGradesAndCostProvider(): array
+    public static function cyberwareGradesAndCostProvider(): Iterator
     {
-        return [
-            [AugmentationGrade::Standard, 4000],
-            ['Unknown', 4000],
-            [AugmentationGrade::Used, 3000],
-            [AugmentationGrade::Alpha, 4800],
-            [AugmentationGrade::Beta, 6000],
-            [AugmentationGrade::Delta, 10000],
-            [AugmentationGrade::Gamma, 4000], // Not supported yet
-            [AugmentationGrade::Omega, 4000], // Not supported yet
-        ];
+        yield [AugmentationGrade::Standard, 4000];
+        yield ['Unknown', 4000];
+        yield [AugmentationGrade::Used, 3000];
+        yield [AugmentationGrade::Alpha, 4800];
+        yield [AugmentationGrade::Beta, 6000];
+        yield [AugmentationGrade::Delta, 10000];
+        yield [AugmentationGrade::Gamma, 4000];
+        // Not supported yet
+        yield [AugmentationGrade::Omega, 4000];
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Cyberpunkred\Tests\Feature\Models;
 
+use Iterator;
 use Modules\Cyberpunkred\Models\MeleeWeapon;
 use Modules\Cyberpunkred\Models\Weapon;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -113,21 +114,19 @@ final class MeleeWeaponTest extends TestCase
     /**
      * Return the different base costs and qualities with how much the weapon
      * should cost.
-     * @return array<int, array<int, int|string>>
+     * @return Iterator<int, array<int, (int | string)>>
      */
-    public static function costDataProvider(): array
+    public static function costDataProvider(): Iterator
     {
-        return [
-            [50, MeleeWeapon::QUALITY_POOR, 20],
-            [50, MeleeWeapon::QUALITY_STANDARD, 50],
-            [50, MeleeWeapon::QUALITY_EXCELLENT, 100],
-            [100, MeleeWeapon::QUALITY_POOR, 50],
-            [100, MeleeWeapon::QUALITY_STANDARD, 100],
-            [100, MeleeWeapon::QUALITY_EXCELLENT, 500],
-            [500, MeleeWeapon::QUALITY_POOR, 100],
-            [500, MeleeWeapon::QUALITY_STANDARD, 500],
-            [500, MeleeWeapon::QUALITY_EXCELLENT, 1000],
-        ];
+        yield [50, MeleeWeapon::QUALITY_POOR, 20];
+        yield [50, MeleeWeapon::QUALITY_STANDARD, 50];
+        yield [50, MeleeWeapon::QUALITY_EXCELLENT, 100];
+        yield [100, MeleeWeapon::QUALITY_POOR, 50];
+        yield [100, MeleeWeapon::QUALITY_STANDARD, 100];
+        yield [100, MeleeWeapon::QUALITY_EXCELLENT, 500];
+        yield [500, MeleeWeapon::QUALITY_POOR, 100];
+        yield [500, MeleeWeapon::QUALITY_STANDARD, 500];
+        yield [500, MeleeWeapon::QUALITY_EXCELLENT, 1000];
     }
 
     /**

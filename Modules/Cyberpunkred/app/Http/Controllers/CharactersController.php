@@ -123,7 +123,7 @@ class CharactersController extends Controller
 
         $character = $this->findPartialCharacter($request, $step);
 
-        if (null === $character) {
+        if (!$character instanceof PartialCharacter) {
             // No current character, see if they already have a character they
             // might want to continue.
             $characters = PartialCharacter::where('owner', $user->email->address)

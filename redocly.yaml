@@ -4,7 +4,6 @@ extends:
 rules:
   info-contact: error
   info-license: error
-  info-license-url: error
   no-unresolved-refs: error
   no-unused-components: error
   security-defined: error

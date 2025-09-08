@@ -120,7 +120,8 @@ class DiceService
      */
     public static function rollDice(string $string): object
     {
-        $total = $work = $string;
+        $total = $string;
+        $work = $string;
         $rolls = [];
         foreach (self::rollDynamic($string) as $dynamic => $result) {
             $rolls = array_merge($rolls, $result);

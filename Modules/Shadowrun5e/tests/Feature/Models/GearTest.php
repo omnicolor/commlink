@@ -24,7 +24,7 @@ final class GearTest extends TestCase
     /**
      * @var Gear Subject under test
      */
-    protected Gear $item;
+    private Gear $item;
 
     /**
      * Set up subject under test.

@@ -6,6 +6,7 @@ namespace App\Rolls;
 
 use App\Events\ChannelLinked;
 use App\Models\Channel;
+use App\Models\ChatUser;
 use Omnicolor\Slack\Exceptions\SlackException;
 use Omnicolor\Slack\Headers\Header;
 use Omnicolor\Slack\Response;
@@ -63,7 +64,7 @@ class Register extends Roll
         }
 
         $chatUser = $channel->getChatUser();
-        if (null === $chatUser) {
+        if (!$chatUser instanceof ChatUser) {
             $this->error = sprintf(
                 'You must have already created an account on %s '
                     . '(%s/settings/chat-users) and linked it to this server '

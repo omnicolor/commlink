@@ -39,7 +39,7 @@ final class ContactArrayRuleTest extends TestCase
     {
         $rule = new ContactArrayRule();
         $rule->setData([]);
-        $rule->validate('unused', 'unused', function (string $message): void {
+        $rule->validate('unused', 'unused', function (string $message): never {
             self::fail('Validator called $fail Closure');
         });
     }
@@ -67,7 +67,7 @@ final class ContactArrayRuleTest extends TestCase
 
         $rule = new ContactArrayRule();
         $rule->setData($data);
-        $rule->validate('unused', 'unused', function (string $message): void {
+        $rule->validate('unused', 'unused', function (string $message): never {
             self::fail('Validator called $fail Closure');
         });
     }
