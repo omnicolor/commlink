@@ -1,7 +1,7 @@
 meta {
   name: Handle a Slack roll
   type: http
-  seq: 2
+  seq: 1
 }
 
 post {
@@ -18,9 +18,9 @@ headers {
 
 body:json {
   {
-    "channel_id": "",
-    "team_id": "",
-    "text": "",
-    "user_id": ""
+    "channel_id": "C08F8PETZCG",
+    "team_id": "{{slack_team}}",
+    "text": "coin",
+    "user_id": "{{slack_user}}"
   }
 }

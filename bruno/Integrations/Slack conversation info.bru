@@ -1,0 +1,23 @@
+meta {
+  name: Slack conversation info
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://slack.com/api/conversations.info?channel=C08F8PETZCG
+  body: json
+  auth: bearer
+}
+
+params:query {
+  channel: C08F8PETZCG
+}
+
+headers {
+  Content-type: application/json;charset=UTF-8
+}
+
+auth:bearer {
+  token: {{slack_bot_token}}
+}

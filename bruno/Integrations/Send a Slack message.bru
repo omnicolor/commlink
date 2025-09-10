@@ -1,7 +1,7 @@
 meta {
-  name: Send a message
+  name: Send a Slack message
   type: http
-  seq: 1
+  seq: 2
 }
 
 post {
@@ -21,7 +21,16 @@ auth:bearer {
 body:json {
   {
     "channel": "C08F8PETZCG",
-    "text": "<@U025GMATW> Testing",
+    "blocks": [
+      {
+        "type": "header",
+        "text": {
+          "type": "plain_text",
+          "text": "This is a header block",
+          "emoji": true
+        }
+      }
+    ],
     "username": "Commlink (Dev)"
   }
 }
