@@ -8912,16 +8912,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.19.2",
+            "version": "v10.19.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP",
-                "reference": "bf0ec291295d1cd1b65d56ee62b54047620d8902"
+                "reference": "50a42b634fbcdda6d8d385c3965963c1bd3aee9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/bf0ec291295d1cd1b65d56ee62b54047620d8902",
-                "reference": "bf0ec291295d1cd1b65d56ee62b54047620d8902",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/50a42b634fbcdda6d8d385c3965963c1bd3aee9e",
+                "reference": "50a42b634fbcdda6d8d385c3965963c1bd3aee9e",
                 "shasum": ""
             },
             "require": {
@@ -8985,7 +8985,7 @@
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
-            "time": "2025-09-10T13:45:07+00:00"
+            "time": "2025-09-12T12:52:38+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
