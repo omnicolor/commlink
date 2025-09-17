@@ -14,6 +14,7 @@ use Omnicolor\Slack\Response;
 use Override;
 
 use function array_shift;
+use function assert;
 use function explode;
 use function floor;
 use function implode;
@@ -99,7 +100,7 @@ class Push extends Number
     ) {
         Roll::__construct($content, $username, $channel);
 
-        if (null === $this->character) {
+        if (!$this->character instanceof Character) {
             $this->error = 'You must have a character linked to push the limit';
             return;
         }
@@ -211,6 +212,7 @@ class Push extends Number
     #[Override]
     protected function roll(): void
     {
+        assert($this->character instanceof Character);
         for ($i = 0; $i < $this->dice + $this->character->edge; ++$i) {
             $this->rolls[] = $roll = DiceService::rollOne(6);
             if (self::EXPLODING_SIX === $roll) {
