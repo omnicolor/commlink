@@ -51,7 +51,7 @@ final class Blitz extends Init
             return;
         }
 
-        if (null === $this->character) {
+        if (!$this->character instanceof Character) {
             $this->error = 'You must have a character linked to blitz initiative';
             return;
         }

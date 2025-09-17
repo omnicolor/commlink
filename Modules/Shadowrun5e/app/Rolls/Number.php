@@ -210,7 +210,7 @@ class Number extends Roll
             . $this->text . PHP_EOL
             . $footer;
 
-        if (!isset($this->event) || null === $this->character) {
+        if (!isset($this->event) || !$this->character instanceof Character) {
             return $content;
         }
 
@@ -300,6 +300,7 @@ class Number extends Roll
     {
         assert(null !== $interaction->user);
         assert(null !== $interaction->message?->referenced_message?->author);
+        assert($this->character instanceof Character);
 
         // Only the user that originally rolled can second chance.
         if ($interaction->message->referenced_message->author->id !== $interaction->user->id) {
@@ -336,6 +337,7 @@ class Number extends Roll
             . $this->text . PHP_EOL
             . sprintf('Rerolled %d failures', $rerolled) . PHP_EOL
             . $footer . PHP_EOL
+            // @phpstan-ignore property.nonObject
             . sprintf('Remaining edge: %d', $this->character->edgeCurrent);
 
         $button = Button::new(Button::STYLE_SECONDARY)
