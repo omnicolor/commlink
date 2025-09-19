@@ -100,11 +100,11 @@ class Push extends Number
     ) {
         Roll::__construct($content, $username, $channel);
 
-        if (!$this->character instanceof Character) {
+        if (null === $this->character) {
             $this->error = 'You must have a character linked to push the limit';
             return;
         }
-        $character = $this->character;
+
         $args = explode(' ', trim($content));
 
         // Remove the name of the command.
@@ -122,14 +122,14 @@ class Push extends Number
             return;
         }
 
-        if (null === $character->edgeCurrent) {
-            $character->edgeCurrent = $character->edge ?? 0;
+        if (null === $this->character->edgeCurrent) {
+            $this->character->edgeCurrent = $this->character->edge ?? 0;
         }
-        if (0 === $character->edgeCurrent) {
+        if (0 === $this->character->edgeCurrent) {
             $this->error = 'It looks like you\'re out of edge!';
             return;
         }
-        $this->edge = $character->edge;
+        $this->edge = $this->character->edge;
         if (isset($args[0]) && is_numeric($args[0])) {
             $this->limit = (int)array_shift($args);
         }
@@ -143,8 +143,8 @@ class Push extends Number
             $this->formatRoll();
         }
 
-        --$character->edgeCurrent;
-        $character->save();
+        --$this->character->edgeCurrent;
+        $this->character->save();
     }
 
     /**
