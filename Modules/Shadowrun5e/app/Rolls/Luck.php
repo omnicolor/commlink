@@ -7,7 +7,6 @@ namespace Modules\Shadowrun5e\Rolls;
 use App\Models\Channel;
 use App\Rolls\Roll;
 use Discord\Builders\MessageBuilder;
-use Modules\Shadowrun5e\Models\Character;
 use Omnicolor\Slack\Exceptions\SlackException;
 use Omnicolor\Slack\Response;
 use Override;
@@ -29,15 +28,13 @@ class Luck extends Number
     ) {
         Roll::__construct($content, $username, $channel);
 
-        if (!$this->character instanceof Character) {
+        if (null === $this->character) {
             $this->error = 'You must have a character linked to make luck '
                 . 'tests';
             return;
         }
 
-        $character = $this->character;
-        $this->dice = $character->edge;
-
+        $this->dice = $this->character->edge;
         $this->roll();
         $this->formatRoll();
     }

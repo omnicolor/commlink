@@ -337,7 +337,6 @@ class Number extends Roll
             . $this->text . PHP_EOL
             . sprintf('Rerolled %d failures', $rerolled) . PHP_EOL
             . $footer . PHP_EOL
-            // @phpstan-ignore property.nonObject
             . sprintf('Remaining edge: %d', $this->character->edgeCurrent);
 
         $button = Button::new(Button::STYLE_SECONDARY)

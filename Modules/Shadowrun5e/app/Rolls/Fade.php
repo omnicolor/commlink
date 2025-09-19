@@ -7,7 +7,6 @@ namespace Modules\Shadowrun5e\Rolls;
 use App\Models\Channel;
 use App\Rolls\Roll;
 use Discord\Builders\MessageBuilder;
-use Modules\Shadowrun5e\Models\Character;
 use Omnicolor\Slack\Exceptions\SlackException;
 use Omnicolor\Slack\Response;
 use Override;
@@ -29,21 +28,19 @@ class Fade extends Number
     ) {
         Roll::__construct($content, $character, $channel);
 
-        if (!$this->character instanceof Character) {
+        if (null === $this->character) {
             $this->error = 'You must have a character linked to make fade '
                 . 'tests';
             return;
         }
 
-        $character = $this->character;
-
-        if (null === $character->resonance) {
+        if (null === $this->character->resonance) {
             $this->error = 'Your character must have a resonance attribute to '
                 . 'make fading tests';
             return;
         }
 
-        $this->dice = $character->resonance + $character->willpower;
+        $this->dice = $this->character->resonance + $this->character->willpower;
         $this->roll();
         $this->formatRoll();
     }
