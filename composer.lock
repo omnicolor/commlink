@@ -313,16 +313,16 @@
         },
         {
             "name": "discord-php/http",
-            "version": "v10.7.1",
+            "version": "v10.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP-Http",
-                "reference": "25978480691d5a19beb70ea136c2dfd914969d7e"
+                "reference": "51a9fbc374ffdc05a4129af11a7b00b0ca503c5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP-Http/zipball/25978480691d5a19beb70ea136c2dfd914969d7e",
-                "reference": "25978480691d5a19beb70ea136c2dfd914969d7e",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP-Http/zipball/51a9fbc374ffdc05a4129af11a7b00b0ca503c5e",
+                "reference": "51a9fbc374ffdc05a4129af11a7b00b0ca503c5e",
                 "shasum": ""
             },
             "require": {
@@ -361,7 +361,7 @@
                 }
             ],
             "description": "Handles HTTP requests to Discord servers",
-            "time": "2025-09-23T11:05:50+00:00"
+            "time": "2025-09-12T11:01:16+00:00"
         },
         {
             "name": "discord/interactions",
@@ -3853,26 +3853,24 @@
         },
         {
             "name": "paragonie/constant_time_encoding",
-            "version": "v3.1.1",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/constant_time_encoding.git",
-                "reference": "5e9b582660b997de205a84c02a3aac7c060900c9"
+                "reference": "df1e7fde177501eee2037dd159cf04f5f301a512"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/5e9b582660b997de205a84c02a3aac7c060900c9",
-                "reference": "5e9b582660b997de205a84c02a3aac7c060900c9",
+                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/df1e7fde177501eee2037dd159cf04f5f301a512",
+                "reference": "df1e7fde177501eee2037dd159cf04f5f301a512",
                 "shasum": ""
             },
             "require": {
                 "php": "^8"
             },
             "require-dev": {
-                "infection/infection": "^0",
-                "nikic/php-fuzzer": "^0",
-                "phpunit/phpunit": "^9|^10|^11",
-                "vimeo/psalm": "^4|^5|^6"
+                "phpunit/phpunit": "^9",
+                "vimeo/psalm": "^4|^5"
             },
             "type": "library",
             "autoload": {
@@ -3918,7 +3916,7 @@
                 "issues": "https://github.com/paragonie/constant_time_encoding/issues",
                 "source": "https://github.com/paragonie/constant_time_encoding"
             },
-            "time": "2025-09-22T21:00:33+00:00"
+            "time": "2024-05-08T12:36:18+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -3972,16 +3970,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v2.2.0",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "9c3535883f1b60b5d26aeae5914bbec61132ad7f"
+                "reference": "a673d5f310477027cead2e2f2b6db5d8368157cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/9c3535883f1b60b5d26aeae5914bbec61132ad7f",
-                "reference": "9c3535883f1b60b5d26aeae5914bbec61132ad7f",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/a673d5f310477027cead2e2f2b6db5d8368157cb",
+                "reference": "a673d5f310477027cead2e2f2b6db5d8368157cb",
                 "shasum": ""
             },
             "require": {
@@ -3989,10 +3987,8 @@
                 "php-64bit": "*"
             },
             "require-dev": {
-                "infection/infection": "^0",
-                "nikic/php-fuzzer": "^0",
-                "phpunit/phpunit": "^7|^8|^9|^10|^11",
-                "vimeo/psalm": "^4|^5|^6"
+                "phpunit/phpunit": "^7|^8|^9",
+                "vimeo/psalm": "^4|^5"
             },
             "suggest": {
                 "ext-sodium": "Better performance, password hashing (Argon2i), secure memory management (memzero), and better security."
@@ -4006,10 +4002,7 @@
             "autoload": {
                 "files": [
                     "autoload.php"
-                ],
-                "psr-4": {
-                    "ParagonIE\\Sodium\\": "namespaced/"
-                }
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4062,22 +4055,22 @@
             ],
             "support": {
                 "issues": "https://github.com/paragonie/sodium_compat/issues",
-                "source": "https://github.com/paragonie/sodium_compat/tree/v2.2.0"
+                "source": "https://github.com/paragonie/sodium_compat/tree/v2.1.0"
             },
-            "time": "2025-09-21T18:27:14+00:00"
+            "time": "2024-09-04T12:51:01+00:00"
         },
         {
             "name": "phiki/phiki",
-            "version": "v2.0.4",
+            "version": "v2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phikiphp/phiki.git",
-                "reference": "160785c50c01077780ab217e5808f00ab8f05a13"
+                "reference": "fe51fe6dc31856cd776fd1b04ee74053a4271644"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phikiphp/phiki/zipball/160785c50c01077780ab217e5808f00ab8f05a13",
-                "reference": "160785c50c01077780ab217e5808f00ab8f05a13",
+                "url": "https://api.github.com/repos/phikiphp/phiki/zipball/fe51fe6dc31856cd776fd1b04ee74053a4271644",
+                "reference": "fe51fe6dc31856cd776fd1b04ee74053a4271644",
                 "shasum": ""
             },
             "require": {
@@ -4123,7 +4116,7 @@
             "description": "Syntax highlighting using TextMate grammars in PHP.",
             "support": {
                 "issues": "https://github.com/phikiphp/phiki/issues",
-                "source": "https://github.com/phikiphp/phiki/tree/v2.0.4"
+                "source": "https://github.com/phikiphp/phiki/tree/v2.0.3"
             },
             "funding": [
                 {
@@ -4135,7 +4128,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2025-09-20T17:21:02+00:00"
+            "time": "2025-09-19T11:50:41+00:00"
         },
         {
             "name": "php-jsonpatch/php-jsonpatch",
@@ -8991,16 +8984,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.29.2",
+            "version": "v10.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP",
-                "reference": "327ca20f20e1010df42d92f2bca945a400d4c906"
+                "reference": "b093d212c39f2deb3ba6c3646f57e94068bb8b29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/327ca20f20e1010df42d92f2bca945a400d4c906",
-                "reference": "327ca20f20e1010df42d92f2bca945a400d4c906",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/b093d212c39f2deb3ba6c3646f57e94068bb8b29",
+                "reference": "b093d212c39f2deb3ba6c3646f57e94068bb8b29",
                 "shasum": ""
             },
             "require": {
@@ -9064,7 +9057,7 @@
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
-            "time": "2025-09-23T13:48:56+00:00"
+            "time": "2025-09-17T22:45:29+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -10181,16 +10174,16 @@
         },
         {
             "name": "larastan/larastan",
-            "version": "v3.7.1",
+            "version": "v3.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/larastan/larastan.git",
-                "reference": "2e653fd19585a825e283b42f38378b21ae481cc7"
+                "reference": "a761859a7487bd7d0cb8b662a7538a234d5bb5ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/larastan/larastan/zipball/2e653fd19585a825e283b42f38378b21ae481cc7",
-                "reference": "2e653fd19585a825e283b42f38378b21ae481cc7",
+                "url": "https://api.github.com/repos/larastan/larastan/zipball/a761859a7487bd7d0cb8b662a7538a234d5bb5ae",
+                "reference": "a761859a7487bd7d0cb8b662a7538a234d5bb5ae",
                 "shasum": ""
             },
             "require": {
@@ -10204,7 +10197,7 @@
                 "illuminate/pipeline": "^11.44.2 || ^12.4.1",
                 "illuminate/support": "^11.44.2 || ^12.4.1",
                 "php": "^8.2",
-                "phpstan/phpstan": "^2.1.23"
+                "phpstan/phpstan": "^2.1.28"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^13",
@@ -10258,7 +10251,7 @@
             ],
             "support": {
                 "issues": "https://github.com/larastan/larastan/issues",
-                "source": "https://github.com/larastan/larastan/tree/v3.7.1"
+                "source": "https://github.com/larastan/larastan/tree/v3.7.2"
             },
             "funding": [
                 {
@@ -10266,7 +10259,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-09-10T19:42:11+00:00"
+            "time": "2025-09-19T09:03:05+00:00"
         },
         {
             "name": "laravel/breeze",
@@ -11060,16 +11053,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.27",
+            "version": "2.1.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "25da374959afa391992792691093550b3098ef1e"
+                "reference": "578fa296a166605d97b94091f724f1257185d278"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/25da374959afa391992792691093550b3098ef1e",
-                "reference": "25da374959afa391992792691093550b3098ef1e",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/578fa296a166605d97b94091f724f1257185d278",
+                "reference": "578fa296a166605d97b94091f724f1257185d278",
                 "shasum": ""
             },
             "require": {
@@ -11114,7 +11107,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-09-17T09:55:13+00:00"
+            "time": "2025-09-19T08:58:49+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -11705,16 +11698,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.12.12",
+            "version": "v0.12.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "cd23863404a40ccfaf733e3af4db2b459837f7e7"
+                "reference": "6e80abe6f2257121f1eb9a4c55bf29d921025b22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/cd23863404a40ccfaf733e3af4db2b459837f7e7",
-                "reference": "cd23863404a40ccfaf733e3af4db2b459837f7e7",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/6e80abe6f2257121f1eb9a4c55bf29d921025b22",
+                "reference": "6e80abe6f2257121f1eb9a4c55bf29d921025b22",
                 "shasum": ""
             },
             "require": {
@@ -11777,9 +11770,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.12.12"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.12.10"
             },
-            "time": "2025-09-20T13:46:31+00:00"
+            "time": "2025-08-04T12:39:37+00:00"
         },
         {
             "name": "rector/rector",
@@ -13170,16 +13163,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "7.0.1",
+            "version": "7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "b759164a8e02263784b662889cc6cbb686077af6"
+                "reference": "76432aafc58d50691a00d86d0632f1217a47b688"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/b759164a8e02263784b662889cc6cbb686077af6",
-                "reference": "b759164a8e02263784b662889cc6cbb686077af6",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/76432aafc58d50691a00d86d0632f1217a47b688",
+                "reference": "76432aafc58d50691a00d86d0632f1217a47b688",
                 "shasum": ""
             },
             "require": {
@@ -13236,27 +13229,15 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
                 "security": "https://github.com/sebastianbergmann/exporter/security/policy",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/7.0.1"
+                "source": "https://github.com/sebastianbergmann/exporter/tree/7.0.0"
             },
             "funding": [
                 {
                     "url": "https://github.com/sebastianbergmann",
                     "type": "github"
-                },
-                {
-                    "url": "https://liberapay.com/sebastianbergmann",
-                    "type": "liberapay"
-                },
-                {
-                    "url": "https://thanks.dev/u/gh/sebastianbergmann",
-                    "type": "thanks_dev"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/sebastian/exporter",
-                    "type": "tidelift"
                 }
             ],
-            "time": "2025-09-22T05:39:29+00:00"
+            "time": "2025-02-07T04:56:42+00:00"
         },
         {
             "name": "sebastian/global-state",
