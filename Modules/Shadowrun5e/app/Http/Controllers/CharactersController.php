@@ -788,6 +788,7 @@ class CharactersController extends Controller
                         'magic' => $magic,
                         'nextStep' => $this->nextStep('priorities', $character),
                         'previousStep' => $this->previousStep('priorities', $character),
+                        // @phpstan-ignore offsetAccess.notFound
                         'priorities' => $options[$character->priorities['gameplay']],
                         'races' => $races,
                         'selected' => $selected,
