@@ -34,9 +34,7 @@ class Luck extends Number
             return;
         }
 
-        $character = $this->character;
-        $this->dice = $character->edge;
-
+        $this->dice = $this->character->edge;
         $this->roll();
         $this->formatRoll();
     }
