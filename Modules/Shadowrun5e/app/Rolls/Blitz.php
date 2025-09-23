@@ -51,26 +51,25 @@ final class Blitz extends Init
             return;
         }
 
-        if (!$this->character instanceof Character) {
+        if (null === $this->character) {
             $this->error = 'You must have a character linked to blitz initiative';
             return;
         }
 
-        $character = $this->character;
-        if (null === $character->edgeCurrent) {
-            $character->edgeCurrent = $character->edge ?? 0;
+        if (null === $this->character->edgeCurrent) {
+            $this->character->edgeCurrent = $this->character->edge ?? 0;
         }
-        if (0 === $character->edgeCurrent) {
+        if (0 === $this->character->edgeCurrent) {
             $this->error = 'It looks like you\'re out of edge!';
             return;
         }
 
-        $this->initiativeScore = $character->initiative_score;
+        $this->initiativeScore = $this->character->initiative_score;
 
         $this->roll();
 
-        --$character->edgeCurrent;
-        $character->save();
+        --$this->character->edgeCurrent;
+        $this->character->save();
 
         $initiative = Initiative::updateOrCreate(
             [
