@@ -245,13 +245,18 @@ final class KarmaLog extends ArrayObject
             ],
         ];
         $this->attributePoints
+            // @phpstan-ignore offsetAccess.notFound
             = $priorityMap[$priorities['attributePriority']]['attributes'];
         $this->skillPoints
+            // @phpstan-ignore offsetAccess.notFound
             = $priorityMap[$priorities['skillPriority']]['activeSkills'];
         $this->skillGroupPoints
+            // @phpstan-ignore offsetAccess.notFound
             = $priorityMap[$priorities['skillPriority']]['skillGroups'];
         $this->resources
+            // @phpstan-ignore offsetAccess.notFound, offsetAccess.notFound
             = $priorityMap[$priorities['resourcePriority']]['resources'][$priorities['gameplay']];
+        // @phpstan-ignore offsetAccess.notFound
         $spells = $priorityMap[$priorities['magicPriority']]['magic'];
         $this->spells = $spells[$priorities['magic']] ?? 0;
         // TODO: Handle free magic/resonance skills
@@ -447,14 +452,19 @@ final class KarmaLog extends ArrayObject
             ],
         ];
         $this->attributePoints
+            // @phpstan-ignore offsetAccess.notFound
             = $priorityMap[array_search('attributes', $priorities, true)]['attributes'];
         $this->resources
+            // @phpstan-ignore offsetAccess.notFound, offsetAccess.notFound
             = $priorityMap[array_search('resources', $priorities, true)]['resources'][$priorities['gameplay']];
         $this->skillPoints
+            // @phpstan-ignore offsetAccess.notFound
             = $priorityMap[array_search('skills', $priorities, true)]['skills'];
         $this->skillGroupPoints
+            // @phpstan-ignore offsetAccess.notFound
             = $priorityMap[array_search('skills', $priorities, true)]['skillGroups'];
 
+        // @phpstan-ignore offsetAccess.notFound
         $magic = $priorityMap[array_search('magic', $priorities, true)]['magic'];
         $this->spells = $magic[$priorities['magic']]['spells'] ?? 0;
         $this->magicSkills = $magic[$priorities['magic']]['skills'] ?? [];
