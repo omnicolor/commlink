@@ -1541,16 +1541,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v12.31.1",
+            "version": "v12.32.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "281b711710c245dd8275d73132e92635be3094df"
+                "reference": "101f7d1ef000f68ccef15a2529d3e99b0c49a14a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/281b711710c245dd8275d73132e92635be3094df",
-                "reference": "281b711710c245dd8275d73132e92635be3094df",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/101f7d1ef000f68ccef15a2529d3e99b0c49a14a",
+                "reference": "101f7d1ef000f68ccef15a2529d3e99b0c49a14a",
                 "shasum": ""
             },
             "require": {
@@ -1578,7 +1578,6 @@
                 "monolog/monolog": "^3.0",
                 "nesbot/carbon": "^3.8.4",
                 "nunomaduro/termwind": "^2.0",
-                "phiki/phiki": "^2.0.0",
                 "php": "^8.2",
                 "psr/container": "^1.1.1|^2.0.1",
                 "psr/log": "^1.0|^2.0|^3.0",
@@ -1757,7 +1756,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-09-23T15:33:04+00:00"
+            "time": "2025-09-30T15:38:34+00:00"
         },
         {
             "name": "laravel/pennant",
@@ -4065,77 +4064,6 @@
                 "source": "https://github.com/paragonie/sodium_compat/tree/v2.2.0"
             },
             "time": "2025-09-21T18:27:14+00:00"
-        },
-        {
-            "name": "phiki/phiki",
-            "version": "v2.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phikiphp/phiki.git",
-                "reference": "160785c50c01077780ab217e5808f00ab8f05a13"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phikiphp/phiki/zipball/160785c50c01077780ab217e5808f00ab8f05a13",
-                "reference": "160785c50c01077780ab217e5808f00ab8f05a13",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "league/commonmark": "^2.5.3",
-                "php": "^8.2",
-                "psr/simple-cache": "^3.0"
-            },
-            "require-dev": {
-                "illuminate/support": "^11.45",
-                "laravel/pint": "^1.18.1",
-                "orchestra/testbench": "^9.15",
-                "pestphp/pest": "^3.5.1",
-                "phpstan/extension-installer": "^1.4.3",
-                "phpstan/phpstan": "^2.0",
-                "symfony/var-dumper": "^7.1.6"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Phiki\\Adapters\\Laravel\\PhikiServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Phiki\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ryan Chandler",
-                    "email": "support@ryangjchandler.co.uk",
-                    "homepage": "https://ryangjchandler.co.uk",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Syntax highlighting using TextMate grammars in PHP.",
-            "support": {
-                "issues": "https://github.com/phikiphp/phiki/issues",
-                "source": "https://github.com/phikiphp/phiki/tree/v2.0.4"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/ryangjchandler",
-                    "type": "github"
-                },
-                {
-                    "url": "https://buymeacoffee.com/ryangjchandler",
-                    "type": "other"
-                }
-            ],
-            "time": "2025-09-20T17:21:02+00:00"
         },
         {
             "name": "php-jsonpatch/php-jsonpatch",
@@ -8651,16 +8579,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v7.3.3",
+            "version": "v7.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "e0837b4cbcef63c754d89a4806575cada743a38d"
+                "reference": "ec25870502d0c7072d086e8ffba1420c85965174"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/e0837b4cbcef63c754d89a4806575cada743a38d",
-                "reference": "e0837b4cbcef63c754d89a4806575cada743a38d",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/ec25870502d0c7072d086e8ffba1420c85965174",
+                "reference": "ec25870502d0c7072d086e8ffba1420c85965174",
                 "shasum": ""
             },
             "require": {
@@ -8727,7 +8655,7 @@
             "description": "Provides tools to internationalize your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/translation/tree/v7.3.3"
+                "source": "https://github.com/symfony/translation/tree/v7.3.4"
             },
             "funding": [
                 {
@@ -8747,7 +8675,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-01T21:02:37+00:00"
+            "time": "2025-09-07T11:39:36+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -10330,16 +10258,16 @@
         },
         {
             "name": "laravel/telescope",
-            "version": "v5.12.0",
+            "version": "v5.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "b4fb98b57f4aeb48b74f79aa7c684a20e302dacd"
+                "reference": "ad5fadb26c1e4dc2e35958e6dc36191dcf1c10d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/b4fb98b57f4aeb48b74f79aa7c684a20e302dacd",
-                "reference": "b4fb98b57f4aeb48b74f79aa7c684a20e302dacd",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/ad5fadb26c1e4dc2e35958e6dc36191dcf1c10d8",
+                "reference": "ad5fadb26c1e4dc2e35958e6dc36191dcf1c10d8",
                 "shasum": ""
             },
             "require": {
@@ -10393,9 +10321,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/telescope/issues",
-                "source": "https://github.com/laravel/telescope/tree/v5.12.0"
+                "source": "https://github.com/laravel/telescope/tree/v5.13.0"
             },
-            "time": "2025-09-18T15:08:51+00:00"
+            "time": "2025-09-30T10:03:05+00:00"
         },
         {
             "name": "laravel/tinker",
