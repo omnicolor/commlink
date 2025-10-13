@@ -308,15 +308,15 @@ class Character extends BaseCharacter implements Stringable
      */
     public function getSkillsByCategory(): array
     {
-        $allSkills = $this->getAllSkills();
         $skills = [];
-        foreach ($allSkills as $skill) {
+        foreach ($this->getAllSkills() as $skill) {
             if (!array_key_exists($skill->category, $skills)) {
                 $skills[$skill->category] = new SkillArray();
             }
             $skills[$skill->category][] = $skill;
         }
         ksort($skills);
+        // @phpstan-ignore return.type
         return $skills;
     }
 
