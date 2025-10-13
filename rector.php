@@ -25,6 +25,7 @@ use Rector\Php83\Rector\Class_\ReadOnlyAnonymousClassRector;
 use Rector\Php84\Rector\FuncCall\RoundingModeEnumRector;
 use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
 use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
+use RectorLaravel\Rector\ClassMethod\ScopeNamedClassMethodToScopeAttributedClassMethodRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -74,6 +75,7 @@ return RectorConfig::configure()
         ReadOnlyAnonymousClassRector::class,
         ReadOnlyPropertyRector::class,
         RoundingModeEnumRector::class,
+        ScopeNamedClassMethodToScopeAttributedClassMethodRector::class,
         ThisCallOnStaticMethodToStaticCallRector::class,
     ])
     ->withSkip([
