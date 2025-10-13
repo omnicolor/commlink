@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\BooleanOr\RepeatedOrEqualToInArrayRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
 use Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector;
@@ -84,6 +85,7 @@ return RectorConfig::configure()
         NewlineAfterStatementRector::class,
         NewlineBeforeNewAssignSetRector::class,
         PreferPHPUnitThisCallRector::class,
+        RepeatedOrEqualToInArrayRector::class,
         SimplifyIfElseToTernaryRector::class,
         SymplifyQuoteEscapeRector::class,
     ]);
