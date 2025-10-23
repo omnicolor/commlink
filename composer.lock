@@ -9848,16 +9848,16 @@
         },
         {
             "name": "driftingly/rector-laravel",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/driftingly/rector-laravel.git",
-                "reference": "efb636a08dfddfa2a3f4527b1dd970a898a075a4"
+                "reference": "abc336cbf06f53d90ab74cecfd319379fc55d408"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/driftingly/rector-laravel/zipball/efb636a08dfddfa2a3f4527b1dd970a898a075a4",
-                "reference": "efb636a08dfddfa2a3f4527b1dd970a898a075a4",
+                "url": "https://api.github.com/repos/driftingly/rector-laravel/zipball/abc336cbf06f53d90ab74cecfd319379fc55d408",
+                "reference": "abc336cbf06f53d90ab74cecfd319379fc55d408",
                 "shasum": ""
             },
             "require": {
@@ -9877,9 +9877,9 @@
             "description": "Rector upgrades rules for Laravel Framework",
             "support": {
                 "issues": "https://github.com/driftingly/rector-laravel/issues",
-                "source": "https://github.com/driftingly/rector-laravel/tree/2.1.0"
+                "source": "https://github.com/driftingly/rector-laravel/tree/2.1.1"
             },
-            "time": "2025-10-12T21:51:39+00:00"
+            "time": "2025-10-23T13:53:44+00:00"
         },
         {
             "name": "fidry/cpu-core-counter",
@@ -11738,16 +11738,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "2.2.3",
+            "version": "2.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "d27f976a332a87b5d03553c2e6f04adbe5da034f"
+                "reference": "fb9418af7777dfb1c87a536dc58398b5b07c74b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/d27f976a332a87b5d03553c2e6f04adbe5da034f",
-                "reference": "d27f976a332a87b5d03553c2e6f04adbe5da034f",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/fb9418af7777dfb1c87a536dc58398b5b07c74b9",
+                "reference": "fb9418af7777dfb1c87a536dc58398b5b07c74b9",
                 "shasum": ""
             },
             "require": {
@@ -11786,7 +11786,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/2.2.3"
+                "source": "https://github.com/rectorphp/rector/tree/2.2.5"
             },
             "funding": [
                 {
@@ -11794,7 +11794,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-10-11T21:50:23+00:00"
+            "time": "2025-10-23T11:22:37+00:00"
         },
         {
             "name": "roave/security-advisories",
