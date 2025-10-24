@@ -2949,16 +2949,16 @@
         },
         {
             "name": "markrogoyski/math-php",
-            "version": "v2.12.0",
+            "version": "v2.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/markrogoyski/math-php.git",
-                "reference": "1052140856e68cde469545fd769c00e35e8c343b"
+                "reference": "c064e80bfc4039b812f6b29bacebb07dfb5a049f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markrogoyski/math-php/zipball/1052140856e68cde469545fd769c00e35e8c343b",
-                "reference": "1052140856e68cde469545fd769c00e35e8c343b",
+                "url": "https://api.github.com/repos/markrogoyski/math-php/zipball/c064e80bfc4039b812f6b29bacebb07dfb5a049f",
+                "reference": "c064e80bfc4039b812f6b29bacebb07dfb5a049f",
                 "shasum": ""
             },
             "require": {
@@ -3018,9 +3018,9 @@
             ],
             "support": {
                 "issues": "https://github.com/markrogoyski/math-php/issues",
-                "source": "https://github.com/markrogoyski/math-php/tree/v2.12.0"
+                "source": "https://github.com/markrogoyski/math-php/tree/v2.13.0"
             },
-            "time": "2025-10-18T00:27:50+00:00"
+            "time": "2025-10-24T05:40:38+00:00"
         },
         {
             "name": "mongodb/laravel-mongodb",
