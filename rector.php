@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\BooleanAnd\RepeatedAndNotEqualToNotInArrayRector;
 use Rector\CodeQuality\Rector\BooleanOr\RepeatedOrEqualToInArrayRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
@@ -56,7 +57,6 @@ return RectorConfig::configure()
         privatization: true,
         instanceOf: true,
         earlyReturn: true,
-        strictBooleans: true,
         carbon: true,
         rectorPreset: true,
         phpunitCodeQuality: true,
@@ -87,6 +87,7 @@ return RectorConfig::configure()
         NewlineAfterStatementRector::class,
         NewlineBeforeNewAssignSetRector::class,
         PreferPHPUnitThisCallRector::class,
+        RepeatedAndNotEqualToNotInArrayRector::class,
         RepeatedOrEqualToInArrayRector::class,
         SimplifyIfElseToTernaryRector::class,
         SymplifyQuoteEscapeRector::class,

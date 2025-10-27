@@ -14,7 +14,6 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-use function assert;
 use function route;
 use function session;
 
@@ -271,11 +270,11 @@ final class CharacterControllerTest extends TestCase
         self::assertCount(2, $characters);
 
         $character = $characters[0];
-        assert($character instanceof PartialCharacter);
+        self::assertInstanceOf(PartialCharacter::class, $character);
         $character->delete();
 
         $character = $characters[1];
-        assert($character instanceof PartialCharacter);
+        self::assertInstanceOf(PartialCharacter::class, $character);
         $character->delete();
     }
 
