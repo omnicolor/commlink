@@ -55,8 +55,8 @@ class Relation implements Stringable
          *     line?: int,
          *     file?: string,
          *     class?: class-string,
-         *     type?: string,
-         *     args?: array<mixed>,
+         *     type?: '->'|'::',
+         *     args?: list<mixed>,
          *     object?: object
          * }>
          */

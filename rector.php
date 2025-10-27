@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\BooleanAnd\RepeatedAndNotEqualToNotInArrayRector;
+use Rector\CodeQuality\Rector\BooleanOr\RepeatedOrEqualToInArrayRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
 use Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector;
@@ -25,6 +27,7 @@ use Rector\Php83\Rector\Class_\ReadOnlyAnonymousClassRector;
 use Rector\Php84\Rector\FuncCall\RoundingModeEnumRector;
 use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
 use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
+use RectorLaravel\Rector\ClassMethod\ScopeNamedClassMethodToScopeAttributedClassMethodRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -55,7 +58,6 @@ return RectorConfig::configure()
         privatization: true,
         instanceOf: true,
         earlyReturn: true,
-        strictBooleans: true,
         carbon: true,
         rectorPreset: true,
         phpunitCodeQuality: true,
@@ -74,6 +76,7 @@ return RectorConfig::configure()
         ReadOnlyAnonymousClassRector::class,
         ReadOnlyPropertyRector::class,
         RoundingModeEnumRector::class,
+        ScopeNamedClassMethodToScopeAttributedClassMethodRector::class,
         ThisCallOnStaticMethodToStaticCallRector::class,
     ])
     ->withSkip([
@@ -89,6 +92,8 @@ return RectorConfig::configure()
         NewlineAfterStatementRector::class,
         NewlineBeforeNewAssignSetRector::class,
         PreferPHPUnitThisCallRector::class,
+        RepeatedAndNotEqualToNotInArrayRector::class,
+        RepeatedOrEqualToInArrayRector::class,
         SimplifyIfElseToTernaryRector::class,
         SymplifyQuoteEscapeRector::class,
     ]);

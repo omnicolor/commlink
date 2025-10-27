@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Traits\InteractsWithDiscord;
 use App\Models\Traits\InteractsWithSlack;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -112,7 +113,8 @@ class ChatUser extends Model
     /**
      * Scope the query to only include unverified users.
      */
-    public function scopeUnverified(Builder $query): Builder
+    #[Scope]
+    protected function unverified(Builder $query): Builder
     {
         return $query->where('verified', false);
     }
@@ -120,7 +122,8 @@ class ChatUser extends Model
     /**
      * Scope the query to only include verified users.
      */
-    public function scopeVerified(Builder $query): Builder
+    #[Scope]
+    protected function verified(Builder $query): Builder
     {
         return $query->where('verified', true);
     }

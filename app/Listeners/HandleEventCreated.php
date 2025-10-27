@@ -36,10 +36,10 @@ class HandleEventCreated
         /** @var Channel $channel */
         foreach ($event->event->campaign->channels ?? [] as $channel) {
             switch ($channel->type) {
-                case ChannelType::Slack: // @codeCoverageIgnore
+                case ChannelType::Slack:
                     $this->sendToSlack($event->event, $channel);
                     break;
-                case ChannelType::Discord: // @codeCoverageIgnore
+                case ChannelType::Discord:
                     $this->sendToDiscord($event->event, $channel);
                     break;
                 case ChannelType::Irc: // @codeCoverageIgnore
