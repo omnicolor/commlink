@@ -49,7 +49,7 @@ final class HandleEventCreatedTest extends TestCase
         $eventCreated = new EventCreated($event);
         self::assertTrue((new HandleEventCreated())->handle($eventCreated));
 
-        Http::assertSent(function (Request $request) use ($creator): bool {
+        Http::assertSent(static function (Request $request) use ($creator): bool {
             return 'https://slack.com/api/chat.postMessage' === $request->url()
                 && sprintf('%s scheduled an event', $creator->name) === $request['text'];
         });
@@ -97,7 +97,7 @@ final class HandleEventCreatedTest extends TestCase
         $eventCreated = new EventCreated($event);
         self::assertTrue((new HandleEventCreated())->handle($eventCreated));
 
-        Http::assertSent(function (Request $request) use ($creator): bool {
+        Http::assertSent(static function (Request $request) use ($creator): bool {
             return 'https://example.com' === $request->url()
                 && sprintf('%s scheduled an event', $creator->name) === $request['content'];
         });

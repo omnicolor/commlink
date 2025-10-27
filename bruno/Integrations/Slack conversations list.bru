@@ -1,10 +1,10 @@
 meta {
-  name: Conversation list
+  name: Slack conversations list
   type: http
-  seq: 3
+  seq: 4
 }
 
-post {
+get {
   url: https://slack.com/api/conversations.list
   body: json
   auth: bearer
@@ -16,12 +16,4 @@ headers {
 
 auth:bearer {
   token: {{slack_bot_token}}
-}
-
-body:json {
-  {
-    "channel": "C08F8PETZCG",
-    "text": "<@U025GMATW> Testing",
-    "username": "Commlink (Dev)"
-  }
 }
