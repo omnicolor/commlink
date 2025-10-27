@@ -313,16 +313,16 @@
         },
         {
             "name": "discord-php/http",
-            "version": "v10.7.2",
+            "version": "v10.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP-Http",
-                "reference": "9a4ba75ffb137bc0d649a604b097fad863f39d06"
+                "reference": "c1bfc2c45b27b4efb0569e054158f55ee57cf5be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP-Http/zipball/9a4ba75ffb137bc0d649a604b097fad863f39d06",
-                "reference": "9a4ba75ffb137bc0d649a604b097fad863f39d06",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP-Http/zipball/c1bfc2c45b27b4efb0569e054158f55ee57cf5be",
+                "reference": "c1bfc2c45b27b4efb0569e054158f55ee57cf5be",
                 "shasum": ""
             },
             "require": {
@@ -361,7 +361,7 @@
                 }
             ],
             "description": "Handles HTTP requests to Discord servers",
-            "time": "2025-10-19T14:56:06+00:00"
+            "time": "2025-10-27T14:23:16+00:00"
         },
         {
             "name": "discord/interactions",
@@ -8915,16 +8915,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.39.1",
+            "version": "v10.39.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP",
-                "reference": "c4dead5608ed70a12ee2c4216f60ad29a9d8acaf"
+                "reference": "85ca2663538b8c1b277298742509545bd70a07f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/c4dead5608ed70a12ee2c4216f60ad29a9d8acaf",
-                "reference": "c4dead5608ed70a12ee2c4216f60ad29a9d8acaf",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/85ca2663538b8c1b277298742509545bd70a07f3",
+                "reference": "85ca2663538b8c1b277298742509545bd70a07f3",
                 "shasum": ""
             },
             "require": {
@@ -8988,7 +8988,7 @@
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
-            "time": "2025-10-24T15:47:19+00:00"
+            "time": "2025-10-27T15:07:53+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
