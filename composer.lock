@@ -2949,16 +2949,16 @@
         },
         {
             "name": "markrogoyski/math-php",
-            "version": "v2.12.0",
+            "version": "v2.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/markrogoyski/math-php.git",
-                "reference": "1052140856e68cde469545fd769c00e35e8c343b"
+                "reference": "c064e80bfc4039b812f6b29bacebb07dfb5a049f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markrogoyski/math-php/zipball/1052140856e68cde469545fd769c00e35e8c343b",
-                "reference": "1052140856e68cde469545fd769c00e35e8c343b",
+                "url": "https://api.github.com/repos/markrogoyski/math-php/zipball/c064e80bfc4039b812f6b29bacebb07dfb5a049f",
+                "reference": "c064e80bfc4039b812f6b29bacebb07dfb5a049f",
                 "shasum": ""
             },
             "require": {
@@ -3018,9 +3018,9 @@
             ],
             "support": {
                 "issues": "https://github.com/markrogoyski/math-php/issues",
-                "source": "https://github.com/markrogoyski/math-php/tree/v2.12.0"
+                "source": "https://github.com/markrogoyski/math-php/tree/v2.13.0"
             },
-            "time": "2025-10-18T00:27:50+00:00"
+            "time": "2025-10-24T05:40:38+00:00"
         },
         {
             "name": "mongodb/laravel-mongodb",
@@ -8915,16 +8915,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.37.4",
+            "version": "v10.39.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP",
-                "reference": "dc0c3377509a74e33b6f657ff4f92138805b1569"
+                "reference": "c4dead5608ed70a12ee2c4216f60ad29a9d8acaf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/dc0c3377509a74e33b6f657ff4f92138805b1569",
-                "reference": "dc0c3377509a74e33b6f657ff4f92138805b1569",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/c4dead5608ed70a12ee2c4216f60ad29a9d8acaf",
+                "reference": "c4dead5608ed70a12ee2c4216f60ad29a9d8acaf",
                 "shasum": ""
             },
             "require": {
@@ -8988,7 +8988,7 @@
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
-            "time": "2025-10-20T20:55:11+00:00"
+            "time": "2025-10-24T15:47:19+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -9944,16 +9944,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.89.0",
+            "version": "v3.89.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "4dd6768cb7558440d27d18f54909eee417317ce9"
+                "reference": "f34967da2866ace090a2b447de1f357356474573"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/4dd6768cb7558440d27d18f54909eee417317ce9",
-                "reference": "4dd6768cb7558440d27d18f54909eee417317ce9",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/f34967da2866ace090a2b447de1f357356474573",
+                "reference": "f34967da2866ace090a2b447de1f357356474573",
                 "shasum": ""
             },
             "require": {
@@ -10035,7 +10035,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.89.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.89.1"
             },
             "funding": [
                 {
@@ -10043,7 +10043,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-10-18T19:30:16+00:00"
+            "time": "2025-10-24T12:05:10+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
