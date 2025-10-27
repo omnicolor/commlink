@@ -1,0 +1,29 @@
+meta {
+  name: Delete a channel
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{host}}/channels/:channel_id
+  body: json
+  auth: bearer
+}
+
+params:path {
+  channel_id: 
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "webhook": null
+  }
+}

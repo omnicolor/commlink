@@ -34,15 +34,13 @@ class Fade extends Number
             return;
         }
 
-        $character = $this->character;
-
-        if (null === $character->resonance) {
+        if (null === $this->character->resonance) {
             $this->error = 'Your character must have a resonance attribute to '
                 . 'make fading tests';
             return;
         }
 
-        $this->dice = $character->resonance + $character->willpower;
+        $this->dice = $this->character->resonance + $this->character->willpower;
         $this->roll();
         $this->formatRoll();
     }

@@ -21,7 +21,7 @@
         "tailwindcss": "^2.0.4"
     },
     "dependencies": {
-        "@redocly/cli": "^2.0.8",
+        "@redocly/cli": "^2.5.1",
         "@stoplight/prism-cli": "^5.12.0"
     }
 }
