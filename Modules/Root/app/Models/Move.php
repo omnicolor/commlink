@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Root\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Override;
@@ -70,12 +71,14 @@ class Move extends Model implements Stringable
         return require $filename;
     }
 
-    public function scopeMove(Builder $query): Builder
+    #[Scope]
+    protected function move(Builder $query): Builder
     {
         return $query->where('weapon_move', false);
     }
 
-    public function scopeWeapon(Builder $query): Builder
+    #[Scope]
+    protected function weapon(Builder $query): Builder
     {
         return $query->where('weapon_move', true);
     }
