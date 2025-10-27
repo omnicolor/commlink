@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\EventSerializers\JsonEventSerializer;
 use Modules\Dnd5e\Projectors\ExperienceProjector;
-use Modules\Dnd5e\Projectors\WalletProjector;
 use Spatie\EventSourcing\Snapshots\EloquentSnapshot;
 use Spatie\EventSourcing\Snapshots\EloquentSnapshotRepository;
 use Spatie\EventSourcing\StoredEvents\HandleStoredEventJob;
@@ -38,9 +37,7 @@ return [
      * provider.
      */
     'projectors' => [
-        // App\Projectors\YourProjector::class,
         ExperienceProjector::class,
-        WalletProjector::class,
     ],
 
     /*

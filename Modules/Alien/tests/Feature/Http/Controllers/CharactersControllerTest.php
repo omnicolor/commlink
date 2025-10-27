@@ -17,7 +17,6 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
-use function assert;
 use function route;
 use function session;
 
@@ -55,7 +54,7 @@ final class CharactersControllerTest extends TestCase
         self::assertCount(1, $characters);
 
         $character = $characters[0];
-        assert($character instanceof Character);
+        self::assertInstanceOf(Character::class, $character);
         $character->delete();
     }
 
