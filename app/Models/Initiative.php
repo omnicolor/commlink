@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -87,7 +88,8 @@ class Initiative extends Model implements Stringable
     /**
      * Just return initiative rows for a given campaign.
      */
-    public function scopeForCampaign(Builder $query, Campaign $campaign): Builder
+    #[Scope]
+    protected function forCampaign(Builder $query, Campaign $campaign): Builder
     {
         return $query->where('campaign_id', $campaign->id);
     }
@@ -95,7 +97,8 @@ class Initiative extends Model implements Stringable
     /**
      * Return initiative rows for a given channel.
      */
-    public function scopeForChannel(Builder $query, Channel $channel): Builder
+    #[Scope]
+    protected function forChannel(Builder $query, Channel $channel): Builder
     {
         return $query->where('channel_id', $channel->id);
     }
