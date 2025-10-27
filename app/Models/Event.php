@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Events\EventCreated;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -95,12 +96,14 @@ class Event extends Model
         return $this->hasMany(EventRsvp::class);
     }
 
-    public function scopeForCampaign(Builder $query, Campaign $campaign): void
+    #[Scope]
+    protected function forCampaign(Builder $query, Campaign $campaign): void
     {
         $query->where('campaign_id', $campaign->id);
     }
 
-    public function scopeFuture(Builder $query): void
+    #[Scope]
+    protected function future(Builder $query): void
     {
         $query->where('real_start', '>=', now());
     }
