@@ -14,7 +14,6 @@ use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitSelfCallRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
-use Rector\PHPUnit\CodeQuality\Rector\Class_\SetUpBeforeClassToSetUpRector;
 use Rector\Php53\Rector\FuncCall\DirNameFileConstantToDirConstantRector;
 use Rector\Php70\Rector\FunctionLike\ExceptionHandlerTypehintRector;
 use Rector\Php70\Rector\MethodCall\ThisCallOnStaticMethodToStaticCallRector;
@@ -90,7 +89,6 @@ return RectorConfig::configure()
         PreferPHPUnitThisCallRector::class,
         RepeatedAndNotEqualToNotInArrayRector::class,
         RepeatedOrEqualToInArrayRector::class,
-        SetUpBeforeClassToSetUpRector::class,
         SimplifyIfElseToTernaryRector::class,
         SymplifyQuoteEscapeRector::class,
     ]);
