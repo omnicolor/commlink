@@ -73,8 +73,8 @@ return [
      * be changed if you would prefer to use a non-default connection.
      */
     'queue' => [
-        'connection' => env('TELESCOPE_QUEUE_CONNECTION', null),
-        'queue' => env('TELESCOPE_QUEUE', null),
+        'connection' => env('TELESCOPE_QUEUE_CONNECTION'),
+        'queue' => env('TELESCOPE_QUEUE'),
     ],
 
     /*
