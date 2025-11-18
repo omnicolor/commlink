@@ -321,7 +321,7 @@ final class InfoTest extends TestCase
             ],
         ];
 
-        $info = (new Info('info', $this->faker->userName(), $channel, null))
+        $info = (new Info('info', $this->faker->userName(), $channel))
             ->forSlack()
             ->jsonSerialize();
         self::assertArrayHasKey('attachments', $info);
