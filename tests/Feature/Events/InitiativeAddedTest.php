@@ -30,7 +30,7 @@ final class InitiativeAddedTest extends TestCase
             'character_id' => $character->id,
         ]);
 
-        $event = new InitiativeAdded($initiative, $campaign, null);
+        $event = new InitiativeAdded($initiative, $campaign);
 
         self::assertSame($campaign, $event->campaign);
         self::assertSame($initiative, $event->initiative);
