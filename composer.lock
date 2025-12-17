@@ -8942,16 +8942,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.41.0",
+            "version": "v10.41.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "b2fb0cbb79a0958b2062aa1fc9a7dfe21ba5d1c0"
+                "reference": "68876c6904fb7cb7c566c607249628ada728fc73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/b2fb0cbb79a0958b2062aa1fc9a7dfe21ba5d1c0",
-                "reference": "b2fb0cbb79a0958b2062aa1fc9a7dfe21ba5d1c0",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/68876c6904fb7cb7c566c607249628ada728fc73",
+                "reference": "68876c6904fb7cb7c566c607249628ada728fc73",
                 "shasum": ""
             },
             "require": {
@@ -9013,7 +9013,7 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.41.0",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.41.5",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
@@ -9030,7 +9030,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2025-12-02T15:33:12+00:00"
+            "time": "2025-12-09T15:32:30+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
