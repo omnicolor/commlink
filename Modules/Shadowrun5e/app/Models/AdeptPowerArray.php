@@ -16,14 +16,14 @@ final class AdeptPowerArray extends ArrayObject
 {
     /**
      * Add a power to the array.
-     * @param AdeptPower $power
+     * @param AdeptPower $value
      * @throws TypeError
      */
     #[Override]
-    public function offsetSet(mixed $index = null, $power = null): void
+    public function offsetSet(mixed $key = null, $value = null): void
     {
-        if ($power instanceof AdeptPower) {
-            parent::offsetSet($index, $power);
+        if ($value instanceof AdeptPower) {
+            parent::offsetSet($key, $value);
             return;
         }
         throw new TypeError('AdeptPowerArray only accepts AdeptPower objects');
