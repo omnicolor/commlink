@@ -14,7 +14,7 @@ jobs:
           - "8.4"
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@master
@@ -49,7 +49,7 @@ jobs:
           - "8.4"
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@master

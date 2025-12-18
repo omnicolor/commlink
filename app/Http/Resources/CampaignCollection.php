@@ -12,6 +12,9 @@ use Override;
 
 use function route;
 
+/**
+ * @property Collection<int, Campaign> $collection
+ */
 final class CampaignCollection extends ResourceCollection
 {
     /**
