@@ -55,7 +55,7 @@ return [
      * projectors in the right order. Here you can set of the name of the
      * queue.
      */
-    'queue' => env('EVENT_PROJECTOR_QUEUE_NAME', null),
+    'queue' => env('EVENT_PROJECTOR_QUEUE_NAME'),
 
     /*
      * When a Projector or Reactor throws an exception the event Projectionist
