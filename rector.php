@@ -7,10 +7,11 @@ use Rector\CodeQuality\Rector\BooleanOr\RepeatedOrEqualToInArrayRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
 use Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector;
+use Rector\CodingStyle\Rector\ClassLike\NewlineBetweenClassLikeStmtsRector;
 use Rector\CodingStyle\Rector\ClassMethod\MakeInheritedMethodVisibilitySameAsParentRector;
 use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
-use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
+use Rector\CodingStyle\Rector\String_\SimplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector;
 use Rector\DeadCode\Rector\Expression\RemoveDeadStmtRector;
@@ -88,6 +89,7 @@ return RectorConfig::configure()
         MakeInheritedMethodVisibilitySameAsParentRector::class,
         NewlineAfterStatementRector::class,
         NewlineBeforeNewAssignSetRector::class,
+        NewlineBetweenClassLikeStmtsRector::class,
         PreferPHPUnitThisCallRector::class,
         RemoveDeadStmtRector::class => [
             __DIR__ . '/Modules/Battletech/tests/Feature/Models/CharacterTest.php',
@@ -98,5 +100,5 @@ return RectorConfig::configure()
         RepeatedAndNotEqualToNotInArrayRector::class,
         RepeatedOrEqualToInArrayRector::class,
         SimplifyIfElseToTernaryRector::class,
-        SymplifyQuoteEscapeRector::class,
+        SimplifyQuoteEscapeRector::class,
     ]);
