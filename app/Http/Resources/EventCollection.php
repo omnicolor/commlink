@@ -10,6 +10,9 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 use Override;
 
+/**
+ * @property Collection<int, Event> $collection
+ */
 class EventCollection extends ResourceCollection
 {
     /**
