@@ -5369,16 +5369,16 @@
         },
         {
             "name": "react/child-process",
-            "version": "v0.6.6",
+            "version": "v0.6.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/child-process.git",
-                "reference": "1721e2b93d89b745664353b9cfc8f155ba8a6159"
+                "reference": "970f0e71945556422ee4570ccbabaedc3cf04ad3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/child-process/zipball/1721e2b93d89b745664353b9cfc8f155ba8a6159",
-                "reference": "1721e2b93d89b745664353b9cfc8f155ba8a6159",
+                "url": "https://api.github.com/repos/reactphp/child-process/zipball/970f0e71945556422ee4570ccbabaedc3cf04ad3",
+                "reference": "970f0e71945556422ee4570ccbabaedc3cf04ad3",
                 "shasum": ""
             },
             "require": {
@@ -5432,7 +5432,7 @@
             ],
             "support": {
                 "issues": "https://github.com/reactphp/child-process/issues",
-                "source": "https://github.com/reactphp/child-process/tree/v0.6.6"
+                "source": "https://github.com/reactphp/child-process/tree/v0.6.7"
             },
             "funding": [
                 {
@@ -5440,7 +5440,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-01-01T16:37:48+00:00"
+            "time": "2025-12-23T15:25:20+00:00"
         },
         {
             "name": "react/datagram",
@@ -8942,16 +8942,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.41.14",
+            "version": "v10.41.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "fec73f72eb9634818f3fa7025b5312cd5aa5e823"
+                "reference": "afe2d37044b8c644d1a14b4b1e99f0ea2f328296"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/fec73f72eb9634818f3fa7025b5312cd5aa5e823",
-                "reference": "fec73f72eb9634818f3fa7025b5312cd5aa5e823",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/afe2d37044b8c644d1a14b4b1e99f0ea2f328296",
+                "reference": "afe2d37044b8c644d1a14b4b1e99f0ea2f328296",
                 "shasum": ""
             },
             "require": {
@@ -9013,7 +9013,7 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.41.14",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.41.26",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
@@ -9030,7 +9030,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2025-12-11T18:13:50+00:00"
+            "time": "2025-12-15T21:22:38+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
