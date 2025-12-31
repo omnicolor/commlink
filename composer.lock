@@ -8602,16 +8602,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v8.0.1",
+            "version": "v8.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "770e3b8b0ba8360958abedcabacd4203467333ca"
+                "reference": "60a8f11f0e15c48f2cc47c4da53873bb5b62135d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/770e3b8b0ba8360958abedcabacd4203467333ca",
-                "reference": "770e3b8b0ba8360958abedcabacd4203467333ca",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/60a8f11f0e15c48f2cc47c4da53873bb5b62135d",
+                "reference": "60a8f11f0e15c48f2cc47c4da53873bb5b62135d",
                 "shasum": ""
             },
             "require": {
@@ -8671,7 +8671,7 @@
             "description": "Provides tools to internationalize your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/translation/tree/v8.0.1"
+                "source": "https://github.com/symfony/translation/tree/v8.0.3"
             },
             "funding": [
                 {
@@ -8691,7 +8691,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-12-01T09:13:36+00:00"
+            "time": "2025-12-21T10:59:45+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -8942,16 +8942,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.41.29",
+            "version": "v10.42.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "7f7f794465068628c0d48d0825a78a64eef46536"
+                "reference": "695126683b4b879c35e810b0f52cd6898baafe3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/7f7f794465068628c0d48d0825a78a64eef46536",
-                "reference": "7f7f794465068628c0d48d0825a78a64eef46536",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/695126683b4b879c35e810b0f52cd6898baafe3c",
+                "reference": "695126683b4b879c35e810b0f52cd6898baafe3c",
                 "shasum": ""
             },
             "require": {
@@ -8987,7 +8987,8 @@
                 "ext-fileinfo": "For function mime_content_type().",
                 "ext-gmp": "For 64 bit calculations on x86 (32 bit) PHP.",
                 "ext-mbstring": "For accurate calculations of string length when handling non-english characters.",
-                "ext-uv": "For a faster, and more performant loop. Preferred."
+                "ext-uv": "For a faster, and more performant loop. Preferred.",
+                "laracord/laracord": "Provides Laracord integration for DiscordPHP."
             },
             "type": "library",
             "autoload": {
@@ -9013,14 +9014,10 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.41.29",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.42.2",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
-                {
-                    "url": "https://github.com/Log1x",
-                    "type": "github"
-                },
                 {
                     "url": "https://github.com/valzargaming",
                     "type": "github"
@@ -9030,7 +9027,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2025-12-17T17:01:03+00:00"
+            "time": "2025-12-24T08:52:23+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
