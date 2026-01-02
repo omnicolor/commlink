@@ -312,6 +312,53 @@
             "time": "2024-07-08T12:26:09+00:00"
         },
         {
+            "name": "discord-php-helpers/collection",
+            "version": "v8.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/discord-php/Collection.git",
+                "reference": "9b97c76745c42d4b548dc4a77e579288ca7d896f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/discord-php/Collection/zipball/9b97c76745c42d4b548dc4a77e579288ca7d896f",
+                "reference": "9b97c76745c42d4b548dc4a77e579288ca7d896f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.4"
+            },
+            "require-dev": {
+                "team-reflex/discord-php": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Discord\\": "src/Discord/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Cole",
+                    "email": "david.cole1340@gmail.com"
+                },
+                {
+                    "name": "Valithor Obsidion",
+                    "email": "valzargaming@gmail.com"
+                }
+            ],
+            "description": "A collection library for DiscordPHP. Inspired by Laravel Collections.",
+            "support": {
+                "issues": "https://github.com/discord-php/Collection/issues",
+                "source": "https://github.com/discord-php/Collection/tree/v8.4.0"
+            },
+            "time": "2025-12-26T05:11:49+00:00"
+        },
+        {
             "name": "discord-php/http",
             "version": "v10.7.4",
             "source": {
@@ -3219,16 +3266,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "3.9.0",
+            "version": "3.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "10d85740180ecba7896c87e06a166e0c95a0e3b6"
+                "reference": "b321dd6749f0bf7189444158a3ce785cc16d69b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/10d85740180ecba7896c87e06a166e0c95a0e3b6",
-                "reference": "10d85740180ecba7896c87e06a166e0c95a0e3b6",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/b321dd6749f0bf7189444158a3ce785cc16d69b0",
+                "reference": "b321dd6749f0bf7189444158a3ce785cc16d69b0",
                 "shasum": ""
             },
             "require": {
@@ -3246,7 +3293,7 @@
                 "graylog2/gelf-php": "^1.4.2 || ^2.0",
                 "guzzlehttp/guzzle": "^7.4.5",
                 "guzzlehttp/psr7": "^2.2",
-                "mongodb/mongodb": "^1.8",
+                "mongodb/mongodb": "^1.8 || ^2.0",
                 "php-amqplib/php-amqplib": "~2.4 || ^3",
                 "php-console/php-console": "^3.1.8",
                 "phpstan/phpstan": "^2",
@@ -3306,7 +3353,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/3.9.0"
+                "source": "https://github.com/Seldaek/monolog/tree/3.10.0"
             },
             "funding": [
                 {
@@ -3318,7 +3365,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-03-24T10:02:05+00:00"
+            "time": "2026-01-02T08:56:05+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -8942,19 +8989,20 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.42.2",
+            "version": "v10.44.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "695126683b4b879c35e810b0f52cd6898baafe3c"
+                "reference": "a33396a195f6c43b7f90c5999707e456358440bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/695126683b4b879c35e810b0f52cd6898baafe3c",
-                "reference": "695126683b4b879c35e810b0f52cd6898baafe3c",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/a33396a195f6c43b7f90c5999707e456358440bc",
+                "reference": "a33396a195f6c43b7f90c5999707e456358440bc",
                 "shasum": ""
             },
             "require": {
+                "discord-php-helpers/collection": "^8.0",
                 "discord-php/http": "^10.1.7",
                 "discord/interactions": "^2.2",
                 "ext-zlib": "*",
@@ -9014,7 +9062,7 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.42.2",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.44.0",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
@@ -9027,7 +9075,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2025-12-24T08:52:23+00:00"
+            "time": "2025-12-26T05:42:01+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
