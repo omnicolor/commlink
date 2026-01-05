@@ -19,9 +19,9 @@ use function sprintf;
 #[Small]
 final class InteractsWithSlackTest extends TestCase
 {
-    protected const string API_CHANNELS = 'https://slack.com/api/conversations.info';
-    protected const string API_TEAMS = 'https://slack.com/api/auth.teams.list';
-    protected const string API_USERS = 'https://slack.com/api/users.info';
+    private const string API_CHANNELS = 'https://slack.com/api/conversations.info';
+    private const string API_TEAMS = 'https://slack.com/api/auth.teams.list';
+    private const string API_USERS = 'https://slack.com/api/users.info';
 
     private Channel $mock;
 
