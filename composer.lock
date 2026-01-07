@@ -8989,16 +8989,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.44.7",
+            "version": "v10.44.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "3b611c25ff64321ad991a98e0972fc0ba80be2d6"
+                "reference": "f4f5a90c591da864a9251193ebfe85155d831599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/3b611c25ff64321ad991a98e0972fc0ba80be2d6",
-                "reference": "3b611c25ff64321ad991a98e0972fc0ba80be2d6",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/f4f5a90c591da864a9251193ebfe85155d831599",
+                "reference": "f4f5a90c591da864a9251193ebfe85155d831599",
                 "shasum": ""
             },
             "require": {
@@ -9062,10 +9062,18 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.44.7",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.44.8",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
+                {
+                    "url": "https://valgorithms.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.paypal.me/valithor",
+                    "type": "custom"
+                },
                 {
                     "url": "https://github.com/valzargaming",
                     "type": "github"
@@ -9075,7 +9083,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2025-12-29T08:19:57+00:00"
+            "time": "2025-12-30T17:12:42+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
