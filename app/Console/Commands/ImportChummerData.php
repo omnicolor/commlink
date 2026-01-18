@@ -506,7 +506,7 @@ class ImportChummerData extends Command implements Isolatable
                 || Str::startsWith($name, 'Diffusion')
             ) {
                 foreach ($matrixAttributes as $attribute) {
-                    /** @var string */
+                    /** @var non-empty-string */
                     $newName = Str::replace('[Matrix Attribute]', $attribute, $name);
                     $form['name'] = $newName;
                     $forms[$this->nameToId($newName)] = $form;
