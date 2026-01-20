@@ -15,9 +15,6 @@ parameters:
         -
             message: '#Call to an undefined static method object::convertFormula\(\).#'
             path: tests/Feature/Traits/FormulaConverterTest.php
-        - message: '#Access to property \$[a-z]+ of deprecated class Discord\\Parts\\Interactions\\Interaction.*#'
-        - message: '#Access to constant on deprecated class Discord\\Parts\\Interactions\\Interaction.*#'
-
     level: 8
     paths:
         - %currentWorkingDirectory%/app
