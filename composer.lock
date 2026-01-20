@@ -360,16 +360,16 @@
         },
         {
             "name": "discord-php/http",
-            "version": "v10.7.4",
+            "version": "v10.9.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/discord-php/DiscordPHP-Http",
-                "reference": "c1bfc2c45b27b4efb0569e054158f55ee57cf5be"
+                "url": "https://github.com/discord-php/DiscordPHP-Http.git",
+                "reference": "f2d281a435ec4f42b084dd1b843cfac91ac2fbbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP-Http/zipball/c1bfc2c45b27b4efb0569e054158f55ee57cf5be",
-                "reference": "c1bfc2c45b27b4efb0569e054158f55ee57cf5be",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP-Http/zipball/f2d281a435ec4f42b084dd1b843cfac91ac2fbbd",
+                "reference": "f2d281a435ec4f42b084dd1b843cfac91ac2fbbd",
                 "shasum": ""
             },
             "require": {
@@ -408,7 +408,11 @@
                 }
             ],
             "description": "Handles HTTP requests to Discord servers",
-            "time": "2025-10-27T14:23:16+00:00"
+            "support": {
+                "issues": "https://github.com/discord-php/DiscordPHP-Http/issues",
+                "source": "https://github.com/discord-php/DiscordPHP-Http/tree/v10.9.0"
+            },
+            "time": "2026-01-13T20:26:33+00:00"
         },
         {
             "name": "discord/interactions",
@@ -1587,16 +1591,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v12.47.0",
+            "version": "v12.46.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "ab8114c2e78f32e64eb238fc4b495bea3f8b80ec"
+                "reference": "9dcff48d25a632c1fadb713024c952fec489c4ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/ab8114c2e78f32e64eb238fc4b495bea3f8b80ec",
-                "reference": "ab8114c2e78f32e64eb238fc4b495bea3f8b80ec",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/9dcff48d25a632c1fadb713024c952fec489c4ae",
+                "reference": "9dcff48d25a632c1fadb713024c952fec489c4ae",
                 "shasum": ""
             },
             "require": {
@@ -1805,7 +1809,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-01-13T15:29:06+00:00"
+            "time": "2026-01-07T23:26:53+00:00"
         },
         {
             "name": "laravel/pennant",
@@ -1952,16 +1956,16 @@
         },
         {
             "name": "laravel/prompts",
-            "version": "v0.3.9",
+            "version": "v0.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/prompts.git",
-                "reference": "5c41bf0555b7cfefaad4e66d3046675829581ac4"
+                "reference": "360ba095ef9f51017473505191fbd4ab73e1cab3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/prompts/zipball/5c41bf0555b7cfefaad4e66d3046675829581ac4",
-                "reference": "5c41bf0555b7cfefaad4e66d3046675829581ac4",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/360ba095ef9f51017473505191fbd4ab73e1cab3",
+                "reference": "360ba095ef9f51017473505191fbd4ab73e1cab3",
                 "shasum": ""
             },
             "require": {
@@ -2005,9 +2009,9 @@
             "description": "Add beautiful and user-friendly forms to your command-line applications.",
             "support": {
                 "issues": "https://github.com/laravel/prompts/issues",
-                "source": "https://github.com/laravel/prompts/tree/v0.3.9"
+                "source": "https://github.com/laravel/prompts/tree/v0.3.10"
             },
-            "time": "2026-01-07T21:00:29+00:00"
+            "time": "2026-01-13T20:29:29+00:00"
         },
         {
             "name": "laravel/pulse",
@@ -2098,16 +2102,16 @@
         },
         {
             "name": "laravel/sanctum",
-            "version": "v4.2.2",
+            "version": "v4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sanctum.git",
-                "reference": "fd447754d2d3f56950d53b930128af2e3b617de9"
+                "reference": "dadd2277ff0f05cdb435c8b6a0bcedcf3b5519a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sanctum/zipball/fd447754d2d3f56950d53b930128af2e3b617de9",
-                "reference": "fd447754d2d3f56950d53b930128af2e3b617de9",
+                "url": "https://api.github.com/repos/laravel/sanctum/zipball/dadd2277ff0f05cdb435c8b6a0bcedcf3b5519a9",
+                "reference": "dadd2277ff0f05cdb435c8b6a0bcedcf3b5519a9",
                 "shasum": ""
             },
             "require": {
@@ -2157,7 +2161,7 @@
                 "issues": "https://github.com/laravel/sanctum/issues",
                 "source": "https://github.com/laravel/sanctum"
             },
-            "time": "2026-01-06T23:11:51+00:00"
+            "time": "2026-01-15T14:37:16+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -8989,16 +8993,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.44.8",
+            "version": "v10.45.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "f4f5a90c591da864a9251193ebfe85155d831599"
+                "reference": "0ece66e2e1b2b808a7fe8aa40637bac10d532861"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/f4f5a90c591da864a9251193ebfe85155d831599",
-                "reference": "f4f5a90c591da864a9251193ebfe85155d831599",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/0ece66e2e1b2b808a7fe8aa40637bac10d532861",
+                "reference": "0ece66e2e1b2b808a7fe8aa40637bac10d532861",
                 "shasum": ""
             },
             "require": {
@@ -9062,7 +9066,7 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.44.8",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.45.4",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
@@ -9083,7 +9087,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2025-12-30T17:12:42+00:00"
+            "time": "2026-01-12T06:47:18+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -9982,16 +9986,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.92.4",
+            "version": "v3.92.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "9e7488b19403423e02e8403cc1eb596baf4673b0"
+                "reference": "260cc8c4a1d2f6d2f22cd4f9c70aa72e55ebac58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/9e7488b19403423e02e8403cc1eb596baf4673b0",
-                "reference": "9e7488b19403423e02e8403cc1eb596baf4673b0",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/260cc8c4a1d2f6d2f22cd4f9c70aa72e55ebac58",
+                "reference": "260cc8c4a1d2f6d2f22cd4f9c70aa72e55ebac58",
                 "shasum": ""
             },
             "require": {
@@ -10074,7 +10078,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.92.4"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.92.5"
             },
             "funding": [
                 {
@@ -10082,7 +10086,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-01-04T00:38:52+00:00"
+            "time": "2026-01-08T21:57:37+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -10398,16 +10402,16 @@
         },
         {
             "name": "laravel/tinker",
-            "version": "v2.10.2",
+            "version": "v2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/tinker.git",
-                "reference": "3bcb5f62d6f837e0f093a601e26badafb127bd4c"
+                "reference": "3d34b97c9a1747a81a3fde90482c092bd8b66468"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/tinker/zipball/3bcb5f62d6f837e0f093a601e26badafb127bd4c",
-                "reference": "3bcb5f62d6f837e0f093a601e26badafb127bd4c",
+                "url": "https://api.github.com/repos/laravel/tinker/zipball/3d34b97c9a1747a81a3fde90482c092bd8b66468",
+                "reference": "3d34b97c9a1747a81a3fde90482c092bd8b66468",
                 "shasum": ""
             },
             "require": {
@@ -10416,7 +10420,7 @@
                 "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
                 "php": "^7.2.5|^8.0",
                 "psy/psysh": "^0.11.1|^0.12.0",
-                "symfony/var-dumper": "^4.3.4|^5.0|^6.0|^7.0"
+                "symfony/var-dumper": "^4.3.4|^5.0|^6.0|^7.0|^8.0"
             },
             "require-dev": {
                 "mockery/mockery": "~1.3.3|^1.4.2",
@@ -10458,9 +10462,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/tinker/issues",
-                "source": "https://github.com/laravel/tinker/tree/v2.10.2"
+                "source": "https://github.com/laravel/tinker/tree/v2.11.0"
             },
-            "time": "2025-11-20T16:29:12+00:00"
+            "time": "2025-12-19T19:16:45+00:00"
         },
         {
             "name": "mockery/mockery",
