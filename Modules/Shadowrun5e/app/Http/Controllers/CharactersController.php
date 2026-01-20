@@ -842,11 +842,13 @@ class CharactersController extends Controller
                     ]
                 );
             case 'review':
+                $character->validate();
                 return view(
                     'shadowrun5e::character',
                     [
                         'character' => $character,
                         'currentStep' => 'review',
+                        // @phpstan-ignore argument.type
                         'errors' => new MessageBag($character->errors ?? []),
                         'nextStep' => $this->nextStep('review', $character),
                         'previousStep' => $this->previousStep('review', $character),
