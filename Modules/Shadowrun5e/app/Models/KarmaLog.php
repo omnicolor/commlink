@@ -35,9 +35,9 @@ use function usort;
  */
 final class KarmaLog extends ArrayObject
 {
-    protected const int KARMA_SKILL = 2;
-    protected const int KARMA_KNOWLEDGE = 1;
-    protected const int KARMA_SPECIALIZATION = 7;
+    private const int KARMA_SKILL = 2;
+    private const int KARMA_KNOWLEDGE = 1;
+    private const int KARMA_SPECIALIZATION = 7;
 
     /**
      * Number of points for attributes from priorities.
