@@ -17,6 +17,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function config;
 use function implode;
 use function sprintf;
 
@@ -29,9 +30,11 @@ final class LinkResponseTest extends TestCase
      */
     public function testLinkWithoutId(): void
     {
-        $messageMock = $this->createDiscordMessageMock('/roll link');
+        $message_mock = $this->createDiscordMessageMock('/roll link');
+        $message_mock->expects(self::never())
+            ->method('reply');
         $event = new DiscordMessageReceived(
-            $messageMock,
+            $message_mock,
             self::createStub(Discord::class)
         );
 
@@ -46,9 +49,10 @@ final class LinkResponseTest extends TestCase
      */
     public function testLinkUnregisteredChannel(): void
     {
-        $messageMock = $this->createDiscordMessageMock('/roll link 123');
+        $message_mock = $this->createDiscordMessageMock('/roll link 123');
+        $message_mock->expects(self::never())->method('reply');
         $event = new DiscordMessageReceived(
-            $messageMock,
+            $message_mock,
             self::createStub(Discord::class)
         );
 
@@ -68,9 +72,10 @@ final class LinkResponseTest extends TestCase
      */
     public function testLinkWithoutCommlinkUser(): void
     {
-        $messageMock = $this->createDiscordMessageMock('/roll link 123');
+        $message_mock = $this->createDiscordMessageMock('/roll link 123');
+        $message_mock->expects(self::never())->method('reply');
         $event = new DiscordMessageReceived(
-            $messageMock,
+            $message_mock,
             self::createStub(Discord::class)
         );
 
@@ -100,12 +105,12 @@ final class LinkResponseTest extends TestCase
             'It looks like you\'ve already linked "%s" to this channel.',
             (string)$alreadyLinkedCharacter
         );
-        $messageMock = $this->createDiscordMessageMock('/roll link 123');
-        $messageMock->expects(self::once())
+        $message_mock = $this->createDiscordMessageMock('/roll link 123');
+        $message_mock->expects(self::once())
             ->method('reply')
             ->with($expected);
         $event = new DiscordMessageReceived(
-            $messageMock,
+            $message_mock,
             self::createStub(Discord::class)
         );
 
@@ -116,7 +121,7 @@ final class LinkResponseTest extends TestCase
         ]);
 
         $chatUser = ChatUser::factory()->create([
-            'remote_user_id' => optional($event->user)->id,
+            'remote_user_id' => $event->user?->id,
             'server_id' => $event->server->id,
             'server_type' => ChatUser::TYPE_DISCORD,
             'verified' => true,
@@ -216,15 +221,15 @@ final class LinkResponseTest extends TestCase
             '%s is a Capers character. This channel is playing Shadowrun 5th Edition.',
             (string)$character,
         );
-        $messageMock = $this->createDiscordMessageMock(sprintf(
+        $message_mock = $this->createDiscordMessageMock(sprintf(
             '/roll link %s',
             $character->id
         ));
-        $messageMock->expects(self::once())
+        $message_mock->expects(self::once())
             ->method('reply')
             ->with($expected);
         $event = new DiscordMessageReceived(
-            $messageMock,
+            $message_mock,
             self::createStub(Discord::class)
         );
 
@@ -236,7 +241,7 @@ final class LinkResponseTest extends TestCase
         ]);
 
         ChatUser::factory()->create([
-            'remote_user_id' => optional($event->user)->id,
+            'remote_user_id' => $event->user?->id,
             'server_id' => $event->server->id,
             'server_type' => ChatUser::TYPE_DISCORD,
             'user_id' => $user,
@@ -282,7 +287,7 @@ final class LinkResponseTest extends TestCase
         ]);
 
         ChatUser::factory()->create([
-            'remote_user_id' => optional($event->user)->id,
+            'remote_user_id' => $event->user?->id,
             'server_id' => $event->server->id,
             'server_type' => ChatUser::TYPE_DISCORD,
             'user_id' => $user,
