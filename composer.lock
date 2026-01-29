@@ -9059,21 +9059,21 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.45.8",
+            "version": "v10.45.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "6ba6b6256eede393108516f128d8210a50bbad94"
+                "reference": "bf63d6886e17fdae9d3aa21be95bc2293f2ced01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/6ba6b6256eede393108516f128d8210a50bbad94",
-                "reference": "6ba6b6256eede393108516f128d8210a50bbad94",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/bf63d6886e17fdae9d3aa21be95bc2293f2ced01",
+                "reference": "bf63d6886e17fdae9d3aa21be95bc2293f2ced01",
                 "shasum": ""
             },
             "require": {
                 "discord-php-helpers/collection": "^8.0",
-                "discord-php-helpers/voice": "^8.0",
+                "discord-php-helpers/voice": "^8.0 || dev-main",
                 "discord-php/http": "^10.1.7",
                 "discord/interactions": "^2.2",
                 "ext-zlib": "*",
@@ -9092,6 +9092,7 @@
                 "trafficcophp/bytebuffer": "^0.3"
             },
             "require-dev": {
+                "carthage-software/mago": "1.1.0",
                 "davidcole1340/reactsh": "dev-master",
                 "friendsofphp/php-cs-fixer": "^3",
                 "laravel/pint": "^1.21",
@@ -9137,7 +9138,7 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.45.8",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.45.11",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
@@ -9158,7 +9159,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2026-01-15T10:12:25+00:00"
+            "time": "2026-01-21T12:36:51+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
