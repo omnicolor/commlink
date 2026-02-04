@@ -373,7 +373,6 @@ class Shadowrun5eConverter implements ConverterInterface
             if (!in_array($attribute, $validAttributes, true)) {
                 continue;
             }
-            // @phpstan-ignore property.dynamicName
             $this->character->$attribute = (int)$rawAttribute['base'];
         }
         return $this;

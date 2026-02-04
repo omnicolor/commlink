@@ -188,7 +188,6 @@ class Shadowrun5eConverter implements ConverterInterface
                 continue;
             }
 
-            // @phpstan-ignore property.dynamicName
             $this->character->$attributeName =
                 (int)$attribute->metatypemin + (int)$attribute->base
                 + (int)$attribute->karma;
