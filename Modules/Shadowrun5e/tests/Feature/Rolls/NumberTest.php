@@ -371,7 +371,7 @@ final class NumberTest extends TestCase
             'system' => 'shadowrun5e',
         ]);
 
-        $chatUser = ChatUser::factory()->create([
+        $chat_user = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_DISCORD,
@@ -383,15 +383,15 @@ final class NumberTest extends TestCase
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
             'character_id' => $character->id,
-            'chat_user_id' => $chatUser->id,
+            'chat_user_id' => $chat_user->id,
         ]);
 
-        $channelStub = self::createStub(DiscordChannel::class);
-        $channelStub->method('__get')
+        $channel_stub = self::createStub(DiscordChannel::class);
+        $channel_stub->method('__get')
             ->willReturn(self::createStub(Guild::class));
         $map = [
             ['author', self::createStub(User::class)],
-            ['channel', $channelStub],
+            ['channel', $channel_stub],
             ['content', '/roll foo'],
         ];
         $message = self::createStub(Message::class);
@@ -405,10 +405,10 @@ final class NumberTest extends TestCase
         $roll = (new Number('6 3', (string)$character, $channel, $event));
         $roll->forDiscord();
 
-        $interactedMessage = self::createStub(Message::class);
-        $interactedMessage->method('__get')->willReturn($message);
-        $interaction = $this->createMock(Interaction::class);
-        $interaction->method('__get')->willReturn($interactedMessage);
+        $interacted_message = self::createStub(Message::class);
+        $interacted_message->method('__get')->willReturn($message);
+        $interaction = $this->createStub(Interaction::class);
+        $interaction->method('__get')->willReturn($interacted_message);
         $roll->secondChance($interaction);
 
         // The character shouldn't be charged any edge.
@@ -430,7 +430,7 @@ final class NumberTest extends TestCase
             'system' => 'shadowrun5e',
         ]);
 
-        $chatUser = ChatUser::factory()->create([
+        $chat_user = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_DISCORD,
@@ -442,39 +442,39 @@ final class NumberTest extends TestCase
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
             'character_id' => $character->id,
-            'chat_user_id' => $chatUser->id,
+            'chat_user_id' => $chat_user->id,
         ]);
 
-        $channelMock = self::createMock(DiscordChannel::class);
-        $channelMock->method('__get')
+        $channel_stub = self::createStub(DiscordChannel::class);
+        $channel_stub->method('__get')
             ->willReturn(self::createStub(Guild::class));
         $user = self::createStub(User::class);
         $map = [
             ['author', $user],
-            ['channel', $channelMock],
+            ['channel', $channel_stub],
             ['content', '/roll foo'],
         ];
-        $messageMock = self::createMock(Message::class);
-        $messageMock->method('__get')->willReturnMap($map);
+        $message_stub = self::createStub(Message::class);
+        $message_stub->method('__get')->willReturnMap($map);
 
         $event = new DiscordMessageReceived(
-            $messageMock,
+            $message_stub,
             self::createStub(Discord::class)
         );
         $roll = (new Number('6 3', (string)$character, $channel, $event));
         $roll->forDiscord();
 
-        $interactedMessageMock = self::createMock(Message::class);
-        $interactedMessageMock->method('__get')->willReturn($messageMock);
-        $interactedMessageMock->expects(self::once())->method('edit');
+        $interacted_message_mock = self::createMock(Message::class);
+        $interacted_message_mock->method('__get')->willReturn($message_stub);
+        $interacted_message_mock->expects(self::once())->method('edit');
 
-        $interactionMap = [
-            ['message', $interactedMessageMock],
+        $interaction_map = [
+            ['message', $interacted_message_mock],
             ['user', $user],
         ];
-        $interactionMock = $this->createMock(Interaction::class);
-        $interactionMock->method('__get')->willReturnMap($interactionMap);
+        $interaction_stub = $this->createStub(Interaction::class);
+        $interaction_stub->method('__get')->willReturnMap($interaction_map);
 
-        $roll->secondChance($interactionMock);
+        $roll->secondChance($interaction_stub);
     }
 }
