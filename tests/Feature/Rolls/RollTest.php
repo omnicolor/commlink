@@ -15,9 +15,9 @@ final class RollTest extends TestCase
 {
     public function testIsGmNoCampaign(): void
     {
-        $mock = $this->getMockBuilder(Roll::class)
+        $mock = $this->getStubBuilder(Roll::class)
             ->setConstructorArgs(['', 'username', new Channel()])
-            ->getMock();
+            ->getStub();
 
         self::assertFalse($mock->isGm());
     }
@@ -27,9 +27,9 @@ final class RollTest extends TestCase
         $campaign = Campaign::factory()->create();
         $channel = Channel::factory()->create(['campaign_id' => $campaign]);
 
-        $mock = $this->getMockBuilder(Roll::class)
+        $mock = $this->getStubBuilder(Roll::class)
             ->setConstructorArgs(['', 'username', $channel])
-            ->getMock();
+            ->getStub();
 
         self::assertFalse($mock->isGm());
     }

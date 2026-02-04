@@ -19,6 +19,9 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function array_keys;
+use function config;
+use function implode;
 use function in_array;
 use function sprintf;
 
@@ -37,12 +40,12 @@ final class RegisterResponseTest extends TestCase
         $expected = 'To register a channel, use `register [system]`, where '
             . 'system is a system code: '
             . implode(', ', array_keys(config('commlink.systems')));
-        $messageMock = $this->createDiscordMessageMock('/roll register');
-        $messageMock->expects(self::once())
+        $message_mock = $this->createDiscordMessageMock('/roll register');
+        $message_mock->expects(self::once())
             ->method('reply')
             ->with($expected);
         $event = new DiscordMessageReceived(
-            $messageMock,
+            $message_mock,
             self::createStub(Discord::class)
         );
         self::assertSame('', (string)(new RegisterResponse($event)));
@@ -64,12 +67,12 @@ final class RegisterResponseTest extends TestCase
                 . '<system>`, where system is one of: %s',
             implode(', ', array_keys(config('commlink.systems'))),
         );
-        $messageMock = $this->createDiscordMessageMock('/roll register invalid');
-        $messageMock->expects(self::once())
+        $message_mock = $this->createDiscordMessageMock('/roll register invalid');
+        $message_mock->expects(self::once())
             ->method('reply')
             ->with($expected);
         $event = new DiscordMessageReceived(
-            $messageMock,
+            $message_mock,
             self::createStub(Discord::class)
         );
 
@@ -88,13 +91,13 @@ final class RegisterResponseTest extends TestCase
         Http::fake();
 
         $expected = 'This channel is already registered for "dnd5e"';
-        $messageMock = $this->createDiscordMessageMock('/roll register shadowrun5e');
-        $messageMock->expects(self::once())
+        $message_mock = $this->createDiscordMessageMock('/roll register shadowrun5e');
+        $message_mock->expects(self::once())
             ->method('reply')
             ->with($expected);
 
         $event = new DiscordMessageReceived(
-            $messageMock,
+            $message_mock,
             self::createStub(Discord::class)
         );
         Channel::factory()->create([
@@ -126,13 +129,13 @@ final class RegisterResponseTest extends TestCase
             config('app.name'),
             config('app.url') . '/settings/chat-users',
         );
-        $messageMock = $this->createDiscordMessageMock('/roll register shadowrun5e');
-        $messageMock->expects(self::once())
+        $message_mock = $this->createDiscordMessageMock('/roll register shadowrun5e');
+        $message_mock->expects(self::once())
             ->method('reply')
             ->with($expected);
 
         $event = new DiscordMessageReceived(
-            $messageMock,
+            $message_mock,
             self::createStub(Discord::class)
         );
         self::assertSame('', (string)(new RegisterResponse($event)));
@@ -148,14 +151,14 @@ final class RegisterResponseTest extends TestCase
     {
         Event::fake();
 
-        $messageMock = $this->createDiscordMessageMock('/roll register shadowrun5e');
+        $message_mock = $this->createDiscordMessageMock('/roll register shadowrun5e');
+        $message_mock->expects(self::never())->method('reply');
 
         $event = new DiscordMessageReceived(
-            $messageMock,
-            self::createStub(Discord::class)
+            $message_mock,
+            self::createStub(Discord::class),
         );
-        // @phpstan-ignore method.notFound
-        $event->channel->expects(self::once())->method('sendMessage');
+
         ChatUser::factory()->create([
             'remote_user_id' => optional($event->user)->id,
             'server_id' => $event->server->id,
@@ -163,22 +166,22 @@ final class RegisterResponseTest extends TestCase
             'verified' => true,
         ]);
 
-        $guildResponse = Http::response([], Response::HTTP_NOT_FOUND, []);
-        $hookResponse = Http::response([], Response::HTTP_NOT_FOUND, []);
-        $channelResponse = Http::response([], Response::HTTP_NOT_FOUND, []);
+        $guild_response = Http::response([], Response::HTTP_NOT_FOUND, []);
+        $hook_response = Http::response([], Response::HTTP_NOT_FOUND, []);
+        $channel_response = Http::response([], Response::HTTP_NOT_FOUND, []);
         Http::fake([
-            sprintf('https://discord.com/api/guilds/%s', $event->server->id) => $guildResponse,
-            sprintf('https://discord.com/api/channels/%s/webhooks', $event->channel->id) => $hookResponse,
-            sprintf('https://discord.com/api/channels/%s', $event->channel->id) => $channelResponse,
+            sprintf('https://discord.com/api/guilds/%s', $event->server->id) => $guild_response,
+            sprintf('https://discord.com/api/channels/%s/webhooks', $event->channel->id) => $hook_response,
+            sprintf('https://discord.com/api/channels/%s', $event->channel->id) => $channel_response,
         ]);
 
         self::assertSame('', (string)(new RegisterResponse($event)));
 
-        Event::assertDispatched(function (ChannelLinked $event): bool {
+        Event::assertDispatched(static function (ChannelLinked $event): bool {
             return null === $event->channel->server_name
                 && null === $event->channel->channel_name;
         });
-        Http::assertSent(function (Request $request) use ($event): bool {
+        Http::assertSent(static function (Request $request) use ($event): bool {
             $urls = [
                 sprintf('https://discord.com/api/channels/%d/webhooks', $event->channel->id),
                 sprintf('https://discord.com/api/guilds/%s', $event->server->id),
@@ -195,48 +198,48 @@ final class RegisterResponseTest extends TestCase
     {
         Event::fake();
 
-        $messageMock = $this->createDiscordMessageMock('/roll register shadowrun5e');
+        $message_mock = $this->createDiscordMessageMock('/roll register shadowrun5e');
+        $message_mock->expects(self::never())->method('reply');
 
         $event = new DiscordMessageReceived(
-            $messageMock,
+            $message_mock,
             self::createStub(Discord::class)
         );
-        // @phpstan-ignore method.notFound
-        $event->channel->expects(self::once())->method('sendMessage');
+
         ChatUser::factory()->create([
-            'remote_user_id' => optional($event->user)->id,
+            'remote_user_id' => $event->user?->id,
             'server_id' => $event->server->id,
             'server_type' => ChatUser::TYPE_DISCORD,
             'verified' => true,
         ]);
-        $guildResponse = Http::response(
+        $guild_response = Http::response(
             ['name' => 'Guild Name'],
             Response::HTTP_OK,
             []
         );
-        $hookResponse = Http::response(
+        $hook_response = Http::response(
             ['id' => 12345, 'token' => 'abc123'],
             Response::HTTP_OK,
             []
         );
-        $channelResponse = Http::response(
+        $channel_response = Http::response(
             ['name' => 'Channel Name'],
             Response::HTTP_OK,
             []
         );
         Http::fake([
-            sprintf('https://discord.com/api/guilds/%s', $event->server->id) => $guildResponse,
-            sprintf('https://discord.com/api/channels/%s/webhooks', $event->channel->id) => $hookResponse,
-            sprintf('https://discord.com/api/channels/%s', $event->channel->id) => $channelResponse,
+            sprintf('https://discord.com/api/guilds/%s', $event->server->id) => $guild_response,
+            sprintf('https://discord.com/api/channels/%s/webhooks', $event->channel->id) => $hook_response,
+            sprintf('https://discord.com/api/channels/%s', $event->channel->id) => $channel_response,
         ]);
 
         self::assertSame('', (string)(new RegisterResponse($event)));
 
-        Event::assertDispatched(function (ChannelLinked $event): bool {
+        Event::assertDispatched(static function (ChannelLinked $event): bool {
             return 'Guild Name' === $event->channel->server_name
                 && 'Channel Name' === $event->channel->channel_name;
         });
-        Http::assertSent(function (Request $request) use ($event): bool {
+        Http::assertSent(static function (Request $request) use ($event): bool {
             $urls = [
                 sprintf('https://discord.com/api/channels/%d/webhooks', $event->channel->id),
                 sprintf('https://discord.com/api/guilds/%s', $event->server->id),
