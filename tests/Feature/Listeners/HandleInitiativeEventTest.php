@@ -31,7 +31,7 @@ final class HandleInitiativeEventTest extends TestCase
             'initiative' => 9,
         ]);
 
-        /** @var Campaign */
+        /** @var Campaign $campaign */
         $campaign = Campaign::factory()->create();
 
         $event = new InitiativeAdded($initiative, $campaign);
@@ -54,9 +54,9 @@ final class HandleInitiativeEventTest extends TestCase
             'initiative' => 9,
         ]);
 
-        /** @var Campaign */
+        /** @var Campaign $campaign */
         $campaign = Campaign::factory()->create();
-        /** @var Channel */
+        /** @var Channel $channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
         ]);
