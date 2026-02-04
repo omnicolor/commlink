@@ -17,14 +17,8 @@ use Tests\TestCase;
 #[Small]
 final class WeaponModificationTest extends TestCase
 {
-    /**
-     * @var WeaponModification Subject under test
-     */
     private WeaponModification $modification;
 
-    /**
-     * Set up the subject under test.
-     */
     #[Override]
     protected function setUp(): void
     {

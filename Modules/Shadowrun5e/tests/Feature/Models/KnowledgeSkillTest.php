@@ -18,14 +18,8 @@ use Tests\TestCase;
 #[Small]
 final class KnowledgeSkillTest extends TestCase
 {
-    /**
-     * @var KnowledgeSkill Subject under test
-     */
     private KnowledgeSkill $skill;
 
-    /**
-     * Set up a clean subject under test.
-     */
     #[Override]
     protected function setUp(): void
     {
