@@ -1,0 +1,11 @@
+{
+    "name": "Battletech",
+    "alias": "battletech",
+    "description": "Battletech RPG module for Commlink",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Battletech\\Providers\\BattletechServiceProvider"
+    ],
+    "files": []
+}

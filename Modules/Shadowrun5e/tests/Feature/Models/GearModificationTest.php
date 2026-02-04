@@ -31,7 +31,7 @@ final class GearModificationTest extends TestCase
     public function testConstructor(): void
     {
         $mod = new GearModification('biomonitor');
-        self::assertEquals('3', $mod->availability);
+        self::assertSame('3', $mod->availability);
         self::assertSame(1, $mod->capacityCost);
         self::assertSame('commlink|cyberdeck|rcc', $mod->containerType);
         self::assertSame(300, $mod->cost);
