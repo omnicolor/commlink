@@ -29,6 +29,7 @@ use Modules\Shadowrun5e\Http\Resources\CharacterResource;
 use Modules\Shadowrun5e\Models\ActiveSkill;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\Contact;
+use Modules\Shadowrun5e\Models\Lifestyle;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 use Modules\Shadowrun5e\Models\Quality;
 use Modules\Shadowrun5e\Models\Rulebook;
@@ -878,6 +879,16 @@ class CharactersController extends Controller
                     ]
                 );
             case 'social':
+                $lifestyles = Lifestyle::all();
+                usort($lifestyles, function (Lifestyle $a, Lifestyle $b): int {
+                    if ($a->ruleset === $b->ruleset) {
+                        return $a->cost - $b->cost;
+                    }
+                    if ('core' === $a->ruleset) {
+                        return -1; // @codeCoverageIgnore
+                    }
+                    return 1;
+                });
                 $friendsInHighPlaces = false;
                 foreach ($character->qualities ?? [] as $quality) {
                     if ('friends-in-high-places' === $quality['id']) {
@@ -893,6 +904,7 @@ class CharactersController extends Controller
                         'character' => $character,
                         'currentStep' => 'social',
                         'friendsInHighPlaces' => $friendsInHighPlaces,
+                        'lifestyles' => $lifestyles,
                         'nextStep' => $this->nextStep('social', $character),
                         'previousStep' => $this->previousStep('social', $character),
                     ]
@@ -1276,6 +1288,8 @@ class CharactersController extends Controller
             ];
         }
         $character->contacts = $contacts;
+
+        // TODO: Identities
 
         $character->update();
 
