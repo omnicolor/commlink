@@ -22,39 +22,38 @@ abstract class TestCase extends BaseTestCase
 
     protected function createDiscordMessageMock(string $content): Message&MockObject
     {
-        $serverNameAndId = Str::random(10);
-        /** @var Guild&MockObject */
-        $serverMock = self::createMock(Guild::class);
-        $serverMock->method('__get')->willReturn($serverNameAndId);
+        $server_name_and_id = Str::random(10);
+        $server_stub = self::createStub(Guild::class);
+        $server_stub->method('__get')->willReturn($server_name_and_id);
 
-        $userTag = 'user#' . random_int(1000, 9999);
-        $userId = random_int(1, 9999);
-        $userMap = [
-            ['displayname', $userTag],
-            ['id', $userId],
+        $user_tag = 'user#' . random_int(1000, 9999);
+        $user_id = random_int(1, 9999);
+        $user_map = [
+            ['displayname', $user_tag],
+            ['id', $user_id],
         ];
-        /** @var User&MockObject */
-        $userMock = $this->createMock(User::class);
-        $userMock->method('__get')->willReturnMap($userMap);
 
-        $channelName = Str::random(12);
-        $channelId = Str::random(10);
-        $channelMap = [
-            ['guild', $serverMock],
-            ['id', $channelId],
-            ['name', $channelName],
+        $user_stub = self::createStub(User::class);
+        $user_stub->method('__get')->willReturnMap($user_map);
+
+        $channel_name = Str::random(12);
+        $channel_id = Str::random(10);
+        $channel_map = [
+            ['guild', $server_stub],
+            ['id', $channel_id],
+            ['name', $channel_name],
         ];
-        /** @var Channel&MockObject */
-        $channelMock = $this->createMock(Channel::class);
-        $channelMock->method('__get')->willReturnMap($channelMap);
 
-        $messageMap = [
-            ['author', $userMock],
-            ['channel', $channelMock],
+        $channel_stub = self::createStub(Channel::class);
+        $channel_stub->method('__get')->willReturnMap($channel_map);
+
+        $message_map = [
+            ['author', $user_stub],
+            ['channel', $channel_stub],
             ['content', $content],
         ];
         $messageMock = self::createMock(Message::class);
-        $messageMock->method('__get')->willReturnMap($messageMap);
+        $messageMock->method('__get')->willReturnMap($message_map);
         return $messageMock;
     }
 }

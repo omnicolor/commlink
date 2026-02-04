@@ -35,11 +35,9 @@ final class HandleIrcMessageTest extends TestCase
      */
     public function testHandleInvalidComment(): void
     {
-        $channel = $this->createMock(IrcChannel::class);
-        $channel->expects(self::once())
-            ->method('getName')
-            ->willReturn('#commlink');
-        $client = $this->createMock(IrcClient::class);
+        $channel = self::createStub(IrcChannel::class);
+        $channel->method('getName')->willReturn('#commlink');
+        $client = self::createMock(IrcClient::class);
         $client->expects(self::once())
             ->method('say')
             ->with(
@@ -69,20 +67,14 @@ final class HandleIrcMessageTest extends TestCase
             . 'Character: No character' . PHP_EOL
             . 'Campaign: No campaign';
 
-        $channel = $this->createMock(IrcChannel::class);
-        $channel->expects(self::any())
-            ->method('getName')
-            ->willReturn('#commlink');
+        $channel = self::createStub(IrcChannel::class);
+        $channel->method('getName')->willReturn('#commlink');
 
-        $connection = $this->createMock(IrcConnection::class);
-        $connection->expects(self::any())
-            ->method('getServer')
-            ->willReturn('chat.freenode.net');
+        $connection = self::createStub(IrcConnection::class);
+        $connection->method('getServer')->willReturn('chat.freenode.net');
 
-        $client = $this->createMock(IrcClient::class);
-        $client->expects(self::any())
-            ->method('getConnection')
-            ->willReturn($connection);
+        $client = self::createMock(IrcClient::class);
+        $client->method('getConnection')->willReturn($connection);
         $client->expects(self::once())
             ->method('say')
             ->with(
@@ -124,19 +116,14 @@ final class HandleIrcMessageTest extends TestCase
             . 'Character: No character' . PHP_EOL
             . 'Campaign: ' . $campaign->name;
 
-        $ircChannel = $this->createMock(IrcChannel::class);
-        $ircChannel->expects(self::any())
-            ->method('getName')
-            ->willReturn('#test-channel');
+        $ircChannel = self::createStub(IrcChannel::class);
+        $ircChannel->method('getName')->willReturn('#test-channel');
 
-        $connection = $this->createMock(IrcConnection::class);
-        $connection->expects(self::any())
-            ->method('getServer')
-            ->willReturn('chat.freenode.com');
+        $connection = self::createStub(IrcConnection::class);
+        $connection->method('getServer')->willReturn('chat.freenode.com');
 
-        $client = $this->createMock(IrcClient::class);
-        $client->expects(self::any())
-            ->method('getConnection')
+        $client = self::createMock(IrcClient::class);
+        $client->method('getConnection')
             ->willReturn($connection);
         $client->expects(self::once())
             ->method('say')
@@ -167,11 +154,9 @@ final class HandleIrcMessageTest extends TestCase
         $expected = 'darkroach rolled 6' . PHP_EOL
             . 'Rolling: 2d6 = [3+3] = 6';
 
-        $channel = $this->createMock(IrcChannel::class);
-        $channel->expects(self::once())
-            ->method('getName')
-            ->willReturn('#commlink');
-        $client = $this->createMock(IrcClient::class);
+        $channel = self::createStub(IrcChannel::class);
+        $channel->method('getName')->willReturn('#commlink');
+        $client = self::createMock(IrcClient::class);
         $client->expects(self::once())
             ->method('say')
             ->with(
@@ -200,23 +185,18 @@ final class HandleIrcMessageTest extends TestCase
             . 'Rolls: 6 6';
 
         $server = $this->faker->domainName();
-        $ircChannel = $this->createMock(IrcChannel::class);
-        $ircChannel->expects(self::once())
-            ->method('getName')
-            ->willReturn('#commlink');
-        $ircConnection = $this->createMock(IrcConnection::class);
-        $ircConnection->expects(self::any())
-            ->method('getServer')
-            ->willReturn($server);
-        $client = $this->createMock(IrcClient::class);
+        $ircChannel = self::createStub(IrcChannel::class);
+        $ircChannel->method('getName')->willReturn('#commlink');
+        $ircConnection = self::createStub(IrcConnection::class);
+        $ircConnection->method('getServer')->willReturn($server);
+        $client = self::createMock(IrcClient::class);
         $client->expects(self::once())
             ->method('say')
             ->with(
                 self::equalTo('#commlink'),
                 self::equalTo($expected)
             );
-        $client->expects(self::any())
-            ->method('getConnection')
+        $client->method('getConnection')
             ->willReturn($ircConnection);
 
         Channel::factory()->create([
@@ -252,24 +232,18 @@ final class HandleIrcMessageTest extends TestCase
             . PHP_EOL . '· `init 12+3d6` - Roll your initiative' . PHP_EOL
             . PHP_EOL;
         $server = $this->faker->domainName();
-        $ircChannel = $this->createMock(IrcChannel::class);
-        $ircChannel->expects(self::once())
-            ->method('getName')
-            ->willReturn('#commlink');
-        $ircConnection = $this->createMock(IrcConnection::class);
-        $ircConnection->expects(self::any())
-            ->method('getServer')
-            ->willReturn($server);
-        $client = $this->createMock(IrcClient::class);
+        $ircChannel = self::createStub(IrcChannel::class);
+        $ircChannel->method('getName')->willReturn('#commlink');
+        $ircConnection = self::createStub(IrcConnection::class);
+        $ircConnection->method('getServer')->willReturn($server);
+        $client = self::createMock(IrcClient::class);
         $client->expects(self::once())
             ->method('say')
             ->with(
                 self::equalTo('#commlink'),
                 self::equalTo($expected)
             );
-        $client->expects(self::any())
-            ->method('getConnection')
-            ->willReturn($ircConnection);
+        $client->method('getConnection')->willReturn($ircConnection);
 
         Channel::factory()->create([
             'channel_id' => '#commlink',
@@ -294,19 +268,13 @@ final class HandleIrcMessageTest extends TestCase
         Event::fake();
 
         $server = $this->faker->domainName();
-        $ircChannel = $this->createMock(IrcChannel::class);
-        $ircChannel->expects(self::once())
-            ->method('getName')
-            ->willReturn('#commlink');
-        $ircConnection = $this->createMock(IrcConnection::class);
-        $ircConnection->expects(self::any())
-            ->method('getServer')
-            ->willReturn($server);
-        $client = $this->createMock(IrcClient::class);
-        $client->expects(self::once())->method('say');
-        $client->expects(self::any())
-            ->method('getConnection')
-            ->willReturn($ircConnection);
+        $ircChannel = self::createStub(IrcChannel::class);
+        $ircChannel->method('getName')->willReturn('#commlink');
+        $ircConnection = self::createStub(IrcConnection::class);
+        $ircConnection->method('getServer')->willReturn($server);
+        $client = self::createStub(IrcClient::class);
+        $client->method('say');
+        $client->method('getConnection')->willReturn($ircConnection);
 
         $campaign = Campaign::factory()->create([
             'options' => [

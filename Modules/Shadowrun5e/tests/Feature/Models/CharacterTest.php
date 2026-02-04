@@ -42,10 +42,7 @@ final class CharacterTest extends TestCase
      */
     public function testHiddenId(): void
     {
-        /** @var Character */
-        $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create();
         self::assertNotNull($character->_id);
         $character->delete();
     }
@@ -55,10 +52,7 @@ final class CharacterTest extends TestCase
      */
     public function testGetId(): void
     {
-        /** @var Character */
-        $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create();
         self::assertNotNull($character->id);
         self::assertSame($character->_id, $character->id);
         $character->delete();
@@ -766,11 +760,11 @@ final class CharacterTest extends TestCase
         $qualities = new QualityArray();
         $qualities[] = $quality;
 
-        $character = $this->getMockBuilder(Character::class)
+        $character = $this->getStubBuilder(Character::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getQualities'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
-            ->getMock();
+            ->getStub();
         $character->method('getQualities')->willReturn($qualities);
         $character->body = 1;
         $character->reaction = 3;
@@ -1023,11 +1017,11 @@ final class CharacterTest extends TestCase
         $armorArray = new ArmorArray();
         $armorArray[] = $armor;
 
-        $character = $this->getMockBuilder(Character::class)
+        $character = self::getStubBuilder(Character::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getArmor'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
-            ->getMock();
+            ->getStub();
         $character->method('getArmor')->willReturn($armorArray);
         $character->charisma = 6;
 
@@ -1042,15 +1036,15 @@ final class CharacterTest extends TestCase
         $armor = new Armor('armor-jacket');
         $armor->active = true;
         $armor->effects = ['agility' => -2];
-        $armorArray = new ArmorArray();
-        $armorArray[] = $armor;
+        $armor_array = new ArmorArray();
+        $armor_array[] = $armor;
 
-        $character = $this->getMockBuilder(Character::class)
+        $character = self::getStubBuilder(Character::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getArmor'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
-            ->getMock();
-        $character->method('getArmor')->willReturn($armorArray);
+            ->getStub();
+        $character->method('getArmor')->willReturn($armor_array);
         $character->agility = 4;
 
         self::assertEquals(2, $character->getModifiedAttribute('agility'));
@@ -1067,11 +1061,11 @@ final class CharacterTest extends TestCase
         $armorArray = new ArmorArray();
         $armorArray[] = $armor;
 
-        $character = $this->getMockBuilder(Character::class)
+        $character = self::getStubBuilder(Character::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getArmor'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
-            ->getMock();
+            ->getStub();
         $character->method('getArmor')->willReturn($armorArray);
         $character->agility = 4;
 
@@ -1167,15 +1161,15 @@ final class CharacterTest extends TestCase
         $mod->effects = ['charisma' => 2];
         $armor->modifications[] = $mod;
 
-        $armorArray = new ArmorArray();
-        $armorArray[] = $armor;
+        $armor_array = new ArmorArray();
+        $armor_array[] = $armor;
 
-        $character = $this->getMockBuilder(Character::class)
+        $character = self::getStubBuilder(Character::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getArmor'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
-            ->getMock();
-        $character->method('getArmor')->willReturn($armorArray);
+            ->getStub();
+        $character->method('getArmor')->willReturn($armor_array);
         $character->agility = 4;
 
         self::assertEquals(4, $character->getModifiedAttribute('agility'));
@@ -1189,18 +1183,18 @@ final class CharacterTest extends TestCase
         $qualityDifferentEffect = new Quality('aptitude-alchemy');
 
         // Create a quality with a testable effect.
-        $qualityWithEffect = new Quality('lucky');
-        $qualityWithEffect->effects = ['agility' => 2];
+        $quality_with_effect = new Quality('lucky');
+        $quality_with_effect->effects = ['agility' => 2];
 
         $qualities = new QualityArray();
         $qualities[] = $qualityDifferentEffect;
-        $qualities[] = $qualityWithEffect;
+        $qualities[] = $quality_with_effect;
 
-        $character = $this->getMockBuilder(Character::class)
+        $character = self::getStubBuilder(Character::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getQualities'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
-            ->getMock();
+            ->getStub();
         $character->method('getQualities')->willReturn($qualities);
         $character->agility = 4;
 
@@ -1221,11 +1215,11 @@ final class CharacterTest extends TestCase
         $qualities = new QualityArray();
         $qualities[] = $quality;
 
-        $character = $this->getMockBuilder(Character::class)
+        $character = self::getStubBuilder(Character::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getQualities'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
-            ->getMock();
+            ->getStub();
         $character->method('getQualities')->willReturn($qualities);
         $character->agility = 4;
 
@@ -1258,11 +1252,11 @@ final class CharacterTest extends TestCase
         $qualities = new QualityArray();
         $qualities[] = $quality;
 
-        $character = $this->getMockBuilder(Character::class)
+        $character = self::getStubBuilder(Character::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getQualities'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
-            ->getMock();
+            ->getStub();
         $character->method('getQualities')->willReturn($qualities);
         $character->body = 4;
         $character->reaction = 4;
