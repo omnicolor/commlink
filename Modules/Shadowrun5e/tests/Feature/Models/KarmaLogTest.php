@@ -29,14 +29,8 @@ use function json_decode;
 #[Small]
 final class KarmaLogTest extends TestCase
 {
-    /**
-     * Subject under test.
-     */
     private KarmaLog $log;
 
-    /**
-     * Set up a clean subject under test.
-     */
     #[Override]
     protected function setUp(): void
     {

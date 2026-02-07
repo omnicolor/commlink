@@ -15,14 +15,8 @@ use Tests\TestCase;
 #[Medium]
 final class SlackResponseTest extends TestCase
 {
-    /**
-     * Subject under test.
-     */
     private SlackResponse $response;
 
-    /**
-     * Set up the subject under test.
-     */
     #[Override]
     public function setUp(): void
     {
