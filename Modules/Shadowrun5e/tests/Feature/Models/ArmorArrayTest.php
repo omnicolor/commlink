@@ -18,15 +18,8 @@ use stdClass;
 #[Small]
 final class ArmorArrayTest extends TestCase
 {
-    /**
-     * Subject under test.
-     * @var ArmorArray<Armor>
-     */
     private ArmorArray $armors;
 
-    /**
-     * Set up a clean subject.
-     */
     #[Override]
     public function setUp(): void
     {

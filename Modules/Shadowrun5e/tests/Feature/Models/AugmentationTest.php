@@ -22,9 +22,6 @@ final class AugmentationTest extends TestCase
 {
     private Augmentation $augmentation;
 
-    /**
-     * Set up subject under test.
-     */
     #[Override]
     protected function setUp(): void
     {

@@ -17,14 +17,8 @@ use Tests\TestCase;
 #[Small]
 final class PreparationTest extends TestCase
 {
-    /**
-     * Subject under test.
-     */
     private Preparation $preparation;
 
-    /**
-     * Set up the subject under test.
-     */
     #[Override]
     public function setUp(): void
     {
