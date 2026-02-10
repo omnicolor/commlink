@@ -8,6 +8,7 @@ infection.log
 node_modules
 npm-debug.log
 phpstan.neon
+public/build
 public/coverage
 public/css/app.css
 public/css/app.css.map
