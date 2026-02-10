@@ -1429,6 +1429,8 @@ LifestyleOption:
       type: string
     id:
       type: string
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
     name:
       type: string
     page:
@@ -1457,6 +1459,8 @@ LifestyleZone:
       type: string
     id:
       type: string
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
     name:
       type: string
     response_time:

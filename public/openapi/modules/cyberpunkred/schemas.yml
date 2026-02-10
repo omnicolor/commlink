@@ -104,20 +104,21 @@ Character:
       possession_valued: ''
       childhood_environment: ''
       life_goals: ''
-      weapons:
-        - id: heavy-pistol
-          name: Mustang Arms "Mark III"
-          ammo_remaining: 7
-        - id: medium-melee
-      armor:
-        head: light-armorjack
-        body: light-armorjack
-      owner: omni@digitaldarkness.com
-      system: cyberpunkred
-      links:
-        self: https://commlink.digitaldarkness.com/api/cyberpunkred/characters/65776d7c77223955eee96ec1
-    owner: omni@digitaldarkness.com
+    weapons:
+      - id: heavy-pistol
+        name: Mustang Arms "Mark III"
+        ammo_remaining: 7
+      - id: medium-melee
+        name: Club
+    armor:
+      head: light-armorjack
+      body: light-armorjack
+    owner:
+      id: 3
+      name: Omni A
     system: cyberpunkred
+    links:
+      self: https://commlink.digitaldarkness.com/api/cyberpunkred/characters/65776d7c77223955eee96ec1
   allOf:
     - $ref: '../../openapi.yml#/components/schemas/Character'
     - properties:
@@ -183,9 +184,51 @@ Character:
           type: array
         skills:
           properties:
+            acting:
+              type: integer
+            athletics:
+              type: integer
+            brawling:
+              type: integer
+            bribery:
+              type: integer
             business:
               type: integer
+            concentration:
+              type: integer
+            conversation:
+              type: integer
+            education:
+              type: integer
+            evasion:
+              type: integer
+            first_aid:
+              type: integer
+            handgun:
+              type: integer
             human_perception:
+              type: integer
+            interrogation:
+              type: integer
+            perception:
+              type: integer
+            personal_grooming:
+              type: integer
+            persuasion:
+              type: integer
+            pick_pocket:
+              type: integer
+            stealth:
+              type: integer
+            streetslang:
+              type: integer
+            streetwise:
+              type: integer
+            trading:
+              type: integer
+            wardrobe_and_style:
+              type: integer
+            your_home:
               type: integer
           type: object
         skills_custom:
@@ -202,6 +245,8 @@ Character:
         weapons:
           items:
             properties:
+              ammo_remaining:
+                type: integer
               id:
                 type: string
               name:

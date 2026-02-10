@@ -148,10 +148,10 @@ paths:
                         name: 'Mike F'
                       system: 'cyberpunkred'
                       links:
-                        self: '/campaigns/3'
+                        collection: 'https://commlink.digitaldarkness.com/api/campaigns'
+                        self: 'https://commlink.digitaldarkness.com/api/campaigns/9'
                   links:
-                    collection: '/campaigns'
-                    root: '/'
+                    self: 'https://commlink.digitaldarkness.com/api/campaigns/9'
                 properties:
                   data:
                     items:
@@ -324,16 +324,17 @@ paths:
                       name: 'Session Zero'
                       real_end: '2023-12-20T03:00:00Z'
                       real_start: '2023-12-20T01:00:00Z'
-                      response: 'Accepted'
+                      responses:
+                        - response: 'accepted'
+                          user_id: 3
+                          user_name: 'Omni A'
                       links:
-                        self: /events/99
-                        collection: /campaigns/123/events
-                        root: /
-                        campaign: /campaigns/123
+                        self: 'https://commlink.digitaldarkness.com/api/events/1'
+                        campaign: 'https://commlink.digitaldarkness.com/api/campaigns/1'
+                        campaign_events_collection: 'https://commlink.digitaldarkness.com/api/campaigns/1/events'
+                        events_collection: 'https://commlink.digitaldarkness.com/api/events'
                   links:
-                    campaign: /campaigns/123
-                    self: /campaigns/123/events
-                    root: /
+                    collection: 'https://commlink.digitaldarkness.com/api/events'
                 properties:
                   data:
                     items:
@@ -768,10 +769,10 @@ paths:
                           user_id: 42
                           response: 'declined'
                   links:
-                    self: '/events/99'
-                    collection: '/campaigns/123/events'
-                    root: '/'
-                    campaign: '/campaigns/123'
+                    campaign: https://commlink.digitaldarkness.com/api/campaigns/123
+                    campaign_events_collection: https://commlink.digitaldarkness.com/api/campaigns/123/events
+                    events_collection: https://commlink.digitaldarkness.com/api/events
+                    self: https://commlink.digitaldarkness.com/api/events/99
                 properties:
                   data:
                     items:
@@ -840,15 +841,18 @@ paths:
                         user_id: 13
                         name: 'Phil McCracken'
                   links:
-                    self: /events/99
-                    collection: /campaigns/123/events
-                    root: /
-                    campaign: /campaigns/123
+                    campaign: https://commlink.digitaldarkness.com/api/campaigns/123
+                    campaign_events_collection: https://commlink.digitaldarkness.com/api/campaigns/123/events
+                    events_collection: https://commlink.digitaldarkness.com/api/events
+                    self: https://commlink.digitaldarkness.com/api/events/1
                 properties:
                   data:
                     $ref: '#/components/schemas/Event'
+                  links:
+                    $ref: '#/components/schemas/Links'
                 required:
                   - data
+                  - links
                 type: object
         '401':
           $ref: '#/components/responses/ErrorUnauthenticated'
@@ -1117,7 +1121,6 @@ paths:
                   - Raymond Gomez
                 links:
                   self: '/fakes/names'
-                  root: '/'
               schema:
                 properties:
                   data:
@@ -1922,6 +1925,8 @@ components:
             name:
               type: string
           type: object
+        links:
+          $ref: '#/components/schemas/Links'
       type: object
     CharacterLinks:
       properties:
@@ -1965,6 +1970,10 @@ components:
           format: datetime
           nullable: true
           type: string
+        id:
+          type: integer
+        links:
+          $ref: '#/components/schemas/Links'
         name:
           type: string
         real_end:
@@ -1984,6 +1993,8 @@ components:
                 $ref: '#/components/schemas/EventResponse'
               user_id:
                 type: integer
+              user_name:
+                type: string
             type: object
           type: array
       required:
@@ -2119,11 +2130,23 @@ components:
       type: object
     Links:
       properties:
+        campaign:
+          example: https://commlink.digitaldarkness.com/api/campaigns/1
+          type: string
+        campaign_events_collection:
+          example: https://commlink.digitaldarkness.com/api/campaigns/1/events
+          type: string
         collection:
-          example: /api/shadowrun5e/gear
+          example: https://commlink.digitaldarkness.com/api/shadowrun5e/gear
+          type: string
+        events_collection:
+          example: https://commlink.digitaldarkness.com/api/events
+          type: string
+        owner:
+          example: https://commlink.digitaldarkness.com/api/users/3
           type: string
         self:
-          example: /api/expanse/focuses/bows
+          example: https://commlink.digitaldarkness.com/api/expanse/focuses/bows
           type: string
       type: object
     Role:

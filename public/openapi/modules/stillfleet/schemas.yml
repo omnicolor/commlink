@@ -24,6 +24,8 @@ Armor:
       type: string
     page:
       type: integer
+    ruleset:
+      type: string
     tech_cost:
       type: integer
     tech_strata:
@@ -37,6 +39,7 @@ Armor:
     - name
     - notes
     - page
+    - ruleset
     - tech_cost
     - tech_strata
     - links
