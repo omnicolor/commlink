@@ -50,6 +50,7 @@ class MakeModuleRollCommand extends GeneratorCommand
         return self::SUCCESS;
     }
 
+    #[Override]
     protected function getArguments(): array
     {
         return [

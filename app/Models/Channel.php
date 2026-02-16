@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Override;
 use RuntimeException;
 
 use function array_key_exists;
@@ -73,6 +74,7 @@ class Channel extends Model
     /**
      * @return array<string, class-string>
      */
+    #[Override]
     protected function casts(): array
     {
         return [
