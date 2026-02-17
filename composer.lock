@@ -3150,16 +3150,16 @@
         },
         {
             "name": "mongodb/laravel-mongodb",
-            "version": "5.5.0",
+            "version": "5.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mongodb/laravel-mongodb.git",
-                "reference": "c483b99a69ea9916d17719b86e7e5ea2f8b44c8a"
+                "url": "https://github.com/mongodb/laravel-mongodb",
+                "reference": "0828c481e166793fc359226b9de1eb836082aa45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/c483b99a69ea9916d17719b86e7e5ea2f8b44c8a",
-                "reference": "c483b99a69ea9916d17719b86e7e5ea2f8b44c8a",
+                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/0828c481e166793fc359226b9de1eb836082aa45",
+                "reference": "0828c481e166793fc359226b9de1eb836082aa45",
                 "shasum": ""
             },
             "require": {
@@ -3171,8 +3171,7 @@
                 "illuminate/events": "^10.0|^11|^12",
                 "illuminate/support": "^10.0|^11|^12",
                 "mongodb/mongodb": "^1.21|^2",
-                "php": "^8.1",
-                "symfony/http-foundation": "^6.4|^7"
+                "php": "^8.1"
             },
             "conflict": {
                 "illuminate/bus": "< 10.37.2"
@@ -3252,10 +3251,9 @@
             ],
             "support": {
                 "issues": "https://www.mongodb.com/support",
-                "security": "https://www.mongodb.com/security",
-                "source": "https://github.com/mongodb/laravel-mongodb/tree/5.5.0"
+                "security": "https://www.mongodb.com/security"
             },
-            "time": "2025-08-12T05:06:10+00:00"
+            "time": "2026-02-12T13:07:48+00:00"
         },
         {
             "name": "mongodb/mongodb",
