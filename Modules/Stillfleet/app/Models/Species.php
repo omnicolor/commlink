@@ -43,7 +43,7 @@ class Species extends Model implements Stringable
 
     public function addPowers(Power ...$powers): self
     {
-        $this->added_powers += $powers;
+        $this->added_powers = array_merge($this->added_powers, $powers);
         return $this;
     }
 

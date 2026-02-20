@@ -7,24 +7,20 @@ namespace Modules\Stillfleet\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
-use Modules\Stillfleet\Models\Role;
+use Modules\Stillfleet\Models\Species;
 
-use function collect;
-
-class RoleRequest extends FormRequest
+class SpeciesRequest extends FormRequest
 {
     /**
      * @return array<string, array<int, In|string>>
      */
     public function rules(): array
     {
-        $roles = collect(Role::all())->keyBy(function (Role $role): string {
-            return $role->id;
-        })->keys();
+        $species = collect(Species::all())->pluck('id');
         return [
-            'role' => [
+            'species' => [
                 'required',
-                Rule::in($roles),
+                Rule::in($species),
             ],
         ];
     }

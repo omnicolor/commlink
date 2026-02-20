@@ -26,4 +26,15 @@ return [
         'powers_optional' => '["arkheion-access","cosmopolitan-style"]',
         'ruleset' => 'core',
     ],
+    [
+        'id' => 'shoodtha',
+        'description' => 'Shoodtha description.',
+        'languages' => 'Shoodtha languages.',
+        'name' => 'Shoodtha',
+        'page' => 80,
+        'powers' => '[]',
+        'powers_choose' => 0,
+        'powers_optional' => '[]',
+        'ruleset' => 'core',
+    ],
 ];
