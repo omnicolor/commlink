@@ -17,14 +17,8 @@ use Tests\TestCase;
 #[Small]
 final class SkillGroupTest extends TestCase
 {
-    /**
-     * @var SkillGroup Subject under test
-     */
     private SkillGroup $skillGroup;
 
-    /**
-     * Set up a clean subject under test.
-     */
     #[Override]
     protected function setUp(): void
     {
