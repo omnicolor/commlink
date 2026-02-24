@@ -20,9 +20,6 @@ final class WeaponTest extends TestCase
 {
     private Weapon $weapon;
 
-    /**
-     * Set up subject under test.
-     */
     #[Override]
     protected function setUp(): void
     {
