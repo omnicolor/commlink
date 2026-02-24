@@ -1,25 +1,25 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
-        "development": "mix",
-        "watch": "mix watch",
-        "watch-poll": "mix watch -- --watch-options-poll=1000",
-        "hot": "mix watch --hot",
-        "prod": "npm run production",
-        "production": "mix --production"
+        "dev": "vite",
+        "build": "vite build"
     },
     "devDependencies": {
+        "@redocly/cli": "^2.5.1",
+        "@stoplight/prism-cli": "^5.12.0",
         "@tailwindcss/forms": "^0.2.1",
         "alpinejs": "^2.8.2",
         "autoprefixer": "^10.2.5",
         "axios": "^1.11",
         "laravel-echo": "^1.11.1",
-        "laravel-mix": "^6.0.49",
+        "laravel-vite-plugin": "^1.3.0",
         "postcss-import": "^14.0.2",
         "pusher-js": "^7.0.3",
-        "@stoplight/prism-cli": "^5.12.0",
-        "@redocly/cli": "^2.5.1",
-        "tailwindcss": "^2.0.4"
+        "tailwindcss": "^2.0.4",
+        "vite": "^6.4.1"
+    },
+    "type": "module",
+    "dependencies": {
+        "yaml": "^2.8.2"
     }
 }
