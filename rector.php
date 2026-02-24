@@ -13,6 +13,7 @@ use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\CodingStyle\Rector\String_\SimplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
+use Rector\PHPUnit\CodeQuality\Rector\ClassMethod\NoSetupWithParentCallOverrideRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitSelfCallRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
 use Rector\PHPUnit\CodeQuality\Rector\MethodCall\MatchAssertSameExpectedTypeRector;
@@ -93,6 +94,7 @@ return RectorConfig::configure()
         NewlineAfterStatementRector::class,
         NewlineBeforeNewAssignSetRector::class,
         NewlineBetweenClassLikeStmtsRector::class,
+        NoSetupWithParentCallOverrideRector::class,
         PreferPHPUnitThisCallRector::class,
         RepeatedAndNotEqualToNotInArrayRector::class,
         RepeatedOrEqualToInArrayRector::class,
