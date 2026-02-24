@@ -6,6 +6,7 @@ namespace Modules\Cyberpunkred\Tests\Feature\Models\Role;
 
 use Modules\Cyberpunkred\Models\Role\Rockerboy;
 use OutOfBoundsException;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
@@ -14,14 +15,9 @@ use PHPUnit\Framework\TestCase;
 #[Small]
 final class RockerboyTest extends TestCase
 {
-    /**
-     * Subject under test.
-     */
     private Rockerboy $role;
 
-    /**
-     * Set up the subject under test.
-     */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

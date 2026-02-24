@@ -243,6 +243,8 @@ Focus:
       type: string
     description:
       type: string
+    id:
+      type: string
     links:
       $ref: '../../openapi.yml#/components/schemas/Links'
     name:

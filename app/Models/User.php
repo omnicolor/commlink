@@ -157,6 +157,7 @@ class User extends Authenticatable implements Stringable
         return $features;
     }
 
+    #[Override]
     public function sendPasswordResetNotification($token): void
     {
         Mail::to($this)->send(new ForgotPassword($token));

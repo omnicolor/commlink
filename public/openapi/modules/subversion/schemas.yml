@@ -420,6 +420,8 @@ Lineage:
       items:
         $ref: '#/LineageOption'
       type: array
+    option:
+      $ref: '#/LineageOption'
     page:
       type: integer
     ruleset:

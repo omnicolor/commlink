@@ -21,14 +21,8 @@ use Tests\TestCase;
 #[Small]
 final class GearTest extends TestCase
 {
-    /**
-     * @var Gear Subject under test
-     */
     private Gear $item;
 
-    /**
-     * Set up subject under test.
-     */
     #[Override]
     public function setUp(): void
     {
