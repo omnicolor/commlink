@@ -252,6 +252,8 @@ Gear:
       type: string
     page:
       type: integer
+    quantity:
+      type: integer
     ruleset:
       type: string
     weight:
@@ -422,6 +424,10 @@ Skill:
       type: integer
     ruleset:
       type: string
+    stunts:
+      items:
+        type: string
+      type: array
     links:
       properties:
         self:
@@ -530,6 +536,8 @@ Weapon:
     damage:
       nullable: true
       type: integer
+    description:
+      type: string
     id:
       type: string
     links:
