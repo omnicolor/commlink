@@ -69,7 +69,7 @@
         "pusher/pusher-php-server": "^7.0",
         "socialiteproviders/discord": "^4.1",
         "socialiteproviders/google": "^4.1",
-        "spatie/laravel-permission": "^6.0",
+        "spatie/laravel-permission": "^7.0",
         "spatie/laravel-signal-aware-command": "^2.0",
         "team-reflex/discord-php": "^10.1"
     },
