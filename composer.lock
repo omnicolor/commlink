@@ -6489,20 +6489,20 @@
         },
         {
             "name": "spatie/laravel-signal-aware-command",
-            "version": "2.1.1",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-signal-aware-command.git",
-                "reference": "70207ba2702a9ee8f523af0cd4711d1104c5ca53"
+                "reference": "54dcc1efd152bfb3eb0faf56a5fc28569b864b5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-signal-aware-command/zipball/70207ba2702a9ee8f523af0cd4711d1104c5ca53",
-                "reference": "70207ba2702a9ee8f523af0cd4711d1104c5ca53",
+                "url": "https://api.github.com/repos/spatie/laravel-signal-aware-command/zipball/54dcc1efd152bfb3eb0faf56a5fc28569b864b5d",
+                "reference": "54dcc1efd152bfb3eb0faf56a5fc28569b864b5d",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "^11.0|^12.0",
+                "illuminate/contracts": "^11.0|^12.0|^13.0",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.4.3",
                 "symfony/console": "^7.0|^8.0"
@@ -6552,7 +6552,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-signal-aware-command/issues",
-                "source": "https://github.com/spatie/laravel-signal-aware-command/tree/2.1.1"
+                "source": "https://github.com/spatie/laravel-signal-aware-command/tree/2.1.2"
             },
             "funding": [
                 {
@@ -6560,7 +6560,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-11-27T09:17:52+00:00"
+            "time": "2026-02-22T08:16:31+00:00"
         },
         {
             "name": "symfony/clock",
@@ -14984,5 +14984,5 @@
     "platform-dev": {
         "ext-sqlite3": "*"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
