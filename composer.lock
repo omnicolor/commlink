@@ -6402,33 +6402,33 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "7.2.0",
+            "version": "7.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "7d5ca47515fcba891cd18a769de0b6f0aa2555d8"
+                "reference": "062b0cd8e3a1753fa7a53e468b918710004aa06b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/7d5ca47515fcba891cd18a769de0b6f0aa2555d8",
-                "reference": "7d5ca47515fcba891cd18a769de0b6f0aa2555d8",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/062b0cd8e3a1753fa7a53e468b918710004aa06b",
+                "reference": "062b0cd8e3a1753fa7a53e468b918710004aa06b",
                 "shasum": ""
             },
             "require": {
-                "illuminate/auth": "^12.0",
-                "illuminate/container": "^12.0",
-                "illuminate/contracts": "^12.0",
-                "illuminate/database": "^12.0",
-                "php": "^8.3",
+                "illuminate/auth": "^12.0|^13.0",
+                "illuminate/container": "^12.0|^13.0",
+                "illuminate/contracts": "^12.0|^13.0",
+                "illuminate/database": "^12.0|^13.0",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.0"
             },
             "require-dev": {
                 "larastan/larastan": "^3.9",
-                "laravel/passport": "^12.0",
+                "laravel/passport": "^13.0",
                 "laravel/pint": "^1.0",
-                "orchestra/testbench": "^10.0",
-                "pestphp/pest": "^3.0",
-                "pestphp/pest-plugin-laravel": "^3.0",
+                "orchestra/testbench": "^10.0|^11.0",
+                "pestphp/pest": "^3.0|^4.0",
+                "pestphp/pest-plugin-laravel": "^3.0|^4.1",
                 "phpstan/phpstan": "^2.1"
             },
             "type": "library",
@@ -6477,7 +6477,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-permission/issues",
-                "source": "https://github.com/spatie/laravel-permission/tree/7.2.0"
+                "source": "https://github.com/spatie/laravel-permission/tree/7.2.3"
             },
             "funding": [
                 {
@@ -6485,7 +6485,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-16T22:23:26+00:00"
+            "time": "2026-02-23T20:30:07+00:00"
         },
         {
             "name": "spatie/laravel-signal-aware-command",
