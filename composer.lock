@@ -317,12 +317,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/Collection.git",
-                "reference": "9b97c76745c42d4b548dc4a77e579288ca7d896f"
+                "reference": "51327bc85943c2b7a16a660d4dab64db7c29a923"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/Collection/zipball/9b97c76745c42d4b548dc4a77e579288ca7d896f",
-                "reference": "9b97c76745c42d4b548dc4a77e579288ca7d896f",
+                "url": "https://api.github.com/repos/discord-php/Collection/zipball/51327bc85943c2b7a16a660d4dab64db7c29a923",
+                "reference": "51327bc85943c2b7a16a660d4dab64db7c29a923",
                 "shasum": ""
             },
             "require": {
@@ -356,7 +356,7 @@
                 "issues": "https://github.com/discord-php/Collection/issues",
                 "source": "https://github.com/discord-php/Collection/tree/v8.4.0"
             },
-            "time": "2025-12-26T05:11:49+00:00"
+            "time": "2026-03-07T21:43:41+00:00"
         },
         {
             "name": "discord-php-helpers/voice",
@@ -3498,16 +3498,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "3.11.1",
+            "version": "3.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CarbonPHP/carbon.git",
-                "reference": "f438fcc98f92babee98381d399c65336f3a3827f"
+                "reference": "6a7e652845bb018c668220c2a545aded8594fbbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/f438fcc98f92babee98381d399c65336f3a3827f",
-                "reference": "f438fcc98f92babee98381d399c65336f3a3827f",
+                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/6a7e652845bb018c668220c2a545aded8594fbbf",
+                "reference": "6a7e652845bb018c668220c2a545aded8594fbbf",
                 "shasum": ""
             },
             "require": {
@@ -3599,7 +3599,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-01-29T09:26:29+00:00"
+            "time": "2026-03-11T17:23:39+00:00"
         },
         {
             "name": "nette/schema",
@@ -9128,16 +9128,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.45.22",
+            "version": "v10.45.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "e841b6ad7f4929d47d9202ae67660c35aa46458c"
+                "reference": "55f829119df21fff5afcec5b5cb798f2881fb546"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/e841b6ad7f4929d47d9202ae67660c35aa46458c",
-                "reference": "e841b6ad7f4929d47d9202ae67660c35aa46458c",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/55f829119df21fff5afcec5b5cb798f2881fb546",
+                "reference": "55f829119df21fff5afcec5b5cb798f2881fb546",
                 "shasum": ""
             },
             "require": {
@@ -9207,7 +9207,7 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.45.22",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.45.23",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
@@ -9228,7 +9228,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2026-02-27T13:46:32+00:00"
+            "time": "2026-03-06T15:22:28+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
