@@ -140,7 +140,7 @@ If you'd like to run an individual check:
 * `php-cs-fixer` - Run
     [PHP-CS-Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)'s dry run on
     the entire codebase.
-* `phpcs` - Run [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
+* `phpcs` - Run [PHP Code Sniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer)
     on the entire codebase.
 * `phpstan` - Run [PHPstan](https://phpstan.org/)'s highest level across the
     entire codebase.
