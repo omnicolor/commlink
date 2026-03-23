@@ -6,41 +6,6 @@ permissions:
 on: pull_request
 
 jobs:
-  PHP-Code-Sniffer:
-    runs-on: "ubuntu-latest"
-    strategy:
-      matrix:
-        php-version:
-          - "8.4"
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Install PHP with extensions
-        uses: shivammathur/setup-php@master
-        with:
-          tools: composer:v2
-          php-version: ${{ matrix.php-version }}
-          extensions: json, mbstring, mongodb, pdo
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache Composer
-        uses: actions/cache@v5
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - name: Install Composer dependencies and app configuration
-        run: composer install --no-progress --no-interaction
-
-      - name: Run PHP_code_sniffer
-        run: vendor/bin/phpcs
-
   PHP-CS-Fixer:
     runs-on: "ubuntu-latest"
     strategy:
