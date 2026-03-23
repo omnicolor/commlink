@@ -155,6 +155,7 @@ class Character extends BaseCharacter implements Stringable
     /**
      * @return array<string, string>
      */
+    #[Override]
     protected function casts(): array
     {
         return [
