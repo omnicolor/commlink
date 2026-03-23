@@ -92,7 +92,7 @@ class Generic extends Roll
     {
         $matches = [];
         preg_match('/(\d+)d(\d+)/', $string, $matches);
-        return $matches[0];
+        return $matches[0] ?? '';
     }
 
     /**
