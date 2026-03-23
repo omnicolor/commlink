@@ -20,9 +20,6 @@
                 "action": "composer lint-openapi"
             },
             {
-                "action": "composer phpcs"
-            },
-            {
                 "action": "composer php-cs-fixer"
             },
             {
