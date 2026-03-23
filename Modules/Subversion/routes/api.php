@@ -29,35 +29,41 @@ use Modules\Subversion\Models\Skill;
 Route::middleware('auth:sanctum')
     ->prefix('subversion')
     ->name('subversion.')
-    ->group(function (): void {
-        Route::get('backgrounds', function (): AnonymousResourceCollection {
-            return BackgroundResource::collection(Background::all())
-                ->additional(['links' => ['self' => route('subversion.backgrounds.index')]]);
-        })->name('backgrounds.index');
+    ->group(static function (): void {
+        Route::get(
+            'backgrounds',
+            static function (): AnonymousResourceCollection {
+                return BackgroundResource::collection(Background::all())
+                    ->additional(['links' => ['self' => route('subversion.backgrounds.index')]]);
+            },
+        )->name('backgrounds.index');
         Route::get(
             'backgrounds/{background}',
-            function (string $background): BackgroundResource {
+            static function (string $background): BackgroundResource {
                 return new BackgroundResource(new Background($background));
             }
         )->name('backgrounds.show');
 
-        Route::get('castes', function (): AnonymousResourceCollection {
-            return CasteResource::collection(Caste::all())
-                ->additional(['links' => ['self' => route('subversion.castes.index')]]);
-        })->name('castes.index');
+        Route::get(
+            'castes',
+            static function (): AnonymousResourceCollection {
+                return CasteResource::collection(Caste::all())
+                    ->additional(['links' => ['self' => route('subversion.castes.index')]]);
+            },
+        )->name('castes.index');
         Route::get(
             'castes/{caste}',
-            function (string $caste): CasteResource {
+            static function (string $caste): CasteResource {
                 return new CasteResource(new Caste($caste));
             }
         )->name('castes.show');
 
         Route::get(
             'characters',
-            function (Request $request): AnonymousResourceCollection {
+            static function (Request $request): AnonymousResourceCollection {
                 return CharacterResource::collection(
-                    // @phpstan-ignore method.nonObject
                     $request->user()
+                        // @phpstan-ignore method.nonObject
                         ->characters('subversion')
                         ->get()
                 )
@@ -70,81 +76,102 @@ Route::middleware('auth:sanctum')
         )->name('characters.index');
         Route::get(
             'characters/{character}',
-            function (Character $character): CharacterResource {
+            static function (Character $character): CharacterResource {
                 return new CharacterResource($character);
             }
         )->name('characters.show');
 
-        Route::get('gear', function (): AnonymousResourceCollection {
+        Route::get('gear', static function (): AnonymousResourceCollection {
             return GearResource::collection(Gear::all())
                 ->additional(['links' => ['self' => route('subversion.gear.index')]]);
         })->name('gear.index');
         Route::get(
             'gear/{gear}',
-            function (string $gear): GearResource {
+            static function (string $gear): GearResource {
                 return new GearResource(new Gear($gear));
             }
         )->name('gear.show');
 
-        Route::get('ideologies', function (): AnonymousResourceCollection {
-            return IdeologyResource::collection(Ideology::all())
-                ->additional(['links' => ['self' => route('subversion.ideologies.index')]]);
-        })->name('ideologies.index');
+        Route::get(
+            'ideologies',
+            static function (): AnonymousResourceCollection {
+                return IdeologyResource::collection(Ideology::all())
+                    ->additional(['links' => ['self' => route('subversion.ideologies.index')]]);
+            },
+        )->name('ideologies.index');
         Route::get(
             'ideologies/{ideology}',
-            function (string $ideology): IdeologyResource {
+            static function (string $ideology): IdeologyResource {
                 return new IdeologyResource(new Ideology($ideology));
             }
         )->name('ideologies.show');
 
-        Route::get('impulses', function (): AnonymousResourceCollection {
-            return ImpulseResource::collection(array_values(Impulse::all()))
-                ->additional(['links' => ['self' => route('subversion.impulses.index')]]);
-        })->name('impulses.index');
+        Route::get(
+            'impulses',
+            static function (): AnonymousResourceCollection {
+                return ImpulseResource::collection(array_values(Impulse::all()))
+                    ->additional(['links' => ['self' => route('subversion.impulses.index')]]);
+            },
+        )->name('impulses.index');
         Route::get(
             'impulses/{impulse}',
-            function (string $impulse): ImpulseResource {
+            static function (string $impulse): ImpulseResource {
                 return new ImpulseResource(new Impulse($impulse));
             }
         )->name('impulses.show');
 
-        Route::get('languages', function (): AnonymousResourceCollection {
-            return LanguageResource::collection(Language::all())
-                ->additional(['links' => ['self' => route('subversion.languages.index')]]);
-        })->name('languages.index');
+        Route::get(
+            'languages',
+            static function (): AnonymousResourceCollection {
+                return LanguageResource::collection(Language::all())
+                    ->additional(['links' => ['self' => route('subversion.languages.index')]]);
+            },
+        )->name('languages.index');
         Route::get(
             'languages/{language}',
-            function (string $language): LanguageResource {
+            static function (string $language): LanguageResource {
                 return new LanguageResource(new Language($language));
             }
         )->name('languages.show');
 
-        Route::get('lineages', function (): AnonymousResourceCollection {
-            return LineageResource::collection(Lineage::all())
-                ->additional(['links' => ['self' => route('subversion.lineages.index')]]);
-        })->name('lineages.index');
+        Route::get(
+            'lineages',
+            static function (): AnonymousResourceCollection {
+                return LineageResource::collection(Lineage::all())
+                    ->additional(['links' => ['self' => route('subversion.lineages.index')]]);
+            },
+        )->name('lineages.index');
         Route::get(
             'lineages/{lineage}',
-            function (string $lineage): LineageResource {
+            static function (string $lineage): LineageResource {
                 return new LineageResource(new Lineage($lineage));
             }
         )->name('lineages.show');
 
-        Route::get('origins', function (): AnonymousResourceCollection {
-            return OriginResource::collection(Origin::all())
-                ->additional(['links' => ['self' => route('subversion.origins.index')]]);
-        })->name('origins.index');
-        Route::get('origins/{origin}', function (string $origin): OriginResource {
-            return new OriginResource(new Origin($origin));
-        })->name('origins.show');
+        Route::get(
+            'origins',
+            static function (): AnonymousResourceCollection {
+                return OriginResource::collection(Origin::all())
+                    ->additional(['links' => ['self' => route('subversion.origins.index')]]);
+            },
+        )->name('origins.index');
+        Route::get(
+            'origins/{origin}',
+            static function (string $origin): OriginResource {
+                return new OriginResource(new Origin($origin));
+            },
+        )->name('origins.show');
 
-        Route::get('skills', function (): AnonymousResourceCollection {
-            return SkillResource::collection(array_values(Skill::all()))
-                ->additional(['links' => ['self' => route('subversion.skills.index')]]);
-        })->name('skills.index');
+        Route::get(
+            'skills',
+            static function (): AnonymousResourceCollection {
+                return SkillResource::collection(array_values(Skill::all()))
+                    ->additional(['links' => ['self' => route('subversion.skills.index')]]);
+            },
+        )->name('skills.index');
         Route::get(
             'skills/{skill}',
-            function (string $skill): SkillResource {
+            static function (string $skill): SkillResource {
                 return new SkillResource(new Skill($skill));
             }
         )->name('skills.show');
