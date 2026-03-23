@@ -123,7 +123,7 @@ Almost all of the automated tests can be run through composer:
 ```shell
 $ composer all
 ```
-would run lint, phpcs, php-cs-fixer, phpstan, psalm, coverage, and
+would run lint, php-cs-fixer, phpstan, psalm, coverage, and
 lint-openapi.
 
 If you'd like to run an individual check:
@@ -140,13 +140,11 @@ If you'd like to run an individual check:
 * `php-cs-fixer` - Run
     [PHP-CS-Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)'s dry run on
     the entire codebase.
-* `phpcs` - Run [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
-    on the entire codebase.
 * `phpstan` - Run [PHPstan](https://phpstan.org/)'s highest level across the
     entire codebase.
 * `prism` - Start a Stoplight Prism proxy for contract testing.
 * `static` - Run lint and PHPStan targets.
-* `style` - Run both phpcs and php-cs-fixer.
+* `style` - Run both php-cs-fixer.
 * `test` - Run PHPUnit tests without generating a code coverage report.
 
 ## Testing the API documentation
