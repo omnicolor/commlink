@@ -95,13 +95,11 @@
         "rector/rector": "^2.0",
         "roave/security-advisories": "dev-latest",
         "spatie/laravel-ignition": "^2.0",
-        "squizlabs/php_codesniffer": "^4.0",
         "worksome/envy": "^1.1"
     },
     "scripts": {
         "all": [
             "@lint",
-            "@phpcs",
             "@php-cs-fixer",
             "@phpstan",
             "@rector",
@@ -117,7 +115,6 @@
         "lint-openapi": "npx @redocly/cli lint public/openapi/openapi.yml",
         "php-cs-fixer": "php-cs-fixer fix --dry-run --config=php_cs.php -v --diff",
         "php-cs-fixer-fix": "php-cs-fixer fix --config=php_cs.php",
-        "phpcs": "phpcs -p --colors --cache",
         "phpstan": [
             "Composer\\Config::disableProcessTimeout",
             "phpstan analyze"
@@ -145,7 +142,6 @@
             "@rector"
         ],
         "style": [
-            "@phpcs",
             "@php-cs-fixer"
         ],
         "test": "phpunit"
@@ -157,12 +153,11 @@
         "lint": "Run lint across code to make sure it's syntactically valid",
         "lint-openapi": "Verify the OpenAPI document is valid",
         "php-cs-fixer": "Run php-cs-fixer",
-        "phpcs": "Run PHPCodesniffer",
         "phpstan": "Run PHPstan",
         "prism": "Start a Stoplight Prism proxy for testing OpenAPI documentation versus actual responses",
         "rector": "Automatically refactor codebase",
         "static": "Run static analysis (Lint and PHPStan)",
-        "style": "Run PHPCodesniffer and php-cs-fixer",
+        "style": "Run php-cs-fixer",
         "test": "Run all unit/feature tests"
     },
     "type": "project"
