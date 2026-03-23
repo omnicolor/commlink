@@ -38,7 +38,6 @@ final class QualityTest extends TestCase
     public function testEffects(): void
     {
         $quality = Quality::findOrFail('exceptional-attribute-strength');
-        // @phpstan-ignore offsetAccess.notFound
         self::assertSame(1, $quality->effects['maximum-strength']);
         $quality = Quality::findOrFail('ambidextrous');
         self::assertEmpty($quality->effects);

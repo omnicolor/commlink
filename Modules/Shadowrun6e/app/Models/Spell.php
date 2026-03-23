@@ -86,6 +86,7 @@ class Spell extends Model implements Stringable
     /**
      * @return array<string, class-string|string>
      */
+    #[Override]
     protected function casts(): array
     {
         return [

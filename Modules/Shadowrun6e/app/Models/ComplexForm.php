@@ -43,6 +43,10 @@ class ComplexForm extends Model implements Stringable
         return $this->name;
     }
 
+    /**
+     * @return array<string, class-string>
+     */
+    #[Override]
     public function casts(): array
     {
         return [

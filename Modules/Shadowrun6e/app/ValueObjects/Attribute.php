@@ -18,8 +18,8 @@ readonly class Attribute implements Stringable
 {
     public function __construct(
         private int $base_value,
-        // @phpstan-ignore property.onlyWritten
         private Character $character,
+        private string $name,
     ) {
         if ($base_value < 0) {
             throw new OutOfRangeException('Attribute value must be greater or equal to 0');
@@ -58,7 +58,16 @@ readonly class Attribute implements Stringable
 
     private function value(): int
     {
-        // TODO: Add modifiers for qualities, spells, or augmentations.
-        return $this->base_value;
+        // TODO: Add modifiers for spells, or augmentations.
+        $value = $this->base_value;
+        foreach ($this->character->qualities as $quality) {
+            foreach ($quality->effects as $effect => $amount) {
+                if ($effect !== $this->name) {
+                    continue;
+                }
+                $value += $amount;
+            }
+        }
+        return $value;
     }
 }

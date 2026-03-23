@@ -75,4 +75,14 @@ return [
         'page' => 76,
         'ruleset' => 'core',
     ],
+    [
+        'description' => 'Fake quality for testing effects on a character\'s attribute.',
+        'effects' => '{"strength":1}',
+        'id' => 'super-strong',
+        'karma_cost' => -8,
+        'level' => null,
+        'name' => 'Super Strong',
+        'page' => -1,
+        'ruleset' => 'fake',
+    ],
 ];

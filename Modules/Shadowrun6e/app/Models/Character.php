@@ -143,7 +143,7 @@ class Character extends BaseCharacter implements Stringable
     {
         return EloquentAttribute::make(
             get: function (int $agility): Attribute {
-                return new Attribute($agility, $this);
+                return new Attribute($agility, $this, 'agility');
             },
         );
     }
@@ -152,7 +152,7 @@ class Character extends BaseCharacter implements Stringable
     {
         return EloquentAttribute::make(
             get: function (int $body): Attribute {
-                return new Attribute($body, $this);
+                return new Attribute($body, $this, 'body');
             },
         );
     }
@@ -176,7 +176,7 @@ class Character extends BaseCharacter implements Stringable
     {
         return EloquentAttribute::make(
             get: function (int $charisma): Attribute {
-                return new Attribute($charisma, $this);
+                return new Attribute($charisma, $this, 'charisma');
             },
         );
     }
@@ -198,8 +198,8 @@ class Character extends BaseCharacter implements Stringable
                     return null;
                 }
                 $attributes = $this->tradition->drain_attributes;
-                return (new Attribute($this->attributes[$attributes[0]], $this))->value
-                    + (new Attribute($this->attributes[$attributes[1]], $this))->value;
+                return (new Attribute($this->attributes[$attributes[0]], $this, $attributes[0]))->value
+                    + (new Attribute($this->attributes[$attributes[1]], $this, $attributes[1]))->value;
             },
         );
     }
@@ -208,7 +208,7 @@ class Character extends BaseCharacter implements Stringable
     {
         return EloquentAttribute::make(
             get: function (int $edge): Attribute {
-                return new Attribute($edge, $this);
+                return new Attribute($edge, $this, 'edge');
             },
         );
     }
@@ -220,7 +220,7 @@ class Character extends BaseCharacter implements Stringable
                 if (null === $edge_current) {
                     return $this->edge;
                 }
-                return new Attribute($edge_current, $this);
+                return new Attribute($edge_current, $this, 'edge');
             },
         );
     }
@@ -247,7 +247,7 @@ class Character extends BaseCharacter implements Stringable
     {
         return EloquentAttribute::make(
             get: function (int $intuition): Attribute {
-                return new Attribute($intuition, $this);
+                return new Attribute($intuition, $this, 'intuition');
             },
         );
     }
@@ -292,7 +292,7 @@ class Character extends BaseCharacter implements Stringable
     {
         return EloquentAttribute::make(
             get: function (int $logic): Attribute {
-                return new Attribute($logic, $this);
+                return new Attribute($logic, $this, 'logic');
             },
         );
     }
@@ -304,7 +304,7 @@ class Character extends BaseCharacter implements Stringable
                 if (null === $magic) {
                     return null;
                 }
-                return new Attribute($magic, $this);
+                return new Attribute($magic, $this, 'magic');
             },
         );
     }
@@ -360,7 +360,7 @@ class Character extends BaseCharacter implements Stringable
     {
         return EloquentAttribute::make(
             get: function (int $reaction): Attribute {
-                return new Attribute($reaction, $this);
+                return new Attribute($reaction, $this, 'reaction');
             },
         );
     }
@@ -372,7 +372,7 @@ class Character extends BaseCharacter implements Stringable
                 if (null === $resonance) {
                     return null;
                 }
-                return new Attribute($resonance, $this);
+                return new Attribute($resonance, $this, 'resonance');
             },
         );
     }
@@ -381,7 +381,7 @@ class Character extends BaseCharacter implements Stringable
     {
         return EloquentAttribute::make(
             get: function (int $strength): Attribute {
-                return new Attribute($strength, $this);
+                return new Attribute($strength, $this, 'strength');
             },
         );
     }
@@ -411,7 +411,7 @@ class Character extends BaseCharacter implements Stringable
     {
         return EloquentAttribute::make(
             get: function (int $willpower): Attribute {
-                return new Attribute($willpower, $this);
+                return new Attribute($willpower, $this, 'willpower');
             },
         );
     }

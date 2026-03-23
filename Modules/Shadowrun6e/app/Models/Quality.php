@@ -17,7 +17,7 @@ use const JSON_THROW_ON_ERROR;
 
 /**
  * @property-read string $description
- * @property-read array<string, mixed>|null $effects
+ * @property-read array<string, mixed> $effects
  * @property-read string $id
  * @property-read int $karma_cost
  * @property-read int|string|null $level
