@@ -35,6 +35,8 @@ AdeptPower:
       $ref: '#/AdeptPowerActivation'
     cost:
       type: number
+    description:
+      type: string
     effects:
       nullable: true
       type: object
@@ -299,6 +301,12 @@ Quality:
       type: integer
     level:
       nullable: true
+      type: string
+    name:
+      type: string
+    page:
+      type: integer
+    ruleset:
       type: string
     links:
       $ref: '../../openapi.yml#/components/schemas/Links'
@@ -577,6 +585,8 @@ Spirit:
       $ref: '../../openapi.yml#/components/schemas/Links'
     logic:
       $ref: '#/SpiritAttribute'
+    name:
+      type: string
     page:
       type: integer
     reaction:
