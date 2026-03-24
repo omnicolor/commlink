@@ -84,7 +84,7 @@
         "laravel/breeze": "^2.0",
         "laravel/prompts": "^0.3",
         "laravel/telescope": "^5.2",
-        "laravel/tinker": "^2.9",
+        "laravel/tinker": "^3.0",
         "mockery/mockery": "^1.4",
         "php-parallel-lint/php-parallel-lint": "^1.3",
         "phpstan/phpstan": "^2.0",
