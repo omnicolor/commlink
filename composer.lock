@@ -9616,7 +9616,7 @@
         },
         {
             "name": "captainhook/captainhook-phar",
-            "version": "5.29.0",
+            "version": "5.29.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/captainhook-git/captainhook-phar.git",
@@ -9670,7 +9670,7 @@
             ],
             "support": {
                 "issues": "https://github.com/captainhook-git/captainhook/issues",
-                "source": "https://github.com/captainhook-git/captainhook-phar/tree/5.29.0"
+                "source": "https://github.com/captainhook-git/captainhook-phar/tree/5.29.1"
             },
             "funding": [
                 {
