@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.13.3] - 2026-03-27
+
+More behind-the-scenes work.
+
+### Changed
+
+- Lots of dependencies updated, including several security updates.
+- Cleaned up some code:
+  - Adding Override attribute where appropriate.
+  - Changing some protected things to private if nothing extends the object.
+  - Changed some PHPUnit mocks to stubs if no expectations are made on the objects.
+  - Removed a lot of redundant docblocks.
+
+### Removed
+
+- Removed PHP Code Sniffer. It didn't catch anything that the other tooling didn't also. ([#2999](https://github.com/omnicolor/commlink/pull/2999))
+
 ## [1.13.2] - 2025-11-29
 
 Mostly just developer quality-of-life improvements and updating dependencies.
