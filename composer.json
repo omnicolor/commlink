@@ -119,10 +119,6 @@
             "Composer\\Config::disableProcessTimeout",
             "phpstan analyze"
         ],
-        "prism": [
-            "Composer\\Config::disableProcessTimeout",
-            "node ./node_modules/@stoplight/prism-cli/dist/index.js proxy ./public/openapi/openapi.yml https://commlink-dev.digitaldarkness.com/api/"
-        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
@@ -154,7 +150,6 @@
         "lint-openapi": "Verify the OpenAPI document is valid",
         "php-cs-fixer": "Run php-cs-fixer",
         "phpstan": "Run PHPstan",
-        "prism": "Start a Stoplight Prism proxy for testing OpenAPI documentation versus actual responses",
         "rector": "Automatically refactor codebase",
         "static": "Run static analysis (Lint and PHPStan)",
         "style": "Run php-cs-fixer",
