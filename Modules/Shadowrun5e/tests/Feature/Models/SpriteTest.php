@@ -134,7 +134,7 @@ final class SpriteTest extends TestCase
         $expected[] = new ActiveSkill('hacking', 3);
 
         $sprite = new Sprite('courier', 3);
-        self::assertEqualsCanonicalizing($expected, $sprite->getSkills());
+        self::assertEquals($expected, $sprite->getSkills());
     }
 
     /**

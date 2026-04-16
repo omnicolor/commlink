@@ -142,7 +142,6 @@ If you'd like to run an individual check:
     the entire codebase.
 * `phpstan` - Run [PHPstan](https://phpstan.org/)'s highest level across the
     entire codebase.
-* `prism` - Start a Stoplight Prism proxy for contract testing.
 * `static` - Run lint and PHPStan targets.
 * `style` - Run both php-cs-fixer.
 * `test` - Run PHPUnit tests without generating a code coverage report.
@@ -153,17 +152,6 @@ Running `composer lint-openapi` will make sure the OpenAPI documentation is
 semantically correct, listing any errors or problems parsing the document. A
 passing lint means there's nothing obviously wrong with the specification.
 However, that doesn't mean it's correct.
-
-Running `composer prism` will start a proxy between your computer and
-Commlink's dev server. For testing locally, you should edit the URL in the
-composer.json file. The proxy will list all of the routes Commlink supports and
-will listen for a connection. Running cURL against a resource will test the
-response against what the OpenAPI specification says it should be:
-
-```
-$ curl --location 'http://127.0.0.1:4010/alien/talents' --header 'Accept: application/json' --header 'Authorization: Bearer <API key>'
-```
-You'll need to create an API key in settings to be able to test.
 
 # Credits
 
