@@ -6,6 +6,9 @@ namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 
+/**
+ * @phpstan-ignore class.extendsDeprecatedClass
+ */
 class VerifyCsrfToken extends Middleware
 {
     /**

@@ -848,7 +848,7 @@ class CharactersController extends Controller
                     [
                         'character' => $character,
                         'currentStep' => 'review',
-                        'errors' => new MessageBag($character->errors ?? []),
+                        'errors' => new MessageBag($character->errors),
                         'nextStep' => $this->nextStep('review', $character),
                         'previousStep' => $this->previousStep('review', $character),
                         'user' => $user,
