@@ -8,7 +8,6 @@ use App\Models\Character as BaseCharacter;
 use Modules\Shadowrun5e\Models\Campaign;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\Contact;
-use Modules\Shadowrun5e\Models\ContactArray;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -107,7 +106,6 @@ final class CampaignTest extends TestCase
             ],
         ]);
 
-        /** @var ContactArray */
         $contacts = $campaign->contacts();
         self::assertCount(1, $contacts);
 
