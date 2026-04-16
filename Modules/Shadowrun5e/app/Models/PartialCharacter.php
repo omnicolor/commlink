@@ -127,7 +127,7 @@ class PartialCharacter extends Character implements Stringable
     public function validate(): void
     {
         $this->errors = array_merge(
-            $this->errors ?? [],
+            $this->errors,
             $this->validatePriorities(),
             $this->validateNativeLanguage(),
             $this->validateAttributes(),
