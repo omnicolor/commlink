@@ -18,7 +18,6 @@ final class FormulaConverterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        // phpcs:ignore
         $this->formula_converter = new readonly class() {
             use FormulaConverter;
         };
