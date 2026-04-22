@@ -1659,16 +1659,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v13.5.0",
+            "version": "v13.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "ffa1850049a691b93129808f27ecd10e65c9d1a5"
+                "reference": "416a93ea9c53161e0d4b8a44045f447b65a7d2f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/ffa1850049a691b93129808f27ecd10e65c9d1a5",
-                "reference": "ffa1850049a691b93129808f27ecd10e65c9d1a5",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/416a93ea9c53161e0d4b8a44045f447b65a7d2f1",
+                "reference": "416a93ea9c53161e0d4b8a44045f447b65a7d2f1",
                 "shasum": ""
             },
             "require": {
@@ -1878,7 +1878,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-04-14T13:55:03+00:00"
+            "time": "2026-04-21T13:32:11+00:00"
         },
         {
             "name": "laravel/pennant",
@@ -3211,16 +3211,16 @@
         },
         {
             "name": "mongodb/laravel-mongodb",
-            "version": "5.7.0",
+            "version": "5.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/laravel-mongodb",
-                "reference": "0071a45e79741f316f9b8e3a0372c8881ba5f81f"
+                "reference": "6e371e8e6deb9193f99a84c578e6c9d0a960e43a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/0071a45e79741f316f9b8e3a0372c8881ba5f81f",
-                "reference": "0071a45e79741f316f9b8e3a0372c8881ba5f81f",
+                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/6e371e8e6deb9193f99a84c578e6c9d0a960e43a",
+                "reference": "6e371e8e6deb9193f99a84c578e6c9d0a960e43a",
                 "shasum": ""
             },
             "require": {
@@ -3314,7 +3314,7 @@
                 "issues": "https://www.mongodb.com/support",
                 "security": "https://www.mongodb.com/security"
             },
-            "time": "2026-03-20T12:20:25+00:00"
+            "time": "2026-04-15T12:18:12+00:00"
         },
         {
             "name": "mongodb/mongodb",
