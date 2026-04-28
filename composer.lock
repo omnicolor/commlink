@@ -7936,7 +7936,7 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.36.0",
+            "version": "v1.37.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
@@ -7997,7 +7997,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.36.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.37.0"
             },
             "funding": [
                 {
@@ -8021,7 +8021,7 @@
         },
         {
             "name": "symfony/polyfill-php80",
-            "version": "v1.36.0",
+            "version": "v1.37.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
@@ -8081,7 +8081,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php80/tree/v1.36.0"
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.37.0"
             },
             "funding": [
                 {
@@ -9010,16 +9010,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.47.10",
+            "version": "v10.48.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "749aaad3dab08d8c3ca0ad3453d77bcc120e249d"
+                "reference": "25df7cfce22b38a6dd242e5c6abf3daca84670e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/749aaad3dab08d8c3ca0ad3453d77bcc120e249d",
-                "reference": "749aaad3dab08d8c3ca0ad3453d77bcc120e249d",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/25df7cfce22b38a6dd242e5c6abf3daca84670e5",
+                "reference": "25df7cfce22b38a6dd242e5c6abf3daca84670e5",
                 "shasum": ""
             },
             "require": {
@@ -9089,7 +9089,7 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.47.10",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.48.2",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
@@ -9110,7 +9110,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2026-04-17T03:28:59+00:00"
+            "time": "2026-04-21T13:49:09+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
