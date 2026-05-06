@@ -165,7 +165,6 @@ class Number extends Roll
         });
         // PHPStan does not recognize that the above array_walk changes all of
         // the ints to strings.
-        // @phpstan-ignore return.type
         return $rolls;
     }
 
