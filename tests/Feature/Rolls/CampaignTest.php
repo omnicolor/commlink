@@ -652,7 +652,6 @@ final class CampaignTest extends TestCase
         $user = User::factory()->create();
 
         $campaign = CampaignModel::factory()->create(['gm' => $user->id]);
-        /** @var Channel */
         $channel = new Channel([
             'channel_id' => 'C' . Str::random(10),
             'server_id' => 'T' . Str::random(10),
