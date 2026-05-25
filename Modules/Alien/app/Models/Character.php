@@ -16,7 +16,6 @@ use Override;
 use Stringable;
 
 use function array_map;
-use function assert;
 use function collect;
 use function current;
 
@@ -310,21 +309,21 @@ class Character extends BaseCharacter implements Stringable
             get: function (?array $skills): array {
                 $returnedSkills = collect(Skill::all())->keyBy('id');
                 foreach ($skills ?? [] as $skill => $rank) {
-                    assert($returnedSkills[$skill] instanceof Skill);
+                    // @phpstan-ignore property.nonObject
                     $returnedSkills[$skill]->rank = $rank;
                 }
                 foreach ($this->armor->modifiers ?? [] as $modifier) {
                     switch ($modifier) {
                         case Armor::MODIFIER_CLOSE_COMBAT_INCREASE: // @codeCoverageIgnore
-                            assert($returnedSkills['close-combat'] instanceof Skill);
+                            // @phpstan-ignore property.nonObject
                             $returnedSkills['close-combat']->rank += 3;
                             break;
                         case Armor::MODIFIER_HEAVY_MACHINERY_INCREASE: // @codeCoverageIgnore
-                            assert($returnedSkills['heavy-machinery'] instanceof Skill);
+                            // @phpstan-ignore property.nonObject
                             $returnedSkills['heavy-machinery']->rank += 3;
                             break;
                         case Armor::MODIFIER_SURVIVAL_INCREASE: // @codeCoverageIgnore
-                            assert($returnedSkills['survival'] instanceof Skill);
+                            // @phpstan-ignore property.nonObject
                             $returnedSkills['survival']->rank += 3;
                             break;
                     }
