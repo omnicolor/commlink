@@ -54,35 +54,35 @@ trait FormulaConverter
         // @codeCoverageIgnoreEnd
 
         // Process multiplication and division left to right.
-        $multiplyIndex = array_search('*', $components, true);
-        $divideIndex = array_search('/', $components, true);
-        while (false !== $multiplyIndex || false !== $divideIndex) {
-            if (false !== $multiplyIndex && (false === $divideIndex || $multiplyIndex < $divideIndex)) {
-                $index = (int)$multiplyIndex;
+        $multiply_index = array_search('*', $components, true);
+        $divide_index = array_search('/', $components, true);
+        while (false !== $multiply_index || false !== $divide_index) {
+            if (false !== $multiply_index && (false === $divide_index || $multiply_index < $divide_index)) {
+                $index = (int)$multiply_index;
                 $result = (int)$components[$index - 1] * (int)$components[$index + 1];
             } else {
-                $index = (int)$divideIndex;
+                $index = $divide_index;
                 $result = (int)$components[$index - 1] / (int)$components[$index + 1];
             }
             array_splice($components, $index - 1, 3, (string)$result);
-            $multiplyIndex = array_search('*', $components, true);
-            $divideIndex = array_search('/', $components, true);
+            $multiply_index = array_search('*', $components, true);
+            $divide_index = array_search('/', $components, true);
         }
 
         // Process addition and subtraction left to right.
-        $plusIndex = array_search('+', $components, true);
-        $minusIndex = array_search('-', $components, true);
-        while (false !== $plusIndex || false !== $minusIndex) {
-            if (false !== $plusIndex && (false === $minusIndex || $plusIndex < $minusIndex)) {
-                $index = (int)$plusIndex;
+        $plus_index = array_search('+', $components, true);
+        $minus_index = array_search('-', $components, true);
+        while (false !== $plus_index || false !== $minus_index) {
+            if (false !== $plus_index && (false === $minus_index || $plus_index < $minus_index)) {
+                $index = (int)$plus_index;
                 $result = (int)$components[$index - 1] + (int)$components[$index + 1];
             } else {
-                $index = (int)$minusIndex;
+                $index = $minus_index;
                 $result = (int)$components[$index - 1] - (int)$components[$index + 1];
             }
             array_splice($components, $index - 1, 3, (string)$result);
-            $plusIndex = array_search('+', $components, true);
-            $minusIndex = array_search('-', $components, true);
+            $plus_index = array_search('+', $components, true);
+            $minus_index = array_search('-', $components, true);
         }
 
         return (int)current($components);
