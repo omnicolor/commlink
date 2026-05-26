@@ -23,7 +23,7 @@ use function sprintf;
  * @phpstan-type RulesetArray array{
  *     description: string,
  *     id: string,
- *     isbn: string,
+ *     isbn: string|null,
  *     name: string,
  *     required: bool
  * }
@@ -33,7 +33,9 @@ class Ruleset extends Model implements Stringable
 {
     use Sushi;
 
+    /** @var bool */
     public $incrementing = false;
+    /** @var string */
     protected $keyType = 'string';
 
     /**
@@ -53,6 +55,9 @@ class Ruleset extends Model implements Stringable
         return $this->name;
     }
 
+    /**
+     * @return array<string, string>
+     */
     #[Override]
     public function casts(): array
     {
