@@ -55,9 +55,8 @@ class LinkResponse implements Stringable
 
         $this->channel->user = (string)optional($this->event->user)->id;
 
-        /** @var ?ChatUser */
         $chatUser = $this->channel->getChatUser();
-        if (null === $chatUser) {
+        if (!$chatUser instanceof ChatUser) {
             $this->sendMustRegisterError();
             return;
         }
