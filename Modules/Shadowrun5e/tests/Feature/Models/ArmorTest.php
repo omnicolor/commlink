@@ -44,7 +44,7 @@ final class ArmorTest extends TestCase
     #[Depends('testLoadingArmorJacketId')]
     public function testLoadingArmorJacketAvailability(Armor $armor): void
     {
-        self::assertEquals('2', $armor->availability);
+        self::assertSame('2', $armor->availability);
     }
 
     /**
