@@ -12,6 +12,7 @@ use Modules\Battletech\Models\Quality;
 use Override;
 
 use function array_walk;
+use function route;
 
 /**
  * @mixin Quality
@@ -28,7 +29,7 @@ class TraitResource extends JsonResource
      *     quote: string,
      *     page: int,
      *     ruleset: string,
-     *     types: array<int, QualityType>,
+     *     types: array<int, string>,
      *     links: array{
      *         self: string
      *     }
@@ -37,10 +38,10 @@ class TraitResource extends JsonResource
     #[Override]
     public function toArray(Request $request): array
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
         $types = $this->types;
-        array_walk($types, function (QualityType &$type): void {
+        array_walk($types, static function (QualityType &$type): void {
             $type = $type->value;
         });
         return [
