@@ -118,8 +118,8 @@
             </p>
 
             <ul class="list-group" id="identities-list">
-                @foreach ($character->getIdentities() as $key => $identity)
-                <li class="list-group-item" data-id="{{ $key }}">
+                @foreach ($character->getIdentities() as $identity)
+                <li class="list-group-item" data-id="{{ $identity->identifier }}">
                     <strong>{{ $identity }}</strong>
                     <div class="float-end">
                         @if (isset($identity->sin) || isset($identity->sinner))
@@ -128,13 +128,13 @@
                                     aria-expanded="false"
                                     class="btn btn-success btn-sm dropdown-toggle"
                                     data-bs-toggle="dropdown"
-                                    id="identity-dropdown-{{ $key }}"
+                                    id="identity-dropdown-{{ $identity->identifier }}"
                                     type="button">
                                     <span aria-hidden="true" class="bi bi-plus"></span>
                                     Add to SIN
                                 </button>
                                 <div class="dropdown-menu"
-                                    aria-labelledby="identity-dropdown-{{ $key }}">
+                                    aria-labelledby="identity-dropdown-{{ $identity->identifier }}">
                                     <button class="dropdown-item"
                                         data-bs-target="#licenses-modal"
                                         data-bs-toggle="modal"
@@ -148,18 +148,21 @@
                                         data-bs-target="#subscriptions-modal"
                                         data-bs-toggle="modal"
                                         type="button">
-                                        Add subscription</a>
+                                        Add subscription
+                                    </button>
                                 </div>
                             </div>
                             @if (isset($identity->sinner))
                             <button class="btn btn-primary btn-sm mx-1"
-                                data-id="{{ $key }}" data-bs-target="#sin-modal"
+                                data-id="{{ $identity->identifier }}"
+                                data-bs-target="#sin-modal"
                                 data-bs-toggle="modal" disabled type="button">
                                 SIN - {{ $identity->sinner }}
                             </button>
                             @else
                             <button class="btn btn-primary btn-sm mx-1"
-                                data-id="{{ $key }}" data-bs-target="#sin-modal"
+                                data-id="{{ $identity->identifier }}"
+                                data-bs-target="#sin-modal"
                                 data-bs-toggle="modal" type="button">
                                 <span aria-hidden="true" class="bi bi-pencil"></span>
                                 Change SIN - {{ $identity->sin }}
@@ -167,7 +170,8 @@
                             @endif
                         @else
                             <button class="btn btn-success btn-sm mx-1"
-                                data-id="{{ $key }}" data-bs-target="#sin-modal"
+                                data-id="{{ $identity->identifier }}"
+                                data-bs-target="#sin-modal"
                                 data-bs-toggle="modal" type="button">
                                 <span aria-hidden="true" class="bi bi-plus"></span>
                                 Add SIN
@@ -186,6 +190,7 @@
                                 <div class="float-end">
                                     <button class="btn btn-danger btn-sm license"
                                         data-license-index="{{ $index }}"
+                                        data-identity-index="{{ $identity->identifier }}"
                                         type="button">
                                         <span aria-hidden="true" class="bi bi-dash"></span>
                                         Remove
@@ -198,7 +203,7 @@
                                 <div class="float-end">
                                     <button class="btn btn-danger btn-sm lifestyle"
                                         data-lifestyle="{{ $lifestyle->id }}"
-                                        data-identity="{{ $key }}"
+                                        data-identity="{{ $identity->identifier }}"
                                         type="button">
                                         <span aria-hidden="true" class="bi bi-dash"></span>
                                         Remove
@@ -636,14 +641,218 @@
         </div>
     </div>
 
+    <div aria-hidden="true" aria-labelledby="license-title" class="modal"
+        id="licenses-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content"><form>
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="license-title">
+                        Add fake license
+                    </h1>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <div class="modal-body">
+                    For those who can’t or won’t go through the standard legal
+                    channels, fake licenses are available for all kinds of
+                    restricted items and activities. Items with no letter next
+                    to their availability don’t require licenses. Items that are
+                    Forbidden have no license available. Licenses, therefore,
+                    are for Restricted items. Each type of item/activity
+                    permission requires a separate license. Things that require
+                    licenses include hunting (bow and rifle), possession of a
+                    firearm, concealed carry of a firearm (separate license),
+                    spellcasting, and any Restricted gear or augmentations, etc.
+                    Just as SINs essentially exist on your commlink, fake
+                    licenses exist on your SIN and are linked to it. When you
+                    buy a fake concealed-carry license, you don’t buy it for
+                    Murderman the professional shadowrunner, you buy it for John
+                    Doe, one of Murderman’s fake SINs. Use the fake license’s
+                    rating against verification systems (Fake SIN, p. 367).
+
+                        <div class="mb-3">
+                            <label for="license-name" class="form-label">
+                                License title
+                            </label>
+                            <input class="form-control" id="license-name"
+                                required type="text">
+                        </div>
+                        <div class="mb-3">
+                            <label for="license-rating" class="form-label">
+                                License rating
+                            </label>
+                            <select aria-label="License rating"
+                                class="form-select" id="license-rating" required>
+                                <option value="" selected>Select rating</option>
+                                @for ($i = 1; $i <= 6; $i++)
+                                <option value="{{ $i }}"
+                                    @if ($i * 3 > 12)
+                                        disabled title="Character generation limits available to 12 or less"
+                                    @endif
+                                >{{ $i }} - {{ number_format($i * 200) }}&yen; - {{ $i * 3 }}F</option>
+                                @endfor
+                            </select>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Buy license</button>
+                </div>
+            </form></div>
+        </div>
+    </div>
+
+    <div aria-hidden="true" aria-labelledby="lifestyles-title" class="modal"
+        id="lifestyles-modal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="lifestyles-title">
+                        Lifestyles
+                    </h1>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <div class="modal-body row">
+                    <div class="col">
+                        <table class="table w-100">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="text-end">Cost per month</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($lifestyles as $lifestyle)
+                                <tr data-comforts="{{ $lifestyle->attributes->comforts }}"
+                                    data-comforts-max="{{ $lifestyle->attributes->comfortsMax }}"
+                                    data-cost="{{ $lifestyle->cost }}"
+                                    @can('view data')
+                                    data-description="{{ $lifestyle->description }}"
+                                    @endcan
+                                    data-name="{{ $lifestyle }}"
+                                    data-neighborhood="{{ $lifestyle->attributes->neighborhood }}"
+                                    data-neighborhood-max="{{ $lifestyle->attributes->neighborhoodMax }}"
+                                    data-id="{{ $lifestyle->id }}"
+                                    data-page="{{ $lifestyle->page }}"
+                                    data-points="{{ $lifestyle->points }}"
+                                    data-ruleset="{{ $lifestyle->ruleset }}"
+                                    data-security="{{ $lifestyle->attributes->security }}"
+                                    data-security-max="{{ $lifestyle->attributes->securityMax }}">
+                                    <td>{{ $lifestyle }}</td>
+                                    <td class="text-end">&yen;{{ number_format($lifestyle->cost) }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col">
+                        <div id="click-panel">
+                            Click a lifestyle for more information about it.
+                        </div>
+                        <div id="info-panel" class="d-none">
+                            <h2 id="lifestyle-name">.</h2>
+
+                            <p>
+                                <strong>Comforts &amp; necessities:</strong>
+                                <span id="lifestyle-comforts"></span>
+                                <br>
+                                <strong>Security:</strong>
+                                <span id="lifestyle-security"></span>
+                                <br>
+                                <strong>Neighborhood:</strong>
+                                <span id="lifestyle-neighborhood"></span>
+                                <br>
+                                <strong>Base cost:</strong>
+                                <span id="lifestyle-cost"></span>
+                            </p>
+
+                            @can('view data')
+                                <p class="mt-2" id="lifestyle-description"></p>
+                            @endcan
+
+                            <form id="customize-lifestyle">
+                                <h3>Customize and buy</h3>
+                                <input id="lifestyle-id" type="hidden">
+                                <input id="lifestyle-points" type="hidden">
+
+                                <p class="py-0">
+                                    <strong>Remaining points:</strong>
+                                    <span id="remaining-points"></span>
+                                    <span class="badge rounded-pill bg-danger d-none" id="lifestyle-points-warning">!</span>
+                                </p>
+
+                                <div class="row py-0">
+                                    <label class="col col-form-label" for="comforts">
+                                        Comforts &amp; necessitites
+                                    </label>
+                                    <div class="col-3">
+                                        <input class="text-end form-control form-control-sm"
+                                            id="comforts" type="number">
+                                    </div>
+                                </div>
+
+                                <div class="row py-0">
+                                    <label class="col col-form-label" for="security">
+                                        Security
+                                    </label>
+                                    <div class="col-3">
+                                        <input class="text-end form-control form-control-sm"
+                                            id="security" type="number">
+                                    </div>
+                                </div>
+
+                                <div class="row py-0">
+                                    <label class="col col-form-label" for="neighborhood">
+                                        Neighborhood
+                                    </label>
+                                    <div class="col-3">
+                                        <input class="text-end form-control form-control-sm"
+                                            id="neighborhood" type="number">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">Options aren't yet supported.</div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col col-form-label" for="lifestyle-months">
+                                        Number of months
+                                    </label>
+                                    <div class="col-3">
+                                        <input class="text-end form-control form-control-sm"
+                                            id="lifestyle-months" min="1"
+                                            type="number" value="1">
+                                    </div>
+                                </div>
+                                <div class="row my-4">
+                                    <div class="col">
+                                        <strong>Cost:</strong>
+                                        <span id="lifestyle-total"></span>
+                                    </div>
+                                    <div class="col text-end">
+                                        <button class="btn btn-primary" type="submit">
+                                            Buy lifestyle
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <x-slot name="javascript">
         <script>
             let character = @json($character);
             character.contacts = character.contacts || [];
             character.identities = character.identities || [];
         </script>
-        <script src="/js/Shadowrun5e/create-common.js"></script>
         <script src="/js/Shadowrun5e/Points.js"></script>
+        <script src="/js/Shadowrun5e/create-common.js"></script>
         <script src="/js/Shadowrun5e/create-social.js"></script>
     </x-slot>
 </x-app>
