@@ -5,20 +5,22 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
 use Modules\Shadowrun5e\Models\ActiveSkill;
-use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use RuntimeException;
 use Tests\TestCase;
 
+#[CoversClass(ActiveSkill::class)]
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Small]
 final class ActiveSkillTest extends TestCase
 {
-    /**
-     * Test trying to load an invalid skill throws an exception.
-     */
+    #[Test]
+    #[TestDox('Loading an invalid skill throws an exception')]
     public function testLoadingInvalidSkill(): void
     {
         ActiveSkill::$skills = null;
@@ -27,94 +29,45 @@ final class ActiveSkillTest extends TestCase
         new ActiveSkill('not-found-id', 0);
     }
 
-    /**
-     * Test loading a skill.
-     */
-    public function testLoadSkillSetsId(): ActiveSkill
+    #[Test]
+    #[TestDox('Skills load with correct properties')]
+    public function testLoadSkillSetsId(): void
     {
         $skill = new ActiveSkill('automatics', 4);
         self::assertSame('automatics', $skill->id);
-        return $skill;
-    }
-
-    /**
-     * Test that loading a skill sets the linked attribute.
-     */
-    #[Depends('testLoadSkillSetsId')]
-    public function testLoadSkillSetsAttribute(ActiveSkill $skill): void
-    {
         self::assertSame('agility', $skill->attribute);
-    }
-
-    /**
-     * Test that loading a skill sets default property if the skill can be
-     * defaulted to.
-     */
-    #[Depends('testLoadSkillSetsId')]
-    public function testLoadSkillSetsDefault(ActiveSkill $skill): void
-    {
         self::assertTrue($skill->default);
-    }
-
-    /**
-     * Test that loading a skills sets the group.
-     */
-    #[Depends('testLoadSkillSetsId')]
-    public function testLoadSkillSetsGroup(ActiveSkill $skill): void
-    {
         self::assertSame('firearms', $skill->group);
-    }
-
-    /**
-     * Test that loading a skill sets the level.
-     */
-    #[Depends('testLoadSkillSetsId')]
-    public function testLoadSkillSetsLevel(ActiveSkill $skill): void
-    {
         self::assertSame(4, $skill->level);
-    }
-
-    /**
-     * Test that loading a skill sets the name.
-     */
-    #[Depends('testLoadSkillSetsId')]
-    public function testLoadSkillSetsName(ActiveSkill $skill): void
-    {
         self::assertSame('Automatics', $skill->name);
     }
 
-    /**
-     * Test the __toString method.
-     */
-    #[Depends('testLoadSkillSetsId')]
-    public function testLoadSkillToString(ActiveSkill $skill): void
+    #[Test]
+    #[TestDox('Skills can be cast to a string')]
+    public function testLoadSkillToString(): void
     {
+        $skill = new ActiveSkill('automatics', 4);
         self::assertSame('Automatics', (string)$skill);
     }
 
-    /**
-     * Test that loading a skill without a group doesn't change the group
-     * property.
-     */
+    #[Test]
+    #[TestDox('Skills that do not have a group return null for their group')]
     public function testLoadGrouplessSkill(): void
     {
         $skill = new ActiveSkill('astral-combat', 3);
         self::assertNull($skill->group);
     }
 
-    /**
-     * Test that loading a skill that can't be defaulted doesn't change the
-     * default property.
-     */
+    #[Test]
+    #[TestDox('Skills that can not be defaulted return false for default property')]
     public function testLoadNotDefaultableSkill(): void
     {
         $skill = new ActiveSkill('astral-combat', 3);
         self::assertFalse($skill->default);
     }
 
-    /**
-     * Test trying to find the ID of a skill if the skill isn't found.
-     */
+    #[Test]
+    #[TestDox('ActiveSkill::findIdByName() throws an exception if a skill name is not found')]
     public function testFindIdByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
@@ -123,9 +76,8 @@ final class ActiveSkillTest extends TestCase
         ActiveSkill::findIdByName('Foo');
     }
 
-    /**
-     * Test finding a skill's ID by its name.
-     */
+    #[Test]
+    #[TestDox('ActiveSkill::findIdByName() can find a skill\'s ID given its name')]
     public function testFindIdByName(): void
     {
         self::assertSame(

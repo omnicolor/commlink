@@ -11,7 +11,6 @@ use RuntimeException;
 use Stringable;
 
 use function array_keys;
-use function assert;
 use function config;
 use function debug_backtrace;
 use function sprintf;
@@ -71,8 +70,8 @@ class Playbook implements Stringable
         $this->creativity = new AttributeModifier($playbook['creativity']);
         $this->demeanor_options = $playbook['demeanor_options'];
         $this->description = $playbook['description'];
+        /** @var Feature $feature */
         $feature = new $playbook['feature']([]);
-        assert($feature instanceof Feature);
         $this->feature = $feature;
         $this->focus = new AttributeModifier($playbook['focus']);
         $this->growth_question = $playbook['growth_question'];

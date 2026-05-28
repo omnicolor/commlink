@@ -25,7 +25,7 @@ final class LifestyleAttributes
     public function __construct(array $attributes)
     {
         if (
-            !isset(
+            !isset( // @codeCoverageIgnore
                 $attributes['comforts'],
                 $attributes['comfortsMax'],
                 $attributes['neighborhood'],
