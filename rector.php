@@ -14,6 +14,8 @@ use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\CodingStyle\Rector\String_\SimplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
+use Rector\DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector;
+use Rector\DeadCode\Rector\Expression\RemoveDeadStmtRector;
 use Rector\PHPUnit\CodeQuality\Rector\ClassMethod\NoSetupWithParentCallOverrideRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitSelfCallRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
@@ -92,6 +94,12 @@ return RectorConfig::configure()
         NewlineBetweenClassLikeStmtsRector::class,
         NoSetupWithParentCallOverrideRector::class,
         PreferPHPUnitThisCallRector::class,
+        RemoveDeadStmtRector::class => [
+            __DIR__ . '/Modules/Battletech/tests/Feature/Models/CharacterTest.php',
+        ],
+        RemoveUnusedVariableAssignRector::class => [
+            __DIR__ . '/Modules/Battletech/tests/Feature/Models/CharacterTest.php',
+        ],
         RepeatedAndNotEqualToNotInArrayRector::class,
         RepeatedOrEqualToInArrayRector::class,
         SimplifyIfElseToTernaryRector::class,

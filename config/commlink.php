@@ -10,6 +10,7 @@ return [
     'systems' => [
         'alien' => 'Alien',
         'avatar' => 'Avatar',
+        'battletech' => 'Battletech',
         'blistercritters' => 'Blister Critters',
         'capers' => 'Capers',
         'cyberpunkred' => 'Cyberpunk Red',
