@@ -13,7 +13,6 @@ use RuntimeException;
 class MartialArtsRequest extends FormRequest
 {
     /**
-     * Get the validation rules that apply to the request.
      * @return array<string, array<int, Closure|string>>
      */
     public function rules(): array

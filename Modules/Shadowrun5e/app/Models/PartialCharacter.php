@@ -19,7 +19,6 @@ class PartialCharacter extends Character implements Stringable
 
     /** @var string */
     protected $connection = 'mongodb';
-
     /** @var string */
     protected $table = 'characters-partial';
     /** @var array<string, array<int, string>> */
@@ -91,7 +90,7 @@ class PartialCharacter extends Character implements Stringable
     #[Override]
     protected static function newFactory(): Factory
     {
-        return PartialCharacterFactory::new();
+        return PartialCharacterFactory::new(); // @codeCoverageIgnore
     }
 
     #[Override]
