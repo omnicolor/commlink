@@ -42,7 +42,7 @@
     "name": "omnicolor/commlink",
     "prefer-stable": true,
     "require": {
-        "php": "^8.4",
+        "php": "^8.4.1",
         "ext-curl": "^7.34|^8.0",
         "ext-fileinfo": "*",
         "ext-mongodb": "^2.0",
