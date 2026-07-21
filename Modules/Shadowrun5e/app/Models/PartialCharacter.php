@@ -26,6 +26,8 @@ class PartialCharacter extends Character implements Stringable
     protected const int DEFAULT_MAX_ATTRIBUTE = 6;
 
     /** @var string */
+    protected $connection = 'mongodb';
+    /** @var string */
     protected $table = 'characters-partial';
 
     /** @var array<int|string, array<int, string>|string> */
@@ -99,7 +101,7 @@ class PartialCharacter extends Character implements Stringable
     #[Override]
     protected static function newFactory(): Factory
     {
-        return PartialCharacterFactory::new();
+        return PartialCharacterFactory::new(); // @codeCoverageIgnore
     }
 
     #[Override]

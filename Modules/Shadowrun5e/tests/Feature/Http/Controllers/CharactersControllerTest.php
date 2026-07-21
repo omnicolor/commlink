@@ -6,58 +6,83 @@ namespace Modules\Shadowrun5e\Tests\Feature\Http\Controllers;
 
 use App\Models\Campaign;
 use App\Models\User;
+use Modules\Shadowrun5e\Http\Controllers\CharactersController;
+use Modules\Shadowrun5e\Http\Requests\AttributesRequest;
+use Modules\Shadowrun5e\Http\Requests\BackgroundRequest;
+use Modules\Shadowrun5e\Http\Requests\KnowledgeSkillsRequest;
+use Modules\Shadowrun5e\Http\Requests\MartialArtsRequest;
+use Modules\Shadowrun5e\Http\Requests\QualitiesRequest;
+use Modules\Shadowrun5e\Http\Requests\RulesRequest;
+use Modules\Shadowrun5e\Http\Requests\SkillsRequest;
+use Modules\Shadowrun5e\Http\Requests\SocialRequest;
+use Modules\Shadowrun5e\Http\Requests\StandardPriorityRequest;
+use Modules\Shadowrun5e\Http\Requests\VitalsRequest;
+use Modules\Shadowrun5e\Http\Resources\CharacterResource;
 use Modules\Shadowrun5e\Models\ActiveSkill;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\KnowledgeSkill;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 use Override;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
 
-use function config;
+use function array_shift;
 use function route;
 
+#[CoversClass(AttributesRequest::class)]
+#[CoversClass(BackgroundRequest::class)]
+#[CoversClass(CharacterResource::class)]
+#[CoversClass(CharactersController::class)]
+#[CoversClass(KnowledgeSkillsRequest::class)]
+#[CoversClass(MartialArtsRequest::class)]
+#[CoversClass(QualitiesRequest::class)]
+#[CoversClass(RulesRequest::class)]
+#[CoversClass(SkillsRequest::class)]
+#[CoversClass(SocialRequest::class)]
+#[CoversClass(StandardPriorityRequest::class)]
+#[CoversClass(VitalsRequest::class)]
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Medium]
 final class CharactersControllerTest extends TestCase
 {
     #[Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed();
+        Character::where('system', 'shadowrun5e')->delete();
     }
 
+    #[Test]
+    #[TestDox('Unauthenticated users can not view characters index')]
     public function testUnauthenticated(): void
     {
         self::getJson(route('shadowrun5e.characters.index'))
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading Shadowrun 5E characters if authenticated but the user
-     * doesn't have any characters.
-     */
+    #[Test]
+    #[TestDox('Loading Shadowrun 5E characters returns an empty data array for users without characters')]
     public function testAuthenticatedNoCharacters(): void
     {
-        $user = User::factory()->create();
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->getJson(route('shadowrun5e.characters.index'))
             ->assertOk()
             ->assertJson(['data' => []]);
     }
 
-    /**
-     * Test loading Shadowrun 5E characters if authenticated, but all of the
-     * user's characters are for different systems.
-     */
+    #[Test]
+    #[TestDox('Characters from other systems do not show in Shadowrun 5E characters index')]
     public function testAuthenticatedNoCharactersFromSystem(): void
     {
         $user = User::factory()->create();
 
-        $character = Character::factory()->create([
+        Character::factory()->create([
             'owner' => $user->email->address,
             'system' => 'cyberpunkred',
         ]);
@@ -66,26 +91,15 @@ final class CharactersControllerTest extends TestCase
             ->getJson(route('shadowrun5e.characters.index'))
             ->assertOk()
             ->assertJson(['data' => []]);
-
-        $character->delete();
     }
 
-    /**
-     * Test loading Shadowrun 5E characters if authenticated, and the user has
-     * a character for SR5E (in addition to another system).
-     */
+    #[Test]
+    #[TestDox('Shadowrun 5E characters appear in Shadowrun 5E characters index')]
     public function testAuthenticatedWithSR5ECharacter(): void
     {
         $user = User::factory()->create();
-
-        $character1 = Character::factory()->create([
-            'owner' => $user->email->address,
-            'system' => 'shadowrun6e',
-        ]);
-
         $character2 = Character::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -100,34 +114,26 @@ final class CharactersControllerTest extends TestCase
                 ],
                 'system' => 'shadowrun5e',
             ]);
-
-        $character1->delete();
-        $character2->delete();
     }
 
-    /**
-     * Test listing a user's Shadowrun characters.
-     */
+    #[Test]
+    #[TestDox('Users with no characters show an empty characters page')]
     public function testListCharactersIfTheyHaveNone(): void
     {
-        $user = User::factory()->create();
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->get(route('shadowrun5e.characters'))
             ->assertSee('You don\'t have any characters!', false)
             ->assertSee('Shadowrun 5E Characters');
     }
 
-    /**
-     * Test loading an individual character, verifying that keys are correctly
-     * converted to snake_case.
-     */
+    #[Test]
+    #[TestDox('Shadowrun 5E sum-to-ten characters appear with correct JSON keys')]
     public function testShowCharacterSumToTen(): void
     {
         $user = User::factory()->create();
 
         $character = Character::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
             'priorities' => [
                 'metatype' => 'dwarf',
                 'metatypePriority' => 'C',
@@ -141,7 +147,7 @@ final class CharactersControllerTest extends TestCase
         ]);
 
         self::actingAs($user)
-            ->getJson(route('shadowrun5e.characters.show', $character->id))
+            ->getJson(route('shadowrun5e.characters.show', $character))
             ->assertOk()
             ->assertJsonFragment([
                 'id' => $character->_id,
@@ -162,17 +168,16 @@ final class CharactersControllerTest extends TestCase
                 ],
                 'system' => 'shadowrun5e',
             ]);
-
-        $character->delete();
     }
 
+    #[Test]
+    #[TestDox('Standard priority Shadowrun 5E characters are converted to JSON correctly')]
     public function testShowCharacterStandard(): void
     {
         $user = User::factory()->create();
 
         $character = Character::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
             'priorities' => [
                 'a' => 'attributes',
                 'b' => 'skills',
@@ -186,7 +191,7 @@ final class CharactersControllerTest extends TestCase
         ]);
 
         self::actingAs($user)
-            ->getJson(route('shadowrun5e.characters.show', $character->id))
+            ->getJson(route('shadowrun5e.characters.show', $character))
             ->assertOk()
             ->assertJsonFragment([
                 'id' => $character->_id,
@@ -207,13 +212,10 @@ final class CharactersControllerTest extends TestCase
                 ],
                 'system' => 'shadowrun5e',
             ]);
-
-        $character->delete();
     }
 
-    /**
-     * Test loading an individual character from a different system.
-     */
+    #[Test]
+    #[TestDox('Showing a character from another system returns a 404')]
     public function testShowCharacterOtherSystem(): void
     {
         $user = User::factory()->create();
@@ -223,101 +225,85 @@ final class CharactersControllerTest extends TestCase
         ]);
 
         self::actingAs($user)
-            ->getJson(route('shadowrun5e.characters.show', $character->id))
+            ->getJson(route('shadowrun5e.characters.show', $character))
             ->assertNotFound();
-
-        $character->delete();
     }
 
-    /**
-     * Test loading a character view.
-     */
+    #[Test]
+    #[TestDox('Users can view Shadowrun 5E characters')]
     public function testViewCharacter(): void
     {
         $user = User::factory()->create();
 
         $character = Character::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
-            ->get(route('shadowrun5e.character', $character->id))
+            ->get(route('shadowrun5e.character', $character))
             ->assertSee($character->handle);
-
-        $character->delete();
     }
 
-    /**
-     * Test trying to view a partial character without being logged in.
-     */
+    #[Test]
+    #[TestDox('Unauthenticated users can view Shadowrun 5E characters')]
     public function testViewPartialCharacterNoLogin(): void
     {
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
-        self::get(route('shadowrun5e.character', $character->id))
+        self::get(route('shadowrun5e.character', $character))
             ->assertOk()
             ->assertSee($character->handle);
-
-        $character->delete();
     }
 
-    /**
-     * Test trying to resume building a new character.
-     */
+    #[Test]
+    #[TestDox('Users can resume char gen for a partial character')]
     public function testCreateResumeCharacter(): void
     {
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
             ->get(route('shadowrun5e.create', $character->id))
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/rules');
-
-        $character->delete();
+            ->assertRedirectToRoute('shadowrun5e.create', 'rules');
     }
 
-    /**
-     * Test trying to create a brand new character.
-     */
+    #[Test]
+    #[TestDox('Users can create a new Shadowrun 5E character')]
     public function testCreateNewCharacter(): void
     {
         $user = User::factory()->create();
 
-        $characters = PartialCharacter::where('owner', $user->email->address)->get();
+        $characters = PartialCharacter::where('owner', $user->email->address)
+            ->get();
         self::assertCount(0, $characters);
         self::actingAs($user)
             ->get(route('shadowrun5e.create'))
             ->assertOk()
             ->assertSee('Rules');
 
-        $characters = PartialCharacter::where('owner', $user->email->address)->get();
+        $characters = PartialCharacter::where('owner', $user->email->address)
+            ->get();
         self::assertNotNull($characters[0]);
-
-        $characters[0]->delete();
     }
 
-    /**
-     * Test trying to resume building a character if the user has multiple.
-     */
+    #[Test]
+    #[TestDox('Users can choose which partially created character to resume building')]
     public function testCreateNewCharacterChoose(): void
     {
         $user = User::factory()->create();
 
-        $character1 = PartialCharacter::factory()->create([
+        PartialCharacter::factory()->create([
             'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
-        $character2 = PartialCharacter::factory()->create([
+        PartialCharacter::factory()->create([
             'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
@@ -326,32 +312,22 @@ final class CharactersControllerTest extends TestCase
             ->get(route('shadowrun5e.create'))
             ->assertOk()
             ->assertSee('Choose character');
-
-        $character1->delete();
-        $character2->delete();
     }
 
-    /**
-     * Test choosing rules for a new character without sending any.
-     */
+    #[Test]
+    #[TestDox('Users must choose rules for a new Shadowrun 5E character')]
     public function testCreateRulesMissingFields(): void
     {
-        $user = User::factory()->create();
-
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->post(route('shadowrun5e.create-rules'), [])
             ->assertSessionHasErrors(['gameplay', 'nav', 'rulebook', 'system']);
     }
 
-    /**
-     * Test choosing rules for a new character without including the core
-     * rulebook.
-     */
+    #[Test]
+    #[TestDox('Users can not create a Shadowrun 5E character without the core rulebook')]
     public function testCreateRulesNoCoreBook(): void
     {
-        $user = User::factory()->create();
-
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->post(
                 route('shadowrun5e.create-rules'),
                 [
@@ -366,14 +342,11 @@ final class CharactersControllerTest extends TestCase
             ]);
     }
 
-    /**
-     * Test choosing rules for a new character without starting the character.
-     */
+    #[Test]
+    #[TestDox('Users can not skip the initial character creation step')]
     public function testCreateRulesNoCharacter(): void
     {
-        $user = User::factory()->create();
-
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->post(
                 route('shadowrun5e.create-rules'),
                 [
@@ -387,16 +360,14 @@ final class CharactersControllerTest extends TestCase
             ->assertNotFound();
     }
 
-    /**
-     * Test choosing rules for a new character.
-     */
+    #[Test]
+    #[TestDox('Users can choose rules, gameplay, and priority for a new character')]
     public function testCreateRules(): void
     {
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -411,9 +382,7 @@ final class CharactersControllerTest extends TestCase
                 ]
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(
-                config('app.url') . '/characters/shadowrun5e/create/priorities'
-            );
+            ->assertRedirectToRoute('shadowrun5e.create', 'priorities');
 
         $character->refresh();
         self::assertNotNull($character->priorities);
@@ -421,35 +390,27 @@ final class CharactersControllerTest extends TestCase
         self::assertSame('priority', $character->priorities['system']);
         self::assertSame('established', $character->priorities['gameplay']);
         self::assertSame('core', $character->priorities['rulebooks']);
-
-        $character->delete();
     }
 
-    /**
-     * Test trying to choose priorities without setting the rules.
-     */
+    #[Test]
+    #[TestDox('Users must choose rules before setting priorities for a new character')]
     public function testLoadPrioritiesPageWithNoRules(): void
     {
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
             ->withSession(['shadowrun5e-partial' => $character->id])
             ->get(route('shadowrun5e.create', 'priorities'))
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/rules')
+            ->assertRedirectToRoute('shadowrun5e.create', 'rules')
             ->assertSessionHasErrors();
-
-        $character->delete();
     }
 
-    /**
-     * Test trying to load the priorities page for a character that has set up
-     * the rules.
-     */
+    #[Test]
+    #[TestDox('Loading the priorities page in char gen without rules redirects to the rules page')]
     public function testLoadPrioritiesPageInvalidCharGenSystem(): void
     {
         $user = User::factory()->create();
@@ -461,22 +422,17 @@ final class CharactersControllerTest extends TestCase
                 'rulebooks' => 'core,forbidden-arcana',
                 'system' => 'sum-to-ten',
             ],
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
             ->withSession(['shadowrun5e-partial' => $character->id])
             ->get(route('shadowrun5e.create', 'priorities'))
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/rules')
+            ->assertRedirectToRoute('shadowrun5e.create', 'rules')
             ->assertSessionHasErrors();
-
-        $character->delete();
     }
 
-    /**
-     * Test trying to load the priorities page for a character that has set up
-     * the rules.
-     */
+    #[Test]
+    #[TestDox('Users can load priorities page for partial characters')]
     public function testLoadPrioritiesPage(): void
     {
         $user = User::factory()->create();
@@ -488,7 +444,6 @@ final class CharactersControllerTest extends TestCase
                 'rulebooks' => 'core,forbidden-arcana',
                 'system' => 'priority',
             ],
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -499,18 +454,13 @@ final class CharactersControllerTest extends TestCase
             ->assertSee('Standard priority')
             ->assertSee('Previous: Rules')
             ->assertSee('Next: Vitals');
-
-        $character->delete();
     }
 
-    /**
-     * Test storing priorities without sending any.
-     */
+    #[Test]
+    #[TestDox('Users can not leave priorities blank during character generation')]
     public function testStorePrioritiesNoData(): void
     {
-        $user = User::factory()->create();
-
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->post(route('shadowrun5e.create-standard'), [])
             ->assertSessionHasErrors([
                 'metatype' => 'The metatype field is required.',
@@ -522,14 +472,11 @@ final class CharactersControllerTest extends TestCase
             ]);
     }
 
-    /**
-     * Test storing priorities with invalid values.
-     */
+    #[Test]
+    #[TestDox('Users can not choose invalid priorities during character generation')]
     public function testStorePrioritiesInvalidValues(): void
     {
-        $user = User::factory()->create();
-
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->post(
                 route('shadowrun5e.create-standard'),
                 [
@@ -552,14 +499,11 @@ final class CharactersControllerTest extends TestCase
             ]);
     }
 
-    /**
-     * Test storing priorities with an invalid magic combination.
-     */
+    #[Test]
+    #[TestDox('Users can not choose both magician and magic at priority E')]
     public function testStorePrioritiesInvalidMagic(): void
     {
-        $user = User::factory()->create();
-
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->post(
                 route('shadowrun5e.create-standard'),
                 [
@@ -572,36 +516,28 @@ final class CharactersControllerTest extends TestCase
             ]);
     }
 
-    /**
-     * Test storing priorities with a priority level that requires choosing
-     * an awakened discipline.
-     */
+    #[Test]
+    #[TestDox('storing priorities with a priority level that requires choosing an awakened discipline fails without the magic field')]
     public function testStorePrioritiesWithoutMagic(): void
     {
-        $user = User::factory()->create();
-
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->post(
                 route('shadowrun5e.create-standard'),
-                [
-                    'priority-a' => 'magic',
-                ]
+                ['priority-a' => 'magic']
             )
             ->assertSessionHasErrors([
                 'magic' => 'The magic field is required.',
             ]);
     }
 
-    /**
-     * Test storing some valid priorities.
-     */
+    #[Test]
+    #[TestDox('Users can store valid priorities for new Shadowrun 5E characters')]
     public function testStorePriorities(): void
     {
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -620,7 +556,7 @@ final class CharactersControllerTest extends TestCase
                 ]
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/vitals');
+            ->assertRedirectToRoute('shadowrun5e.create', 'vitals');
 
         $character->refresh();
         self::assertSame(
@@ -635,20 +571,16 @@ final class CharactersControllerTest extends TestCase
             ],
             $character->priorities
         );
-
-        $character->delete();
     }
 
-    /**
-     * Test loading the vitals page.
-     */
+    #[Test]
+    #[TestDox('Users can load the vitals page for a new character')]
     public function testLoadVitals(): void
     {
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -660,32 +592,25 @@ final class CharactersControllerTest extends TestCase
             ->assertSee('Real name')
             ->assertSee('Next: Attributes')
             ->assertSee('Previous: Priorities');
-
-        $character->delete();
     }
 
-    /**
-     * Test storing vitals without sending any.
-     */
+    #[Test]
+    #[TestDox('Users can not submit vitals without a handle for the runner')]
     public function testStoreVitalsNoData(): void
     {
-        $user = User::factory()->create();
-
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->post(route('shadowrun5e.create-vitals'), [])
             ->assertSessionHasErrors(['handle']);
     }
 
-    /**
-     * Test storing vitals for a character.
-     */
+    #[Test]
+    #[TestDox('Users can store vitals for new Shadowrun 5E characters')]
     public function testStoreVitals(): void
     {
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -706,7 +631,7 @@ final class CharactersControllerTest extends TestCase
                 ]
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/attributes');
+            ->assertRedirectToRoute('shadowrun5e.create', 'attributes');
 
         $character->refresh();
         self::assertSame(
@@ -723,8 +648,6 @@ final class CharactersControllerTest extends TestCase
         );
         self::assertSame('Slamm-O', $character->handle);
         self::assertSame('Bob Smith', $character->realName);
-
-        $character->delete();
     }
 
     /**
@@ -743,7 +666,6 @@ final class CharactersControllerTest extends TestCase
                 'metatype' => 'human',
             ],
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -753,8 +675,6 @@ final class CharactersControllerTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertSee('Previous: Vitals')
             ->assertSee('Next: Qualities');
-
-        $character->delete();
     }
 
     /**
@@ -762,9 +682,7 @@ final class CharactersControllerTest extends TestCase
      */
     public function testStoreAttributesNoData(): void
     {
-        $user = User::factory()->create();
-
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->post(route('shadowrun5e.create-attributes'), [])
             ->assertSessionHasErrors([
                 'agility',
@@ -779,16 +697,14 @@ final class CharactersControllerTest extends TestCase
             ]);
     }
 
-    /**
-     * Test storing attributes.
-     */
+    #[Test]
+    #[TestDox('Users can store attributes for new Shadowrun 5E characters')]
     public function testStoreAttributes(): void
     {
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -811,7 +727,7 @@ final class CharactersControllerTest extends TestCase
                 ]
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/qualities');
+            ->assertRedirectToRoute('shadowrun5e.create', 'qualities');
 
         $character->refresh();
         self::assertSame(1, $character->agility);
@@ -824,8 +740,6 @@ final class CharactersControllerTest extends TestCase
         self::assertSame(2, $character->willpower);
         self::assertNull($character->magic);
         self::assertNull($character->resonance);
-
-        $character->delete();
     }
 
     /**
@@ -843,7 +757,6 @@ final class CharactersControllerTest extends TestCase
                     'id' => 'lucky',
                 ],
             ],
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -854,8 +767,6 @@ final class CharactersControllerTest extends TestCase
             ->assertSee('Lucky')
             ->assertSee('Previous: Attributes')
             ->assertSee('Next: Skills');
-
-        $character->delete();
     }
 
     /**
@@ -870,7 +781,6 @@ final class CharactersControllerTest extends TestCase
             'priorities' => [
                 'rulebooks' => 'core,run-and-gun',
             ],
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -880,8 +790,6 @@ final class CharactersControllerTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertSee('Previous: Attributes')
             ->assertSee('Next: Martial-arts');
-
-        $character->delete();
     }
 
     /**
@@ -889,8 +797,7 @@ final class CharactersControllerTest extends TestCase
      */
     public function testStoreQualitiesNotFound(): void
     {
-        $user = User::factory()->create();
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->post(
                 route('shadowrun5e.create-qualities'),
                 [
@@ -931,7 +838,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -944,14 +850,12 @@ final class CharactersControllerTest extends TestCase
                 ]
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/skills');
+            ->assertRedirectToRoute('shadowrun5e.create', 'skills');
 
         $character->refresh();
         $qualities = $character->getQualities();
         self::assertNotNull($qualities[0]);
         self::assertSame('Impassive', $qualities[0]->name);
-
-        $character->delete();
     }
 
     /**
@@ -963,7 +867,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -978,14 +881,12 @@ final class CharactersControllerTest extends TestCase
                 ]
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/skills');
+            ->assertRedirectToRoute('shadowrun5e.create', 'skills');
 
         $character->refresh();
         $qualities = $character->getQualities();
         self::assertNotNull($qualities[0]);
         self::assertSame('Allergy (Uncommon Mild - hay and grass)', $qualities[0]->name);
-
-        $character->delete();
     }
 
     /**
@@ -997,7 +898,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1012,14 +912,12 @@ final class CharactersControllerTest extends TestCase
                 ]
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/attributes');
+            ->assertRedirectToRoute('shadowrun5e.create', 'attributes');
 
         $character->refresh();
         $qualities = $character->getQualities();
         self::assertNotNull($qualities[0]);
         self::assertSame('Addiction (Mild - alcohol)', $qualities[0]->name);
-
-        $character->delete();
     }
 
     /**
@@ -1031,7 +929,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1063,20 +960,18 @@ final class CharactersControllerTest extends TestCase
                 ]
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/augmentations');
+            ->assertRedirectToRoute('shadowrun5e.create', 'augmentations');
 
         $character->refresh();
         $skills = $character->getKnowledgeSkills();
         self::assertCount(3, $skills);
 
-        /** @var KnowledgeSkill */
+        /** @var KnowledgeSkill $skill */
         $skill = $skills[0];
         self::assertSame('interests', $skill->category);
         self::assertSame('Alcohol', $skill->name);
         self::assertSame(1, $skill->level);
         self::assertNull($skill->specialization);
-
-        $character->delete();
     }
 
     /**
@@ -1089,16 +984,13 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
             ->withSession(['shadowrun5e-partial' => $character->id])
             ->get(route('shadowrun5e.create', 'martial-arts'))
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/rules')
+            ->assertRedirectToRoute('shadowrun5e.create', 'rules')
             ->assertSessionHasErrors();
-
-        $character->delete();
     }
 
     /**
@@ -1118,7 +1010,6 @@ final class CharactersControllerTest extends TestCase
                 ],
             ],
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1128,8 +1019,6 @@ final class CharactersControllerTest extends TestCase
             ->assertSee('Aikido')
             ->assertSee('Previous: Qualities')
             ->assertSee('Next: Skills');
-
-        $character->delete();
     }
 
     /**
@@ -1137,9 +1026,7 @@ final class CharactersControllerTest extends TestCase
      */
     public function testStoreMartialArtsStyleInvalid(): void
     {
-        $user = User::factory()->create();
-
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->post(
                 route('shadowrun5e.create-martial-arts'),
                 ['style' => 'not-found'],
@@ -1154,9 +1041,7 @@ final class CharactersControllerTest extends TestCase
      */
     public function testStoreMartialArtsTechniqueInvalid(): void
     {
-        $user = User::factory()->create();
-
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->post(
                 route('shadowrun5e.create-martial-arts'),
                 [
@@ -1180,7 +1065,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1197,7 +1081,7 @@ final class CharactersControllerTest extends TestCase
                 ]
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/skills');
+            ->assertRedirectToRoute('shadowrun5e.create', 'skills');
 
         $character->refresh();
         $styles = $character->getMartialArtsStyles();
@@ -1208,8 +1092,6 @@ final class CharactersControllerTest extends TestCase
         self::assertSame('Called Shot', $techniques[0]->name);
         self::assertNotNull($techniques[1]);
         self::assertSame('Constrictor\'s Crush', $techniques[1]->name);
-
-        $character->delete();
     }
 
     /**
@@ -1225,7 +1107,6 @@ final class CharactersControllerTest extends TestCase
                 'techniques' => ['called-shot-disarm'],
             ],
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1235,15 +1116,13 @@ final class CharactersControllerTest extends TestCase
                 ['nav' => 'prev']
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/qualities');
+            ->assertRedirectToRoute('shadowrun5e.create', 'qualities');
 
         $character->refresh();
         $styles = $character->getMartialArtsStyles();
         $techniques = $character->getMartialArtsTechniques();
         self::assertCount(0, $styles);
         self::assertCount(0, $techniques);
-
-        $character->delete();
     }
 
     /**
@@ -1266,7 +1145,6 @@ final class CharactersControllerTest extends TestCase
                     'level' => 4,
                 ],
             ],
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1277,15 +1155,13 @@ final class CharactersControllerTest extends TestCase
             ->assertSee('+2 AK-97')
             ->assertSee('Previous: Qualities')
             ->assertSee('Next: Knowledge');
-
-        $character->delete();
     }
 
     /**
      * Test loading the skills page without any skills, but with Run and Gun
      * enabled.
      */
-    public function testLaodASkillsPageNoSkills(): void
+    public function testLoadASkillsPageNoSkills(): void
     {
         $user = User::factory()->create();
 
@@ -1294,7 +1170,6 @@ final class CharactersControllerTest extends TestCase
             'priorities' => [
                 'rulebooks' => 'core,run-and-gun',
             ],
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1303,8 +1178,6 @@ final class CharactersControllerTest extends TestCase
             ->assertOk()
             ->assertSee('Previous: Martial-arts')
             ->assertSee('Next: Knowledge');
-
-        $character->delete();
     }
 
     /**
@@ -1312,9 +1185,7 @@ final class CharactersControllerTest extends TestCase
      */
     public function testStoreSkillsInvalidGroup(): void
     {
-        $user = User::factory()->create();
-
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->post(
                 route('shadowrun5e.create-skills'),
                 [
@@ -1337,9 +1208,7 @@ final class CharactersControllerTest extends TestCase
      */
     public function testStoreSkillsInvalidSkill(): void
     {
-        $user = User::factory()->create();
-
-        self::actingAs($user)
+        self::actingAs(User::factory()->create())
             ->post(
                 route('shadowrun5e.create-skills'),
                 [
@@ -1366,7 +1235,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1395,7 +1263,7 @@ final class CharactersControllerTest extends TestCase
                 ]
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/knowledge');
+            ->assertRedirectToRoute('shadowrun5e.create', 'knowledge');
 
         $character->refresh();
         $groups = $character->getSkillGroups();
@@ -1403,25 +1271,21 @@ final class CharactersControllerTest extends TestCase
 
         $skills = (array)$character->getSkills();
 
-        /** @var ActiveSkill */
+        /** @var ActiveSkill $skill */
         $skill = array_shift($skills);
         self::assertSame('Blades', $skill->name);
         self::assertSame(1, $skill->level);
         self::assertNull($skill->specialization);
 
-        /** @var ActiveSkill */
+        /** @var ActiveSkill $skill */
         $skill = array_shift($skills);
         self::assertSame('Automatics', $skill->name);
         self::assertSame(2, $skill->level);
         self::assertSame('AK-97', $skill->specialization);
-
-        $character->delete();
     }
 
-    /**
-     * Test loading the knowledge skills page, with a mundane character
-     * (testing navigation).
-     */
+    #[Test]
+    #[TestDox('A mundane character shows the correct next link on the knowledge page')]
     public function testLoadKnowledgeSkillsMundane(): void
     {
         $user = User::factory()->create();
@@ -1435,7 +1299,6 @@ final class CharactersControllerTest extends TestCase
                 ],
             ],
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1446,8 +1309,6 @@ final class CharactersControllerTest extends TestCase
             ->assertSee('Next: Augmentations')
             ->assertDontSee('Next: Magic')
             ->assertDontSee('Next: Resonance');
-
-        $character->delete();
     }
 
     /**
@@ -1463,7 +1324,6 @@ final class CharactersControllerTest extends TestCase
                 'magic' => 'magician',
             ],
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1473,8 +1333,6 @@ final class CharactersControllerTest extends TestCase
             ->assertDontSee('Next: Augmentations')
             ->assertSee('Next: Magic')
             ->assertDontSee('Next: Resonance');
-
-        $character->delete();
     }
 
     /**
@@ -1489,7 +1347,6 @@ final class CharactersControllerTest extends TestCase
                 'magic' => 'technomancer',
             ],
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1499,8 +1356,6 @@ final class CharactersControllerTest extends TestCase
             ->assertDontSee('Next: Augmentations')
             ->assertDontSee('Next: Magic')
             ->assertSee('Next: Resonance');
-
-        $character->delete();
     }
 
     /**
@@ -1512,7 +1367,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1520,8 +1374,6 @@ final class CharactersControllerTest extends TestCase
             ->get(route('shadowrun5e.create', 'magic'))
             ->assertRedirect(route('shadowrun5e.create', 'priority'))
             ->assertSessionHasErrors();
-
-        $character->delete();
     }
 
     /**
@@ -1536,7 +1388,6 @@ final class CharactersControllerTest extends TestCase
                 'magic' => 'magician',
             ],
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1545,8 +1396,6 @@ final class CharactersControllerTest extends TestCase
             ->assertOk()
             ->assertSee('Next: Augmentations')
             ->assertSee('Previous: Knowledge');
-
-        $character->delete();
     }
 
     /**
@@ -1558,7 +1407,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1566,8 +1414,6 @@ final class CharactersControllerTest extends TestCase
             ->get(route('shadowrun5e.create', 'resonance'))
             ->assertRedirect(route('shadowrun5e.create', 'priority'))
             ->assertSessionHasErrors();
-
-        $character->delete();
     }
 
     /**
@@ -1582,7 +1428,6 @@ final class CharactersControllerTest extends TestCase
                 'magic' => 'technomancer',
             ],
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1591,8 +1436,6 @@ final class CharactersControllerTest extends TestCase
             ->assertOk()
             ->assertSee('Next: Augmentations')
             ->assertSee('Previous: Knowledge');
-
-        $character->delete();
     }
 
     /**
@@ -1609,7 +1452,6 @@ final class CharactersControllerTest extends TestCase
                 ],
             ],
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1617,11 +1459,9 @@ final class CharactersControllerTest extends TestCase
             ->get(route('shadowrun5e.create', 'augmentations'))
             ->assertOk()
             ->assertSessionHasNoErrors()
-            //->assertSee('Bone Lacing')
+            ->assertSee('Bone Lacing')
             ->assertSee('Previous: Knowledge')
             ->assertSee('Next: Weapons');
-
-        $character->delete();
     }
 
     /**
@@ -1636,7 +1476,6 @@ final class CharactersControllerTest extends TestCase
                 'magic' => 'magician',
             ],
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1645,8 +1484,6 @@ final class CharactersControllerTest extends TestCase
             ->assertOk()
             ->assertSee('Next: Weapons')
             ->assertSee('Previous: Magic');
-
-        $character->delete();
     }
 
     /**
@@ -1661,7 +1498,6 @@ final class CharactersControllerTest extends TestCase
                 'magic' => 'technomancer',
             ],
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1670,8 +1506,6 @@ final class CharactersControllerTest extends TestCase
             ->assertOk()
             ->assertSee('Previous: Resonance')
             ->assertSee('Next: Weapons');
-
-        $character->delete();
     }
 
     /**
@@ -1683,7 +1517,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
             'weapons' => [
                 ['id' => 'ak-98'],
             ],
@@ -1694,11 +1527,9 @@ final class CharactersControllerTest extends TestCase
             ->get(route('shadowrun5e.create', 'weapons'))
             ->assertOk()
             ->assertSessionHasNoErrors()
-            //->assertSee('AK-98')
+            ->assertSee('AK-98')
             ->assertSee('Previous: Augmentations')
             ->assertSee('Next: Armor');
-
-        $character->delete();
     }
 
     /**
@@ -1713,7 +1544,6 @@ final class CharactersControllerTest extends TestCase
                 ['id' => 'armor-jacket'],
             ],
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1721,11 +1551,8 @@ final class CharactersControllerTest extends TestCase
             ->get(route('shadowrun5e.create', 'armor'))
             ->assertOk()
             ->assertSessionHasNoErrors()
-            //->assertSee('Armor Jacket')
             ->assertSee('Previous: Weapons')
             ->assertSee('Next: Gear');
-
-        $character->delete();
     }
 
     /**
@@ -1740,7 +1567,6 @@ final class CharactersControllerTest extends TestCase
                 ['id' => 'ear-buds-1'],
             ],
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1748,11 +1574,9 @@ final class CharactersControllerTest extends TestCase
             ->get(route('shadowrun5e.create', 'gear'))
             ->assertOk()
             ->assertSessionHasNoErrors()
-            //->assertSee('Ear Buds')
+            ->assertSee('Ear Buds')
             ->assertSee('Previous: Armor')
             ->assertSee('Next: Vehicles');
-
-        $character->delete();
     }
 
     /**
@@ -1764,7 +1588,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
             'vehicles' => [
                 ['id' => 'dodge-scoot'],
             ],
@@ -1775,11 +1598,8 @@ final class CharactersControllerTest extends TestCase
             ->get(route('shadowrun5e.create', 'vehicles'))
             ->assertOk()
             ->assertSessionHasNoErrors()
-            //->assertSee('Dodge Scoot')
             ->assertSee('Previous: Gear')
             ->assertSee('Next: Social');
-
-        $character->delete();
     }
 
     /**
@@ -1791,7 +1611,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1801,8 +1620,6 @@ final class CharactersControllerTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertSee('Previous: Vehicles')
             ->assertSee('Next: Background');
-
-        $character->delete();
     }
 
     public function testLoadSocialFriendsInHighPlaces(): void
@@ -1814,15 +1631,12 @@ final class CharactersControllerTest extends TestCase
             'qualities' => [
                 ['id' => 'friends-in-high-places'],
             ],
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
             ->withSession(['shadowrun5e-partial' => $character->id])
             ->get(route('shadowrun5e.create', 'social'))
             ->assertSee('Friends in High Places');
-
-        $character->delete();
     }
 
     public function testStoreSocial(): void
@@ -1831,7 +1645,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         $contacts = [
@@ -1859,11 +1672,10 @@ final class CharactersControllerTest extends TestCase
                 $contacts,
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(route('shadowrun5e.create', 'background'));
+            ->assertRedirectToRoute('shadowrun5e.create', 'background');
 
         $character->refresh();
         self::assertCount(1, (array)$character->contacts);
-        $character->delete();
     }
 
     /**
@@ -1875,7 +1687,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1885,8 +1696,6 @@ final class CharactersControllerTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertSee('Previous: Social')
             ->assertSee('Next: Review');
-
-        $character->delete();
     }
 
     /**
@@ -1899,7 +1708,6 @@ final class CharactersControllerTest extends TestCase
         $character = PartialCharacter::factory()->create([
             'background' => ['gender' => 'male'],
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         $background = [
@@ -1930,7 +1738,7 @@ final class CharactersControllerTest extends TestCase
             ->withSession(['shadowrun5e-partial' => $character->id])
             ->post(route('shadowrun5e.create-background'), $background)
             ->assertSessionHasNoErrors()
-            ->assertRedirect(route('shadowrun5e.create', 'review'));
+            ->assertRedirectToRoute('shadowrun5e.create', 'review');
 
         $character->refresh();
 
@@ -1940,8 +1748,6 @@ final class CharactersControllerTest extends TestCase
         $background = ['gender' => 'male'] + $background;
 
         self::assertSame($background, $character->background);
-
-        $character->delete();
     }
 
     /**
@@ -1953,7 +1759,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -1963,8 +1768,6 @@ final class CharactersControllerTest extends TestCase
             //->assertSee('Previous: Background')
             //->assertSee('Next: Save')
             ->assertSessionHasNoErrors();
-
-        $character->delete();
     }
 
     public function testSaveForLater(): void
@@ -1973,17 +1776,14 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
             ->withSession(['shadowrun5e-partial' => $character->id])
             ->get(route('shadowrun5e.save-for-later'))
-            ->assertRedirect(route('dashboard'))
+            ->assertRedirectToRoute('dashboard')
             ->assertSessionMissing('shadowrun5e-partial')
             ->assertSessionHasNoErrors();
-
-        $character->delete();
     }
 
     /**
@@ -1995,14 +1795,11 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
         self::actingAs($user)
             ->withSession(['shadowrun5e-partial' => $character->id])
             ->get(route('shadowrun5e.create', 'unknown'))
             ->assertNotFound();
-
-        $character->delete();
     }
 
     /**
@@ -2014,7 +1811,6 @@ final class CharactersControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
-            'system' => 'shadowrun5e',
         ]);
 
         self::actingAs($user)
@@ -2028,8 +1824,6 @@ final class CharactersControllerTest extends TestCase
                     return $value !== $character->id;
                 }
             );
-
-        $character->delete();
     }
 
     /**
@@ -2037,12 +1831,9 @@ final class CharactersControllerTest extends TestCase
      */
     public function testUpdateUnauthenticated(): void
     {
-        /** @var Character */
         $character = Character::factory()->create([]);
         self::patchJson(route('shadowrun5e.characters.update', $character))
             ->assertUnauthorized();
-
-        $character->delete();
     }
 
     /**
@@ -2052,15 +1843,12 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        /** @var Character */
         $character = Character::factory()->create([]);
 
         self::actingAs($user)
             ->patchJson(route('shadowrun5e.characters.update', $character))
             ->assertForbidden()
             ->assertSee('Only characters in campaigns can be updated this way');
-
-        $character->delete();
     }
 
     /**
@@ -2070,19 +1858,13 @@ final class CharactersControllerTest extends TestCase
     public function testUpdateNotGm(): void
     {
         $user = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
-
-        /** @var Character */
         $character = Character::factory()->create(['campaign_id' => $campaign]);
 
         self::actingAs($user)
             ->patchJson(route('shadowrun5e.characters.update', $character))
             ->assertForbidden()
             ->assertSee('You can not update another user\'s character', false);
-
-        $character->delete();
     }
 
     /**
@@ -2092,21 +1874,17 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user->id,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create(['campaign_id' => $campaign]);
 
         self::actingAs($user)
             ->patch(route('shadowrun5e.characters.update', $character))
             ->assertBadRequest()
             ->assertSee('Unable to extract patch operations from \'null\'', true);
-
-        $character->delete();
     }
 
     /**
@@ -2117,13 +1895,11 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user->id,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create(['campaign_id' => $campaign]);
 
         self::actingAs($user)
@@ -2140,8 +1916,6 @@ final class CharactersControllerTest extends TestCase
             )
             ->assertBadRequest()
             ->assertSee('No operation set for patch operation');
-
-        $character->delete();
     }
 
     /**
@@ -2151,13 +1925,11 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user->id,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'campaign_id' => $campaign,
         ]);
@@ -2177,24 +1949,19 @@ final class CharactersControllerTest extends TestCase
             )
             ->assertBadRequest()
             ->assertSee('Pointer starts with invalid character');
-
-        $character->delete();
     }
 
-    /**
-     * Test killing a character with stun damage.
-     */
+    #[Test]
+    #[TestDox('Giving a character enough stun damage will kill them')]
     public function testUpdateLotsOfStun(): void
     {
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user->id,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'body' => 4,
             'campaign_id' => $campaign,
@@ -2226,7 +1993,5 @@ final class CharactersControllerTest extends TestCase
                     'damage_stun' => 10,
                 ],
             ]);
-
-        $character->delete();
     }
 }

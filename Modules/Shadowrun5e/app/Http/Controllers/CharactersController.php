@@ -62,9 +62,6 @@ use function sort;
 use function sprintf;
 use function view;
 
-/**
- * Controller for interacting with Shadowrun 5E characters.
- */
 class CharactersController extends Controller
 {
     /**
@@ -74,61 +71,48 @@ class CharactersController extends Controller
         string $step,
         PartialCharacter $character
     ): ?string {
-        switch ($step) {
-            case 'armor':
-                return 'gear';
-            case 'attributes':
-                return 'qualities';
-            case 'augmentations':
-                return 'weapons';
-            case 'background':
-                return 'review';
-            case 'gear':
-                return 'vehicles';
-            case 'knowledge':
-                if ($character->isMagicallyActive()) {
-                    return 'magic';
-                }
-                if ($character->isTechnomancer()) {
-                    return 'resonance';
-                }
-                return 'augmentations';
-            case 'magic':
-            case 'resonance':
-                return 'augmentations';
-            case 'martial-arts':
+        if ('qualities' === $step) {
+            $selectedBooks = [];
+            if (isset($character->priorities, $character->priorities['rulebooks'])) {
+                $selectedBooks = explode(
+                    ',',
+                    (string)$character->priorities['rulebooks']
+                );
+            }
+            if (!in_array('run-and-gun', $selectedBooks, true)) {
                 return 'skills';
-            case 'priorities':
-                return 'vitals';
-            case 'qualities':
-                $selectedBooks = [];
-                if (isset($character->priorities, $character->priorities['rulebooks'])) {
-                    $selectedBooks = explode(
-                        ',',
-                        (string)$character->priorities['rulebooks']
-                    );
-                }
-                if (!in_array('run-and-gun', $selectedBooks, true)) {
-                    return 'skills';
-                }
-                return 'martial-arts';
-            case 'review':
-                return null;
-            case 'rules':
-                return 'priorities';
-            case 'skills':
-                return 'knowledge';
-            case 'social':
-                return 'background';
-            case 'vehicles':
-                return 'social';
-            case 'vitals':
-                return 'attributes';
-            case 'weapons':
-                return 'armor';
-            default:
-                return 'rules'; // @codeCoverageIgnore
+            }
+            return 'martial-arts';
         }
+
+        if ('knowledge' === $step) {
+            if ($character->isMagicallyActive()) {
+                return 'magic';
+            }
+            if ($character->isTechnomancer()) {
+                return 'resonance';
+            }
+            return 'augmentations';
+        }
+
+        return match ($step) {
+            'armor' => 'gear',
+            'attributes' => 'qualities',
+            'augmentations' => 'weapons',
+            'background' => 'review',
+            'gear' => 'vehicles',
+            'magic', 'resonance' => 'augmentations',
+            'martial-arts' => 'skills',
+            'priorities' => 'vitals',
+            'review' => null,
+            'rules' => 'priorities',
+            'skills' => 'knowledge',
+            'social' => 'background',
+            'vehicles' => 'social',
+            'vitals' => 'attributes',
+            'weapons' => 'armor',
+            default => 'rules', // @codeCoverageIgnore
+        };
     }
 
     /**
@@ -138,60 +122,47 @@ class CharactersController extends Controller
         string $step,
         PartialCharacter $character
     ): ?string {
-        switch ($step) {
-            case 'armor':
-                return 'weapons';
-            case 'attributes':
-                return 'vitals';
-            case 'augmentations':
-                if ($character->isMagicallyActive()) {
-                    return 'magic';
-                }
-                if ($character->isTechnomancer()) {
-                    return 'resonance';
-                }
-                return 'knowledge';
-            case 'background':
-                return 'social';
-            case 'gear':
-                return 'armor';
-            case 'knowledge':
-                return 'skills';
-            case 'martial-arts':
-                return 'qualities';
-            case 'magic':
-            case 'resonance':
-                return 'knowledge';
-            case 'priorities':
-            default:
-                return 'rules';
-            case 'qualities':
-                return 'attributes';
-            case 'rules':
-                return null;
-            case 'review':
-                return 'background';
-            case 'skills':
-                $selectedBooks = [];
-                if (isset($character->priorities, $character->priorities['rulebooks'])) {
-                    $selectedBooks = explode(
-                        ',',
-                        (string)$character->priorities['rulebooks']
-                    );
-                }
-                if (!in_array('run-and-gun', $selectedBooks, true)) {
-                    return 'qualities';
-                }
-                return 'martial-arts';
-            case 'social':
-                return 'vehicles';
-            case 'vehicles':
-                return 'gear';
-            case 'vitals':
-                return 'priorities';
-            case 'weapons':
-                return 'augmentations'; // @codeCoverageIgnore
+        if ('augmentations' === $step) {
+            if ($character->isMagicallyActive()) {
+                return 'magic';
+            }
+            if ($character->isTechnomancer()) {
+                return 'resonance';
+            }
+            return 'knowledge';
         }
+
+        if ('skills' === $step) {
+            $selectedBooks = [];
+            if (isset($character->priorities, $character->priorities['rulebooks'])) {
+                $selectedBooks = explode(
+                    ',',
+                    (string)$character->priorities['rulebooks']
+                );
+            }
+            if (!in_array('run-and-gun', $selectedBooks, true)) {
+                return 'qualities';
+            }
+            return 'martial-arts';
+        }
+
+        return match ($step) {
+            'armor' => 'weapons',
+            'attributes' => 'vitals',
+            'background' => 'social',
+            'gear' => 'armor',
+            'knowledge' => 'skills',
+            'martial-arts' => 'qualities',
+            'magic', 'resonance' => 'knowledge',
+            'qualities' => 'attributes',
+            'rules' => null,
+            'review' => 'background',
+            'social' => 'vehicles',
+            'vehicles' => 'gear',
+            'vitals' => 'priorities',
+            'weapons' => 'augmentations', // @codeCoverageIgnore
+            default => 'rules',
+        };
     }
 
     /**
@@ -204,16 +175,16 @@ class CharactersController extends Controller
         PartialCharacter $character
     ): RedirectResponse {
         if ('prev' === $direction) {
-            return new RedirectResponse(sprintf(
-                '/characters/shadowrun5e/create/%s',
+            return redirect()->route(
+                'shadowrun5e.create',
                 $this->previousStep($step, $character),
-            ));
+            );
         }
 
-        return new RedirectResponse(sprintf(
-            '/characters/shadowrun5e/create/%s',
+        return redirect()->route(
+            'shadowrun5e.create',
             $this->nextStep($step, $character),
-        ));
+        );
     }
 
     /**
@@ -224,7 +195,7 @@ class CharactersController extends Controller
         Request $request,
         ?string $step = null
     ): RedirectResponse | Redirector | View {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         if ('new' === $step) {
@@ -236,7 +207,7 @@ class CharactersController extends Controller
         } else {
             $character = $this->findPartialCharacter($request, $step);
             if ($character instanceof PartialCharacter && $step === $character->id) {
-                return redirect('/characters/shadowrun5e/create/rules');
+                return redirect()->route('shadowrun5e.create', 'rules');
             }
             if (!$character instanceof PartialCharacter) {
                 // No current character, see if they already have a character they
@@ -414,7 +385,7 @@ class CharactersController extends Controller
                 );
             case 'magic':
                 if (!$character->isMagicallyActive()) {
-                    return redirect('/characters/shadowrun5e/create/priority')
+                    return redirect()->route('shadowrun5e.create', 'priority')
                         ->withErrors([
                             'error' => 'Only awakened characters can choose spells, powers, and spirits.',
                         ]);
@@ -431,7 +402,7 @@ class CharactersController extends Controller
                 );
             case 'martial-arts':
                 if (false === $selectedBooks || !in_array('run-and-gun', $selectedBooks, true)) {
-                    return redirect('/characters/shadowrun5e/create/rules')
+                    return redirect()->route('shadowrun5e.create', 'rules')
                         ->withErrors([
                             'error' => 'Martial arts are only available with Run and Gun enabled',
                         ]);
@@ -450,20 +421,20 @@ class CharactersController extends Controller
                 );
             case 'priorities':
                 if (
-                    !isset(
+                    !isset( // @codeCoverageIgnore
                         $character->priorities,
                         $character->priorities['system'],
                         $character->priorities['gameplay'],
                     )
                 ) {
-                    return redirect('/characters/shadowrun5e/create/rules')
+                    return redirect(route('shadowrun5e.create', 'rules'))
                         ->withErrors([
                             'error' => 'You must choose a creation system and gameplay level',
                         ]);
                 }
 
                 if ('priority' !== $character->priorities['system']) {
-                    return redirect('/characters/shadowrun5e/create/rules')
+                    return redirect()->route('shadowrun5e.create', 'rules')
                         ->withErrors([
                             'error' => sprintf(
                                 'Priority scheme "%s" not (yet) supported',
@@ -807,7 +778,7 @@ class CharactersController extends Controller
                 );
             case 'resonance':
                 if (!$character->isTechnomancer()) {
-                    return redirect('/characters/shadowrun5e/create/priority')
+                    return redirect()->route('shadowrun5e.create', 'priority')
                         ->withErrors([
                             'error' => 'Only technomncers can choose sprites and forms.',
                         ]);
@@ -945,7 +916,7 @@ class CharactersController extends Controller
                     ]
                 );
             default:
-                return abort(
+                abort(
                     Response::HTTP_NOT_FOUND,
                     'That step of character creation was not found.',
                 );
@@ -959,17 +930,17 @@ class CharactersController extends Controller
     {
         $request->session()->forget('shadowrun5e-partial');
 
-        return new RedirectResponse(route('dashboard'));
+        return redirect()->route('dashboard');
     }
 
     public function storeAttributes(
         AttributesRequest $request
     ): RedirectResponse {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('shadowrun5e-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -1010,11 +981,11 @@ class CharactersController extends Controller
 
     public function storeBackground(BackgroundRequest $request): RedirectResponse
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('shadowrun5e-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -1062,11 +1033,11 @@ class CharactersController extends Controller
     public function storeKnowledgeSkills(
         KnowledgeSkillsRequest $request
     ): RedirectResponse {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('shadowrun5e-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -1099,11 +1070,11 @@ class CharactersController extends Controller
     public function storeMartialArts(
         MartialArtsRequest $request
     ): RedirectResponse {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('shadowrun5e-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -1126,11 +1097,11 @@ class CharactersController extends Controller
 
     public function storeQualities(QualitiesRequest $request): RedirectResponse
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('shadowrun5e-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -1182,18 +1153,18 @@ class CharactersController extends Controller
 
     public function storeRules(RulesRequest $request): RedirectResponse
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('shadowrun5e-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $rulebooks = $request->input('rulebook');
         sort($rulebooks);
-        /** @var array<string, string> */
+        /** @var array<string, string> $priorities */
         $priorities = [
             'gameplay' => $request->input('gameplay'),
             'rulebooks' => implode(',', $rulebooks),
@@ -1212,11 +1183,11 @@ class CharactersController extends Controller
 
     public function storeSkills(SkillsRequest $request): RedirectResponse
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('shadowrun5e-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -1252,11 +1223,11 @@ class CharactersController extends Controller
 
     public function storeSocial(SocialRequest $request): RedirectResponse
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('shadowrun5e-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -1287,11 +1258,11 @@ class CharactersController extends Controller
     public function storeStandard(
         StandardPriorityRequest $request
     ): RedirectResponse {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('shadowrun5e-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -1319,11 +1290,11 @@ class CharactersController extends Controller
 
     public function storeVitals(VitalsRequest $request): RedirectResponse
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $characterId = $request->session()->get('shadowrun5e-partial');
-        /** @var PartialCharacter */
+        /** @var PartialCharacter $character */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email->address)
             ->firstOrFail();
@@ -1358,7 +1329,7 @@ class CharactersController extends Controller
         Request $request,
         ?string $step,
     ): ?PartialCharacter {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         // See if the user has already chosen to continue a character.
@@ -1366,7 +1337,6 @@ class CharactersController extends Controller
 
         if (null !== $characterId) {
             // Return the character they're working on.
-            /** @var PartialCharacter */
             return PartialCharacter::where('owner', $user->email->address)
                 ->where('_id', $characterId)
                 ->firstOrFail();
@@ -1375,8 +1345,7 @@ class CharactersController extends Controller
             return null;
         }
 
-        // Maybe they're chosing to continue a character right now.
-        /** @var PartialCharacter */
+        // Maybe they're choosing to continue a character right now.
         $character = PartialCharacter::where('owner', $user->email->address)
             ->find($step);
         if (null !== $character) {
@@ -1402,7 +1371,7 @@ class CharactersController extends Controller
 
     public function show(Request $request, Character $character): JsonResource
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         $campaign = $character->campaign();
@@ -1416,7 +1385,7 @@ class CharactersController extends Controller
 
     public function update(Request $request, Character $character): JsonResource
     {
-        /** @var User */
+        /** @var User $user */
         $user = $request->user();
 
         abort_if(
@@ -1506,7 +1475,7 @@ class CharactersController extends Controller
             $character = Character::where('_id', $identifier)
                 ->firstOrFail();
         } catch (ModelNotFoundException) {
-            /** @var PartialCharacter */
+            /** @var PartialCharacter $character */
             $character = PartialCharacter::where('_id', $identifier)
                 ->firstOrFail();
         }

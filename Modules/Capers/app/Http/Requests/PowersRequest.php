@@ -12,17 +12,15 @@ use Modules\Capers\Models\PowerArray;
 use Override;
 
 use function array_merge;
-use function assert;
 use function count;
 
 class PowersRequest extends BaseRequest
 {
     /**
-     * Get the error messages for the defined validation rules.
      * @return array<string, string>
      */
     #[Override]
-    public function messages()
+    public function messages(): array
     {
         return [
             'options.required' => 'You must choose how many powers to start with.',
@@ -31,7 +29,6 @@ class PowersRequest extends BaseRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
      * @return array<string, array<int, string|Closure|In|Rule>>
      */
     #[Override]
@@ -55,7 +52,7 @@ class PowersRequest extends BaseRequest
                                     $fail('You can only choose a *single* power.');
                                     return;
                                 }
-                                assert($powers[0] instanceof Power);
+                                // @phpstan-ignore property.nonObject
                                 if (Power::TYPE_MAJOR !== $powers[0]->type) {
                                     $fail('You must choose one *major* power.');
                                     return;
@@ -66,7 +63,7 @@ class PowersRequest extends BaseRequest
                                     $fail('You can only choose a *single* power.');
                                     return;
                                 }
-                                assert($powers[0] instanceof Power);
+                                // @phpstan-ignore property.nonObject
                                 if (Power::TYPE_MINOR !== $powers[0]->type) {
                                     $fail('You must choose one *minor* power.');
                                     return;
@@ -77,10 +74,10 @@ class PowersRequest extends BaseRequest
                                     $fail('You must choose *two* minor powers.');
                                     return;
                                 }
-                                assert($powers[0] instanceof Power);
-                                assert($powers[1] instanceof Power);
                                 if (
+                                    // @phpstan-ignore property.nonObject
                                     Power::TYPE_MINOR !== $powers[0]->type
+                                    // @phpstan-ignore property.nonObject
                                     || Power::TYPE_MINOR !== $powers[1]->type
                                 ) {
                                     $fail('You can only choose two *minor* powers.');
