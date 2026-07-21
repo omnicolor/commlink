@@ -5,19 +5,22 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
 use Modules\Shadowrun5e\Models\LifestyleAttributes;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
+#[CoversClass(LifestyleAttributes::class)]
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Small]
 final class LifestyleAttributesTest extends TestCase
 {
-    /**
-     * Test trying to initialize attributes without required data.
-     */
+    #[Test]
+    #[TestDox('Trying to initialize attributes without required data throws an exception')]
     public function testMissingAttributes(): void
     {
         self::expectException(RuntimeException::class);
@@ -25,9 +28,8 @@ final class LifestyleAttributesTest extends TestCase
         new LifestyleAttributes([]);
     }
 
-    /**
-     * Test initializing lifestyle attributes with data.
-     */
+    #[Test]
+    #[TestDox('Lifestyle attributes correctly sets attribute data')]
     public function testAttributes(): void
     {
         $attributes = new LifestyleAttributes([

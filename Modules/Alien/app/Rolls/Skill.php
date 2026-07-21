@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Modules\Alien\Rolls;
 
 use App\Models\Channel;
+use App\Models\Character as BaseCharacter;
 use App\Rolls\Roll;
 use Modules\Alien\Models\Character;
 
 use function array_shift;
-use function assert;
 use function explode;
 use function sprintf;
 use function trim;
@@ -33,34 +33,35 @@ class Skill extends Number
     ) {
         Roll::__construct($content, $username, $channel);
 
-        if (!$this->character instanceof \App\Models\Character) {
+        if (!$this->character instanceof BaseCharacter) {
             $this->error = 'Skill rolls are only available if you have linked '
                 . 'a character';
             return;
         }
-        assert($this->character instanceof Character);
+        /** @var Character $character */
+        $character = $this->character;
 
         $args = explode(' ', trim($content));
         // Ignore the word 'skill'.
         array_shift($args);
 
         $skill = array_shift($args);
-        if (!isset($this->character->skills[$skill])) {
+        if (!isset($character->skills[$skill])) {
             $this->error = sprintf('Skill "%s" is not valid', $skill);
             return;
         }
-        $skill = $this->character->skills[$skill];
+        $skill = $character->skills[$skill];
 
         // @phpstan-ignore property.dynamicName
-        $this->dice = $skill->rank + $this->character->{$skill->attribute};
-        $this->stress = $this->character->stress ?? 0;
+        $this->dice = $skill->rank + $character->{$skill->attribute};
+        $this->stress = $character->stress ?? 0;
         $this->description = sprintf(
             ' for %s (%d+%d+%d)',
             $skill->name,
             $skill->rank,
             // @phpstan-ignore property.dynamicName
-            $this->character->{$skill->attribute},
-            $this->character->stress ?? 0,
+            $character->{$skill->attribute},
+            $character->stress ?? 0,
         );
 
         $this->roll();
