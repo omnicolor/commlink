@@ -3937,16 +3937,16 @@
         },
         {
             "name": "omnicolor/php-irc-client",
-            "version": "v1.1.2",
+            "version": "v1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/omnicolor/php-irc-client.git",
-                "reference": "1adee8eace1904cd0916ed2f24108c77aff3994b"
+                "reference": "73c63b5ddf3aaec7cddb9f9822f160c9f05a372c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omnicolor/php-irc-client/zipball/1adee8eace1904cd0916ed2f24108c77aff3994b",
-                "reference": "1adee8eace1904cd0916ed2f24108c77aff3994b",
+                "url": "https://api.github.com/repos/omnicolor/php-irc-client/zipball/73c63b5ddf3aaec7cddb9f9822f160c9f05a372c",
+                "reference": "73c63b5ddf3aaec7cddb9f9822f160c9f05a372c",
                 "shasum": ""
             },
             "require": {
@@ -3958,7 +3958,7 @@
                 "php-parallel-lint/php-parallel-lint": "^1.3",
                 "phpstan/phpstan": "^2.0",
                 "phpstan/phpstan-phpunit": "^2.0",
-                "phpunit/phpunit": "^12.3",
+                "phpunit/phpunit": "^13.0",
                 "roave/security-advisories": "dev-latest"
             },
             "type": "library",
@@ -3984,9 +3984,9 @@
             "description": "PHP IRC client based on React",
             "support": {
                 "issues": "https://github.com/omnicolor/php-irc-client/issues",
-                "source": "https://github.com/omnicolor/php-irc-client/tree/v1.1.2"
+                "source": "https://github.com/omnicolor/php-irc-client/tree/v1.1.3"
             },
-            "time": "2026-02-04T16:53:47+00:00"
+            "time": "2026-07-21T00:53:30+00:00"
         },
         {
             "name": "omnicolor/slack",
