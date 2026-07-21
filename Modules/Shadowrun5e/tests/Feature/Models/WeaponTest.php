@@ -8,11 +8,17 @@ use Modules\Shadowrun5e\Enums\WeaponRange;
 use Modules\Shadowrun5e\Models\Weapon;
 use Modules\Shadowrun5e\Models\WeaponModification;
 use Override;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use RuntimeException;
 use Tests\TestCase;
 
+#[CoversClass(Weapon::class)]
+#[CoversClass(WeaponRange::class)]
+#[CoversClass(WeaponModification::class)]
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Small]
@@ -27,9 +33,8 @@ final class WeaponTest extends TestCase
         $this->weapon = new Weapon('ak-98');
     }
 
-    /**
-     * Test loading a weapon with an invalid ID.
-     */
+    #[Test]
+    #[TestDox('Loading a weapon with an invalid ID throws an exception')]
     public function testWeaponNotFound(): void
     {
         self::expectException(RuntimeException::class);
@@ -77,51 +82,61 @@ final class WeaponTest extends TestCase
         self::assertSame('AK-98', $this->weapon->name);
     }
 
-    /**
-     * Test that loading a weapon that doesn't have a subname leaves it alone.
-     */
+    #[Test]
+    #[TestDox('Weapons without subname return null for their subname')]
     public function testWeaponDoesntHaveSubname(): void
     {
         self::assertNull($this->weapon->subname);
     }
 
-    /**
-     * Test that loading a weapon sets its ruleset when it has one.
-     */
+    #[Test]
+    #[TestDox('Weapons with a ruleset in the data set it')]
     public function testWeaponSetsRuleset(): void
     {
         self::assertSame('run-and-gun', $this->weapon->ruleset);
     }
 
-    /**
-     * Test that loading a weapon doesn't change the ruleset if it is from core.
-     */
+    #[Test]
+    #[TestDox('Weapons that have no ruleset in the data default to core')]
     public function testWeaponDoesntSetRuleset(): void
     {
         $weapon = new Weapon('ares-predator-v');
         self::assertSame('core', $weapon->ruleset);
     }
 
-    public function testWeaponWithTextRange(): void
+    #[Test]
+    #[TestDox('A weapon that has no range in the data uses its weapon class to load the range')]
+    public function testWeaponWithoutRange(): void
     {
         $weapon = new Weapon('defiance-t-250-short');
         self::assertSame(WeaponRange::Shotgun, $weapon->range);
     }
 
-    public function testWeaponWithoutRange(): void
+    #[Test]
+    #[TestDox('A weapon that has a text range in the data returns the correct range enum')]
+    public function testWeaponWithTextRange(): void
     {
         $weapon = new Weapon('ares-predator-v');
         self::assertSame(WeaponRange::HeavyPistol, $weapon->range);
     }
 
+    #[Test]
+    #[TestDox('A weapon with an enum in the data returns the correct range')]
+    public function testWeaponWithEnumRange(): void
+    {
+        $weapon = new Weapon('hk-227');
+        self::assertSame(WeaponRange::SubmachineGun, $weapon->range);
+    }
+
+    #[Test]
+    #[TestDox('Casting a weapon to string returns its name')]
     public function testCastWeaponToString(): void
     {
         self::assertSame('AK-98', (string)$this->weapon);
     }
 
-    /**
-     * Every character can use an unarmed strike.
-     */
+    #[Test]
+    #[TestDox('Unarmed strike returns correct information')]
     public function testUnarmedStrike(): void
     {
         $weapon = new Weapon('unarmed-strike');
@@ -143,9 +158,8 @@ final class WeaponTest extends TestCase
         self::assertSame('unarmed-combat', $weapon->skill->id);
     }
 
-    /**
-     * Test that loading a weapon with an integrated modification loads it.
-     */
+    #[Test]
+    #[TestDox('Weapons with integrated modifications include the mod when loaded')]
     public function testWeaponWithIntegratedModification(): void
     {
         $weapon = new Weapon('ares-predator-v');
@@ -156,9 +170,8 @@ final class WeaponTest extends TestCase
         );
     }
 
-    /**
-     * Test loading a weapon with an invalid modification.
-     */
+    #[Test]
+    #[TestDox('Weapons with invalid modifications load, but do not include the invalid mod')]
     public function testLoadingWeaponWithInvalidModification(): void
     {
         self::assertNotNull(Weapon::$weapons);
@@ -173,19 +186,16 @@ final class WeaponTest extends TestCase
         Weapon::$weapons['ares-predator-v']['modifications'] = $originalMods;
     }
 
-    /**
-     * Test getting the damage for a weapon that doesn't take strength into
-     * account.
-     */
+    #[Test]
+    #[TestDox('Weapons with damage that is not based on the wielder\'s strength return the correct damage')]
     public function testGetDamageNotStrengthBased(): void
     {
         self::assertSame('10P', $this->weapon->getDamage(5));
         self::assertSame('10P', $this->weapon->getDamage(0));
     }
 
-    /**
-     * Test getting the damage for a weapon based on strength.
-     */
+    #[Test]
+    #[TestDox('Weapon with damage based on strength with a positive modifier returns correct damage value')]
     public function testGetDamageStrengthBased(): void
     {
         $weapon = new Weapon('combat-knife');
@@ -193,9 +203,17 @@ final class WeaponTest extends TestCase
         self::assertSame('6P', $weapon->getDamage(4));
     }
 
-    /**
-     * Test getting damage for an unarmed strike.
-     */
+    #[Test]
+    #[TestDox('Weapon with damage based on strength with a negative modifier returns correct damage value')]
+    public function testGetDamageStrengthBasedNegativeModifier(): void
+    {
+        $weapon = new Weapon('proboscis');
+        self::assertSame('1P', $weapon->getDamage(2));
+        self::assertSame('5P', $weapon->getDamage(6));
+    }
+
+    #[Test]
+    #[TestDox('Weapon with damage based on strength returns correct damage value')]
     public function testGetDamageUnarmedStrike(): void
     {
         $strike = new Weapon('unarmed-strike');
@@ -203,9 +221,8 @@ final class WeaponTest extends TestCase
         self::assertSame('5S', $strike->getDamage(5));
     }
 
-    /**
-     * Test buildWeapon() with an invalid ID.
-     */
+    #[Test]
+    #[TestDox('Weapon::buildWeapon() throws an exception if a weapon is not found')]
     public function testBuildWeaponNotFound(): void
     {
         self::expectException(RuntimeException::class);
@@ -213,9 +230,8 @@ final class WeaponTest extends TestCase
         Weapon::buildWeapon(['id' => 'not-found']);
     }
 
-    /**
-     * Test buildWeapon() with nothing extra added.
-     */
+    #[Test]
+    #[TestDox('Weapon::buildWeapon() works with nothing extra added')]
     public function testBuildWeaponNoMods(): void
     {
         $weapon = Weapon::buildWeapon([
@@ -229,9 +245,8 @@ final class WeaponTest extends TestCase
         self::assertEmpty($weapon->ammunition);
     }
 
-    /**
-     * Test buildWeapon() with a built-in modification.
-     */
+    #[Test]
+    #[TestDox('Weapon::buildWeapon() works with built-in modifications')]
     public function testBuildWeaponBuiltin(): void
     {
         $weapon = Weapon::buildWeapon(['id' => 'ares-predator-v']);
@@ -244,9 +259,8 @@ final class WeaponTest extends TestCase
         self::assertNull($weapon->accessories['top']);
     }
 
-    /**
-     * Test buildWeapon() with an after market mod and accessory.
-     */
+    #[Test]
+    #[TestDox('Weapon::buildWeapon() works with modifications and accessories')]
     public function testBuildWeaponAddons(): void
     {
         $array = [
@@ -266,9 +280,8 @@ final class WeaponTest extends TestCase
         self::assertEquals('Bayonet', $weapon->accessories['barrel']->name);
     }
 
-    /**
-     * Test buildWeapon() with some ammunition.
-     */
+    #[Test]
+    #[TestDox('Weapon::buildWeapon() stores ammunition')]
     public function testBuildWeaponAmmo(): void
     {
         $array = [
@@ -287,9 +300,8 @@ final class WeaponTest extends TestCase
         self::assertNotEmpty($weapon->ammunition);
     }
 
-    /**
-     * Test findByName() with an item that isn't found.
-     */
+    #[Test]
+    #[TestDox('Weapon::findByName() throws an exception for items that do not exist')]
     public function testFindByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
@@ -297,26 +309,27 @@ final class WeaponTest extends TestCase
         Weapon::findByName('Not Found');
     }
 
-    /**
-     * Test findByName() with an item that is found.
-     */
+    #[Test]
+    #[TestDox('Weapon::findByName() can find items by name')]
     public function testFindByName(): void
     {
         self::assertSame('ak-98', Weapon::findByName('AK-98')->id);
+        self::assertSame(
+            'defiance-t-250-short',
+            Weapon::findByName('Defiance T-250 (Short Barrel)')->id
+        );
     }
 
-    /**
-     * Test getCost() on an unloaded and unmodified weapon.
-     */
+    #[Test]
+    #[TestDox('getCost() returns correct cost for an unmodified weapon')]
     public function testGetCost(): void
     {
         $weapon = new Weapon('ak-98');
         self::assertSame(1250, $weapon->getCost());
     }
 
-    /**
-     * Test getting the cost of a weapon with modifications.
-     */
+    #[Test]
+    #[TestDox('Weapons with modifications return the correct cost')]
     public function testGetCostModified(): void
     {
         $weapon = new Weapon('ak-98');
@@ -324,9 +337,8 @@ final class WeaponTest extends TestCase
         self::assertSame(2500, $weapon->getCost());
     }
 
-    /**
-     * Test getting the cost of a weapon with accessories.
-     */
+    #[Test]
+    #[TestDox('Weapons with accessories return their correct cost')]
     public function testGetCostAccessories(): void
     {
         $weapon = new Weapon('ak-98');
@@ -336,8 +348,10 @@ final class WeaponTest extends TestCase
         self::assertSame(1350, $weapon->getCost());
     }
 
+    #[Test]
+    #[TestDox('Weapon::all() returns all weapons in the data file')]
     public function testAll(): void
     {
-        self::assertCount(6, Weapon::all());
+        self::assertCount(7, Weapon::all());
     }
 }

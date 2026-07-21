@@ -21,7 +21,6 @@ use function ucfirst;
 class StandardPriorityRequest extends FormRequest
 {
     /**
-     * Get the validation rules that apply to the request.
      * @return array<string, array<int, string|Closure|In|RequiredIf>>
      */
     public function rules(Request $request): array

@@ -9,7 +9,6 @@ use RuntimeException;
 use Stringable;
 
 use function array_keys;
-use function assert;
 use function config;
 use function sprintf;
 use function str_replace;
@@ -32,7 +31,7 @@ class Gear implements Stringable
         $filename = config('capers.data_path') . 'gear.php';
         self::$gear ??= require $filename;
 
-        assert(isset(self::$gear[$id]));
+        // @phpstan-ignore offsetAccess.notFound
         $gear = self::$gear[$id];
         $this->cost = $gear['cost'];
         $this->name = $gear['name'];

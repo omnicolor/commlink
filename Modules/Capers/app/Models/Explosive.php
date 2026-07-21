@@ -7,10 +7,6 @@ namespace Modules\Capers\Models;
 use Override;
 use Stringable;
 
-use function array_key_exists;
-use function assert;
-use function is_array;
-
 class Explosive extends Gear implements Stringable
 {
     public ?string $blast;
@@ -21,9 +17,7 @@ class Explosive extends Gear implements Stringable
     {
         parent::__construct($id, $quantity);
 
-        // Invalid item handled by parent.
-        assert(is_array(self::$gear));
-        assert(array_key_exists($id, self::$gear));
+        // @phpstan-ignore offsetAccess.notFound
         $gear = self::$gear[$id];
         $this->blast = (string)$gear['blast'];
         $this->damage = (string)$gear['damage'];
