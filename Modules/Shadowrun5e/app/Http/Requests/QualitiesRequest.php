@@ -15,7 +15,6 @@ use function explode;
 class QualitiesRequest extends FormRequest
 {
     /**
-     * Get the error messages for the defined validation rules.
      * @return array<string, string>
      */
     #[Override]
@@ -27,7 +26,6 @@ class QualitiesRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
      * @return array<string, array<int, Closure|string>>
      */
     public function rules(): array

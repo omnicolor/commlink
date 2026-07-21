@@ -10,15 +10,12 @@ use Modules\Shadowrun5e\Models\Character;
 
 class ContactCreateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        /** @var Character */
+        /** @var Character $character */
         $character = $this->route('character');
 
-        /** @var User */
+        /** @var User $user */
         $user = $this->user();
 
         $campaign = $character->campaign();
@@ -31,7 +28,6 @@ class ContactCreateRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
      * @return array<string, array<int, string>>
      */
     public function rules(): array
