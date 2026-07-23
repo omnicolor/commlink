@@ -1898,16 +1898,16 @@
         },
         {
             "name": "laravel/pennant",
-            "version": "v1.23.0",
+            "version": "v1.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pennant.git",
-                "reference": "d3d531d0ba640f9d0bd3580990fb205244e956ca"
+                "reference": "b99fbc8038eb2c0a2642e9e13077a75e892b61d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pennant/zipball/d3d531d0ba640f9d0bd3580990fb205244e956ca",
-                "reference": "d3d531d0ba640f9d0bd3580990fb205244e956ca",
+                "url": "https://api.github.com/repos/laravel/pennant/zipball/b99fbc8038eb2c0a2642e9e13077a75e892b61d9",
+                "reference": "b99fbc8038eb2c0a2642e9e13077a75e892b61d9",
                 "shasum": ""
             },
             "require": {
@@ -1942,7 +1942,8 @@
             },
             "autoload": {
                 "files": [
-                    "src/helpers.php"
+                    "src/helpers.php",
+                    "src/functions.php"
                 ],
                 "psr-4": {
                     "Laravel\\Pennant\\": "src/"
@@ -1970,7 +1971,7 @@
                 "issues": "https://github.com/laravel/pennant/issues",
                 "source": "https://github.com/laravel/pennant"
             },
-            "time": "2026-03-19T02:27:39+00:00"
+            "time": "2026-06-28T17:14:13+00:00"
         },
         {
             "name": "laravel/pint",
