@@ -15,53 +15,31 @@ use Tests\TestCase;
 #[Small]
 final class QualityTest extends TestCase
 {
-    /**
-     * Test loading an invalid quality.
-     */
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
-            'Shadowrun 6E quality ID "not-found" is invalid'
-        );
-        new Quality('not-found');
+        Quality::findOrFail('not-found');
     }
 
-    /**
-     * Test loading a valid quality.
-     */
     public function testLoad(): void
     {
-        $quality = new Quality('ambidextrous');
+        $quality = Quality::findOrFail('ambidextrous');
 
         self::assertSame('Ambidextrous', (string)$quality);
         self::assertSame('ambidextrous', $quality->id);
         self::assertSame(4, $quality->karma_cost);
         self::assertEmpty($quality->effects);
-        self::assertStringContainsString('off-hand', $quality->description);
+        self::assertStringContainsString('off-hand', (string)$quality->description);
         self::assertSame('core', $quality->ruleset);
         self::assertSame(70, $quality->page);
         self::assertNull($quality->level);
     }
 
-    /**
-     * Test failing to find a quality by its name.
-     */
-    public function testFindByNameNotFound(): void
+    public function testEffects(): void
     {
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
-            'Unable to find Shadowrun 6E quality "Not Found"'
-        );
-        Quality::findByName('Not Found');
-    }
-
-    /**
-     * Test finding a quality by name.
-     */
-    public function testFindByName(): void
-    {
-        $qualities = Quality::findByName('Focused Concentration');
-        self::assertCount(3, $qualities);
+        $quality = Quality::findOrFail('exceptional-attribute-strength');
+        self::assertSame(1, $quality->effects['maximum-strength']);
+        $quality = Quality::findOrFail('ambidextrous');
+        self::assertEmpty($quality->effects);
     }
 }
