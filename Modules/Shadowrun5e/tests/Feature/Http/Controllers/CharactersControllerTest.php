@@ -1342,7 +1342,6 @@ final class CharactersControllerTest extends TestCase
     public function testLoadKnowledgeSkillsResonance(): void
     {
         $user = User::factory()->create();
-
         $character = PartialCharacter::factory()->create([
             'priorities' => [
                 'magic' => 'technomancer',
