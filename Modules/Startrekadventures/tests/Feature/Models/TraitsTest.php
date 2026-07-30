@@ -17,7 +17,7 @@ final class TraitsTest extends TestCase
     public function testFindNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Trait ID "not-found" is invalid');
+        self::expectExceptionMessageIs('Trait ID "not-found" is invalid');
         new Traits('not-found');
     }
 

@@ -17,7 +17,7 @@ final class IdeologyTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Ideology "not-found" not found');
+        self::expectExceptionMessageIs('Ideology "not-found" not found');
         new Ideology('not-found');
     }
 

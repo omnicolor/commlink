@@ -265,7 +265,7 @@ final class CharacterTest extends TestCase
     {
         $character = new Character(['agility' => 6]);
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Invalid trait value for trait agility: 6');
+        self::expectExceptionMessageIs('Invalid trait value for trait agility: 6');
         $character->getTraitDefense('agility');
     }
 

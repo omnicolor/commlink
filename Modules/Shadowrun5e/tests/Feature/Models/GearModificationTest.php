@@ -21,7 +21,7 @@ final class GearModificationTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Gear mod "foo" not found');
+        self::expectExceptionMessageIs('Gear mod "foo" not found');
         new GearModification('foo');
     }
 

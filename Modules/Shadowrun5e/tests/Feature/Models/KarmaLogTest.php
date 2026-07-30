@@ -72,7 +72,7 @@ final class KarmaLogTest extends TestCase
     public function testWrongObjectTypeThrowsException(): void
     {
         self::expectException(TypeError::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'KarmaLog only accepts KarmaLogEntry objects'
         );
         // @phpstan-ignore offsetAssign.valueType
@@ -358,7 +358,7 @@ final class KarmaLogTest extends TestCase
     public function testInitializeEmptyCharacter(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Priorities not set');
+        self::expectExceptionMessageIs('Priorities not set');
         $this->log->initialize(new Character());
     }
 

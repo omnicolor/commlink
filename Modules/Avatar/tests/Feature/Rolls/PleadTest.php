@@ -31,7 +31,7 @@ final class PleadTest extends TestCase
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Avatar moves are only available for channels registered for the '
                 . 'Avatar system.',
         );

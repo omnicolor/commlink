@@ -17,7 +17,7 @@ final class StatusTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Status ID "unknown" is invalid');
+        self::expectExceptionMessageIs('Status ID "unknown" is invalid');
         new Status('unknown');
     }
 

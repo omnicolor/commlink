@@ -337,7 +337,7 @@ final class CharacterTest extends TestCase
     public function testGetInvalidWeaponsType(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Invalid Weapon Type');
+        self::expectExceptionMessageIs('Invalid Weapon Type');
         (new Character())->getWeapons('unknown');
     }
 

@@ -42,7 +42,7 @@ final class CampaignTest extends TestCase
         $channel = Channel::factory()->make(['type' => ChannelType::Slack]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'To link a campaign to this channel, use `campaign <campaignId>`.'
         );
 
@@ -101,7 +101,7 @@ final class CampaignTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(sprintf(
+        self::expectExceptionMessageIs(sprintf(
             'This channel is already registered for "%s".',
             $campaign->name,
         ));
@@ -151,7 +151,7 @@ final class CampaignTest extends TestCase
         $channel = Channel::factory()->make(['type' => ChannelType::Slack]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(sprintf(
+        self::expectExceptionMessageIs(sprintf(
             'You must have already created an account on %s (%s) and '
                 . 'linked it to this server before you can register a '
                 . 'channel to a campaign.',
@@ -211,7 +211,7 @@ final class CampaignTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage('No campaign was found for ID "9999".');
+        self::expectExceptionMessageIs('No campaign was found for ID "9999".');
 
         (new CampaignRoll('campaign 9999', 'username', $channel))->forSlack();
 
@@ -274,7 +274,7 @@ final class CampaignTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(sprintf(
+        self::expectExceptionMessageIs(sprintf(
             'The channel is already registered to play Shadowrun 5th Edition. '
             . '"%s" is playing Dungeons & Dragons 5th Edition.',
             $campaign->name,
@@ -358,7 +358,7 @@ final class CampaignTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'You must have created the campaign or be the GM to link a Slack '
                 . 'channel.'
         );

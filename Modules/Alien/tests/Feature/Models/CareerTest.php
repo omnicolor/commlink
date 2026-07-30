@@ -17,7 +17,7 @@ final class CareerTest extends TestCase
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Career ID "unknown" is invalid');
+        self::expectExceptionMessageIs('Career ID "unknown" is invalid');
         new Career('unknown');
     }
 

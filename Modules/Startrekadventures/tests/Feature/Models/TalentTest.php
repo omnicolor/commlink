@@ -17,7 +17,7 @@ final class TalentTest extends TestCase
     public function testFindNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Talent ID "not-found" is invalid');
+        self::expectExceptionMessageIs('Talent ID "not-found" is invalid');
         new Talent('not-found');
     }
 

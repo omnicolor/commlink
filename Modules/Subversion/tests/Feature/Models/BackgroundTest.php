@@ -17,7 +17,7 @@ final class BackgroundTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Background "not-found" not found');
+        self::expectExceptionMessageIs('Background "not-found" not found');
         new Background('not-found');
     }
 

@@ -21,14 +21,14 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testLoadNotFoundFile(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Unable to locate Omae file');
+        self::expectExceptionMessageIs('Unable to locate Omae file');
         new Shadowrun5eConverter('not found');
     }
 
     public function testLoadBinaryFile(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('File does not appear to be an Omae file');
+        self::expectExceptionMessageIs('File does not appear to be an Omae file');
         $path = explode(
             DIRECTORY_SEPARATOR,
             dirname(__DIR__, 3)
@@ -43,7 +43,7 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testLoadNotOmae(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('File does not appear to be an Omae file');
+        self::expectExceptionMessageIs('File does not appear to be an Omae file');
         new Shadowrun5eConverter(__FILE__);
     }
 

@@ -17,7 +17,7 @@ final class TalentTest extends TestCase
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Talent ID "unknown" is invalid');
+        self::expectExceptionMessageIs('Talent ID "unknown" is invalid');
         new Talent('unknown');
     }
 

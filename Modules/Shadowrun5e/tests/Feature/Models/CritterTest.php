@@ -21,7 +21,7 @@ final class CritterTest extends TestCase
     public function testInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Critter ID "not-found" is invalid');
+        self::expectExceptionMessageIs('Critter ID "not-found" is invalid');
         new Critter('not-found');
     }
 

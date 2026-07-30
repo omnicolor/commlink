@@ -36,7 +36,7 @@ final class JudgeTest extends TestCase
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'You must have a character linked to make judge intentions tests',
         );
         (new Judge('15 5', 'username', $channel))->forSlack();

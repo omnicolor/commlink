@@ -17,7 +17,7 @@ final class ArmorTest extends TestCase
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Armor ID "unknown" is invalid');
+        self::expectExceptionMessageIs('Armor ID "unknown" is invalid');
         new Armor('unknown');
     }
 

@@ -57,7 +57,7 @@ final class QualityArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'QualityArray only accepts Quality objects'
         );
         // @phpstan-ignore offsetAssign.valueType

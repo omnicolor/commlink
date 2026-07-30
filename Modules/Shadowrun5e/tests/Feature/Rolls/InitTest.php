@@ -42,7 +42,7 @@ final class InitTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Initiative is rolled like "/roll init 12 2" or "/roll init 12+2d6"',
         );
         (new Init('init clear', 'username', $channel))->forSlack();
@@ -177,7 +177,7 @@ final class InitTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'That doesn\'t appear to be a valid GM initiative command'
         );
         (new Init('init 12+3d6', 'username', $channel))->forSlack();
@@ -372,7 +372,7 @@ final class InitTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Initiative is rolled like "/roll init 12 2" or "/roll init 12+2d6"',
         );
 
@@ -392,7 +392,7 @@ final class InitTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Initiative is rolled like "/roll init 12 2" or "/roll init 12+2d6"',
         );
 
@@ -455,7 +455,7 @@ final class InitTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'You can\'t roll more than five initiative dice',
         );
 
@@ -510,7 +510,7 @@ final class InitTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Initiative is rolled like "/roll init 12 2" or "/roll init 12+2d6"',
         );
 
