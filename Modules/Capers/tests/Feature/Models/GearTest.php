@@ -43,7 +43,7 @@ final class GearTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Gear ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Gear ID "invalid" is invalid');
         Gear::get('invalid');
     }
 

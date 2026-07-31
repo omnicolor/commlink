@@ -19,7 +19,7 @@ final class WeaponTest extends TestCase
     public function testLoadNoId(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'ID must be included when instantiating a weapon'
         );
         Weapon::build([]);
@@ -28,7 +28,7 @@ final class WeaponTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Weapon ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Weapon ID "invalid" is invalid');
         Weapon::build(['id' => 'invalid']);
     }
 
@@ -41,7 +41,7 @@ final class WeaponTest extends TestCase
     public function testFindByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Weapon "Not found" was not found');
+        self::expectExceptionMessageIs('Weapon "Not found" was not found');
         Weapon::findByName('Not found');
     }
 

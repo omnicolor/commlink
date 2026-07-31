@@ -44,7 +44,7 @@ final class InitTest extends TestCase
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Rolling initiative without a linked character requires your '
                 . 'reflexes, and optionally any modififers: `/roll init 8 -2` '
                 . 'for a character with 8 REF and a wound modifier of -2',

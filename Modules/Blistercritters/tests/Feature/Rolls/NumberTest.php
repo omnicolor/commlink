@@ -22,7 +22,7 @@ final class NumberTest extends TestCase
     public function testSlackError(): void
     {
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'You must include the die size and the target number',
         );
 

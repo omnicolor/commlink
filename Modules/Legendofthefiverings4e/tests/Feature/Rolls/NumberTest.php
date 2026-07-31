@@ -23,7 +23,7 @@ final class NumberTest extends TestCase
     public function testTooFewArgumentsError(): void
     {
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'LotFR rolls require two numbers: how many dice to roll and how '
                 . 'many to keep.',
         );

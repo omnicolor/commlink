@@ -65,7 +65,7 @@ final class GrowthAdvancementsTest extends TestCase
     public function testTooLow(string $advancement): void
     {
         self::expectException(RangeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Growth advancements can not be less than zero',
         );
         // @phpstan-ignore argument.type
@@ -76,7 +76,7 @@ final class GrowthAdvancementsTest extends TestCase
     public function testTooHigh(string $advancement): void
     {
         self::expectException(RangeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Growth advancements can not be greater than two',
         );
         // @phpstan-ignore argument.type

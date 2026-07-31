@@ -21,7 +21,7 @@ final class CritterWeaknessTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Critter weakness "not-found" is invalid'
         );
         new CritterWeakness('not-found');

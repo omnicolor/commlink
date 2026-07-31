@@ -25,7 +25,7 @@ final class TimerJobTest extends TestCase
     public function testCreateForIrc(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Can not start timer for irc channels');
+        self::expectExceptionMessageIs('Can not start timer for irc channels');
         new TimerJob(
             new Channel(['type' => ChannelType::Irc]),
             new CarbonInterval('1'),
@@ -37,7 +37,7 @@ final class TimerJobTest extends TestCase
     public function testCreateForDiscordWithoutWebhook(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Can not start time for Discord channel without webhook',
         );
         new TimerJob(
