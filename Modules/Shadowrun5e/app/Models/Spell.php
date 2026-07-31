@@ -41,7 +41,7 @@ final class Spell implements Stringable
      * List of tags for the spell.
      * @var array<int, string>
      */
-    public array $tags = [];
+    public array $tags;
     public readonly string $type;
 
     /**

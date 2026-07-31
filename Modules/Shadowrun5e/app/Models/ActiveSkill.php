@@ -21,13 +21,13 @@ final class ActiveSkill extends Skill implements Stringable
     /**
      * Whether the character can default this skill.
      */
-    public bool $default = false;
+    public bool $default;
     public readonly string $description;
 
     /**
      * Skill group the skill belongs to.
      */
-    public null|string $group = null;
+    public null|string $group;
 
     /**
      * List of all skills.
