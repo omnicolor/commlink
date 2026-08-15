@@ -15,6 +15,10 @@ Route::prefix('characters/stillfleet')
         Route::get('', [CharactersController::class, 'list'])
             ->name('list');
         Route::get(
+            'create/save-for-later',
+            [CharactersController::class, 'saveForLater'],
+        )->name('save-for-later');
+        Route::get(
             'create/{step?}',
             [CharactersController::class, 'create'],
         )->name('create');
@@ -22,6 +26,26 @@ Route::prefix('characters/stillfleet')
             'create/class',
             [CharactersController::class, 'saveClass'],
         )->name('create-class');
+        Route::post(
+            'create/class-powers',
+            [CharactersController::class, 'saveClassPowers'],
+        )->name('create-class-powers');
+        Route::post(
+            'create/details',
+            [CharactersController::class, 'saveDetails'],
+        )->name('create-details');
+        Route::post(
+            'create/species',
+            [CharactersController::class, 'saveSpecies'],
+        )->name('create-species');
+        Route::post(
+            'create/species-powers',
+            [CharactersController::class, 'saveSpeciesPowers'],
+        )->name('create-species-powers');
+        Route::post(
+            'create/attributes',
+            [CharactersController::class, 'saveAttributes']
+        )->name('create-attributes');
     });
 
 // Allow character sheets to be viewed without being logged in.
