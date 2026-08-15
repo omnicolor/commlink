@@ -57,7 +57,7 @@ final class IdentityArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'IdentityArray only accepts Identity objects'
         );
         // @phpstan-ignore offsetAssign.valueType

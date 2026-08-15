@@ -23,7 +23,7 @@ final class CostCategoryTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(ValueError::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             '"invalid" is not a valid backing value for enum '
                 . CostCategory::class
         );
@@ -36,7 +36,7 @@ final class CostCategoryTest extends TestCase
     public function testLoadNonString(): void
     {
         self::expectException(TypeError::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             CostCategory::class . '::from(): Argument #1 '
                 . '($value) must be of type string, int given'
         );

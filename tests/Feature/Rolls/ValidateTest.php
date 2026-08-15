@@ -36,7 +36,7 @@ final class ValidateTest extends TestCase
         $channel->user = 'U' . Str::random(10);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(sprintf(
+        self::expectExceptionMessageIs(sprintf(
             'To link your Commlink user, go to the settings page '
                 . '(%s/settings/chat-users) and copy the command listed there '
                 . 'for this server. If the server isn\'t listed, follow the '

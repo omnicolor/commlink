@@ -22,7 +22,7 @@ final class GearFactoryTest extends TestCase
     public function testGetInvalidString(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Item ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Item ID "invalid" is invalid');
         GearFactory::get('invalid');
     }
 
@@ -32,7 +32,7 @@ final class GearFactoryTest extends TestCase
     public function testGetInvalidArrayId(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Item ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Item ID "invalid" is invalid');
         GearFactory::get(['id' => 'invalid']);
     }
 

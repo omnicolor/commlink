@@ -35,7 +35,7 @@ final class AugmentationTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Augmentation "invalid" is invalid');
+        self::expectExceptionMessageIs('Augmentation "invalid" is invalid');
         new Augmentation('invalid');
     }
 
@@ -259,7 +259,7 @@ final class AugmentationTest extends TestCase
     public function testFindByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Augmentation "Not Found" was not found');
+        self::expectExceptionMessageIs('Augmentation "Not Found" was not found');
         Augmentation::findByName('Not Found');
     }
 

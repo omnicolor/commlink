@@ -22,7 +22,7 @@ final class Program implements Stringable
      * List of devices that can run the program.
      * @var array<int, string>
      */
-    public array $allowedDevices = [];
+    public array $allowedDevices;
     public readonly string $availability;
     public readonly int $cost;
     public readonly string $description;
@@ -31,7 +31,7 @@ final class Program implements Stringable
      * Collection of effects the program has.
      * @var array<string, int>
      */
-    public array $effects = [];
+    public array $effects;
     public readonly string $name;
     public readonly int|null $page;
     public readonly int|null $rating;

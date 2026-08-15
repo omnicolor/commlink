@@ -33,7 +33,7 @@ final class TarotTest extends TestCase
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Tarot decks require a linked Commlink campaign.',
         );
         (new Tarot('tarot', $channel->username, $channel))->forSlack();
@@ -55,7 +55,7 @@ final class TarotTest extends TestCase
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Night City Tarot only available for Cyberpunk Red campaigns.',
         );
         (new Tarot('tarot', $channel->username, $channel))->forSlack();
@@ -77,7 +77,7 @@ final class TarotTest extends TestCase
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Night City Tarot not enabled for campaign.',
         );
         (new Tarot('tarot', $channel->username, $channel))->forSlack();

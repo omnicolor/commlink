@@ -18,7 +18,7 @@ final class ResonanceEchoTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Echo ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Echo ID "invalid" is invalid');
         new ResonanceEcho('invalid');
     }
 

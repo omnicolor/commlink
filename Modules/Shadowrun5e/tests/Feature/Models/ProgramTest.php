@@ -24,7 +24,7 @@ final class ProgramTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Program ID "foo" is invalid');
+        self::expectExceptionMessageIs('Program ID "foo" is invalid');
         new Program('foo');
     }
 
@@ -82,7 +82,7 @@ final class ProgramTest extends TestCase
     public function testBuildFromStringNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Program ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Program ID "invalid" is invalid');
         Program::build('invalid', new ProgramArray());
     }
 

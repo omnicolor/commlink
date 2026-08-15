@@ -22,7 +22,7 @@ final class AdeptPowerTest extends TestCase
     {
         AdeptPower::$powers = null;
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Adept power ID "foo" is invalid');
+        self::expectExceptionMessageIs('Adept power ID "foo" is invalid');
         new AdeptPower('foo');
     }
 

@@ -293,7 +293,6 @@ class Number extends Roll
     {
         assert(null !== $interaction->user);
         assert(null !== $interaction->message?->referenced_message?->author);
-        assert($this->character instanceof Character);
 
         // Only the user that originally rolled can second chance.
         if ($interaction->message->referenced_message->author->id !== $interaction->user->id) {

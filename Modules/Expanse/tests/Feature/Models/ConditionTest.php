@@ -17,7 +17,7 @@ final class ConditionTest extends TestCase
     public function testLoadInvalidCondition(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Condition ID "q" is invalid');
+        self::expectExceptionMessageIs('Condition ID "q" is invalid');
         new Condition('q');
     }
 
