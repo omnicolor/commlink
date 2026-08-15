@@ -46,7 +46,7 @@ final class DiscordMessageReceivedTest extends TestCase
     {
         $messageStub = self::createStub(Message::class);
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Cannot handle null channels or servers');
+        self::expectExceptionMessageIs('Cannot handle null channels or servers');
         new DiscordMessageReceived(
             $messageStub,
             self::createStub(Discord::class)
@@ -60,7 +60,7 @@ final class DiscordMessageReceivedTest extends TestCase
         $messageStub->method('__get')->willReturn($channelStub);
 
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Cannot handle null channels or servers');
+        self::expectExceptionMessageIs('Cannot handle null channels or servers');
         new DiscordMessageReceived(
             $messageStub,
             self::createStub(Discord::class)
@@ -77,7 +77,7 @@ final class DiscordMessageReceivedTest extends TestCase
         $messageStub->method('__get')->willReturn($channelStub);
 
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Cannot handle threads');
+        self::expectExceptionMessageIs('Cannot handle threads');
         new DiscordMessageReceived(
             $messageStub,
             self::createStub(Discord::class)

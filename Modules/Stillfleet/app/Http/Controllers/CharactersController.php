@@ -30,7 +30,6 @@ use RuntimeException;
 
 use function abort;
 use function abort_if;
-use function assert;
 use function collect;
 use function count;
 use function in_array;
@@ -288,7 +287,6 @@ class CharactersController extends Controller
             return new RedirectResponse(route('stillfleet.create', 'class-powers'));
         }
         $chosenRole = $character->roles[0];
-        assert($chosenRole instanceof Role);
 
         if ($chosenRole->id === $request->role) {
             // Updating to the same class.

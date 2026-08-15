@@ -17,7 +17,7 @@ final class CasteTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Caste "not-found" not found');
+        self::expectExceptionMessageIs('Caste "not-found" not found');
         new Caste('not-found');
     }
 

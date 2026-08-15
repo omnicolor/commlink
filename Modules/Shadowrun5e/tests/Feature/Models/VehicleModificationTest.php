@@ -23,7 +23,7 @@ final class VehicleModificationTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Vehicle modification "invalid" is invalid'
         );
         new VehicleModification('invalid');

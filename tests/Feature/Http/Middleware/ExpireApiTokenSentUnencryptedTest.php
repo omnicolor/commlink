@@ -39,7 +39,7 @@ final class ExpireApiTokenSentUnencryptedTest extends TestCase
         });
 
         self::expectException(HttpException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Your API key has been revoked. Do not use API keys on an '
                 . 'unsecured connection.',
         );

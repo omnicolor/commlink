@@ -49,7 +49,7 @@ final class RsvpTest extends TestCase
         $channel = Channel::factory()->make();
         $roll = new Rsvp('rsvp foo', 'user', $channel);
         self::expectException(SlackException::class);
-        self::expectExceptionMessage('RSVP is not a valid roll');
+        self::expectExceptionMessageIs('RSVP is not a valid roll');
         $roll->forSlack();
     }
 

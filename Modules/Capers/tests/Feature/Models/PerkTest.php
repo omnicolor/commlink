@@ -20,7 +20,7 @@ final class PerkTest extends TestCase
     public function testInvalidPerk(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Perks ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Perks ID "invalid" is invalid');
         new Perk('invalid', []);
     }
 

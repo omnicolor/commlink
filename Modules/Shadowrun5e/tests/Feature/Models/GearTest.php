@@ -36,7 +36,7 @@ final class GearTest extends TestCase
     public function testLoadingInvalidItemThrowsException(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Item ID "invalid-id" is invalid');
+        self::expectExceptionMessageIs('Item ID "invalid-id" is invalid');
         Gear::$gear = null;
         new Gear('invalid-id');
     }
@@ -208,7 +208,7 @@ final class GearTest extends TestCase
     public function testFindByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Gear name "Not Found" was not found');
+        self::expectExceptionMessageIs('Gear name "Not Found" was not found');
         Gear::$gear = null;
         Gear::findByName('Not Found');
     }

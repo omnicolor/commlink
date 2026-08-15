@@ -21,7 +21,7 @@ final class ComplexFormTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Complex Form ID "foo" is invalid');
+        self::expectExceptionMessageIs('Complex Form ID "foo" is invalid');
         new ComplexForm('foo');
     }
 
@@ -51,7 +51,7 @@ final class ComplexFormTest extends TestCase
     public function testGetFadeNoLevel(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Level has not been set');
+        self::expectExceptionMessageIs('Level has not been set');
         $form = new ComplexForm('cleaner');
         $form->getFade();
     }

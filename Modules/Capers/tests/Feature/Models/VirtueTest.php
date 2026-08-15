@@ -21,7 +21,7 @@ final class VirtueTest extends TestCase
     public function testInvalidVirtue(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Virtue ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Virtue ID "invalid" is invalid');
         new Virtue('invalid');
     }
 
@@ -56,7 +56,7 @@ final class VirtueTest extends TestCase
     {
         $card = new Card('Knave', 'Batons');
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Virtue not found for KnaveBatons');
+        self::expectExceptionMessageIs('Virtue not found for KnaveBatons');
         Virtue::findForCard($card);
     }
 

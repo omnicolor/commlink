@@ -62,7 +62,7 @@ final class CharacterTest extends TestCase
         ]);
 
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Not enough health to convert');
+        self::expectExceptionMessageIs('Not enough health to convert');
         $character->convert();
     }
 

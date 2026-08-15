@@ -24,7 +24,7 @@ final class SpriteTest extends TestCase
     public function testSpriteNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Sprite ID "not-found" is invalid');
+        self::expectExceptionMessageIs('Sprite ID "not-found" is invalid');
         new Sprite('not-found');
     }
 
@@ -64,7 +64,7 @@ final class SpriteTest extends TestCase
     public function testGetAttributeInvalid(): void
     {
         self::expectException(BadMethodCallException::class);
-        self::expectExceptionMessage('Foo is not an attribute of sprites');
+        self::expectExceptionMessageIs('Foo is not an attribute of sprites');
         $sprite = new Sprite('courier');
         // @phpstan-ignore method.notFound
         $sprite->getFoo();
@@ -77,7 +77,7 @@ final class SpriteTest extends TestCase
     public function testGetAttributeNoLevel(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Level has not been set');
+        self::expectExceptionMessageIs('Level has not been set');
         $sprite = new Sprite('courier');
         $sprite->getFirewall();
     }
@@ -118,7 +118,7 @@ final class SpriteTest extends TestCase
     {
         $expected = ['computer', 'hacking'];
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Level is not set');
+        self::expectExceptionMessageIs('Level is not set');
         $sprite = new Sprite('courier');
         self::assertEqualsCanonicalizing($expected, $sprite->skills);
         $sprite->getSkills();
