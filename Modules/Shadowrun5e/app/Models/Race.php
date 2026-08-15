@@ -134,7 +134,7 @@ class Race extends Model implements Stringable
     public function getSpecialPointsForPriority(string $priority): int
     {
         $priority = strtoupper($priority);
-        $priorities = json_decode($this->special_points, true, JSON_THROW_ON_ERROR);
+        $priorities = json_decode($this->special_points, true, flags: JSON_THROW_ON_ERROR);
         if (!isset($priorities[$priority])) {
             throw new RuntimeException('Invalid priority');
         }

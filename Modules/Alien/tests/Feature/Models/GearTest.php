@@ -17,7 +17,7 @@ final class GearTest extends TestCase
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Gear ID "unknown" is invalid');
+        self::expectExceptionMessageIs('Gear ID "unknown" is invalid');
         new Gear('unknown');
     }
 

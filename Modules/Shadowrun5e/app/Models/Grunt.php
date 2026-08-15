@@ -28,7 +28,7 @@ final class Grunt implements Stringable
     public ComplexFormArray|null $complex_forms = null;
     public int $condition_monitor;
     public readonly string $description;
-    public float $essence = 6.0;
+    public float $essence;
     public GearArray $gear;
     public readonly int|null $initiate_grade;
     public readonly int $initiative_base;

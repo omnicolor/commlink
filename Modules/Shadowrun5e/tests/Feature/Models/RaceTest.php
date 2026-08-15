@@ -23,7 +23,7 @@ final class RaceTest extends TestCase
     public function testGetSpecialPointsForInvalidPriority(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Invalid priority');
+        self::expectExceptionMessageIs('Invalid priority');
         (Race::findOrFail('human'))->getSpecialPointsForPriority('Z');
     }
 

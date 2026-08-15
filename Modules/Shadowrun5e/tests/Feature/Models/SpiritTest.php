@@ -45,7 +45,7 @@ final class SpiritTest extends TestCase
         $spirit = new Spirit('air');
         self::assertSame('F+3', $spirit->agility);
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Force has not been set');
+        self::expectExceptionMessageIs('Force has not been set');
         $spirit->getAgility();
     }
 
@@ -79,7 +79,7 @@ final class SpiritTest extends TestCase
     public function testGettingInvalidAttribute(): void
     {
         self::expectException(BadMethodCallException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Resonance is not an attribute of spirits'
         );
         $spirit = new Spirit('air', 5);
@@ -92,7 +92,7 @@ final class SpiritTest extends TestCase
     public function testInvalidSpirit(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Spirit ID "foo" is invalid');
+        self::expectExceptionMessageIs('Spirit ID "foo" is invalid');
         new Spirit('foo');
     }
 

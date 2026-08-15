@@ -226,13 +226,15 @@ class PartialCharacter extends Character implements Stringable
             $min_attribute_value = 99;
             foreach ($attributes as $attribute => $value) {
                 $tmp = substr($attribute, 0, 3) . '_min';
-                // @phpstan-ignore property.notFound
                 if ($value < $min_attribute_value && $race->$tmp !== $value) {
                     $min_attribute = $attribute;
                     $min_attribute_value = $value;
                 }
             }
             ++$attribute_points;
+            if (!isset($attributes[$min_attribute])) {
+                throw new RuntimeException();
+            }
             --$attributes[$min_attribute];
             event(new KarmaSpent(
                 $character,

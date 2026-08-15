@@ -34,7 +34,7 @@ final class NumberTest extends TestCase
     public function testRollInvalidDieSlack(): void
     {
         self::expectException(SlackException::class);
-        self::expectExceptionMessage('5 is not a valid die size in Stillfleet');
+        self::expectExceptionMessageIs('5 is not a valid die size in Stillfleet');
         (new Number('5', 'user', $this->channel))->forSlack();
     }
 

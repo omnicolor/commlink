@@ -18,7 +18,7 @@ final class SubgroupTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Subgroup ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Subgroup ID "invalid" is invalid');
         new Subgroup('invalid');
     }
 
