@@ -233,7 +233,7 @@ final class ChannelTest extends TestCase
     {
         $channel = new Channel();
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Invalid system');
+        self::expectExceptionMessageIs('Invalid system');
         $channel->system = 'foo';
     }
 

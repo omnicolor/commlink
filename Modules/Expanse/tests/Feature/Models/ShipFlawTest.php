@@ -17,7 +17,7 @@ final class ShipFlawTest extends TestCase
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Expanse ship flaw "not-found" is invalid'
         );
         new ShipFlaw('not-found');

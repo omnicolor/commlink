@@ -21,7 +21,7 @@ final class SpritePowerTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Sprite power ID "not-found" is invalid');
+        self::expectExceptionMessageIs('Sprite power ID "not-found" is invalid');
         new SpritePower('not-found');
     }
 

@@ -39,7 +39,7 @@ final class MeleeWeaponTest extends TestCase
     public function testLoadNoId(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'ID must be included when instantiating a weapon'
         );
         MeleeWeapon::build([]);
@@ -51,7 +51,7 @@ final class MeleeWeaponTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Weapon ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Weapon ID "invalid" is invalid');
         MeleeWeapon::build(['id' => 'invalid']);
     }
 
@@ -92,7 +92,7 @@ final class MeleeWeaponTest extends TestCase
     public function testLoadWithInvalidQuality(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Weapon ID "medium-melee" has invalid quality "super"'
         );
         Weapon::build(['id' => 'medium-melee', 'quality' => 'super']);

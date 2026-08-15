@@ -37,7 +37,7 @@ final class KnowledgeSkillTest extends TestCase
     public function testInvalidCategory(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Knowledge skill category "invalid" is invalid'
         );
         new KnowledgeSkill('foo', 'invalid', 1);

@@ -22,7 +22,7 @@ final class MentorSpiritTest extends TestCase
     {
         MentorSpirit::$spirits = null;
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Mentor spirit ID "foo" is invalid');
+        self::expectExceptionMessageIs('Mentor spirit ID "foo" is invalid');
         new MentorSpirit('foo');
     }
 
@@ -54,7 +54,7 @@ final class MentorSpiritTest extends TestCase
     public function testFindByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Mentor spirit name "invalid" was not found',
         );
         MentorSpirit::findByName('invalid');

@@ -28,7 +28,7 @@ final class RegisterResponseTest extends TestCase
     public function testChannelMissing(): void
     {
         self::expectException(SlackException::class);
-        self::expectExceptionMessage('Channel is required');
+        self::expectExceptionMessageIs('Channel is required');
         new RegisterResponse();
     }
 
@@ -45,7 +45,7 @@ final class RegisterResponseTest extends TestCase
         $channel->username = 'Testing';
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(sprintf(
+        self::expectExceptionMessageIs(sprintf(
             'You must have already created an account on <%s|%s> and linked it '
                 . 'to this server before you can register a channel to a '
                 . 'specific system.',
@@ -64,7 +64,7 @@ final class RegisterResponseTest extends TestCase
     public function testChannelAlreadyRegistered(): void
     {
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'This channel is already registered for "shadowrun5e"'
         );
         new RegisterResponse(
@@ -91,7 +91,7 @@ final class RegisterResponseTest extends TestCase
         ])->create();
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(sprintf(
+        self::expectExceptionMessageIs(sprintf(
             'To register a channel, use `register [system]`, where system '
                 . 'is a system code: %s',
             implode(', ', array_keys(config('commlink.systems')))
@@ -121,7 +121,7 @@ final class RegisterResponseTest extends TestCase
         ])->create();
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(sprintf(
+        self::expectExceptionMessageIs(sprintf(
             '"%s" is not a valid system code. Use `register [system]`, '
                 . 'where system is: %s',
             'invalid',

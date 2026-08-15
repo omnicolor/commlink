@@ -23,7 +23,7 @@ final class RangedWeaponTest extends TestCase
     public function testLoadNoId(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'ID must be included when instantiating a weapon'
         );
         Weapon::build([]);
@@ -35,7 +35,7 @@ final class RangedWeaponTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Weapon ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Weapon ID "invalid" is invalid');
         Weapon::build(['id' => 'invalid']);
     }
 
@@ -76,7 +76,7 @@ final class RangedWeaponTest extends TestCase
     public function testLoadWithInvalidQuality(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Weapon ID "medium-pistol" has invalid quality "super"'
         );
         Weapon::build(['id' => 'medium-pistol', 'quality' => 'super']);

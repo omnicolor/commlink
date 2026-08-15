@@ -22,14 +22,14 @@ final class DiceServiceTest extends TestCase
     public function testRollTooFewDice(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('You can\'t roll fewer than 1 die');
+        self::expectExceptionMessageIs('You can\'t roll fewer than 1 die');
         DiceService::rollMany(0, 6);
     }
 
     public function testRollTooFewPips(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Dice must have more than one pip');
+        self::expectExceptionMessageIs('Dice must have more than one pip');
         DiceService::rollMany(1, 1);
     }
 
@@ -126,28 +126,28 @@ final class DiceServiceTest extends TestCase
     public function testGetDiceAndPipsZeroDice(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('You can\'t roll fewer than 1 die');
+        self::expectExceptionMessageIs('You can\'t roll fewer than 1 die');
         DiceService::getDiceAndPips('0d20');
     }
 
     public function testGetDiceAndPipsNegativeDice(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('You can\'t roll fewer than 1 die');
+        self::expectExceptionMessageIs('You can\'t roll fewer than 1 die');
         DiceService::getDiceAndPips('-10d20');
     }
 
     public function testGetDiceAndPipsZeroPips(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Dice must have more than one pip');
+        self::expectExceptionMessageIs('Dice must have more than one pip');
         DiceService::getDiceAndPips('10d0');
     }
 
     public function testGetDiceAndPipsNegativePips(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Dice must have more than one pip');
+        self::expectExceptionMessageIs('Dice must have more than one pip');
         DiceService::getDiceAndPips('10d-20');
     }
 

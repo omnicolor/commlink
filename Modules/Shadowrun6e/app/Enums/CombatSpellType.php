@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Module\Shadowrun6e\Enums;
+namespace Modules\Shadowrun6e\Enums;
 
 enum CombatSpellType: string
 {

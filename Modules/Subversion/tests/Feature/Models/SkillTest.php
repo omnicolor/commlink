@@ -17,7 +17,7 @@ final class SkillTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Skill "not-found" not found');
+        self::expectExceptionMessageIs('Skill "not-found" not found');
         new Skill('not-found');
     }
 

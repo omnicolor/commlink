@@ -28,13 +28,13 @@ final class Quality implements Stringable
      * List of the quality's effects.
      * @var array<string, mixed>
      */
-    public array $effects = [];
+    public array $effects;
 
     /**
      * List of qualities or augmentations this is incompatible with.
      * @var array<int, string>
      */
-    public array $incompatibilities = [];
+    public array $incompatibilities;
     public readonly int $karma;
     public string $name;
     public readonly string $ruleset;

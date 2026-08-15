@@ -18,7 +18,7 @@ final class IntrusionCountermeasureTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Intrusion countermeasure ID "not-found" is invalid'
         );
         new IntrusionCountermeasure('not-found');
@@ -49,7 +49,7 @@ final class IntrusionCountermeasureTest extends TestCase
     {
         $ice = new IntrusionCountermeasure('acid');
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Host rating requires ASDF attributes to be set'
         );
         $ice->getHostRating();
@@ -59,7 +59,7 @@ final class IntrusionCountermeasureTest extends TestCase
     {
         $ice = new IntrusionCountermeasure('acid');
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Host rating requires ASDF attributes to be set'
         );
         $ice->getConditionMonitor();
