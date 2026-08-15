@@ -21,7 +21,7 @@ final class MetamagicTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Metamagic ID "foo" is invalid');
+        self::expectExceptionMessageIs('Metamagic ID "foo" is invalid');
         new Metamagic('foo');
     }
 
@@ -40,7 +40,7 @@ final class MetamagicTest extends TestCase
     public function testFindByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Metamagic "not found" was not found');
+        self::expectExceptionMessageIs('Metamagic "not found" was not found');
         Metamagic::findByName('Not Found');
     }
 

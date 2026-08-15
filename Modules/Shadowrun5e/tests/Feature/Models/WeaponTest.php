@@ -38,7 +38,7 @@ final class WeaponTest extends TestCase
     public function testWeaponNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Weapon ID "not-found" is invalid');
+        self::expectExceptionMessageIs('Weapon ID "not-found" is invalid');
         new Weapon('not-found');
     }
 
@@ -226,7 +226,7 @@ final class WeaponTest extends TestCase
     public function testBuildWeaponNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Weapon ID "not-found" is invalid');
+        self::expectExceptionMessageIs('Weapon ID "not-found" is invalid');
         Weapon::buildWeapon(['id' => 'not-found']);
     }
 
@@ -305,7 +305,7 @@ final class WeaponTest extends TestCase
     public function testFindByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Weapon name "Not Found" was not found');
+        self::expectExceptionMessageIs('Weapon name "Not Found" was not found');
         Weapon::findByName('Not Found');
     }
 

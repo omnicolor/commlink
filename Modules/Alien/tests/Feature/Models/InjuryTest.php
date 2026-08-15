@@ -17,7 +17,7 @@ final class InjuryTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Injury ID "unknown" is invalid');
+        self::expectExceptionMessageIs('Injury ID "unknown" is invalid');
         new Injury('unknown');
     }
 

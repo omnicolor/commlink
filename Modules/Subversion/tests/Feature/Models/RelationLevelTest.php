@@ -19,7 +19,7 @@ final class RelationLevelTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Relation level "not-found" not found');
+        self::expectExceptionMessageIs('Relation level "not-found" not found');
         new RelationLevel('not-found');
     }
 

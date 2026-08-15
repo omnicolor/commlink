@@ -35,7 +35,7 @@ final class FadeTest extends TestCase
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'You must have a character linked to make fade tests'
         );
         (new Fade('', 'username', $channel))->forSlack();

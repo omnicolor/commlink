@@ -19,7 +19,7 @@ final class BackgroundTest extends TestCase
     public function testLoadInvalidBackground(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Background ID "q" is invalid');
+        self::expectExceptionMessageIs('Background ID "q" is invalid');
         new Background('q');
     }
 

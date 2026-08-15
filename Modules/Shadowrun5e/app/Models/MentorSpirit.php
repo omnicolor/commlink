@@ -23,7 +23,7 @@ final class MentorSpirit implements Stringable
      * Collection of effects the mentor spirit provides.
      * @var array<string, int>
      */
-    public array $effects = [];
+    public array $effects;
     public readonly string $name;
     public readonly int|null $page;
     public readonly string $ruleset;

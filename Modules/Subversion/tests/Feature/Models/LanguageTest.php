@@ -17,7 +17,7 @@ final class LanguageTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Language "not-found" not found');
+        self::expectExceptionMessageIs('Language "not-found" not found');
         new Language('not-found');
     }
 

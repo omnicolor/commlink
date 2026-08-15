@@ -21,7 +21,7 @@ final class ActiveSkillTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Shadowrun 6E skill ID "not-found" is invalid'
         );
         new ActiveSkill('not-found');

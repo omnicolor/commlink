@@ -17,7 +17,7 @@ final class ShipQualityTest extends TestCase
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Expanse ship quality "not-found" is invalid'
         );
         new ShipQuality('not-found');

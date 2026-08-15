@@ -46,7 +46,7 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('"not-found.chum5" does not exist');
+        self::expectExceptionMessageIs('"not-found.chum5" does not exist');
         new Shadowrun5eConverter('not-found.chum5');
     }
 
@@ -56,7 +56,7 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testLoadNotXML(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Could not parse XML in Chummer file');
+        self::expectExceptionMessageIs('Could not parse XML in Chummer file');
         new Shadowrun5eConverter(__FILE__);
     }
 

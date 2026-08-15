@@ -23,7 +23,7 @@ final class IdentityTest extends TestCase
     public function testInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Identity ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Identity ID "invalid" is invalid');
         new Identity('invalid');
     }
 
@@ -60,7 +60,7 @@ final class IdentityTest extends TestCase
     public function testFindForJoker(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Joker drawn, draw again');
+        self::expectExceptionMessageIs('Joker drawn, draw again');
         Identity::findForCard(new Card('Good Joker', ''));
     }
 
@@ -91,7 +91,7 @@ final class IdentityTest extends TestCase
     public function testFindForCardInvalidSuit(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Invalid suit');
+        self::expectExceptionMessageIs('Invalid suit');
         Identity::findForCard(new Card('4', 'Swords'));
     }
 
@@ -101,7 +101,7 @@ final class IdentityTest extends TestCase
     public function testFindForCardInvalidValue(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Identity not found for 1♠');
+        self::expectExceptionMessageIs('Identity not found for 1♠');
         Identity::findForCard(new Card('1', '♠'));
     }
 }

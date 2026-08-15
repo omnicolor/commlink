@@ -33,7 +33,7 @@ final class SkillGroupTest extends TestCase
     {
         SkillGroup::$skillGroups = null;
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Skill group ID "invalid-group-id" is invalid'
         );
         new SkillGroup('invalid-group-id', 15);

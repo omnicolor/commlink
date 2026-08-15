@@ -18,7 +18,7 @@ final class RulebookTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Ruleset ID "not-found" is invalid');
+        self::expectExceptionMessageIs('Ruleset ID "not-found" is invalid');
         new Rulebook('not-found');
     }
 

@@ -23,7 +23,7 @@ final class ArmorModificationTest extends TestCase
     public function testLoadNotFoundModification(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Modification ID "invalid" not found');
+        self::expectExceptionMessageIs('Modification ID "invalid" not found');
         new ArmorModification('invalid');
     }
 
@@ -142,7 +142,7 @@ final class ArmorModificationTest extends TestCase
     public function testFindByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Armor modification "Not Found" was not found'
         );
         ArmorModification::findByName('Not Found');

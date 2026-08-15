@@ -17,7 +17,7 @@ final class LineageTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Lineage "not-found" not found');
+        self::expectExceptionMessageIs('Lineage "not-found" not found');
         new Lineage('not-found');
     }
 

@@ -36,7 +36,7 @@ final class RegisterTest extends TestCase
         $channel = new Channel(['type' => ChannelType::Slack]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'To register a channel, use `register [system]`, where system is a '
                 . 'system code: '
                 . implode(', ', array_keys(config('commlink.systems')))
@@ -102,7 +102,7 @@ final class RegisterTest extends TestCase
         $channel = new Channel(['type' => ChannelType::Slack]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(sprintf(
+        self::expectExceptionMessageIs(sprintf(
             'You must have already created an account on %s '
                 . '(%s/settings/chat-users) and linked it to this server '
                 . 'before you can register a channel to a specific system.',

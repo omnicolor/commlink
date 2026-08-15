@@ -23,7 +23,7 @@ final class OriginTest extends TestCase
     public function testInvalidOrigin(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Origin "jovian" is invalid');
+        self::expectExceptionMessageIs('Origin "jovian" is invalid');
         Origin::factory('Jovian');
     }
 

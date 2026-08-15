@@ -19,7 +19,7 @@ final class FocusTest extends TestCase
     public function testLoadInvalidFocus(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Focus ID "q" is invalid');
+        self::expectExceptionMessageIs('Focus ID "q" is invalid');
         new Focus('q');
     }
 

@@ -17,7 +17,7 @@ final class GearTest extends TestCase
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Gear "not-found" not found');
+        self::expectExceptionMessageIs('Gear "not-found" not found');
         new Gear('not-found');
     }
 
