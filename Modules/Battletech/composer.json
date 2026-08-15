@@ -1,0 +1,28 @@
+{
+    "name": "omnicolor/battletech-module",
+    "description": "Battletech RPG module for Commlink",
+    "authors": [
+        {
+            "name": "Omni Adams",
+            "email": "omni@digitaldarkness.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Battletech\\": "app/",
+            "Modules\\Battletech\\Database\\Factories\\": "database/factories/",
+            "Modules\\Battletech\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Battletech\\Tests\\": "tests/"
+        }
+    }
+}
