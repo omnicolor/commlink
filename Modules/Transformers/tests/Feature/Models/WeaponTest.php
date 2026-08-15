@@ -17,7 +17,7 @@ final class WeaponTest extends TestCase
     public function testInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Weapon ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Weapon ID "invalid" is invalid');
         new Weapon('invalid');
     }
 

@@ -26,7 +26,7 @@ final class SkillTest extends TestCase
     {
         Skill::$skills = null;
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Skill ID "not-found-id" is invalid');
+        self::expectExceptionMessageIs('Skill ID "not-found-id" is invalid');
         new Skill('not-found-id', 0);
     }
 

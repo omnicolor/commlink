@@ -17,7 +17,7 @@ final class ShipWeaponTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Expanse ship weapon "not-found" is invalid'
         );
         new ShipWeapon('not-found', 'fore');

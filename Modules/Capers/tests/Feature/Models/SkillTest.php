@@ -20,7 +20,7 @@ final class SkillTest extends TestCase
     public function testInvalidSkill(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Skill ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Skill ID "invalid" is invalid');
         new Skill('invalid');
     }
 

@@ -32,7 +32,7 @@ final class DrawTest extends TestCase
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Decks for Capers require a linked Commlink campaign.',
         );
         (new Draw('draw', $channel->username, $channel))->forSlack();
@@ -53,7 +53,7 @@ final class DrawTest extends TestCase
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Capers-style card decks are only available for Capers campaigns.',
         );
         (new Draw('draw', $channel->username, $channel))->forSlack();
@@ -163,7 +163,7 @@ final class DrawTest extends TestCase
         $deck->save();
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage('Insufficient cards remain in deck');
+        self::expectExceptionMessageIs('Insufficient cards remain in deck');
         (new Draw('draw', $channel->username, $channel))->forSlack();
     }
 

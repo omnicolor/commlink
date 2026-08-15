@@ -42,7 +42,7 @@ final class ArmorModification implements Stringable
      * List of effects for the modification.
      * @var array<string, int>
      */
-    public array $effects = [];
+    public array $effects;
 
     /**
      * List of modifications this is incompatible with.
@@ -63,7 +63,7 @@ final class ArmorModification implements Stringable
     /**
      * Ruleset the modification comes from.
      */
-    public string $ruleset = 'core';
+    public string $ruleset;
 
     /**
      * List of all modifications.

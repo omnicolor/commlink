@@ -83,7 +83,7 @@ final class WebChannelTest extends TestCase
     {
         $channel = new WebChannel();
         self::expectException(LogicException::class);
-        self::expectExceptionMessage('WebChannel types can not be set');
+        self::expectExceptionMessageIs('WebChannel types can not be set');
         $channel->type = ChannelType::Slack;
     }
 

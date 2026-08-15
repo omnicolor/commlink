@@ -32,7 +32,7 @@ final class WeaponModificationTest extends TestCase
     public function testInvalidId(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Modification ID "invalid-item" is invalid'
         );
         WeaponModification::$modifications = null;
@@ -194,7 +194,7 @@ final class WeaponModificationTest extends TestCase
     public function testFindByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Weapon modification "Not Found" was not found'
         );
         WeaponModification::findByName('Not Found');

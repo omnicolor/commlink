@@ -19,7 +19,7 @@ final class PlaybookTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Playbook ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Playbook ID "invalid" is invalid');
         new Playbook('invalid');
     }
 

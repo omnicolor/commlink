@@ -20,7 +20,7 @@ final class PowerTest extends TestCase
     public function testLoadInvalidPower(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Power ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Power ID "invalid" is invalid');
         new Power('invalid');
     }
 

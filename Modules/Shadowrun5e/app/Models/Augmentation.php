@@ -46,7 +46,7 @@ final class Augmentation implements Stringable
      * List of effects the augmentation has.
      * @var array<string, int>
      */
-    public array $effects = [];
+    public array $effects;
 
     /**
      * Base essence cost of the augmentation.
@@ -59,7 +59,7 @@ final class Augmentation implements Stringable
      * List of augmentations this one is incompatible with.
      * @var array<int, string>
      */
-    public array $incompatibilities = [];
+    public array $incompatibilities;
 
     /**
      * List of modifications to this augmentation.

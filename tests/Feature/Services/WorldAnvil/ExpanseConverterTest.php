@@ -38,14 +38,14 @@ final class ExpanseConverterTest extends TestCase
     public function testConstructorWithNotFoundFile(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Unable to locate World Anvil file');
+        self::expectExceptionMessageIs('Unable to locate World Anvil file');
         new ExpanseConverter('/dev/null/not-found.json');
     }
 
     public function testConstructorInvalidFile(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'File does not appear to be a World Anvil file'
         );
         new ExpanseConverter(__FILE__);
@@ -62,7 +62,7 @@ final class ExpanseConverterTest extends TestCase
         $testFile = implode(DIRECTORY_SEPARATOR, $path);
 
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Character is not an Expanse character');
+        self::expectExceptionMessageIs('Character is not an Expanse character');
         new ExpanseConverter($testFile);
     }
 

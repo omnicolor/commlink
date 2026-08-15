@@ -67,7 +67,7 @@ final class ArmorModificationArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'ArmorModificationArray only accepts Armor- or GearModification objects'
         );
         // @phpstan-ignore offsetAssign.valueType

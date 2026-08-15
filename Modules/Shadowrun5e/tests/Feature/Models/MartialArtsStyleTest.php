@@ -21,7 +21,7 @@ final class MartialArtsStyleTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Martial Arts Style ID "foo" is invalid');
+        self::expectExceptionMessageIs('Martial Arts Style ID "foo" is invalid');
         new MartialArtsStyle('foo');
     }
 

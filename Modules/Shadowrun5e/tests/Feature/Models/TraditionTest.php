@@ -21,7 +21,7 @@ final class TraditionTest extends TestCase
     public function testInvalidTradition(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Tradition ID "invalid" not found');
+        self::expectExceptionMessageIs('Tradition ID "invalid" not found');
         new Tradition('invalid');
     }
 

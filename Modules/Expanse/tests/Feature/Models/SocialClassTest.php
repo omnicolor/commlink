@@ -17,7 +17,7 @@ final class SocialClassTest extends TestCase
     public function testLoadInvalidClass(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Social Class ID "q" is invalid');
+        self::expectExceptionMessageIs('Social Class ID "q" is invalid');
         new SocialClass('q');
     }
 

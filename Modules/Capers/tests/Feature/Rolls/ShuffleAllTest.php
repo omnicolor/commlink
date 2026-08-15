@@ -35,7 +35,7 @@ final class ShuffleAllTest extends TestCase
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Decks for Capers require a linked Commlink campaign.',
         );
         (new ShuffleAll('shuffleAll', $channel->username, $channel))
@@ -79,7 +79,7 @@ final class ShuffleAllTest extends TestCase
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'You must be the game\'s GM to shuffle all decks',
         );
         (new ShuffleAll('shuffleAll', $channel->username, $channel))

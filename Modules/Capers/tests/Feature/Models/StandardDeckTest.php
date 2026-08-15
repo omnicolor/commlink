@@ -33,7 +33,7 @@ final class StandardDeckTest extends TestCase
         $campaign = Campaign::factory()->create();
 
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Deck not found');
+        self::expectExceptionMessageIs('Deck not found');
         StandardDeck::findForCampaignAndPlayer($campaign, 'Bob');
     }
 
@@ -61,7 +61,7 @@ final class StandardDeckTest extends TestCase
     public function testSaveNoCampaign(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Campaign ID must be set to save a deck');
+        self::expectExceptionMessageIs('Campaign ID must be set to save a deck');
         (new StandardDeck())->save();
     }
 

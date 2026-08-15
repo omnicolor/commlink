@@ -17,7 +17,7 @@ final class WeaponTest extends TestCase
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Weapon ID "unknown" is invalid');
+        self::expectExceptionMessageIs('Weapon ID "unknown" is invalid');
         new Weapon('unknown');
     }
 
