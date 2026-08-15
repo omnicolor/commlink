@@ -57,7 +57,7 @@ final class BlitzTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage('GMs can\'t blitz initiative');
+        self::expectExceptionMessageIs('GMs can\'t blitz initiative');
         (new Blitz('blitz', 'username', $channel))->forSlack();
     }
 
@@ -69,7 +69,7 @@ final class BlitzTest extends TestCase
     {
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'You must have a character linked to blitz initiative',
         );
         (new Blitz('blitz', 'user', $channel))->forSlack();

@@ -38,14 +38,14 @@ final class CyberpunkRedConverterTest extends TestCase
     public function testConstructorWithNotFoundFile(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Unable to locate World Anvil file');
+        self::expectExceptionMessageIs('Unable to locate World Anvil file');
         new CyberpunkRedConverter('/dev/null/not-found.json');
     }
 
     public function testConstructorInvalidFile(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'File does not appear to be a World Anvil file'
         );
         new CyberpunkRedConverter(__FILE__);
@@ -62,7 +62,7 @@ final class CyberpunkRedConverterTest extends TestCase
         $testFile = implode(DIRECTORY_SEPARATOR, $path);
 
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Character is not a Cyberpunk Red character'
         );
         new CyberpunkRedConverter($testFile);

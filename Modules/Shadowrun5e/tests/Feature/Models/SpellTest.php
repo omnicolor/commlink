@@ -22,7 +22,7 @@ final class SpellTest extends TestCase
     {
         Spell::$spells = null;
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Spell ID "foo" is invalid');
+        self::expectExceptionMessageIs('Spell ID "foo" is invalid');
         new Spell('foo');
     }
 
@@ -60,7 +60,7 @@ final class SpellTest extends TestCase
     public function testGetDrainForceNotSet(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Force has not been set');
+        self::expectExceptionMessageIs('Force has not been set');
         $spell = new Spell('control-emotions');
         $spell->getDrain();
     }
@@ -84,7 +84,7 @@ final class SpellTest extends TestCase
     public function testFindByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Spell "Not Found" was not found');
+        self::expectExceptionMessageIs('Spell "Not Found" was not found');
         Spell::findByName('Not Found');
     }
 

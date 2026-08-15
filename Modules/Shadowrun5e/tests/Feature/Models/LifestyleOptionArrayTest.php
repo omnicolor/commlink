@@ -67,7 +67,7 @@ final class LifestyleOptionArrayTest extends TestCase
     public function testAddInvalidObject(): void
     {
         self::expectException(TypeError::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'LifestyleOptionArray only accepts LifestyleOption objects'
         );
         // @phpstan-ignore offsetAssign.valueType

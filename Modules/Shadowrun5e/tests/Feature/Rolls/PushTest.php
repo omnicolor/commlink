@@ -32,7 +32,7 @@ final class PushTest extends TestCase
     {
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'You must have a character linked to push the limit',
         );
         (new Push('push 5', 'user', $channel))->forSlack();
@@ -65,7 +65,7 @@ final class PushTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Pushing the limit requires the number of dice to roll (not '
             . 'including your edge)',
         );
@@ -133,7 +133,7 @@ final class PushTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage('It looks like you\'re out of edge!');
+        self::expectExceptionMessageIs('It looks like you\'re out of edge!');
         (new Push('push 10', 'username', $channel))->forSlack();
 
         $character->delete();

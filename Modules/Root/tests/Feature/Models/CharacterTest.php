@@ -47,7 +47,7 @@ final class CharacterTest extends TestCase
     public function testAttributesCanNotBeTooLow(string $attribute): void
     {
         self::expectException(DomainException::class);
-        self::expectExceptionMessage('Attributes can not be less than -1');
+        self::expectExceptionMessageIs('Attributes can not be less than -1');
         $character = new Character([$attribute => -2]);
         // @phpstan-ignore property.dynamicName, expr.resultUnused
         $character->$attribute;
@@ -57,7 +57,7 @@ final class CharacterTest extends TestCase
     public function testAttributesCanNotBeToohigh(string $attribute): void
     {
         self::expectException(DomainException::class);
-        self::expectExceptionMessage('Attributes can not be greater than 2');
+        self::expectExceptionMessageIs('Attributes can not be greater than 2');
         $character = new Character([$attribute => 3]);
         // @phpstan-ignore property.dynamicName, expr.resultUnused
         $character->$attribute;

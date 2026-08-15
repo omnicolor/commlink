@@ -17,7 +17,7 @@ final class RelationArchetypeTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Relation archetype "not-found" not found');
+        self::expectExceptionMessageIs('Relation archetype "not-found" not found');
         new RelationArchetype('not-found');
     }
 

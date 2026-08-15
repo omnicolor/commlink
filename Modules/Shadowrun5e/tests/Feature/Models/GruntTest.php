@@ -21,7 +21,7 @@ final class GruntTest extends TestCase
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Grunt ID "not-found" was not found');
+        self::expectExceptionMessageIs('Grunt ID "not-found" was not found');
         new Grunt('not-found');
     }
 

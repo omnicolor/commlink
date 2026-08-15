@@ -17,14 +17,14 @@ final class AttributeTest extends TestCase
     public function testTooLowThrowsException(): void
     {
         self::expectException(DomainException::class);
-        self::expectExceptionMessage('Attributes can not be less than -1');
+        self::expectExceptionMessageIs('Attributes can not be less than -1');
         new Attribute(-2);
     }
 
     public function testTooHighThrowsException(): void
     {
         self::expectException(DomainException::class);
-        self::expectExceptionMessage('Attributes can not be greater than 2');
+        self::expectExceptionMessageIs('Attributes can not be greater than 2');
         new Attribute(3);
     }
 
@@ -49,7 +49,7 @@ final class AttributeTest extends TestCase
     public function testTooHighAttributeEvenWithMove(): void
     {
         self::expectException(DomainException::class);
-        self::expectExceptionMessage('Attributes can not be greater than 3 including a move');
+        self::expectExceptionMessageIs('Attributes can not be greater than 3 including a move');
         new Attribute(4, true);
     }
 }

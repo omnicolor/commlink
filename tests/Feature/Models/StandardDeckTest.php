@@ -58,7 +58,7 @@ final class StandardDeckTest extends TestCase
     {
         $deck = new StandardDeck();
         self::expectException(UnderflowException::class);
-        self::expectExceptionMessage('Insufficient cards remain in deck');
+        self::expectExceptionMessageIs('Insufficient cards remain in deck');
         $deck->draw(53);
     }
 
@@ -70,7 +70,7 @@ final class StandardDeckTest extends TestCase
         $deck = new StandardDeck();
         $deck->draw(52);
         self::expectException(UnderflowException::class);
-        self::expectExceptionMessage('Insufficient cards remain in deck');
+        self::expectExceptionMessageIs('Insufficient cards remain in deck');
         $deck->peek();
     }
 
@@ -81,7 +81,7 @@ final class StandardDeckTest extends TestCase
     {
         $deck = new StandardDeck();
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Number of cards must be greater than zero');
+        self::expectExceptionMessageIs('Number of cards must be greater than zero');
         $deck->draw(-1);
     }
 
@@ -94,7 +94,7 @@ final class StandardDeckTest extends TestCase
             ->with(1)
             ->andReturn(null);
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Deck not found');
+        self::expectExceptionMessageIs('Deck not found');
         StandardDeck::find(1);
     }
 
@@ -107,7 +107,7 @@ final class StandardDeckTest extends TestCase
             ->with(1)
             ->andReturn((object)['type' => 'Invalid']);
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Deck type not found');
+        self::expectExceptionMessageIs('Deck type not found');
         StandardDeck::find(1);
     }
 
@@ -137,7 +137,7 @@ final class StandardDeckTest extends TestCase
     {
         $deck = new StandardDeck();
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Campaign ID must be set to save a deck');
+        self::expectExceptionMessageIs('Campaign ID must be set to save a deck');
         $deck->save();
     }
 

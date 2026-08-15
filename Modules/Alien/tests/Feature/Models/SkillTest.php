@@ -17,7 +17,7 @@ final class SkillTest extends TestCase
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Skill ID "unknown" is invalid');
+        self::expectExceptionMessageIs('Skill ID "unknown" is invalid');
         new Skill('unknown');
     }
 

@@ -23,7 +23,7 @@ final class InjuryTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(6)->andReturn(7);
         self::expectException(SlackException::class);
-        self::expectExceptionMessage('Injury result (77) was invalid');
+        self::expectExceptionMessageIs('Injury result (77) was invalid');
 
         (new Injury('', 'username', new Channel()))->forSlack();
     }

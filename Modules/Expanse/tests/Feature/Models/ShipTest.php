@@ -18,7 +18,7 @@ final class ShipTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Expanse ship "not-found" is invalid');
+        self::expectExceptionMessageIs('Expanse ship "not-found" is invalid');
         new Ship('not-found');
     }
 

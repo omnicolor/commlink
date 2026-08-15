@@ -23,7 +23,7 @@ final class LifestyleTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Lifestyle ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Lifestyle ID "invalid" is invalid');
         new Lifestyle('invalid');
     }
 
@@ -117,7 +117,7 @@ final class LifestyleTest extends TestCase
         self::assertEquals(new LifestyleZone('aaa'), $lifestyle->getZone());
         ++$lifestyle->attributes->neighborhood;
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Neighborhood rating out of range');
+        self::expectExceptionMessageIs('Neighborhood rating out of range');
         $lifestyle->getZone();
     }
 

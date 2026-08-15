@@ -55,7 +55,7 @@ final class CharacterTest extends TestCase
     {
         $character = new Character();
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Invalid attribute');
+        self::expectExceptionMessageIs('Invalid attribute');
         $character->getAbilityModifier('invalid');
     }
 
@@ -67,7 +67,7 @@ final class CharacterTest extends TestCase
     {
         $character = new Character(['charisma' => 0]);
         self::expectException(OutOfRangeException::class);
-        self::expectExceptionMessage('Attribute value is out of range');
+        self::expectExceptionMessageIs('Attribute value is out of range');
         $character->getAbilityModifier('charisma');
     }
 

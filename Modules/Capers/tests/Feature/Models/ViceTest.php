@@ -21,7 +21,7 @@ final class ViceTest extends TestCase
     public function testInvalidVice(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Vice ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Vice ID "invalid" is invalid');
         new Vice('invalid');
     }
 
@@ -53,7 +53,7 @@ final class ViceTest extends TestCase
     public function testFindForInvalidCard(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Vice not found for 30☃');
+        self::expectExceptionMessageIs('Vice not found for 30☃');
         Vice::findForCard(new Card('30', '☃'));
     }
 

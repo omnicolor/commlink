@@ -24,7 +24,7 @@ final class LifestyleAttributesTest extends TestCase
     public function testMissingAttributes(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Lifestyle attributes missing');
+        self::expectExceptionMessageIs('Lifestyle attributes missing');
         new LifestyleAttributes([]);
     }
 

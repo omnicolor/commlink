@@ -29,7 +29,7 @@ final class SkillTest extends TestCase
     public function testSkillWithoutCharacter(): void
     {
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Skill rolls are only available if you have linked a character',
         );
 

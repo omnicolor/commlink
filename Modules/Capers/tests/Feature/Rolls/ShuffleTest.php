@@ -33,7 +33,7 @@ final class ShuffleTest extends TestCase
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Decks for Capers require a linked Commlink campaign.',
         );
         (new Shuffle('shuffle', $channel->username, $channel))->forSlack();
