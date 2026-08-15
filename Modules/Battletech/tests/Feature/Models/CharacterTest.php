@@ -95,7 +95,7 @@ final class CharacterTest extends TestCase
     {
         $character = new Character(['attributes' => []]);
         self::expectException(DomainException::class);
-        self::expectExceptionMessage('Attributes list is incomplete.');
+        self::expectExceptionMessageIs('Attributes list is incomplete.');
         // @phpstan-ignore expr.resultUnused
         $character->attributes;
     }
@@ -185,7 +185,7 @@ final class CharacterTest extends TestCase
     public function testFromPregenNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Pregen ID not found: not-found');
+        self::expectExceptionMessageIs('Pregen ID not found: not-found');
         Character::fromPregen('not-found');
     }
 

@@ -18,7 +18,7 @@ final class AttributesTest extends TestCase
     public function testMakeWithMissingAttribute(): void
     {
         self::expectException(DomainException::class);
-        self::expectExceptionMessage('Attributes list is incomplete.');
+        self::expectExceptionMessageIs('Attributes list is incomplete.');
         // @phpstan-ignore argument.type
         Attributes::make([]);
     }

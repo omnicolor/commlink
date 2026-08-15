@@ -78,7 +78,7 @@ class Weapon extends Model implements Stringable
     {
         return Attribute::make(
             get: static function (string $availability): array {
-                $availability = json_decode($availability, true, JSON_THROW_ON_ERROR);
+                $availability = json_decode($availability, true, flags: JSON_THROW_ON_ERROR);
                 foreach ($availability as &$rating) {
                     $rating = AvailabilityRating::from($rating);
                 }
@@ -149,7 +149,7 @@ class Weapon extends Model implements Stringable
                 if (is_int($range)) {
                     return [$range];
                 }
-                return json_decode($range, true, JSON_THROW_ON_ERROR);
+                return json_decode($range, true, flags: JSON_THROW_ON_ERROR);
             },
         );
     }

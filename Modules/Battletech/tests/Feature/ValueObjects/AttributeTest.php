@@ -17,7 +17,7 @@ final class AttributeTest extends TestCase
     public function testAttributeTooLow(): void
     {
         self::expectException(DomainException::class);
-        self::expectExceptionMessage('Attributes can not be less than 1.');
+        self::expectExceptionMessageIs('Attributes can not be less than 1.');
         new Attribute(-1);
     }
 

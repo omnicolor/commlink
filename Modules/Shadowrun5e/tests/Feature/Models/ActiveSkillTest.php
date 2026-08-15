@@ -25,7 +25,7 @@ final class ActiveSkillTest extends TestCase
     {
         ActiveSkill::$skills = null;
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Skill ID "not-found-id" is invalid');
+        self::expectExceptionMessageIs('Skill ID "not-found-id" is invalid');
         new ActiveSkill('not-found-id', 0);
     }
 
@@ -71,7 +71,7 @@ final class ActiveSkillTest extends TestCase
     public function testFindIdByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Active skill "Foo" not found');
+        self::expectExceptionMessageIs('Active skill "Foo" not found');
         ActiveSkill::$skills = null;
         ActiveSkill::findIdByName('Foo');
     }

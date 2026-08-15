@@ -20,7 +20,7 @@ final class TalentTest extends TestCase
     public function testLoadInvalidTalent(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Talent ID "q" is invalid');
+        self::expectExceptionMessageIs('Talent ID "q" is invalid');
         new Talent('q');
     }
 
@@ -58,7 +58,7 @@ final class TalentTest extends TestCase
     public function testSetLevelInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Talent level outside allowed values');
+        self::expectExceptionMessageIs('Talent level outside allowed values');
         (new Talent('fringer'))->setLevel(99);
     }
 }

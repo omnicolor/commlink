@@ -22,7 +22,7 @@ final class NumberTest extends TestCase
     public function testRollTooManySlack(): void
     {
         self::expectException(SlackException::class);
-        self::expectExceptionMessage('You can\'t roll more than 100 dice!');
+        self::expectExceptionMessageIs('You can\'t roll more than 100 dice!');
         (new Number('101', 'username', new Channel()))->forSlack();
     }
 

@@ -116,7 +116,7 @@ final class SkillTest extends TestCase
     public function testCostToRaisePastLimit(): void
     {
         self::expectException(DomainException::class);
-        self::expectExceptionMessage('Skills can not be raised past level 10');
+        self::expectExceptionMessageIs('Skills can not be raised past level 10');
         $skill = clone $this->acting;
         $skill->level = 10;
         $skill->getCostToRaise(new Character());

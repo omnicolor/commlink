@@ -52,7 +52,7 @@ final class TimerTest extends TestCase
     public function testUnknownTimerCommand(): void
     {
         self::expectException(SlackException::class);
-        self::expectExceptionMessage('I\'m not sure what that means.');
+        self::expectExceptionMessageIs('I\'m not sure what that means.');
         (new Timer(
             'timer foo',
             '',

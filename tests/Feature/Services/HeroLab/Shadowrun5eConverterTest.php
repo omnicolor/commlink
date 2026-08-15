@@ -60,7 +60,7 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Portfolio not found');
+        self::expectExceptionMessageIs('Portfolio not found');
         new Shadowrun5eConverter('not-found-portfolio.por');
     }
 
@@ -71,7 +71,7 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testInvalidPortfolio(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Portfolio is not valid');
+        self::expectExceptionMessageIs('Portfolio is not valid');
         new Shadowrun5eConverter(__FILE__);
     }
 
@@ -81,7 +81,7 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testBadZipPortfolio(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Opening portfolio failed with unknown code: 28'
         );
         new Shadowrun5eConverter('/dev/null');
@@ -90,7 +90,7 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testDifferentSystemPortfolio(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('The portfolio isn\'t a Shadowrun 5th edition character');
+        self::expectExceptionMessageIs('The portfolio isn\'t a Shadowrun 5th edition character');
         new Shadowrun5eConverter(self::$dataDirectory . 'different-system.por');
     }
 
@@ -100,7 +100,7 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testBadXml(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Portfolio metadata is invalid');
+        self::expectExceptionMessageIs('Portfolio metadata is invalid');
         new Shadowrun5eConverter(self::$dataDirectory . 'bad-xml.por');
     }
 
@@ -111,7 +111,7 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testBadLeadXml(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Portfolio metadata is invalid');
+        self::expectExceptionMessageIs('Portfolio metadata is invalid');
         new Shadowrun5eConverter(
             self::$dataDirectory . 'invalid-priorities.por'
         );
@@ -124,7 +124,7 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testMissingLeadXml(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Portfolio metadata is invalid');
+        self::expectExceptionMessageIs('Portfolio metadata is invalid');
         new Shadowrun5eConverter(self::$dataDirectory . 'missing-lead1.por');
     }
 
@@ -134,14 +134,14 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testEmptyPortfolio(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Portfolio metadata is invalid');
+        self::expectExceptionMessageIs('Portfolio metadata is invalid');
         new Shadowrun5eConverter(self::$dataDirectory . 'no-files.por');
     }
 
     public function testValidPortfolioWithBadStatblockXml(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Failed to load Portfolio stats');
+        self::expectExceptionMessageIs('Failed to load Portfolio stats');
         new Shadowrun5eConverter(self::$dataDirectory . 'bad-statblock.por');
     }
 

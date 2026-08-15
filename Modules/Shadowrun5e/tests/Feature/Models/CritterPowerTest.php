@@ -21,7 +21,7 @@ final class CritterPowerTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Critter/Spirit power "not-found" is invalid'
         );
         new CritterPower('not-found');

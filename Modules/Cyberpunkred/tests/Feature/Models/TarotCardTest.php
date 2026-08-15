@@ -43,7 +43,7 @@ final class TarotCardTest extends TestCase
     public function testDescriptionOfInvalidCard(): void
     {
         self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('Invalid card');
+        self::expectExceptionMessageIs('Invalid card');
         (new TarotCard('invalid', ''))->getDescription();
     }
 
@@ -63,7 +63,7 @@ final class TarotCardTest extends TestCase
     public function testEffectOfInvalidCard(): void
     {
         self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('Invalid card');
+        self::expectExceptionMessageIs('Invalid card');
         (new TarotCard('invalid', ''))->getEffect();
     }
 

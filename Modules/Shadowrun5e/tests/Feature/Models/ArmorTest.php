@@ -24,7 +24,7 @@ final class ArmorTest extends TestCase
     public function testLoadingArmorWithInvalidId(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Armor ID "not-found" is invalid');
+        self::expectExceptionMessageIs('Armor ID "not-found" is invalid');
         new Armor('not-found');
     }
 
@@ -180,7 +180,7 @@ final class ArmorTest extends TestCase
     public function testBuildArmorNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Armor ID "invalid-id" is invalid');
+        self::expectExceptionMessageIs('Armor ID "invalid-id" is invalid');
         Armor::build(['id' => 'invalid-id']);
     }
 
@@ -237,7 +237,7 @@ final class ArmorTest extends TestCase
             ],
         ];
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Armor/Gear mod not found: unknown');
+        self::expectExceptionMessageIs('Armor/Gear mod not found: unknown');
         Armor::build($array);
     }
 
@@ -247,7 +247,7 @@ final class ArmorTest extends TestCase
     public function testFindByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Armor name "Not Found" was not found');
+        self::expectExceptionMessageIs('Armor name "Not Found" was not found');
         Armor::findByName('Not Found');
     }
 

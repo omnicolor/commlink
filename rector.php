@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Rector\CodeQuality\Rector\BooleanAnd\RepeatedAndNotEqualToNotInArrayRector;
 use Rector\CodeQuality\Rector\BooleanOr\RepeatedOrEqualToInArrayRector;
 use Rector\CodeQuality\Rector\Catch_\ThrowWithPreviousExceptionRector;
-use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
 use Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector;
 use Rector\CodingStyle\Rector\ClassLike\NewlineBetweenClassLikeStmtsRector;
@@ -14,7 +13,7 @@ use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\CodingStyle\Rector\String_\SimplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
-use Rector\DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector;
+use Rector\DeadCode\Rector\ClassMethod\RemoveReturnTagIncompatibleWithNativeTypeRector;
 use Rector\DeadCode\Rector\Expression\RemoveDeadStmtRector;
 use Rector\PHPUnit\CodeQuality\Rector\ClassMethod\NoSetupWithParentCallOverrideRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitSelfCallRector;
@@ -97,12 +96,11 @@ return RectorConfig::configure()
         RemoveDeadStmtRector::class => [
             __DIR__ . '/Modules/Battletech/tests/Feature/Models/CharacterTest.php',
         ],
-        RemoveUnusedVariableAssignRector::class => [
-            __DIR__ . '/Modules/Battletech/tests/Feature/Models/CharacterTest.php',
+        RemoveReturnTagIncompatibleWithNativeTypeRector::class => [
+            __DIR__ . '/Modules/Shadowrun5e/app/Http/Resources/WeaponResource.php',
         ],
         RepeatedAndNotEqualToNotInArrayRector::class,
         RepeatedOrEqualToInArrayRector::class,
-        SimplifyIfElseToTernaryRector::class,
         SimplifyQuoteEscapeRector::class,
         ThrowWithPreviousExceptionRector::class,
     ]);

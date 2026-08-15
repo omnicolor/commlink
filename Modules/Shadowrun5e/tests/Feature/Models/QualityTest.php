@@ -20,7 +20,7 @@ final class QualityTest extends TestCase
     {
         Quality::$qualities = null;
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Quality ID "not-found-id" is invalid');
+        self::expectExceptionMessageIs('Quality ID "not-found-id" is invalid');
         new Quality('not-found-id');
     }
 
@@ -131,7 +131,7 @@ final class QualityTest extends TestCase
     public function testFindByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Quality name "Not Found" was not found');
+        self::expectExceptionMessageIs('Quality name "Not Found" was not found');
         Quality::findByName('Not Found');
     }
 

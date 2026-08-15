@@ -35,7 +35,7 @@ final class MemoryTest extends TestCase
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'You must have a character linked to make memory tests',
         );
         (new Memory('15 5', 'username', $channel))->forSlack();

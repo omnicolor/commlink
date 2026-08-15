@@ -32,7 +32,7 @@ final class PreparationTest extends TestCase
     public function testInvalidTrigger(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Invalid alchemical trigger');
+        self::expectExceptionMessageIs('Invalid alchemical trigger');
         $this->preparation->setTrigger('foo');
     }
 

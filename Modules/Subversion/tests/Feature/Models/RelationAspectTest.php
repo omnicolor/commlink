@@ -17,7 +17,7 @@ final class RelationAspectTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Relation aspect "not-found" not found');
+        self::expectExceptionMessageIs('Relation aspect "not-found" not found');
         new RelationAspect('not-found');
     }
 

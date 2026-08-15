@@ -21,7 +21,7 @@ final class QualityTest extends TestCase
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Shadowrun 6E quality ID "not-found" is invalid'
         );
         new Quality('not-found');
@@ -50,7 +50,7 @@ final class QualityTest extends TestCase
     public function testFindByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Unable to find Shadowrun 6E quality "Not Found"'
         );
         Quality::findByName('Not Found');
