@@ -545,11 +545,15 @@ function Points(character) {
             low: 2000,
             middle: 5000,
             high: 10000,
-            luxury: 100000
+            luxury: 100000,
+            hospitalized: 15000,
+            bolthole: 1000,
+            traveler: 3000,
+            commercial: 8000
         };
 
-        // Everything that costs is attached to a SIN, so without one they can't
-        // own any lifestyles or subscriptions.
+        // Everything that costs is attached to a SIN, so without one they
+        // can't own any lifestyles or subscriptions.
         if (!identity.sin) {
             return 0;
         }
@@ -560,9 +564,14 @@ function Points(character) {
         }
 
         $.each(identity.lifestyles, function (unused, lifestyle) {
-            let name = lifestyle.name;
-            name = name.substring(0, 1).toLowerCase() + name.substring(1);
-            cost += lifestyles[name] * lifestyle.quantity;
+            let id;
+            if (lifestyle.id) {
+                id = lifestyle.id;
+            } else {
+                id = lifestyle.name.substring(0, 1).toLowerCase()
+                    + lifestyle.name.substring(1);
+            }
+            cost += lifestyles[id] * lifestyle.quantity;
         });
 
         $.each(identity.subscriptions, function (unused, subscription) {
@@ -698,12 +707,15 @@ function Points(character) {
             if (!identity) {
                 return;
             }
-            this.resources = this.resources - calculateIdentityCost(identity);
+            let cost = calculateIdentityCost(identity);
+            this.resources -= parseInt(cost);
+            window.console.log(this.resources);
         });
 
         if (this.resources < 0) {
             this.karma -= Math.floor(this.resources / 2000);
         }
+        window.console.log(this.resources);
     };
 
     this.updateContactPoints = function () {
