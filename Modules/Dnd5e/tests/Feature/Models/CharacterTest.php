@@ -49,7 +49,7 @@ final class CharacterTest extends TestCase
     {
         $character = new Character(['charisma' => 0]);
         self::expectException(OutOfRangeException::class);
-        self::expectExceptionMessage('Attribute value is out of range');
+        self::expectExceptionMessageIs('Attribute value is out of range');
         // @phpstan-ignore expr.resultUnused
         $character->charisma;
     }

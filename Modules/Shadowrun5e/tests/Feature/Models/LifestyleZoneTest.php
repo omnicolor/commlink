@@ -21,7 +21,7 @@ final class LifestyleZoneTest extends TestCase
     public function testLoadInvalidZone(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Lifestyle Zone ID "q" is invalid');
+        self::expectExceptionMessageIs('Lifestyle Zone ID "q" is invalid');
         new LifestyleZone('q');
     }
 

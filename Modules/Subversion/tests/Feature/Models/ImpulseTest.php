@@ -17,7 +17,7 @@ final class ImpulseTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Impulse "not-found" not found');
+        self::expectExceptionMessageIs('Impulse "not-found" not found');
         new Impulse('not-found');
     }
 

@@ -32,21 +32,21 @@ final class WalletTest extends TestCase
     public function testManuallySetting(): void
     {
         self::expectException(LogicException::class);
-        self::expectExceptionMessage('Wallet can not be directly modified');
+        self::expectExceptionMessageIs('Wallet can not be directly modified');
         $this->wallet[CoinType::Gold] = 5;
     }
 
     public function testManuallyUnsetting(): void
     {
         self::expectException(LogicException::class);
-        self::expectExceptionMessage('Wallet can not be directly modified');
+        self::expectExceptionMessageIs('Wallet can not be directly modified');
         unset($this->wallet[CoinType::Gold]);
     }
 
     public function testGetInvalidCoinType(): void
     {
         self::expectException(OutOfBoundsException::class);
-        self::expectExceptionMessage('Invalid coin type');
+        self::expectExceptionMessageIs('Invalid coin type');
         // @phpstan-ignore expr.resultUnused
         $this->wallet['foo'];
     }

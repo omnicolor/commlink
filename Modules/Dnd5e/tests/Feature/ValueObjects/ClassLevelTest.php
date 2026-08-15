@@ -17,14 +17,14 @@ final class ClassLevelTest extends TestCase
     public function testTooLow(): void
     {
         self::expectException(OutOfRangeException::class);
-        self::expectExceptionMessage('Level must be between 1 and 20');
+        self::expectExceptionMessageIs('Level must be between 1 and 20');
         new ClassLevel(0);
     }
 
     public function testTooHigh(): void
     {
         self::expectException(OutOfRangeException::class);
-        self::expectExceptionMessage('Level must be between 1 and 20');
+        self::expectExceptionMessageIs('Level must be between 1 and 20');
         new ClassLevel(21);
     }
 

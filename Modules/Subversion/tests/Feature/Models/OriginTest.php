@@ -17,7 +17,7 @@ final class OriginTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Origin "not-found" not found');
+        self::expectExceptionMessageIs('Origin "not-found" not found');
         new Origin('not-found');
     }
 

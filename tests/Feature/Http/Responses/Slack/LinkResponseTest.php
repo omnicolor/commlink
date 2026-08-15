@@ -30,7 +30,7 @@ final class LinkResponseTest extends TestCase
     public function testResponseNoCommlink(): void
     {
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'You must have already created an account on '
                 . '<http://localhost|Commlink - Test> and linked it to this '
                 . 'server before you can register a channel to a specific '
@@ -53,7 +53,7 @@ final class LinkResponseTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'You must have already created an account on '
                 . '<http://localhost|Commlink - Test> and linked it to this '
                 . 'server before you can register a channel to a specific '
@@ -91,7 +91,7 @@ final class LinkResponseTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'This channel is already linked to a character.'
         );
         new LinkResponse(content: 'link deadb33f', channel: $channel);
@@ -115,7 +115,7 @@ final class LinkResponseTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Unable to find one of your characters with that ID.'
         );
         new LinkResponse(
@@ -149,7 +149,7 @@ final class LinkResponseTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage('You don\'t own that character.');
+        self::expectExceptionMessageIs('You don\'t own that character.');
         new LinkResponse(
             content: sprintf('link %s', $character->_id),
             channel: $channel,
@@ -183,7 +183,7 @@ final class LinkResponseTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(sprintf(
+        self::expectExceptionMessageIs(sprintf(
             '%s is a Shadowrun 5th Edition character. '
                 . 'This channel is playing The Expanse.',
             (string)$character

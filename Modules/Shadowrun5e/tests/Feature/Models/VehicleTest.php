@@ -23,7 +23,7 @@ final class VehicleTest extends TestCase
     public function testLoadInvalidVehicle(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Vehicle ID "unknown" is invalid');
+        self::expectExceptionMessageIs('Vehicle ID "unknown" is invalid');
         new Vehicle(['id' => 'unknown']);
     }
 
@@ -330,7 +330,7 @@ final class VehicleTest extends TestCase
     public function testFindByNameNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Vehicle name "Not Found" was not found');
+        self::expectExceptionMessageIs('Vehicle name "Not Found" was not found');
         Vehicle::findByName('Not Found');
     }
 

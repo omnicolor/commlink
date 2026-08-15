@@ -22,7 +22,7 @@ final class LifestyleOptionTest extends TestCase
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
+        self::expectExceptionMessageIs(
             'Lifestyle Option ID "invalid" is invalid'
         );
         new LifestyleOption('invalid');
@@ -159,7 +159,7 @@ final class LifestyleOptionTest extends TestCase
         $option = new LifestyleOption('swimming-pool');
         $option->minimumLifestyle = 'Unknown';
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Option has invalid minimum lifestyle');
+        self::expectExceptionMessageIs('Option has invalid minimum lifestyle');
         $option->isCovered(new Lifestyle('luxury'));
     }
 

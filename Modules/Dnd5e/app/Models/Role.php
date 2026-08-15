@@ -74,7 +74,7 @@ class Role extends Model implements Stringable
                 $proficiencies = json_decode(
                     $proficiencies,
                     true,
-                    JSON_THROW_ON_ERROR,
+                    flags: JSON_THROW_ON_ERROR,
                 );
                 array_walk(
                     $proficiencies,

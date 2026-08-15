@@ -17,14 +17,14 @@ final class AbilityValueTest extends TestCase
     public function testValueTooLow(): void
     {
         self::expectException(OutOfRangeException::class);
-        self::expectExceptionMessage('Attribute value is out of range');
+        self::expectExceptionMessageIs('Attribute value is out of range');
         new AbilityValue(0);
     }
 
     public function testValueTooHigh(): void
     {
         self::expectException(OutOfRangeException::class);
-        self::expectExceptionMessage('Attribute value is out of range');
+        self::expectExceptionMessageIs('Attribute value is out of range');
         new AbilityValue(31);
     }
 

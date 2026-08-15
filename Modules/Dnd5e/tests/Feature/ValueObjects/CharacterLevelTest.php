@@ -50,7 +50,7 @@ final class CharacterLevelTest extends TestCase
     public function testExperienceTooLow(): void
     {
         self::expectException(OutOfRangeException::class);
-        self::expectExceptionMessage('Experience must be a positive integer');
+        self::expectExceptionMessageIs('Experience must be a positive integer');
         new CharacterLevel(-1);
     }
 
@@ -92,14 +92,14 @@ final class CharacterLevelTest extends TestCase
     public function testLevelTooLow(): void
     {
         self::expectException(OutOfRangeException::class);
-        self::expectExceptionMessage('Level must be between 1 and 20');
+        self::expectExceptionMessageIs('Level must be between 1 and 20');
         CharacterLevel::make(0);
     }
 
     public function testLevelTooHigh(): void
     {
         self::expectException(OutOfRangeException::class);
-        self::expectExceptionMessage('Level must be between 1 and 20');
+        self::expectExceptionMessageIs('Level must be between 1 and 20');
         CharacterLevel::make(21);
     }
 

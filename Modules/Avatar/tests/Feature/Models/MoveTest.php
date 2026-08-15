@@ -17,7 +17,7 @@ final class MoveTest extends TestCase
     public function testLoadUnknown(): void
     {
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Move ID "invalid" is invalid');
+        self::expectExceptionMessageIs('Move ID "invalid" is invalid');
         new Move('invalid');
     }
 
