@@ -1671,16 +1671,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v13.26.0",
+            "version": "v13.26.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "17f6e626e014dd9b4a380ae2924b590a129a5307"
+                "reference": "e4a1bc52ef551d52e60244bb004256d6861da7ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/17f6e626e014dd9b4a380ae2924b590a129a5307",
-                "reference": "17f6e626e014dd9b4a380ae2924b590a129a5307",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/e4a1bc52ef551d52e60244bb004256d6861da7ab",
+                "reference": "e4a1bc52ef551d52e60244bb004256d6861da7ab",
                 "shasum": ""
             },
             "require": {
@@ -1894,20 +1894,20 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-08-18T12:30:10+00:00"
+            "time": "2026-08-18T20:31:28+00:00"
         },
         {
             "name": "laravel/pennant",
-            "version": "v1.25.0",
+            "version": "v1.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pennant.git",
-                "reference": "021ea6d4545ff2caa7dbd9fd7ada5b82da33c211"
+                "reference": "a343096b4b01a23a5dfadf92b0907f710134d5e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pennant/zipball/021ea6d4545ff2caa7dbd9fd7ada5b82da33c211",
-                "reference": "021ea6d4545ff2caa7dbd9fd7ada5b82da33c211",
+                "url": "https://api.github.com/repos/laravel/pennant/zipball/a343096b4b01a23a5dfadf92b0907f710134d5e0",
+                "reference": "a343096b4b01a23a5dfadf92b0907f710134d5e0",
                 "shasum": ""
             },
             "require": {
@@ -1971,7 +1971,7 @@
                 "issues": "https://github.com/laravel/pennant/issues",
                 "source": "https://github.com/laravel/pennant"
             },
-            "time": "2026-08-11T13:50:32+00:00"
+            "time": "2026-08-13T13:05:53+00:00"
         },
         {
             "name": "laravel/pint",
