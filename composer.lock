@@ -8526,16 +8526,16 @@
         },
         {
             "name": "symfony/service-contracts",
-            "version": "v3.7.1",
+            "version": "v3.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "c0a284bab1ed8aa0417e3d69250ab437739563a0"
+                "reference": "15e6a07ec2a2c75ceb1b21dd98105ee8456d2257"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/c0a284bab1ed8aa0417e3d69250ab437739563a0",
-                "reference": "c0a284bab1ed8aa0417e3d69250ab437739563a0",
+                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/15e6a07ec2a2c75ceb1b21dd98105ee8456d2257",
+                "reference": "15e6a07ec2a2c75ceb1b21dd98105ee8456d2257",
                 "shasum": ""
             },
             "require": {
@@ -8589,7 +8589,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/service-contracts/tree/v3.7.1"
+                "source": "https://github.com/symfony/service-contracts/tree/v3.7.3"
             },
             "funding": [
                 {
@@ -8609,7 +8609,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-16T09:55:08+00:00"
+            "time": "2026-07-27T15:39:01+00:00"
         },
         {
             "name": "symfony/string",
@@ -9043,16 +9043,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.56.7",
+            "version": "v10.56.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "5575382bf0217681fd59bf289ef6b3ede4ff62fe"
+                "reference": "3f39d62e25ca75c1f0482a1f0a51d7339902d1a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/5575382bf0217681fd59bf289ef6b3ede4ff62fe",
-                "reference": "5575382bf0217681fd59bf289ef6b3ede4ff62fe",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/3f39d62e25ca75c1f0482a1f0a51d7339902d1a2",
+                "reference": "3f39d62e25ca75c1f0482a1f0a51d7339902d1a2",
                 "shasum": ""
             },
             "require": {
@@ -9124,7 +9124,7 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.56.7",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.56.8",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
@@ -9145,7 +9145,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2026-08-21T03:56:49+00:00"
+            "time": "2026-08-24T13:15:49+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
