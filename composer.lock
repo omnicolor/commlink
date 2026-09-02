@@ -3415,16 +3415,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "3.10.0",
+            "version": "3.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "b321dd6749f0bf7189444158a3ce785cc16d69b0"
+                "reference": "147f303310f06334f03f409e49d7ad1e275ff05a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/b321dd6749f0bf7189444158a3ce785cc16d69b0",
-                "reference": "b321dd6749f0bf7189444158a3ce785cc16d69b0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/147f303310f06334f03f409e49d7ad1e275ff05a",
+                "reference": "147f303310f06334f03f409e49d7ad1e275ff05a",
                 "shasum": ""
             },
             "require": {
@@ -3502,7 +3502,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/3.10.0"
+                "source": "https://github.com/Seldaek/monolog/tree/3.11.0"
             },
             "funding": [
                 {
@@ -3514,7 +3514,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-01-02T08:56:05+00:00"
+            "time": "2026-09-02T12:39:56+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -9083,16 +9083,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.56.8",
+            "version": "v10.56.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "3f39d62e25ca75c1f0482a1f0a51d7339902d1a2"
+                "reference": "55c67ca414b54019422bce377906b90e2390abde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/3f39d62e25ca75c1f0482a1f0a51d7339902d1a2",
-                "reference": "3f39d62e25ca75c1f0482a1f0a51d7339902d1a2",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/55c67ca414b54019422bce377906b90e2390abde",
+                "reference": "55c67ca414b54019422bce377906b90e2390abde",
                 "shasum": ""
             },
             "require": {
@@ -9164,7 +9164,7 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.56.8",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.56.9",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
@@ -9185,7 +9185,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2026-08-24T13:15:49+00:00"
+            "time": "2026-08-25T14:55:42+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
