@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Subversion\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Connection;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Subversion\Database\Factories\PartialCharacterFactory;
@@ -20,6 +21,7 @@ use Stringable;
  * @property-write array<int, array<string, mixed>|Relation> $relations
  */
 #[Connection('mongodb')]
+#[Table(name: 'characters-partial')]
 class PartialCharacter extends Character implements Stringable
 {
     public const int STARTING_FORTUNE = 320;
@@ -56,8 +58,6 @@ class PartialCharacter extends Character implements Stringable
         'will',
         'wit',
     ];
-
-    protected $table = 'characters-partial';
 
     #[Override]
     protected static function newFactory(): Factory

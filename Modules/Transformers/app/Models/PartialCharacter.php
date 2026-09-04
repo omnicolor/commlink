@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Transformers\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Transformers\Database\Factories\PartialCharacterFactory;
 use Override;
@@ -13,11 +14,9 @@ use Override;
  * @method static self create(array<mixed, mixed> $attributes)
  * @property array<int, string> $errors
  */
+#[Table(name: 'characters-partial')]
 class PartialCharacter extends Character
 {
-    /** @var string */
-    protected $table = 'characters-partial';
-
     #[Override]
     public function newFromBuilder(
         // @phpstan-ignore parameter.defaultValue
