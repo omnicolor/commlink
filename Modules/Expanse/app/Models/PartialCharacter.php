@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Connection;
 use Override;
 use Stringable;
 
+#[Connection('mongodb')]
 class PartialCharacter extends Character implements Stringable
 {
-    /** @var string */
-    protected $connection = 'mongodb';
     /** @var string */
     protected $table = 'characters-partial';
     /** @var array<string, array<int, string>> */

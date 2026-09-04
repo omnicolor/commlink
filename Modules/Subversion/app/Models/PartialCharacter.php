@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Connection;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Subversion\Database\Factories\PartialCharacterFactory;
@@ -18,13 +19,12 @@ use Stringable;
  * @property-read array<int, Relation> $relations
  * @property-write array<int, array<string, mixed>|Relation> $relations
  */
+#[Connection('mongodb')]
 class PartialCharacter extends Character implements Stringable
 {
     public const int STARTING_FORTUNE = 320;
     public const int STARTING_RELATION_FORTUNE = 30;
     public const int CORRUPTED_VALUE_FORTUNE = 5;
-
-    protected $connection = 'mongodb';
 
     /**
      * @var list<string>
