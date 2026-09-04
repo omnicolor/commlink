@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use App\Events\IrcMessageReceived;
 use App\Models\Irc\User;
 use Exception;
+use Illuminate\Console\Attributes\Description;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Jerodev\PhpIrcClient\IrcChannel;
@@ -22,12 +23,10 @@ use const PHP_EOL;
  * Start an IRC bot.
  * @codeCoverageIgnore
  */
+#[Description('Start the IRC bot server')]
 class IrcRunCommand extends SignalAwareCommand
 {
     protected IrcClient $client;
-
-    /** @var string */
-    protected $description = 'Start the IRC bot server';
 
     protected string $nickname;
     protected string $port;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -20,6 +21,7 @@ use function sprintf;
  * Test all data files for correctness.
  * @codeCoverageIgnore
  */
+#[Description('Check data files installed for all enabled systems')]
 class ValidateDataFiles extends Command
 {
     /**
@@ -47,9 +49,6 @@ class ValidateDataFiles extends Command
 
     /** @var string */
     protected $signature = 'commlink:validate-data-files';
-
-    /** @var string */
-    protected $description = 'Check data files installed for all enabled systems';
 
     /**
      * Paths configured to where system data is kept.

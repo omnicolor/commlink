@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use App\Models\User;
 use Exception;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -22,13 +23,11 @@ use const FILTER_VALIDATE_EMAIL;
 /**
  * @codeCoverageIgnore
  */
+#[Description('Create a new user, prompting for all information')]
 class CreateUser extends Command
 {
     /** @var string */
     protected $signature = 'commlink:create-user';
-
-    /** @var string */
-    protected $description = 'Create a new user, prompting for all information';
 
     public function handle(): int
     {

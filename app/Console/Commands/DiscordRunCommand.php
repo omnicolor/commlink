@@ -14,6 +14,7 @@ use Discord\Parts\Channel\Message;
 use Discord\Parts\WebSockets\MessageReaction;
 use Discord\WebSockets\Event;
 use Discord\WebSockets\Intents;
+use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -30,11 +31,9 @@ use function str_starts_with;
  * Start a Discord bot.
  * @codeCoverageIgnore
  */
+#[Description('Start the Discord bot server')]
 class DiscordRunCommand extends Command
 {
-    /** @var string */
-    protected $description = 'Start the Discord bot server';
-
     /** @var string */
     protected $signature = 'commlink:discord-run';
 

@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 
 use App\Traits\FormulaConverter;
 use GitElephant\Repository;
+use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Isolatable;
 use Illuminate\Support\Str;
@@ -45,6 +46,7 @@ use const PHP_EOL;
 /**
  * @codeCoverageIgnore
  */
+#[Description('Import data from Chummer\'s GitHub repository')]
 class ImportChummerData extends Command implements Isolatable
 {
     use FormulaConverter;
@@ -144,9 +146,6 @@ class ImportChummerData extends Command implements Isolatable
      * Path to the Chummer git repository.
      */
     protected string $chummerRepository;
-
-    /** @var string */
-    protected $description = 'Import data from Chummer\'s GitHub repository';
 
     /**
      * Path to write data to.
