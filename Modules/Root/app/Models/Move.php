@@ -29,17 +29,6 @@ class Move extends Model implements Stringable
     protected $keyType = 'string';
 
     /**
-     * @var array<string, class-string|string>
-     */
-    protected $casts = [
-        'description' => 'string',
-        'effects' => 'object',
-        'id' => 'string',
-        'name' => 'string',
-        'weapon_move' => 'boolean',
-    ];
-
-    /**
      * @var list<string>
      */
     protected $fillable = [
@@ -54,6 +43,21 @@ class Move extends Model implements Stringable
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'description' => 'string',
+            'effects' => 'object',
+            'id' => 'string',
+            'name' => 'string',
+            'weapon_move' => 'boolean',
+        ];
     }
 
     /**

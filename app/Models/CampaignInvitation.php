@@ -9,9 +9,9 @@ use App\Enums\CampaignInvitationStatus;
 use App\Events\CampaignInvitationCreated;
 use App\Events\CampaignInvitationUpdated;
 use App\ValueObjects\Email;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Override;
 
 use function sha1;
 
@@ -29,17 +29,6 @@ use function sha1;
  */
 class CampaignInvitation extends Model
 {
-    use HasFactory;
-
-    /**
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'campaign_id' => 'int',
-        'email' => AsEmail::class,
-        'status' => CampaignInvitationStatus::class,
-    ];
-
     /**
      * @var array<string, class-string>
      */
@@ -67,6 +56,19 @@ class CampaignInvitation extends Model
     public function campaign(): BelongsTo
     {
         return $this->belongsTo(Campaign::class);
+    }
+
+    /**
+     * @return array<string, class-string|string>
+     */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'campaign_id' => 'int',
+            'email' => AsEmail::class,
+            'status' => CampaignInvitationStatus::class,
+        ];
     }
 
     /**

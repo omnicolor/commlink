@@ -46,16 +46,6 @@ class Campaign extends Model implements Stringable
     use SoftDeletes;
 
     /**
-     * The attributes that should be cast.
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'gm' => 'int',
-        'options' => 'array',
-        'registered_by' => 'int',
-    ];
-
-    /**
      * Attributes that are mass assignable.
      * @var list<string>
      */
@@ -72,6 +62,19 @@ class Campaign extends Model implements Stringable
     public function __toString(): string
     {
         return (string)$this->attributes['name'];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'gm' => 'int',
+            'options' => 'array',
+            'registered_by' => 'int',
+        ];
     }
 
     /**

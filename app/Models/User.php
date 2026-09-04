@@ -48,7 +48,6 @@ class User extends Authenticatable implements Stringable
     use Notifiable;
 
     /**
-     * The attributes that are mass assignable.
      * @var list<string>
      */
     protected $fillable = [
@@ -58,21 +57,11 @@ class User extends Authenticatable implements Stringable
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
      * @var list<string>
      */
     protected $hidden = [
         'password',
         'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email' => AsEmail::class,
-        'email_verified_at' => 'datetime',
     ];
 
     #[Override]
@@ -104,6 +93,18 @@ class User extends Authenticatable implements Stringable
     public function campaignsGmed(): HasMany
     {
         return $this->hasMany(Campaign::class, 'gm', 'id');
+    }
+
+    /**
+     * @return array<string, class-string|string>
+     */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'email' => AsEmail::class,
+            'email_verified_at' => 'datetime',
+        ];
     }
 
     /**

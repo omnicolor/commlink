@@ -45,14 +45,6 @@ class Character extends Model implements Stringable
     use HasFactory;
 
     /**
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'owner' => AsEmail::class,
-    ];
-
-    /**
-     * The attributes that are mass assignable.
      * @var list<string>
      */
     protected $fillable = [
@@ -67,6 +59,17 @@ class Character extends Model implements Stringable
     public function __toString(): string
     {
         return $this->handle ?? $this->name ?? '';
+    }
+
+    /**
+     * @return array<string, class-string|string>
+     */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'owner' => AsEmail::class,
+        ];
     }
 
     /**

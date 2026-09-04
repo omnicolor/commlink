@@ -39,11 +39,6 @@ class Character extends BaseCharacter implements Stringable
         'system' => 'blistercritters',
     ];
 
-    /** @var array<string, string> */
-    protected $casts = [
-        'owner' => AsEmail::class,
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'instinct',
@@ -77,6 +72,16 @@ class Character extends BaseCharacter implements Stringable
                 $builder->where('system', 'blistercritters');
             }
         );
+    }
+
+    /**
+     * @return array<string, class-string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'owner' => AsEmail::class,
+        ];
     }
 
     #[Override]

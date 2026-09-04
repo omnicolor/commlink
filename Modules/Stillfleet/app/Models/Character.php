@@ -55,16 +55,6 @@ class Character extends BaseCharacter implements Stringable
         'system' => 'stillfleet',
     ];
 
-    /** @var array<string, string> */
-    protected $casts = [
-        'combat' => 'string',
-        'grit_current' => 'integer',
-        'health_current' => 'integer',
-        'money' => 'integer',
-        'movement' => 'string',
-        'owner' => AsEmail::class,
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'charm',
@@ -119,6 +109,21 @@ class Character extends BaseCharacter implements Stringable
                 $builder->where('system', 'stillfleet');
             }
         );
+    }
+
+    /**
+     * @return array<string, class-string|string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'combat' => 'string',
+            'grit_current' => 'integer',
+            'health_current' => 'integer',
+            'money' => 'integer',
+            'movement' => 'string',
+            'owner' => AsEmail::class,
+        ];
     }
 
     public function charmModifier(): Attribute

@@ -34,19 +34,6 @@ class Technique extends Model implements Stringable
 
     public TechniqueLevel $level;
 
-    /** @var array<string, class-string|string> */
-    protected $casts = [
-        'class' => TechniqueClass::class,
-        'description' => 'string',
-        'id' => 'string',
-        'name' => 'string',
-        'page' => 'int',
-        'rare' => 'bool',
-        'ruleset' => 'string',
-        'specialization' => 'string',
-        'type' => TechniqueType::class,
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'class',
@@ -64,6 +51,24 @@ class Technique extends Model implements Stringable
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return array<string, class-string|string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'class' => TechniqueClass::class,
+            'description' => 'string',
+            'id' => 'string',
+            'name' => 'string',
+            'page' => 'int',
+            'rare' => 'bool',
+            'ruleset' => 'string',
+            'specialization' => 'string',
+            'type' => TechniqueType::class,
+        ];
     }
 
     /**

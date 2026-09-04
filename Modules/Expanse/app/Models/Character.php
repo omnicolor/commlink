@@ -58,11 +58,6 @@ class Character extends BaseCharacter implements Stringable
         'system' => 'expanse',
     ];
 
-    /** @var array<string, string> */
-    protected $casts = [
-        'owner' => AsEmail::class,
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'accuracy',
@@ -124,6 +119,16 @@ class Character extends BaseCharacter implements Stringable
                 $builder->where('system', 'expanse');
             }
         );
+    }
+
+    /**
+     * @return array<string, class-string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'owner' => AsEmail::class,
+        ];
     }
 
     /**

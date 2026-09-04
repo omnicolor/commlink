@@ -38,20 +38,6 @@ class Playbook extends Model implements Stringable
     public $incrementing = false;
     protected $keyType = 'string';
 
-    /** @var array<string, class-string|string> */
-    protected $casts = [
-        'charm' => AttributeCast::class,
-        'cunning' => AttributeCast::class,
-        'description_long' => 'string',
-        'description_short' => 'string',
-        'finesse' => AttributeCast::class,
-        'luck' => AttributeCast::class,
-        'might' => AttributeCast::class,
-        'moves' => 'array',
-        'name' => 'string',
-        'natures' => 'string',
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'description_long',
@@ -70,6 +56,25 @@ class Playbook extends Model implements Stringable
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return array<string, class-string|string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'charm' => AttributeCast::class,
+            'cunning' => AttributeCast::class,
+            'description_long' => 'string',
+            'description_short' => 'string',
+            'finesse' => AttributeCast::class,
+            'luck' => AttributeCast::class,
+            'might' => AttributeCast::class,
+            'moves' => 'array',
+            'name' => 'string',
+            'natures' => 'string',
+        ];
     }
 
     /**
