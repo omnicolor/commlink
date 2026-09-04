@@ -30,7 +30,7 @@ final class ShuffleTest extends TestCase
     public function testShuffleWithNoCampaign(): void
     {
         $channel = Channel::factory()->make(['system' => 'capers']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         self::expectException(SlackException::class);
         self::expectExceptionMessageIs(
@@ -51,7 +51,7 @@ final class ShuffleTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'capers',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Shuffle('shuffle', $channel->username, $channel))
             ->forDiscord();
@@ -73,7 +73,7 @@ final class ShuffleTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'capers',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         self::assertDatabaseMissing(
             'decks',
@@ -115,7 +115,7 @@ final class ShuffleTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'capers',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $deck = new StandardDeck();
         $deck->campaign_id = $campaign->id;
@@ -148,7 +148,7 @@ final class ShuffleTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'capers',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Shuffle('shuffle', $channel->username, $channel))
             ->forIrc();
@@ -168,7 +168,7 @@ final class ShuffleTest extends TestCase
             'system' => 'capers',
             'type' => ChannelType::Irc,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $deck = new StandardDeck();
         $deck->campaign_id = $campaign->id;

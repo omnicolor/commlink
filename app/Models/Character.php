@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Casts\AsEmail;
 use App\Models\Traits\GameSystem;
 use App\ValueObjects\Email;
+use Illuminate\Database\Eloquent\Attributes\Connection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -37,26 +38,13 @@ use function ucfirst;
  * @property string $system
  * @property string $updated_at
  */
+#[Connection('mongodb')]
 class Character extends Model implements Stringable
 {
     use GameSystem;
     use HasFactory;
 
     /**
-     * The database connection that should be used by the model.
-     * @var ?string
-     */
-    protected $connection = 'mongodb';
-
-    /**
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'owner' => AsEmail::class,
-    ];
-
-    /**
-     * The attributes that are mass assignable.
      * @var list<string>
      */
     protected $fillable = [
@@ -71,6 +59,17 @@ class Character extends Model implements Stringable
     public function __toString(): string
     {
         return $this->handle ?? $this->name ?? '';
+    }
+
+    /**
+     * @return array<string, class-string|string>
+     */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'owner' => AsEmail::class,
+        ];
     }
 
     /**

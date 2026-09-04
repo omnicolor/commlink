@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Capers\Database\Factories\PartialCharacterFactory;
@@ -18,6 +19,7 @@ use function optional;
  * @property-write array<int, array<string, mixed>> $gear
  * @property array<string, string> $meta
  */
+#[Table(name: 'characters-partial')]
 class PartialCharacter extends Character implements Stringable
 {
     use HasFactory;
@@ -50,12 +52,6 @@ class PartialCharacter extends Character implements Stringable
         'vice',
         'virtue',
     ];
-
-    /**
-     * Table to pull from.
-     * @var string
-     */
-    protected $table = 'characters-partial';
 
     #[Override]
     public function __toString(): string

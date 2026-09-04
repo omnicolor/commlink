@@ -42,7 +42,7 @@ final class HandleDiscordMessageTest extends TestCase
      */
     private function createDiscordTag(): string
     {
-        return $this->faker->word . '#' . $this->faker->randomNumber(4, true);
+        return $this->faker->word() . '#' . $this->faker->randomNumber(4, true);
     }
 
     /**

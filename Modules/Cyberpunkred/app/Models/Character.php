@@ -73,23 +73,6 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'body' => 'integer',
-        'cool' => 'integer',
-        'dexterity' => 'integer',
-        'empathy' => 'integer',
-        'intelligence' => 'integer',
-        'luck' => 'integer',
-        'movement' => 'integer',
-        'owner' => AsEmail::class,
-        'reflexes' => 'integer',
-        'technique' => 'integer',
-        'willpower' => 'integer',
-    ];
-
-    /**
      * @var list<string>
      */
     protected $fillable = [
@@ -174,6 +157,27 @@ class Character extends BaseCharacter implements Stringable
                 ];
             },
         );
+    }
+
+    /**
+     * @return array<string, class-string|string>
+     */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'body' => 'integer',
+            'cool' => 'integer',
+            'dexterity' => 'integer',
+            'empathy' => 'integer',
+            'intelligence' => 'integer',
+            'luck' => 'integer',
+            'movement' => 'integer',
+            'owner' => AsEmail::class,
+            'reflexes' => 'integer',
+            'technique' => 'integer',
+            'willpower' => 'integer',
+        ];
     }
 
     /**

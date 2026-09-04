@@ -64,11 +64,6 @@ class Character extends BaseCharacter implements Stringable
         'system' => 'avatar',
     ];
 
-    /** @var array<string, string> */
-    protected $casts = [
-        'owner' => AsEmail::class,
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'appearance',
@@ -140,6 +135,16 @@ class Character extends BaseCharacter implements Stringable
                 return Background::from($background)->value;
             },
         );
+    }
+
+    /**
+     * @return array<string, class-string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'owner' => AsEmail::class,
+        ];
     }
 
     public function conditions(): EloquentAttribute

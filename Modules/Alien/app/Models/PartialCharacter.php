@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Alien\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,11 +23,10 @@ use function sprintf;
  * @property-read ?Career $career
  * @property-write Career|string $career
  */
+#[Table(name: 'characters-partial')]
 class PartialCharacter extends Character implements Stringable
 {
     use HasFactory;
-
-    protected $table = 'characters-partial';
 
     #[Override]
     public function __toString(): string

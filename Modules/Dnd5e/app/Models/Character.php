@@ -42,11 +42,6 @@ class Character extends BaseCharacter implements Stringable
         'system' => 'dnd5e',
     ];
 
-    /** @var array<string, string> */
-    protected $casts = [
-        'owner' => AsEmail::class,
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'alignment',
@@ -127,5 +122,15 @@ class Character extends BaseCharacter implements Stringable
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();
+    }
+
+    /**
+     * @return array<string, string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'owner' => AsEmail::class,
+        ];
     }
 }

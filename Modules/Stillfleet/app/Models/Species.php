@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Override;
@@ -26,11 +27,10 @@ use function json_decode;
  * @property-read string $ruleset
  * @property-read array<int, Power> $species_powers
  */
+#[WithoutIncrementing]
 class Species extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
     /** @var array<int|string, Power> */
     public array $added_powers = [];

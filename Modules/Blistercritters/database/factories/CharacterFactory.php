@@ -22,8 +22,8 @@ class CharacterFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
-            'owner' => $this->faker->email,
+            'name' => $this->faker->name(),
+            'owner' => $this->faker->email(),
             'system' => 'blistercritters',
         ];
     }

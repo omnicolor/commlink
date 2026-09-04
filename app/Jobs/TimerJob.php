@@ -7,11 +7,8 @@ namespace App\Jobs;
 use App\Enums\ChannelType;
 use App\Models\Channel;
 use Carbon\CarbonInterval;
-use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Http;
 use Omnicolor\Slack\Headers\Header;
 use Omnicolor\Slack\Response;
@@ -32,10 +29,7 @@ use function sprintf;
  */
 class TimerJob implements ShouldQueue
 {
-    use Dispatchable;
-    use InteractsWithQueue;
     use Queueable;
-    use SerializesModels;
 
     public string $channel_id;
     public string $webhook_url;

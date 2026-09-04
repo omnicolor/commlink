@@ -518,13 +518,13 @@ final class CampaignsControllerTest extends TestCase
     public function testInviteAgain(): void
     {
         $gm = User::factory()->create();
-        $inviteeEmail = $this->faker->safeEmail;
+        $inviteeEmail = $this->faker->safeEmail();
         $campaign = Campaign::factory()->create(['gm' => $gm->id]);
         CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $inviteeEmail,
             'invited_by' => $gm->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
         ]);
 
         self::actingAs($gm)
@@ -532,7 +532,7 @@ final class CampaignsControllerTest extends TestCase
                 route('campaign.invite', $campaign),
                 [
                     'email' => $inviteeEmail,
-                    'name' => $this->faker->name,
+                    'name' => $this->faker->name(),
                 ]
             )
             ->assertConflict()
@@ -543,8 +543,8 @@ final class CampaignsControllerTest extends TestCase
     {
         $gm = User::factory()->create();
         $campaign = Campaign::factory()->create(['gm' => $gm->id]);
-        $inviteeEmail = $this->faker->unique()->safeEmail;
-        $name = $this->faker->name;
+        $inviteeEmail = $this->faker->unique()->safeEmail();
+        $name = $this->faker->name();
 
         self::actingAs($gm)
             ->post(
@@ -592,7 +592,7 @@ final class CampaignsControllerTest extends TestCase
                 route('campaign.invite', $campaign),
                 [
                     'email' => $invitee->email,
-                    'name' => $this->faker->name,
+                    'name' => $this->faker->name(),
                 ]
             )
             ->assertConflict()
@@ -613,7 +613,7 @@ final class CampaignsControllerTest extends TestCase
                 route('campaign.invite', $campaign),
                 [
                     'email' => $invitee->email,
-                    'name' => $this->faker->name,
+                    'name' => $this->faker->name(),
                 ]
             )
             ->assertConflict()
@@ -631,7 +631,7 @@ final class CampaignsControllerTest extends TestCase
                 route('campaign.invite', $campaign),
                 [
                     'email' => $gm->email,
-                    'name' => $this->faker->name,
+                    'name' => $this->faker->name(),
                 ]
             )
             ->assertBadRequest()
@@ -650,7 +650,7 @@ final class CampaignsControllerTest extends TestCase
                 route('campaign.invite', $campaign),
                 [
                     'email' => $invitee->email,
-                    'name' => $this->faker->name,
+                    'name' => $this->faker->name(),
                 ]
             )
             ->assertCreated()
@@ -688,9 +688,9 @@ final class CampaignsControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
         ]);
 
         self::get(route(
@@ -710,9 +710,9 @@ final class CampaignsControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
             'status' => CampaignInvitationStatus::Responded,
         ]);
 
@@ -733,9 +733,9 @@ final class CampaignsControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
         ]);
 
         self::get(route(
@@ -755,9 +755,9 @@ final class CampaignsControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
         ]);
 
         self::get(route(
@@ -777,9 +777,9 @@ final class CampaignsControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
             'status' => CampaignInvitationStatus::Responded,
         ]);
 
@@ -800,9 +800,9 @@ final class CampaignsControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
         ]);
 
         self::get(route(
@@ -822,9 +822,9 @@ final class CampaignsControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
         ]);
 
         self::get(route(
@@ -844,9 +844,9 @@ final class CampaignsControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
             'status' => CampaignInvitationStatus::Responded,
         ]);
 
@@ -867,9 +867,9 @@ final class CampaignsControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
         ]);
 
         self::get(route(
@@ -893,9 +893,9 @@ final class CampaignsControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
         ]);
 
         self::get(route(
@@ -915,9 +915,9 @@ final class CampaignsControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
             'status' => CampaignInvitationStatus::Responded,
         ]);
 
@@ -938,9 +938,9 @@ final class CampaignsControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
         ]);
 
         self::get(route(
