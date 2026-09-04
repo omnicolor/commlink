@@ -8,6 +8,7 @@ use App\Events\IrcMessageReceived;
 use App\Models\Irc\User;
 use Exception;
 use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Jerodev\PhpIrcClient\IrcChannel;
@@ -17,13 +18,16 @@ use Spatie\SignalAwareCommand\SignalAwareCommand;
 
 use function sprintf;
 
-use const PHP_EOL;
-
 /**
  * Start an IRC bot.
  * @codeCoverageIgnore
  */
 #[Description('Start the IRC bot server')]
+#[Signature('commlink:irc-run
+        {server : Hostname of the server to connect to}
+        {--port=6667 : Port to connect to}
+        {--nickname=commlink : Nickname to use in IRC}
+        {--channel=* : Channel(s) to automatically join}')]
 class IrcRunCommand extends SignalAwareCommand
 {
     protected IrcClient $client;
@@ -34,19 +38,6 @@ class IrcRunCommand extends SignalAwareCommand
 
     /** @var array<string, User> */
     protected array $users = [];
-
-    /** @var string */
-    protected $signature = 'commlink:irc-run';
-
-    public function __construct()
-    {
-        $this->signature = 'commlink:irc-run' . PHP_EOL
-            . '{server : Hostname of the server to connect to}' . PHP_EOL
-            . '{--port=6667 : Port to connect to}' . PHP_EOL
-            . '{--nickname=' . config('app.name') . ' : Nickname to use in IRC}' . PHP_EOL
-            . '{--channel=* : Channel(s) to automatically join}';
-        parent::__construct();
-    }
 
     /**
      * Execute the console command.

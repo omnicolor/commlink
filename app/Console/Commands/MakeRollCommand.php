@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\GeneratorCommand;
 use Override;
 
@@ -13,11 +14,9 @@ use Override;
  * @codeCoverageIgnore
  */
 #[Description('Create a new server- and system-agnostic Roll')]
+#[Signature('make:roll {name}')]
 class MakeRollCommand extends GeneratorCommand
 {
-    /** @var string */
-    protected $signature = 'make:roll {name}';
-
     /** @var string */
     protected $type = 'Roll';
 
