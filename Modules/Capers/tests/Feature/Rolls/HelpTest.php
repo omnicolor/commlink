@@ -41,7 +41,7 @@ final class HelpTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'capers',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Help('help', $channel->username, $channel))
             ->forSlack()
@@ -89,7 +89,7 @@ final class HelpTest extends TestCase
             'system' => 'capers',
             'type' => ChannelType::Discord,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
         $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
@@ -120,7 +120,7 @@ final class HelpTest extends TestCase
             'system' => 'capers',
             'type' => ChannelType::Discord,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
         $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
@@ -151,7 +151,7 @@ final class HelpTest extends TestCase
             'system' => 'capers',
             'type' => ChannelType::Discord,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
         $channel->user = 'U' . Str::random(10);
 
         $chatUser = ChatUser::factory()->create([
@@ -163,7 +163,7 @@ final class HelpTest extends TestCase
         ]);
 
         $character = Character::factory()->create([
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
             'system' => 'capers',
         ]);
 
