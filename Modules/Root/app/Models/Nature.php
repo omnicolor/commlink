@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Root\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Model;
 use Override;
 use Stringable;
@@ -16,11 +17,10 @@ use function config;
  * @property string $id
  * @property string $name
  */
+#[WithoutIncrementing]
 class Nature extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Root\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Casts\Attribute as EloquentAttribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -31,11 +32,10 @@ use function json_decode;
  * @property array<string, Nature> $natures
  * @property Collection<string, Move> $starting_weapon_moves
  */
+#[WithoutIncrementing]
 class Playbook extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     /** @var list<string> */
