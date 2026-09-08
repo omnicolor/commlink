@@ -71,29 +71,6 @@ class Character extends BaseCharacter implements Stringable
         'system' => 'transformers',
     ];
 
-    /** @var array<string, string> */
-    protected $casts = [
-        'courage_alt' => 'int',
-        'courage_robot' => 'int',
-        'endurance_alt' => 'int',
-        'endurance_robot' => 'int',
-        'energon_current' => 'int',
-        'firepower_alt' => 'int',
-        'firepower_robot' => 'int',
-        'hp_current' => 'int',
-        'intelligence_alt' => 'int',
-        'intelligence_robot' => 'int',
-        'owner' => AsEmail::class,
-        'rank_alt' => 'int',
-        'rank_robot' => 'int',
-        'skill_alt' => 'int',
-        'skill_robot' => 'int',
-        'speed_alt' => 'int',
-        'speed_robot' => 'int',
-        'strength_alt' => 'int',
-        'strength_robot' => 'int',
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'allegiance',
@@ -151,6 +128,34 @@ class Character extends BaseCharacter implements Stringable
                 $builder->where('system', 'transformers');
             }
         );
+    }
+
+    /**
+     * @return array<string, class-string|string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'courage_alt' => 'int',
+            'courage_robot' => 'int',
+            'endurance_alt' => 'int',
+            'endurance_robot' => 'int',
+            'energon_current' => 'int',
+            'firepower_alt' => 'int',
+            'firepower_robot' => 'int',
+            'hp_current' => 'int',
+            'intelligence_alt' => 'int',
+            'intelligence_robot' => 'int',
+            'owner' => AsEmail::class,
+            'rank_alt' => 'int',
+            'rank_robot' => 'int',
+            'skill_alt' => 'int',
+            'skill_robot' => 'int',
+            'speed_alt' => 'int',
+            'speed_robot' => 'int',
+            'strength_alt' => 'int',
+            'strength_robot' => 'int',
+        ];
     }
 
     public function energonBase(): Attribute

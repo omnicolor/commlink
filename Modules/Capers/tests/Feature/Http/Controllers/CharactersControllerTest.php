@@ -149,7 +149,7 @@ final class CharactersControllerTest extends TestCase
         ]);
         session(['capers-partial' => $character->id]);
 
-        $name = $this->faker->name;
+        $name = $this->faker->name();
         self::actingAs($user)
             ->post(
                 route('capers.create-basics'),

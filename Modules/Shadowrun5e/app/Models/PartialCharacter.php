@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Connection;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Shadowrun5e\Database\Factories\PartialCharacterFactory;
 use Override;
@@ -13,14 +15,11 @@ use Stringable;
  * Representation of a character currently being built.
  * @method static self create(array<string, mixed> $attributes)
  */
+#[Connection('mongodb')]
+#[Table(name: 'characters-partial')]
 class PartialCharacter extends Character implements Stringable
 {
     protected const int DEFAULT_MAX_ATTRIBUTE = 6;
-
-    /** @var string */
-    protected $connection = 'mongodb';
-    /** @var string */
-    protected $table = 'characters-partial';
     /** @var array<string, array<int, string>> */
     public array $errors = [];
 

@@ -31,11 +31,11 @@ class CharacterFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
             'appearance' => $this->faker->sentence(),
             'background' => Background::Military->value,
             'era' => Era::Aang->value,
-            'owner' => $this->faker->email,
+            'owner' => $this->faker->email(),
             'system' => 'avatar',
         ];
     }

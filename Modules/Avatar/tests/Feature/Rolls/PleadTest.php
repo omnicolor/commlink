@@ -28,7 +28,7 @@ final class PleadTest extends TestCase
     public function testWrongSystemSlack(): void
     {
         $channel = Channel::factory()->make(['system' => 'capers']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         self::expectException(SlackException::class);
         self::expectExceptionMessageIs(
@@ -45,7 +45,7 @@ final class PleadTest extends TestCase
     public function testWrongSystemDiscord(): void
     {
         $channel = Channel::factory()->make(['system' => 'capers']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Plead('plead', $channel->username, $channel))
             ->forDiscord();
@@ -63,7 +63,7 @@ final class PleadTest extends TestCase
     public function testWrongSystemIrc(): void
     {
         $channel = Channel::factory()->make(['system' => 'capers']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Plead('plead', $channel->username, $channel))
             ->forIrc();
@@ -86,7 +86,7 @@ final class PleadTest extends TestCase
             ->andReturn([4, 4]);
 
         $channel = Channel::factory()->make(['system' => 'avatar']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Plead('plead', $channel->username, $channel))
             ->forDiscord();
@@ -111,7 +111,7 @@ final class PleadTest extends TestCase
             ->andReturn([4, 4]);
 
         $channel = Channel::factory()->make(['system' => 'avatar']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Plead('plead', $channel->username, $channel))
             ->forIrc();
@@ -136,7 +136,7 @@ final class PleadTest extends TestCase
             ->andReturn([6, 6]);
 
         $channel = Channel::factory()->make(['system' => 'avatar']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Plead('plead 6 testing', $channel->username, $channel))
             ->forSlack()
@@ -169,7 +169,7 @@ final class PleadTest extends TestCase
             ->andReturn([6, 6]);
 
         $channel = Channel::factory()->make(['system' => 'avatar']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Plead('plead -8', $channel->username, $channel))
             ->forSlack()

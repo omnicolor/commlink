@@ -42,7 +42,7 @@ class CharacterFactory extends Factory
     #[Override]
     public function definition(): array
     {
-        $name = $this->faker->name;
+        $name = $this->faker->name();
         return [
             'handle' => $name,
             'name' => $name,

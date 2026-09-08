@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Override;
 
 /**
  * @method static self create(array<mixed, mixed> $attributes)
  */
+#[Table(name: 'characters-partial')]
 class PartialCharacter extends Character
 {
-    /**
-     * @var string
-     */
-    protected $table = 'characters-partial';
-
     #[Override]
     public function newFromBuilder(
         // @phpstan-ignore parameter.defaultValue

@@ -76,9 +76,9 @@ class CharacterFactory extends Factory
             'focuses' => [
                 ['id' => $this->faker->randomElement(array_keys(Focus::all()))],
             ],
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
             'origin' => (string)$this->faker->randomElement($this->origins),
-            'owner' => $this->faker->email,
+            'owner' => $this->faker->email(),
             'socialClass' => (string)$this->faker->randomElement(self::$socialClasses),
             'system' => 'expanse',
         ];

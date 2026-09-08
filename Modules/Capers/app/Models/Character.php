@@ -67,22 +67,6 @@ class Character extends BaseCharacter implements Stringable
         'system' => 'capers',
     ];
 
-    /** @var array<string, string> */
-    protected $casts = [
-        'advancement_points' => 'integer',
-        'agility' => 'integer',
-        'charisma' => 'integer',
-        'expertise' => 'integer',
-        'current_hits' => 'integer',
-        'hits' => 'integer',
-        'level' => 'integer',
-        'moxie' => 'integer',
-        'owner' => AsEmail::class,
-        'perception' => 'integer',
-        'resilience' => 'integer',
-        'strength' => 'integer',
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'agility',
@@ -134,6 +118,27 @@ class Character extends BaseCharacter implements Stringable
                 $builder->where('system', 'capers');
             }
         );
+    }
+
+    /**
+     * @return array<string, class-string|string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'advancement_points' => 'integer',
+            'agility' => 'integer',
+            'charisma' => 'integer',
+            'expertise' => 'integer',
+            'current_hits' => 'integer',
+            'hits' => 'integer',
+            'level' => 'integer',
+            'moxie' => 'integer',
+            'owner' => AsEmail::class,
+            'perception' => 'integer',
+            'resilience' => 'integer',
+            'strength' => 'integer',
+        ];
     }
 
     public function findAttributeAt(int $value): ?string
