@@ -1,6 +1,7 @@
 {
     "Alien": true,
     "Avatar": true,
+    "Battletech": true,
     "Blistercritters": true,
     "Capers": true,
     "Cyberpunkred": true,
@@ -14,5 +15,6 @@
     "Startrekadventures": true,
     "Stillfleet": true,
     "Subversion": true,
-    "Transformers": true
+    "Transformers": true,
+    "BattleTech": true
 }
