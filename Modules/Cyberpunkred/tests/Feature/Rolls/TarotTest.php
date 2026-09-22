@@ -30,7 +30,7 @@ final class TarotTest extends TestCase
     public function testSlackTarotWithNoCampaign(): void
     {
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         self::expectException(SlackException::class);
         self::expectExceptionMessageIs(
@@ -52,7 +52,7 @@ final class TarotTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         self::expectException(SlackException::class);
         self::expectExceptionMessageIs(
@@ -74,7 +74,7 @@ final class TarotTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         self::expectException(SlackException::class);
         self::expectExceptionMessageIs(
@@ -90,7 +90,7 @@ final class TarotTest extends TestCase
     public function testDiscordTarotWithNoCampaign(): void
     {
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $expected = 'Tarot decks require a linked Commlink campaign.';
         $response = (new Tarot('tarot', $channel->username, $channel))
@@ -112,7 +112,7 @@ final class TarotTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $expected = 'Night City Tarot only available for Cyberpunk Red '
             . 'campaigns.';
@@ -140,7 +140,7 @@ final class TarotTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         self::assertDatabaseMissing(
             'decks',
@@ -185,7 +185,7 @@ final class TarotTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Tarot('tarot shuffle', $channel->username, $channel))
             ->forSlack()
@@ -222,7 +222,7 @@ final class TarotTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Tarot('tarot shuffle', $channel->username, $channel))
             ->forDiscord();
@@ -256,7 +256,7 @@ final class TarotTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $expected = 'Insufficient cards remain in deck';
         $response = (new Tarot('tarot', $channel->username, $channel))
@@ -277,7 +277,7 @@ final class TarotTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $expected = 'Night City Tarot only available for Cyberpunk Red '
             . 'campaigns.';
@@ -310,7 +310,7 @@ final class TarotTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Tarot('tarot shuffle', $channel->username, $channel))
             ->forIrc();
@@ -336,7 +336,7 @@ final class TarotTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Tarot('tarot', $channel->username, $channel))
             ->forIrc();

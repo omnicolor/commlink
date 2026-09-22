@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun6e\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Shadowrun6e\Enums\SpecializationLevel;
@@ -33,6 +34,7 @@ use const JSON_THROW_ON_ERROR;
  * @property-write array<int, SkillSpecialization|array{name: string, level?: int}> $specializations
  * @property bool $untrained
  */
+#[WithoutIncrementing]
 class ActiveSkill extends Model implements Stringable
 {
     use Sushi;
@@ -40,8 +42,6 @@ class ActiveSkill extends Model implements Stringable
     private int $level = 0;
     /** @var array<int, SkillSpecialization> */
     private array $specializations = [];
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     /** @var list<string> */

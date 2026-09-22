@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun6e\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Override;
@@ -34,11 +35,10 @@ use const JSON_THROW_ON_ERROR;
  * @property-read array<int, ActiveSkill> $skills
  * @property-read int|string $sleaze
  */
+#[WithoutIncrementing]
 class Sprite extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     private int|null $level = null;

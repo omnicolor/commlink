@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun6e\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Override;
@@ -24,11 +25,10 @@ use function config;
  * @property-read int $page
  * @property-read string $ruleset
  */
+#[WithoutIncrementing]
 class MentorSpirit extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     /** @var list<string> */

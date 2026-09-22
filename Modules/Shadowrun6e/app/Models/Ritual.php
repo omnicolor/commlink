@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun6e\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Model;
 use Override;
 use Stringable;
@@ -22,11 +23,10 @@ use Sushi\Sushi;
  * @property-read bool $spotter
  * @property-read int $threshold
  */
+#[WithoutIncrementing]
 class Ritual extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     /**

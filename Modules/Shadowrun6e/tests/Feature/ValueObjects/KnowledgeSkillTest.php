@@ -19,7 +19,7 @@ final class KnowledgeSkillTest extends TestCase
 
     public function testToString(): void
     {
-        $name = $this->faker->name;
+        $name = $this->faker->name();
         $skill = new KnowledgeSkill($name);
         self::assertSame($name, (string)$skill);
     }

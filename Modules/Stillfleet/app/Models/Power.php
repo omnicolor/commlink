@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Stillfleet\Enums\AdvancedPowersCategory;
@@ -26,6 +27,7 @@ use function json_decode;
  * @property string $ruleset
  * @property string $type
  */
+#[WithoutIncrementing]
 class Power extends Model implements Stringable
 {
     use Sushi;
@@ -35,8 +37,6 @@ class Power extends Model implements Stringable
     public const string TYPE_HELL_SCIENCE = 'hell-science';
     public const string TYPE_MARQUEE = 'marquee';
     public const string TYPE_SPECIES = 'species';
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     #[Override]

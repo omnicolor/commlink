@@ -28,7 +28,7 @@ class InitiativeFactory extends Factory
             'campaign_id' => null,
             'channel_id' => null,
             'character_id' => null,
-            'character_name' => $this->faker->name,
+            'character_name' => $this->faker->name(),
             'initiative' => $this->faker->randomDigit(),
         ];
     }

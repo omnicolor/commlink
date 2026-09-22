@@ -30,7 +30,11 @@ use Rector\Php83\Rector\Class_\ReadOnlyAnonymousClassRector;
 use Rector\Php84\Rector\FuncCall\RoundingModeEnumRector;
 use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
 use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
-use RectorLaravel\Rector\ClassMethod\ScopeNamedClassMethodToScopeAttributedClassMethodRector;
+use RectorLaravel\Rector\ClassMethod\MigrateToSimplifiedAttributeRector;
+use RectorLaravel\Rector\Class_\FillablePropertyToFillableAttributeRector;
+use RectorLaravel\Rector\Class_\HiddenPropertyToHiddenAttributeRector;
+use RectorLaravel\Rector\MethodCall\AssertSeeToAssertSeeHtmlRector;
+use RectorLaravel\Rector\PropertyFetch\ReplaceFakerInstanceWithHelperRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -79,19 +83,24 @@ return RectorConfig::configure()
         ReadOnlyAnonymousClassRector::class,
         ReadOnlyPropertyRector::class,
         RoundingModeEnumRector::class,
-        ScopeNamedClassMethodToScopeAttributedClassMethodRector::class,
         ThisCallOnStaticMethodToStaticCallRector::class,
     ])
     ->withSkip([
+        AssertSeeToAssertSeeHtmlRector::class,
         CatchExceptionNameMatchingTypeRector::class,
-        // Adds strict_types grot to blade files in modules.
-        DeclareStrictTypesRector::class,
+        DeclareStrictTypesRector::class => [
+            __DIR__ . '/resources',
+        ],
+        FillablePropertyToFillableAttributeRector::class,
+        HiddenPropertyToHiddenAttributeRector::class,
         IssetOnPropertyObjectToPropertyExistsRector::class,
         MakeInheritedMethodVisibilitySameAsParentRector::class,
         MatchAssertSameExpectedTypeRector::class => [
             __DIR__ . '/Modules/Shadowrun6e/tests/Feature/Models/SpiritTest.php',
             __DIR__ . '/Modules/Shadowrun6e/tests/Feature/Models/SpriteTest.php',
         ],
+        // Breaks many of the attribute-related methods in RPG systems.
+        MigrateToSimplifiedAttributeRector::class,
         NewlineAfterStatementRector::class,
         NewlineBeforeNewAssignSetRector::class,
         NewlineBetweenClassLikeStmtsRector::class,
@@ -102,6 +111,7 @@ return RectorConfig::configure()
         ],
         RepeatedAndNotEqualToNotInArrayRector::class,
         RepeatedOrEqualToInArrayRector::class,
+        ReplaceFakerInstanceWithHelperRector::class,
         SimplifyQuoteEscapeRector::class,
         ThrowWithPreviousExceptionRector::class,
     ]);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun6e\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Override;
@@ -28,12 +29,12 @@ use function config;
  * @property-read int $strength
  * @property-read int $willpower
  */
+#[WithoutIncrementing]
 class Spirit extends Model implements Stringable
 {
     use Sushi;
 
     private int $force;
-    public $incrementing = false;
     protected $keyType = 'string';
 
     /**
