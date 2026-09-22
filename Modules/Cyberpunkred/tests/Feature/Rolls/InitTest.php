@@ -41,7 +41,7 @@ final class InitTest extends TestCase
         Event::fake();
 
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         self::expectException(SlackException::class);
         self::expectExceptionMessageIs(
@@ -63,7 +63,7 @@ final class InitTest extends TestCase
         Event::fake();
 
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $expected = 'Rolling initiative without a linked character requires '
             . 'your reflexes, and optionally any modififers: `/roll init 8 -2` '
@@ -85,7 +85,7 @@ final class InitTest extends TestCase
         Event::fake();
 
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $expected = 'Rolling initiative without a linked character requires '
             . 'your reflexes, and optionally any modififers: `/roll init 8 -2` '
@@ -108,7 +108,7 @@ final class InitTest extends TestCase
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
 
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Init('init 5', $channel->username, $channel))
             ->forSlack()
@@ -147,7 +147,7 @@ final class InitTest extends TestCase
             'system' => 'cyberpunkred',
             'type' => ChannelType::Discord,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Init('init 8 2', $channel->username, $channel))
             ->forDiscord();
@@ -172,7 +172,7 @@ final class InitTest extends TestCase
             'system' => 'cyberpunkred',
             'type' => ChannelType::Slack,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
         $channel->user = 'U' . Str::random(10);
 
         $chatUser = ChatUser::factory()->create([
@@ -233,7 +233,7 @@ final class InitTest extends TestCase
             'system' => 'cyberpunkred',
             'type' => ChannelType::Discord,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
         $channel->user = 'U' . Str::random(10);
 
         $chatUser = ChatUser::factory()->create([
@@ -284,7 +284,7 @@ final class InitTest extends TestCase
             'system' => 'cyberpunkred',
             'type' => ChannelType::Discord,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
         $channel->user = 'U' . Str::random(10);
 
         $chatUser = ChatUser::factory()->create([
@@ -332,7 +332,7 @@ final class InitTest extends TestCase
             'system' => 'cyberpunkred',
             'type' => ChannelType::Discord,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
         $channel->user = $channel->username;
 
         $response = (new Init('init 5 -2', $channel->username, $channel))

@@ -30,7 +30,7 @@ final class HelpTest extends TestCase
         $channel = Channel::factory()->make([
             'system' => 'startrekadventures',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Help('help', $channel->username, $channel))
             ->forSlack()
@@ -54,7 +54,7 @@ final class HelpTest extends TestCase
         $channel = Channel::factory()->make([
             'system' => 'startrekadventures',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new Help('help', $channel->username, $channel))
             ->forDiscord();
@@ -79,7 +79,7 @@ final class HelpTest extends TestCase
             'system' => 'startrekadventures',
             'type' => ChannelType::Discord,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
         $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
@@ -109,7 +109,7 @@ final class HelpTest extends TestCase
             'system' => 'startrekadventures',
             'type' => ChannelType::Discord,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
         $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
@@ -137,7 +137,7 @@ final class HelpTest extends TestCase
             'system' => 'startrekadventures',
             'type' => ChannelType::Discord,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
         $channel->user = 'U' . Str::random(10);
 
         $chatUser = ChatUser::factory()->create([
@@ -175,7 +175,7 @@ final class HelpTest extends TestCase
             'system' => 'startrekadventures',
             'type' => ChannelType::Irc,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
         $channel->user = 'U' . Str::random(10);
 
         $response = (new Help('help', $channel->username, $channel))

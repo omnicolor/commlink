@@ -32,7 +32,7 @@ final class ShuffleAllTest extends TestCase
     public function testShuffleWithNoCampaign(): void
     {
         $channel = Channel::factory()->make(['system' => 'capers']);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         self::expectException(SlackException::class);
         self::expectExceptionMessageIs(
@@ -54,7 +54,7 @@ final class ShuffleAllTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'capers',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new ShuffleAll('shuffleAll', $channel->username, $channel))
             ->forDiscord();
@@ -76,7 +76,7 @@ final class ShuffleAllTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'capers',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         self::expectException(SlackException::class);
         self::expectExceptionMessageIs(
@@ -104,7 +104,7 @@ final class ShuffleAllTest extends TestCase
             'system' => 'capers',
             'type' => ChannelType::Slack,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
         $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
@@ -151,7 +151,7 @@ final class ShuffleAllTest extends TestCase
             'system' => 'capers',
             'type' => ChannelType::Discord,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
         $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
@@ -164,7 +164,7 @@ final class ShuffleAllTest extends TestCase
 
         $deck = new StandardDeck();
         $deck->campaign_id = $campaign->id;
-        $deck->character_id = $this->faker->name;
+        $deck->character_id = $this->faker->name();
         $deck->shuffle();
         $deck->draw(10);
         $deck->save();
@@ -192,7 +192,7 @@ final class ShuffleAllTest extends TestCase
             'campaign_id' => $campaign,
             'system' => 'capers',
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         $response = (new ShuffleAll('shuffleAll', $channel->username, $channel))
             ->forIrc();
@@ -217,7 +217,7 @@ final class ShuffleAllTest extends TestCase
             'system' => 'capers',
             'type' => ChannelType::Irc,
         ]);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
         $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
@@ -230,7 +230,7 @@ final class ShuffleAllTest extends TestCase
 
         $deck = new StandardDeck();
         $deck->campaign_id = $campaign->id;
-        $deck->character_id = $this->faker->name;
+        $deck->character_id = $this->faker->name();
         $deck->shuffle();
         $deck->draw(10);
         $deck->save();

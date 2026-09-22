@@ -61,23 +61,6 @@ class Character extends BaseCharacter implements Stringable
         'system' => 'shadowrun6e',
     ];
 
-    /** @var array<string, string> */
-    protected $casts = [
-        'agility' => 'integer',
-        'body' => 'integer',
-        'charisma' => 'integer',
-        'edge' => 'integer',
-        'intuition' => 'integer',
-        'karma' => 'integer',
-        'karma_total' => 'integer',
-        'logic' => 'integer',
-        'owner' => AsEmail::class,
-        'nuyen' => 'integer',
-        'reaction' => 'integer',
-        'strength' => 'integer',
-        'willpower' => 'integer',
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'agility',
@@ -134,6 +117,28 @@ class Character extends BaseCharacter implements Stringable
                 $builder->where('system', 'shadowrun6e');
             }
         );
+    }
+
+    /**
+     * @return array<string, class-string|string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'agility' => 'integer',
+            'body' => 'integer',
+            'charisma' => 'integer',
+            'edge' => 'integer',
+            'intuition' => 'integer',
+            'karma' => 'integer',
+            'karma_total' => 'integer',
+            'logic' => 'integer',
+            'owner' => AsEmail::class,
+            'nuyen' => 'integer',
+            'reaction' => 'integer',
+            'strength' => 'integer',
+            'willpower' => 'integer',
+        ];
     }
 
     /**

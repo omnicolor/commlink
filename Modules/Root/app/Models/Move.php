@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Root\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Override;
@@ -21,23 +22,11 @@ use function config;
  * @property string $name
  * @property bool $weapon_move
  */
+#[WithoutIncrementing]
 class Move extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
-
-    /**
-     * @var array<string, class-string|string>
-     */
-    protected $casts = [
-        'description' => 'string',
-        'effects' => 'object',
-        'id' => 'string',
-        'name' => 'string',
-        'weapon_move' => 'boolean',
-    ];
 
     /**
      * @var list<string>
@@ -54,6 +43,21 @@ class Move extends Model implements Stringable
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'description' => 'string',
+            'effects' => 'object',
+            'id' => 'string',
+            'name' => 'string',
+            'weapon_move' => 'boolean',
+        ];
     }
 
     /**

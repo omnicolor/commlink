@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Root\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Model;
 use Override;
 use Stringable;
@@ -16,21 +17,11 @@ use function config;
  * @property string $id
  * @property string $name
  */
+#[WithoutIncrementing]
 class Nature extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
-
-    /**
-     * @var array<string, class-string|string>
-     */
-    protected $casts = [
-        'description' => 'string',
-        'id' => 'string',
-        'name' => 'string',
-    ];
 
     /**
      * @var list<string>
@@ -40,6 +31,25 @@ class Nature extends Model implements Stringable
         'id',
         'name',
     ];
+
+    #[Override]
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'description' => 'string',
+            'id' => 'string',
+            'name' => 'string',
+        ];
+    }
 
     /**
      * @return array{
@@ -52,11 +62,5 @@ class Nature extends Model implements Stringable
     {
         $filename = config('root.data_path') . 'natures.php';
         return require $filename;
-    }
-
-    #[Override]
-    public function __toString(): string
-    {
-        return $this->name;
     }
 }

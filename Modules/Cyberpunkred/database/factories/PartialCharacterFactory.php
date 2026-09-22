@@ -23,7 +23,7 @@ class PartialCharacterFactory extends Factory
     public function definition(): array
     {
         return [
-            'owner' => $this->faker->email,
+            'owner' => $this->faker->email(),
             'system' => 'cyberpunkred',
         ];
     }
