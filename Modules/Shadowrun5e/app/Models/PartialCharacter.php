@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Connection;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Shadowrun5e\Database\Factories\PartialCharacterFactory;
 use Modules\Shadowrun5e\Events\KarmaGained;
@@ -49,17 +51,14 @@ use function usort;
  *     system: string,
  * }
  */
+#[Connection('mongodb')]
+#[Table(name: 'characters-partial')]
 class PartialCharacter extends Character implements Stringable
 {
     protected const string PRIORITY_STANDARD = 'standard';
     protected const string PRIORITY_SUM_TO_TEN = 'sum-to-ten';
     protected const string PRIORITY_KARMA = 'karma';
     protected const int DEFAULT_MAX_ATTRIBUTE = 6;
-
-    /** @var string */
-    protected $connection = 'mongodb';
-    /** @var string */
-    protected $table = 'characters-partial';
     /** @var array<string, array<int, string>> */
     public array $errors = [];
 

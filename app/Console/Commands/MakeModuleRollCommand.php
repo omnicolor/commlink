@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
 use Illuminate\Support\Str;
 use Nwidart\Modules\Commands\Make\GeneratorCommand;
 use Nwidart\Modules\Laravel\LaravelFileRepository;
@@ -20,6 +21,7 @@ use const E_ERROR;
 /**
  * @codeCoverageIgnore
  */
+#[Description('Create a new roll for the specified module.')]
 class MakeModuleRollCommand extends GeneratorCommand
 {
     use ModuleCommandTrait;
@@ -31,9 +33,6 @@ class MakeModuleRollCommand extends GeneratorCommand
 
     /** @var string */
     protected $name = 'module:make-roll';
-
-    /** @var string */
-    protected $description = 'Create a new roll for the specified module.';
 
     #[Override]
     public function handle(): int

@@ -29,9 +29,9 @@ final class CampaignInvitationTest extends TestCase
         $campaign = Campaign::factory()->create();
         CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => User::factory()->create()->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
             'status' => CampaignInvitationStatus::Invited,
         ]);
 
@@ -46,9 +46,9 @@ final class CampaignInvitationTest extends TestCase
 
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => User::factory()->create()->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
             'status' => CampaignInvitationStatus::Invited,
         ]);
         $invitation->status = CampaignInvitationStatus::Responded;

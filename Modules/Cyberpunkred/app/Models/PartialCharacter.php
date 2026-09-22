@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Cyberpunkred\Models;
 
 use Facades\App\Services\DiceService;
+use Illuminate\Database\Eloquent\Attributes\Connection;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Cyberpunkred\Database\Factories\PartialCharacterFactory;
 use Override;
@@ -15,14 +17,10 @@ use Stringable;
  * @method static self create(array<mixed, mixed> $attributes)
  * @property array<string, array{rolled?: int, chosen: int}> $lifepath
  */
+#[Connection('mongodb')]
+#[Table(name: 'characters-partial')]
 class PartialCharacter extends Character implements Stringable
 {
-    /** @var string */
-    protected $connection = 'mongodb';
-
-    /** @var string */
-    protected $table = 'characters-partial';
-
     /** @var array<string, array<int, string>> */
     public array $errors = [];
 
