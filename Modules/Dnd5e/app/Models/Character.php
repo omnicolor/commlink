@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Dnd5e\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
 use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
@@ -47,16 +48,6 @@ class Character extends BaseCharacter implements Stringable
         'system' => 'dnd5e',
     ];
 
-    /** @var array<string, class-string> */
-    protected $casts = [
-        'charisma' => AsAbilityValue::class,
-        'constitution' => AsAbilityValue::class,
-        'dexterity' => AsAbilityValue::class,
-        'intelligence' => AsAbilityValue::class,
-        'strength' => AsAbilityValue::class,
-        'wisdom' => AsAbilityValue::class,
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'alignment',
@@ -92,6 +83,18 @@ class Character extends BaseCharacter implements Stringable
     }
 
     /**
+     * Return the character's armor class.
+     */
+    protected function armorClass(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return 10 + $this->dexterity->modifier;
+            },
+        );
+    }
+
+    /**
      * Force this model to only load for D&D 5E characters.
      */
     #[Override]
@@ -106,15 +109,20 @@ class Character extends BaseCharacter implements Stringable
     }
 
     /**
-     * Return the character's armor class.
+     * @return array<string, class-string>
      */
-    protected function armorClass(): Attribute
+    #[Override]
+    protected function casts(): array
     {
-        return Attribute::make(
-            get: function (): int {
-                return 10 + $this->dexterity->modifier;
-            },
-        );
+        return [
+            'charisma' => AsAbilityValue::class,
+            'constitution' => AsAbilityValue::class,
+            'dexterity' => AsAbilityValue::class,
+            'intelligence' => AsAbilityValue::class,
+            'owner' => AsEmail::class,
+            'strength' => AsAbilityValue::class,
+            'wisdom' => AsAbilityValue::class,
+        ];
     }
 
     protected function level(): Attribute

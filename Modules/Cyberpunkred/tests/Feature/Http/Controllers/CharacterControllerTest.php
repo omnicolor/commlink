@@ -314,7 +314,7 @@ final class CharacterControllerTest extends TestCase
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
-        $name = $this->faker->name;
+        $name = $this->faker->name();
         self::actingAs($user)
             ->post(
                 route('cyberpunkred.create-handle'),
@@ -387,7 +387,7 @@ final class CharacterControllerTest extends TestCase
 
         /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
-            'handle' => $this->faker->name,
+            'handle' => $this->faker->name(),
             'owner' => $user->email->address,
             'roles' => [
                 [

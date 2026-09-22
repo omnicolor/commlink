@@ -63,11 +63,6 @@ class Character extends BaseCharacter implements Stringable
         'system' => 'alien',
     ];
 
-    /** @var array<string, string> */
-    protected $casts = [
-        'owner' => AsEmail::class,
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'agenda',
@@ -188,6 +183,16 @@ class Character extends BaseCharacter implements Stringable
                 return $cash ?? 0;
             },
         );
+    }
+
+    /**
+     * @return array<string, class-string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'owner' => AsEmail::class,
+        ];
     }
 
     protected function encumbrance(): Attribute
