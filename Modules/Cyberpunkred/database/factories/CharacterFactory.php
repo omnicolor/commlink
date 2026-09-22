@@ -24,8 +24,8 @@ class CharacterFactory extends Factory
     {
         $hp = $this->faker->randomDigitNotNull() * $this->faker->randomDigitNotNull();
         return [
-            'handle' => $this->faker->name,
-            'owner' => $this->faker->email,
+            'handle' => $this->faker->name(),
+            'owner' => $this->faker->email(),
             'system' => 'cyberpunkred',
             'body' => $this->faker->randomDigitNotNull(),
             'cool' => $this->faker->randomDigitNotNull(),

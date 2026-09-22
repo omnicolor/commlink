@@ -27,7 +27,7 @@ class CharacterFactory extends Factory
     public function definition(): array
     {
         return [
-            'handle' => $this->faker->name,
+            'handle' => $this->faker->name(),
             'owner' => (string)(User::factory()->create())->email,
             'system' => 'shadowrun5e',
         ];

@@ -311,7 +311,7 @@ final class CharactersControllerTest extends TestCase
         ]);
         session(['subversion-partial' => $character->id]);
 
-        $name = $this->faker->name;
+        $name = $this->faker->name();
         self::actingAs($user)
             ->postJson(
                 route('subversion.create-lineage'),
@@ -339,7 +339,7 @@ final class CharactersControllerTest extends TestCase
         ]);
         session(['subversion-partial' => $character->id]);
 
-        $name = $this->faker->name;
+        $name = $this->faker->name();
         self::actingAs($user)
             ->postJson(
                 route('subversion.create-lineage'),
@@ -373,7 +373,7 @@ final class CharactersControllerTest extends TestCase
         ]);
         session(['subversion-partial' => $character->id]);
 
-        $name = $this->faker->name;
+        $name = $this->faker->name();
         self::actingAs($user)
             ->postJson(
                 route('subversion.create-lineage'),

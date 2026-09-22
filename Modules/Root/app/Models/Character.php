@@ -54,24 +54,6 @@ class Character extends BaseCharacter implements Stringable
         'system' => 'root',
     ];
 
-    /** @var array<string, class-string|string> */
-    protected $casts = [
-        'charm' => AttributeCast::class,
-        'cunning' => AttributeCast::class,
-        'decay' => 'integer',
-        'exhaustion' => 'integer',
-        'finesse' => AttributeCast::class,
-        'injury' => 'integer',
-        'luck' => AttributeCast::class,
-        'might' => AttributeCast::class,
-        'moves' => 'array',
-        'name' => 'string',
-        'nature' => 'string',
-        'owner' => AsEmail::class,
-        'playbook' => 'string',
-        'system' => 'string',
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'charm',
@@ -110,6 +92,29 @@ class Character extends BaseCharacter implements Stringable
                 $builder->where('system', 'root');
             }
         );
+    }
+
+    /**
+     * @return array<string, class-string|string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'charm' => AttributeCast::class,
+            'cunning' => AttributeCast::class,
+            'decay' => 'integer',
+            'exhaustion' => 'integer',
+            'finesse' => AttributeCast::class,
+            'injury' => 'integer',
+            'luck' => AttributeCast::class,
+            'might' => AttributeCast::class,
+            'moves' => 'array',
+            'name' => 'string',
+            'nature' => 'string',
+            'owner' => AsEmail::class,
+            'playbook' => 'string',
+            'system' => 'string',
+        ];
     }
 
     public function decay(): EloquentAttribute
