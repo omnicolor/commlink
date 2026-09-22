@@ -62,9 +62,9 @@ final class AuthenticatedSessionControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
         ]);
 
         self::post('/login', [
@@ -84,9 +84,9 @@ final class AuthenticatedSessionControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
             'status' => CampaignInvitationStatus::Responded,
         ]);
 
@@ -107,9 +107,9 @@ final class AuthenticatedSessionControllerTest extends TestCase
         $campaign = Campaign::factory()->create(['gm' => $user->id]);
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $user->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
         ]);
 
         self::post('/login', [
@@ -129,9 +129,9 @@ final class AuthenticatedSessionControllerTest extends TestCase
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail(),
             'invited_by' => $campaign->gamemaster?->id,
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
         ]);
 
         self::post('/login', [
