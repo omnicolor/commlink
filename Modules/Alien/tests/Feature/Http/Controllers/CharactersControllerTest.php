@@ -131,7 +131,7 @@ final class CharactersControllerTest extends TestCase
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
         ]);
-        $name = $this->faker->name;
+        $name = $this->faker->name();
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
             ->postJson(

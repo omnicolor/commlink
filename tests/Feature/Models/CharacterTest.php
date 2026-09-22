@@ -27,7 +27,7 @@ final class CharacterTest extends TestCase
     public function testNoUser(): void
     {
         $character = new Character([
-            'owner' => $this->faker->unique()->safeEmail,
+            'owner' => $this->faker->unique()->safeEmail(),
         ]);
         self::expectException(ModelNotFoundException::class);
         $character->user();

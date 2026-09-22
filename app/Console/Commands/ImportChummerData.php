@@ -6,6 +6,8 @@ namespace App\Console\Commands;
 
 use App\Traits\FormulaConverter;
 use GitElephant\Repository;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Isolatable;
 use Illuminate\Support\Str;
@@ -45,6 +47,13 @@ use const PHP_EOL;
 /**
  * @codeCoverageIgnore
  */
+#[Description('Import data from Chummer\'s GitHub repository')]
+#[Signature('commlink:import-chummer-data
+        {--type=* : Type of data to import}
+        {--skip-pull : Don\'t update Chummer\'s git repository}
+        {--chummer-path= : Set the path Chummer 5\'s local git repository}
+        {--output-dir=storage/app/shadowrun5e-data : Set the output directory}
+        {--list-types : List the types of data you can import, then exit}')]
 class ImportChummerData extends Command implements Isolatable
 {
     use FormulaConverter;
@@ -145,21 +154,10 @@ class ImportChummerData extends Command implements Isolatable
      */
     protected string $chummerRepository;
 
-    /** @var string */
-    protected $description = 'Import data from Chummer\'s GitHub repository';
-
     /**
      * Path to write data to.
      */
     protected string $outputDir = 'storage/app/shadowrun5e-data';
-
-    /** @var string */
-    protected $signature = 'commlink:import-chummer-data
-        {--type=* : Type of data to import}
-        {--skip-pull : Don\'t update Chummer\'s git repository}
-        {--chummer-path= : Set the path Chummer 5\'s local git repository}
-        {--output-dir=storage/app/shadowrun5e-data : Set the output directory}
-        {--list-types : List the types of data you can import, then exit}';
 
     public function handle(): int
     {

@@ -67,17 +67,6 @@ class Character extends BaseCharacter implements Stringable
         'system' => 'subversion',
     ];
 
-    /** @var array<string, string> */
-    protected $casts = [
-        'agility' => 'int',
-        'awareness' => 'int',
-        'brawn' => 'int',
-        'charisma' => 'int',
-        'owner' => AsEmail::class,
-        'will' => 'int',
-        'wit' => 'int',
-    ];
-
     /** @var list<string> */
     protected $fillable = [
         'agility',
@@ -182,6 +171,22 @@ class Character extends BaseCharacter implements Stringable
                 return $caste;
             },
         );
+    }
+
+    /**
+     * @return array<string, class-string|string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'agility' => 'int',
+            'awareness' => 'int',
+            'brawn' => 'int',
+            'charisma' => 'int',
+            'owner' => AsEmail::class,
+            'will' => 'int',
+            'wit' => 'int',
+        ];
     }
 
     public function gear(): Attribute

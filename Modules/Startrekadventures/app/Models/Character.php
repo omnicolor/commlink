@@ -44,11 +44,6 @@ class Character extends BaseCharacter implements Stringable
         'system' => 'startrekadventures',
     ];
 
-    /** @var array<string, string> */
-    protected $casts = [
-        'owner' => AsEmail::class,
-    ];
-
     protected Attributes $attributesObject;
     protected Disciplines $disciplinesObject;
 
@@ -92,6 +87,16 @@ class Character extends BaseCharacter implements Stringable
                 $builder->where('system', 'startrekadventures');
             }
         );
+    }
+
+    /**
+     * @return array<string, class-string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'owner' => AsEmail::class,
+        ];
     }
 
     public function disciplines(): Attribute

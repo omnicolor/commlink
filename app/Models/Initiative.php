@@ -30,7 +30,6 @@ class Initiative extends Model implements Stringable
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
      * @var list<string>
      */
     protected $fillable = [
@@ -42,14 +41,6 @@ class Initiative extends Model implements Stringable
         'character_name',
         'grunt_id',
         'initiative',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'initiative' => 'int',
     ];
 
     #[Override]
@@ -64,6 +55,17 @@ class Initiative extends Model implements Stringable
     public function campaign(): BelongsTo
     {
         return $this->belongsTo(Campaign::class);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'initiative' => 'int',
+        ];
     }
 
     /**

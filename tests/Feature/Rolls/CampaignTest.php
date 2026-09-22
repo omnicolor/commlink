@@ -459,7 +459,7 @@ final class CampaignTest extends TestCase
             'type' => ChannelType::Slack,
         ]);
         $channel->user = 'U' . Str::random(10);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -511,7 +511,7 @@ final class CampaignTest extends TestCase
             'type' => ChannelType::Discord,
         ]);
         $channel->user = 'U' . Str::random(10);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -563,7 +563,7 @@ final class CampaignTest extends TestCase
             'type' => ChannelType::Slack,
         ]);
         $channel->user = 'U' . Str::random(10);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -615,7 +615,7 @@ final class CampaignTest extends TestCase
             'type' => ChannelType::Discord,
         ]);
         $channel->user = 'U' . Str::random(10);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -658,7 +658,7 @@ final class CampaignTest extends TestCase
             'type' => ChannelType::Irc,
         ]);
         $channel->user = 'U' . Str::random(10);
-        $channel->username = $this->faker->name;
+        $channel->username = $this->faker->name();
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,

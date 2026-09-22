@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Connection;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Shadowrun5e\Database\Factories\PartialCharacterFactory;
@@ -17,6 +19,8 @@ use function sprintf;
  * @method static self create(array<string, mixed> $attributes)
  * @mixin Model
  */
+#[Connection('mongodb')]
+#[Table(name: 'characters-partial')]
 class PartialCharacter extends Character implements Stringable
 {
     protected const string PRIORITY_STANDARD = 'standard';
@@ -24,12 +28,6 @@ class PartialCharacter extends Character implements Stringable
     protected const string PRIORITY_KARMA = 'karma';
 
     protected const int DEFAULT_MAX_ATTRIBUTE = 6;
-
-    /** @var string */
-    protected $connection = 'mongodb';
-    /** @var string */
-    protected $table = 'characters-partial';
-
     /** @var array<int|string, array<int, string>|string> */
     public array $errors = [];
 

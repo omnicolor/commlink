@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Avatar\Enums\TechniqueClass;
 use Modules\Avatar\Enums\TechniqueLevel;
@@ -25,27 +26,13 @@ use function config;
  * @property string $specialization
  * @property TechniqueType $type
  */
+#[WithoutIncrementing]
 class Technique extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     public TechniqueLevel $level;
-
-    /** @var array<string, class-string|string> */
-    protected $casts = [
-        'class' => TechniqueClass::class,
-        'description' => 'string',
-        'id' => 'string',
-        'name' => 'string',
-        'page' => 'int',
-        'rare' => 'bool',
-        'ruleset' => 'string',
-        'specialization' => 'string',
-        'type' => TechniqueType::class,
-    ];
 
     /** @var list<string> */
     protected $fillable = [
@@ -64,6 +51,24 @@ class Technique extends Model implements Stringable
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return array<string, class-string|string> */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'class' => TechniqueClass::class,
+            'description' => 'string',
+            'id' => 'string',
+            'name' => 'string',
+            'page' => 'int',
+            'rare' => 'bool',
+            'ruleset' => 'string',
+            'specialization' => 'string',
+            'type' => TechniqueType::class,
+        ];
     }
 
     /**
