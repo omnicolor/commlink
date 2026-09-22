@@ -32,7 +32,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
+            'name' => $this->faker->name(),
             'email' => str_replace(
                 '@',
                 '#' . Uuid::uuid4() . '@',

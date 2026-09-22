@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Stillfleet\Enums\TechStrata;
@@ -24,11 +25,10 @@ use function config;
  * @property int $tech_cost
  * @property TechStrata $tech_strata
  */
+#[WithoutIncrementing]
 class Armor extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     #[Override]

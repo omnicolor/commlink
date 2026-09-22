@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Stillfleet\Models;
 
 use App\Services\DiceService;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Override;
 use RuntimeException;
 
@@ -12,13 +13,9 @@ use RuntimeException;
  * @method static self create(array<mixed, mixed> $attributes)
  * @property string $attribute_dice_option
  */
+#[Table(name: 'characters-partial')]
 class PartialCharacter extends Character
 {
-    /**
-     * @var string
-     */
-    protected $table = 'characters-partial';
-
     /**
      * @var list<string>
      */

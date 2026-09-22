@@ -6,6 +6,7 @@ namespace Modules\Stillfleet\Models;
 
 use Facades\App\Services\DiceService;
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -36,11 +37,10 @@ use function sprintf;
  * @property TechStrata $tech_strata
  * @property WeaponType $type
  */
+#[WithoutIncrementing]
 class Weapon extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     #[Override]

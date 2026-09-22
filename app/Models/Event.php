@@ -44,17 +44,6 @@ class Event extends Model
     use SoftDeletes;
 
     /**
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'created_at' => 'datetime',
-        'deleted_at' => 'datetime',
-        'real_end' => 'datetime',
-        'real_start' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
-
-    /**
      * @var array<string, class-string>
      */
     protected $dispatchesEvents = [
@@ -84,6 +73,21 @@ class Event extends Model
     public function campaign(): BelongsTo
     {
         return $this->belongsTo(Campaign::class);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'created_at' => 'datetime',
+            'deleted_at' => 'datetime',
+            'real_end' => 'datetime',
+            'real_start' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
     }
 
     public function creator(): BelongsTo

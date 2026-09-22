@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Stillfleet\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -30,11 +31,10 @@ use Sushi\Sushi;
  * @property TechStrata $tech_strata
  * @property VoidwareType $type
  */
+#[WithoutIncrementing]
 class Gear extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     #[Override]

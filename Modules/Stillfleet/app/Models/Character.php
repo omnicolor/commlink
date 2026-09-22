@@ -153,8 +153,7 @@ class Character extends BaseCharacter implements Stringable
     }
 
     /**
-     * @return array<string, string>
-     */
+     * @return array<string, class-string|string> */
     #[Override]
     protected function casts(): array
     {

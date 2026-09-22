@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Override;
 
 /**
  * @property Event $event
@@ -16,16 +17,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class EventRsvp extends Model
 {
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
-
     protected $fillable = [
         'event_id',
         'response',
         'user_id',
     ];
+
+    /**
+     * @return array<string, string>
+     */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
+    }
 
     public function event(): BelongsTo
     {
