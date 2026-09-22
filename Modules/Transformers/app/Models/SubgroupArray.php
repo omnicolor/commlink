@@ -10,20 +10,20 @@ use TypeError;
 
 /**
  * Collection of Subgroups.
- * @extends ArrayObject<int, Subgroup>
+ * @extends ArrayObject<int|string, Subgroup>
  */
 class SubgroupArray extends ArrayObject
 {
     /**
-     * @param int|null|string $offset
+     * @param int|string|null $key
      * @param Subgroup $value
      * @throws TypeError
      */
     #[Override]
-    public function offsetSet($offset = null, $value = null): void
+    public function offsetSet($key = null, $value = null): void
     {
         if ($value instanceof Subgroup) {
-            parent::offsetSet($offset, $value);
+            parent::offsetSet($key, $value);
             return;
         }
         throw new TypeError('SubgroupArray only accepts Subgroup objects');
