@@ -11,7 +11,6 @@ use Stringable;
 use function config;
 use function sprintf;
 use function strtolower;
-use function urlencode;
 
 /**
  * Base class for Shadowrun lifestyles.
@@ -58,7 +57,7 @@ final class Lifestyle implements Stringable
         $id = strtolower($id);
         if (!isset(self::$lifestyles[$id])) {
             throw new RuntimeException(
-                sprintf('Lifestyle ID "%s" is invalid', urlencode($id))
+                sprintf('Lifestyle ID "%s" is invalid', $id)
             );
         }
 
