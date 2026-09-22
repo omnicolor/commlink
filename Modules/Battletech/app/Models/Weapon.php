@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Battletech\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Battletech\Enums\AvailabilityRating;
@@ -43,18 +44,11 @@ use const JSON_THROW_ON_ERROR;
  * @property-read TechnologyRating $tech_level
  * @property-read WeaponType $type
  */
+#[WithoutIncrementing]
 class Weapon extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
-
-    protected $casts = [
-        'cost_reload' => 'int',
-        'mass_reload' => 'int',
-        'shots' => 'int',
-    ];
 
     #[Override]
     public function __toString(): string
@@ -85,6 +79,16 @@ class Weapon extends Model implements Stringable
                 return $availability;
             },
         );
+    }
+
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'cost_reload' => 'int',
+            'mass_reload' => 'int',
+            'shots' => 'int',
+        ];
     }
 
     protected function damageEffects(): Attribute

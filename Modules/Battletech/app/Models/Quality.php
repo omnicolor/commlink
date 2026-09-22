@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Battletech\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Battletech\Enums\QualityType;
@@ -27,11 +28,10 @@ use function json_decode;
  * @property string $ruleset
  * @property array<int, QualityType> $types
  */
+#[WithoutIncrementing]
 class Quality extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     #[Override]

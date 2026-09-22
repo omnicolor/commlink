@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Battletech\Models;
 
 use DomainException;
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Casts\Attribute as EloquentAttribute;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Battletech\Enums\ActionRating;
@@ -32,11 +33,10 @@ use function sprintf;
  * @property int $target_number
  * @property TrainingRating $training_rating
  */
+#[WithoutIncrementing]
 class Skill extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     public int|null $level = null;

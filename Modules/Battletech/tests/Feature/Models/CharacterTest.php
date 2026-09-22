@@ -22,7 +22,7 @@ final class CharacterTest extends TestCase
 
     public function testToString(): void
     {
-        $name = $this->faker->name;
+        $name = $this->faker->name();
         $character = new Character(['name' => $name]);
         self::assertSame($name, (string)$character);
     }
