@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -29,12 +30,10 @@ use function sprintf;
  * }
  * @property-read string $name
  */
+#[WithoutIncrementing]
 class Ruleset extends Model implements Stringable
 {
     use Sushi;
-
-    /** @var bool */
-    public $incrementing = false;
     /** @var string */
     protected $keyType = 'string';
 
