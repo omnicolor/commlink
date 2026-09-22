@@ -4,15 +4,44 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Models;
 
+use App\Services\DiceService;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Override;
+use RuntimeException;
 
 /**
  * @method static self create(array<mixed, mixed> $attributes)
+ * @property string $attribute_dice_option
  */
 #[Table(name: 'characters-partial')]
 class PartialCharacter extends Character
 {
+    /**
+     * @var list<string>
+     */
+    protected $fillable = [
+        'attribute_dice_option',
+        'charm',
+        'combat',
+        'grit_current',
+        'health_current',
+        'hustle',
+        'kin',
+        'languages',
+        'money',
+        'movement',
+        'name',
+        'origin',
+        'owner',
+        'rank',
+        'reason',
+        'roles', // Classes in the rules.
+        'species',
+        'species_powers',
+        'teloi',
+        'will',
+    ];
+
     #[Override]
     public function newFromBuilder(
         // @phpstan-ignore parameter.defaultValue
@@ -33,5 +62,17 @@ class PartialCharacter extends Character
         $rawCharacter = $this->toArray();
         unset($rawCharacter['_id']);
         return new Character($rawCharacter);
+    }
+
+    public function startingMoney(): int
+    {
+        if (null === $this->will || null === $this->charm) {
+            throw new RuntimeException('Character must have attributes set');
+        }
+
+        return 10 * (
+            DiceService::rollMax($this->charm)
+            + DiceService::rollMax($this->will)
+        );
     }
 }
