@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Dnd5e\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Dnd5e\Enums\Ability;
@@ -27,11 +28,10 @@ use const JSON_THROW_ON_ERROR;
  * @property-read string $ruleset
  * @property-read array<int, Ability> $saving_throw_proficiencies
  */
+#[WithoutIncrementing]
 class Role extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     #[Override]

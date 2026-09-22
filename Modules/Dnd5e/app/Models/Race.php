@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Dnd5e\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Dnd5e\Enums\Ability;
@@ -21,11 +22,10 @@ use Sushi\Sushi;
  * @property-read string $ruleset
  * @property-read CreatureSize $size
  */
+#[WithoutIncrementing]
 class Race extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     /** @var list<string> */
