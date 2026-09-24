@@ -437,16 +437,16 @@
         },
         {
             "name": "discord-php/http",
-            "version": "v10.9.5",
+            "version": "v10.9.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP-Http.git",
-                "reference": "292d0c60e7b9d814b0c39f5067a66f5f0f1bf285"
+                "reference": "45ec0a137c609595a03c299711e95b1be1ef7185"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP-Http/zipball/292d0c60e7b9d814b0c39f5067a66f5f0f1bf285",
-                "reference": "292d0c60e7b9d814b0c39f5067a66f5f0f1bf285",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP-Http/zipball/45ec0a137c609595a03c299711e95b1be1ef7185",
+                "reference": "45ec0a137c609595a03c299711e95b1be1ef7185",
                 "shasum": ""
             },
             "require": {
@@ -487,9 +487,23 @@
             "description": "Handles HTTP requests to Discord servers",
             "support": {
                 "issues": "https://github.com/discord-php/DiscordPHP-Http/issues",
-                "source": "https://github.com/discord-php/DiscordPHP-Http/tree/v10.9.5"
+                "source": "https://github.com/discord-php/DiscordPHP-Http/tree/v10.9.6"
             },
-            "time": "2026-08-09T14:19:51+00:00"
+            "funding": [
+                {
+                    "url": "https://valgorithms.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.paypal.me/valithor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/valzargaming",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-09-22T13:34:09+00:00"
         },
         {
             "name": "discord/interactions",
@@ -9089,16 +9103,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.56.17",
+            "version": "v10.56.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "976b8201ee98a277b3a6452f6d4370b08c157145"
+                "reference": "c0728e8b2fbdc28a83acb3d7b3fb466863679b98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/976b8201ee98a277b3a6452f6d4370b08c157145",
-                "reference": "976b8201ee98a277b3a6452f6d4370b08c157145",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/c0728e8b2fbdc28a83acb3d7b3fb466863679b98",
+                "reference": "c0728e8b2fbdc28a83acb3d7b3fb466863679b98",
                 "shasum": ""
             },
             "require": {
@@ -9170,7 +9184,7 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.56.17",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.56.18",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
@@ -9185,13 +9199,9 @@
                 {
                     "url": "https://github.com/valzargaming",
                     "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/DiscordPHP",
-                    "type": "patreon"
                 }
             ],
-            "time": "2026-09-07T09:45:45+00:00"
+            "time": "2026-09-14T18:17:39+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
