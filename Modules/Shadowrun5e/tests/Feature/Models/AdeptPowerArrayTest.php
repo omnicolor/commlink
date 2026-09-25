@@ -68,7 +68,7 @@ final class AdeptPowerArrayTest extends TestCase
     {
         try {
             // @phpstan-ignore argument.type
-            $this->powers->offsetSet(power: new stdClass());
+            $this->powers->offsetSet(value: new stdClass());
         } catch (TypeError) {
             // Ignored
         }
