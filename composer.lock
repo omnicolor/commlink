@@ -3550,16 +3550,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "3.14.1",
+            "version": "3.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CarbonPHP/carbon.git",
-                "reference": "34e9109535165bf1d7ff17a610492372ae73a896"
+                "reference": "94cfc34887f07ab5c0efa07914c8f527544e3224"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/34e9109535165bf1d7ff17a610492372ae73a896",
-                "reference": "34e9109535165bf1d7ff17a610492372ae73a896",
+                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/94cfc34887f07ab5c0efa07914c8f527544e3224",
+                "reference": "94cfc34887f07ab5c0efa07914c8f527544e3224",
                 "shasum": ""
             },
             "require": {
@@ -3579,7 +3579,7 @@
                 "doctrine/orm": "^2.15.2 || ^3.0",
                 "friendsofphp/php-cs-fixer": "^v3.87.1",
                 "kylekatarnls/multi-tester": "^2.5.3",
-                "phpmd/phpmd": "^2.15.0",
+                "phpmd/phpmd": "^3.0@dev",
                 "phpstan/extension-installer": "^1.4.3",
                 "phpstan/phpstan": "^2.1.22",
                 "phpunit/phpunit": "^10.5.53",
@@ -3651,7 +3651,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-27T12:07:26+00:00"
+            "time": "2026-10-02T07:26:52+00:00"
         },
         {
             "name": "nette/schema",
@@ -9115,16 +9115,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.59.0",
+            "version": "v10.65.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "2643102d0f8e80de57bf5ce091d32ead61928094"
+                "reference": "09baca56397741f34a2c0fb23935a62006e5e1ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/2643102d0f8e80de57bf5ce091d32ead61928094",
-                "reference": "2643102d0f8e80de57bf5ce091d32ead61928094",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/09baca56397741f34a2c0fb23935a62006e5e1ff",
+                "reference": "09baca56397741f34a2c0fb23935a62006e5e1ff",
                 "shasum": ""
             },
             "require": {
@@ -9169,6 +9169,7 @@
                 "ext-mbstring": "For accurate calculations of string length when handling non-english characters.",
                 "ext-sodium": "For checking the signatures on webhook events. Bundled with PHP; enable it in php.ini.",
                 "ext-uv": "For a faster, and more performant loop. Preferred.",
+                "ext-zstd": "For Zstandard compression support.",
                 "laracord/laracord": "Provides Laracord integration for DiscordPHP."
             },
             "type": "library",
@@ -9199,7 +9200,7 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.59.0",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.65.0",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
@@ -9216,7 +9217,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-24T14:53:05+00:00"
+            "time": "2026-09-28T14:47:29+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
