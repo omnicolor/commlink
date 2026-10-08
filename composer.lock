@@ -9115,21 +9115,21 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.59.0",
+            "version": "v10.66.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "2643102d0f8e80de57bf5ce091d32ead61928094"
+                "reference": "7530d50da2193cbd4a71ed2d81ffda00b1aef009"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/2643102d0f8e80de57bf5ce091d32ead61928094",
-                "reference": "2643102d0f8e80de57bf5ce091d32ead61928094",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/7530d50da2193cbd4a71ed2d81ffda00b1aef009",
+                "reference": "7530d50da2193cbd4a71ed2d81ffda00b1aef009",
                 "shasum": ""
             },
             "require": {
                 "discord-php-helpers/collection": "dev-main || ^8.4 || ^8.0",
-                "discord-php-helpers/voice": "^8.0 || dev-main",
+                "discord-php-helpers/voice": "^8.3 || dev-main",
                 "discord-php/http": "^10.9.8",
                 "discord/interactions": "^2.2",
                 "ext-zlib": "*",
@@ -9169,6 +9169,7 @@
                 "ext-mbstring": "For accurate calculations of string length when handling non-english characters.",
                 "ext-sodium": "For checking the signatures on webhook events. Bundled with PHP; enable it in php.ini.",
                 "ext-uv": "For a faster, and more performant loop. Preferred.",
+                "ext-zstd": "For Zstandard compression support.",
                 "laracord/laracord": "Provides Laracord integration for DiscordPHP."
             },
             "type": "library",
@@ -9199,7 +9200,7 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.59.0",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.66.1",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
@@ -9216,7 +9217,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-24T14:53:05+00:00"
+            "time": "2026-09-28T21:31:05+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
