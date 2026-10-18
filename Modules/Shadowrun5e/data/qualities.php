@@ -129,6 +129,13 @@ return [
         'ruleset' => 'chrome-flesh',
         'severity' => 'Cyberware',
     ],
+    'bilingual' => [
+        'id' => 'bilingual',
+        'description' => 'Bilingual description.',
+        'incompatible-with' => ['bilingual'],
+        'karma' => -5,
+        'name' => 'Bilingual',
+    ],
     'exceptional-attribute-body' => [
         'id' => 'exceptional-attribute-body',
         'attribute' => 'Body',
