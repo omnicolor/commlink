@@ -489,6 +489,7 @@ final class KarmaLog extends ArrayObject
         for ($i = array_sum($attributeList) - 8 - $this->attributePoints; $i > 0; --$i) {
             asort($attributeList);
             $value = (int)current($attributeList);
+            /** @var string $key */
             $key = key($attributeList);
             $this[] = new KarmaLogEntry(
                 sprintf('Increase %s to %d', $key, $value),
