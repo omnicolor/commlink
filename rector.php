@@ -17,6 +17,7 @@ use Rector\DeadCode\Rector\ClassMethod\RemoveReturnTagIncompatibleWithNativeType
 use Rector\PHPUnit\CodeQuality\Rector\ClassMethod\NoSetupWithParentCallOverrideRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitSelfCallRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
+use Rector\PHPUnit\CodeQuality\Rector\MethodCall\MatchAssertSameExpectedTypeRector;
 use Rector\Php53\Rector\FuncCall\DirNameFileConstantToDirConstantRector;
 use Rector\Php70\Rector\FunctionLike\ExceptionHandlerTypehintRector;
 use Rector\Php70\Rector\MethodCall\ThisCallOnStaticMethodToStaticCallRector;
@@ -87,12 +88,17 @@ return RectorConfig::configure()
     ->withSkip([
         AssertSeeToAssertSeeHtmlRector::class,
         CatchExceptionNameMatchingTypeRector::class,
-        // Adds strict_types grot to blade files in modules.
-        DeclareStrictTypesRector::class,
+        DeclareStrictTypesRector::class => [
+            __DIR__ . '/resources',
+        ],
         FillablePropertyToFillableAttributeRector::class,
         HiddenPropertyToHiddenAttributeRector::class,
         IssetOnPropertyObjectToPropertyExistsRector::class,
         MakeInheritedMethodVisibilitySameAsParentRector::class,
+        MatchAssertSameExpectedTypeRector::class => [
+            __DIR__ . '/Modules/Shadowrun6e/tests/Feature/Models/SpiritTest.php',
+            __DIR__ . '/Modules/Shadowrun6e/tests/Feature/Models/SpriteTest.php',
+        ],
         // Breaks many of the attribute-related methods in RPG systems.
         MigrateToSimplifiedAttributeRector::class,
         NewlineAfterStatementRector::class,
