@@ -45,7 +45,7 @@ class Skill extends Number
         // Ignore the word 'skill'.
         array_shift($args);
 
-        $skill = array_shift($args);
+        $skill = (string)array_shift($args);
         if (!isset($character->skills[$skill])) {
             $this->error = sprintf('Skill "%s" is not valid', $skill);
             return;
