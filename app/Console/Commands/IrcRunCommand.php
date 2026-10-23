@@ -44,8 +44,8 @@ class IrcRunCommand extends SignalAwareCommand
      */
     public function handle(): int
     {
-        $this->server = $this->argument('server');
-        $this->port = $this->option('port') ?? '6667';
+        $this->server = (string)$this->input()->string('server');
+        $this->port = (string)$this->input()->string('port', '6667');
         $this->setNickname();
 
         $this->client = new IrcClient(
@@ -261,9 +261,9 @@ class IrcRunCommand extends SignalAwareCommand
     {
         if (
             null !== $this->option('nickname')
-            && '' !== trim($this->option('nickname'))
+            && '' !== trim((string)$this->input()->string('nickname'))
         ) {
-            $this->nickname = trim($this->option('nickname'));
+            $this->nickname = trim((string)$this->input()->string('nickname'));
             return;
         }
 
@@ -272,7 +272,7 @@ class IrcRunCommand extends SignalAwareCommand
 
     private function setClientOptions(): ClientOptions
     {
-        $channels = $this->option('channel');
+        $channels = $this->input()->array('channel');
         $options = new ClientOptions(
             nickname: $this->nickname,
             channels: array_filter(
