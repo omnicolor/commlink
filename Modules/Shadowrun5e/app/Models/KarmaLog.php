@@ -246,20 +246,19 @@ final class KarmaLog extends ArrayObject
             ],
         ];
         $this->attributePoints
-            // @phpstan-ignore offsetAccess.notFound, offsetAccess.invalidOffset
+            // @phpstan-ignore offsetAccess.notFound
             = $priorityMap[$priorities['attributePriority']]['attributes'];
         $this->skillPoints
-            // @phpstan-ignore offsetAccess.notFound, offsetAccess.invalidOffset
+            // @phpstan-ignore offsetAccess.notFound
             = $priorityMap[$priorities['skillPriority']]['activeSkills'];
         $this->skillGroupPoints
-            // @phpstan-ignore offsetAccess.notFound, offsetAccess.invalidOffset
+            // @phpstan-ignore offsetAccess.notFound
             = $priorityMap[$priorities['skillPriority']]['skillGroups'];
         $this->resources
-            // @phpstan-ignore offsetAccess.notFound, offsetAccess.notFound, offsetAccess.invalidOffset, offsetAccess.invalidOffset
+            // @phpstan-ignore offsetAccess.notFound, offsetAccess.notFound
             = $priorityMap[$priorities['resourcePriority']]['resources'][$priorities['gameplay']];
-        // @phpstan-ignore offsetAccess.notFound, offsetAccess.invalidOffset
+        // @phpstan-ignore offsetAccess.notFound
         $spells = $priorityMap[$priorities['magicPriority']]['magic'];
-        // @phpstan-ignore offsetAccess.invalidOffset
         $this->spells = $spells[$priorities['magic']] ?? 0;
         // TODO: Handle free magic/resonance skills
     }
@@ -457,7 +456,7 @@ final class KarmaLog extends ArrayObject
             // @phpstan-ignore offsetAccess.notFound
             = $priorityMap[array_search('attributes', $priorities, true)]['attributes'];
         $this->resources
-            // @phpstan-ignore offsetAccess.notFound, offsetAccess.notFound, offsetAccess.invalidOffset
+            // @phpstan-ignore offsetAccess.notFound, offsetAccess.notFound
             = $priorityMap[array_search('resources', $priorities, true)]['resources'][$priorities['gameplay']];
         $this->skillPoints
             // @phpstan-ignore offsetAccess.notFound
@@ -468,11 +467,8 @@ final class KarmaLog extends ArrayObject
 
         // @phpstan-ignore offsetAccess.notFound
         $magic = $priorityMap[array_search('magic', $priorities, true)]['magic'];
-        // @phpstan-ignore offsetAccess.invalidOffset
         $this->spells = $magic[$priorities['magic']]['spells'] ?? 0;
-        // @phpstan-ignore offsetAccess.invalidOffset
         $this->magicSkills = $magic[$priorities['magic']]['skills'] ?? [];
-        // @phpstan-ignore offsetAccess.invalidOffset
         $this->complexForms = $magic[$priorities['magic']]['complex-forms'] ?? 0;
     }
 
