@@ -365,16 +365,16 @@
         },
         {
             "name": "discord-php-helpers/voice",
-            "version": "v8.3.0",
+            "version": "v8.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP-Voice.git",
-                "reference": "a4128d2ac85d370d2d30b62f0aff0f91138a500c"
+                "reference": "3ef097fbde31c7857cf0bc016b183c919c7f4764"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP-Voice/zipball/a4128d2ac85d370d2d30b62f0aff0f91138a500c",
-                "reference": "a4128d2ac85d370d2d30b62f0aff0f91138a500c",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP-Voice/zipball/3ef097fbde31c7857cf0bc016b183c919c7f4764",
+                "reference": "3ef097fbde31c7857cf0bc016b183c919c7f4764",
                 "shasum": ""
             },
             "require": {
@@ -416,7 +416,7 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP-Voice/issues",
-                "source": "https://github.com/discord-php/DiscordPHP-Voice/tree/v8.3.0",
+                "source": "https://github.com/discord-php/DiscordPHP-Voice/tree/v8.3.1",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
@@ -437,7 +437,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-28T17:12:32+00:00"
+            "time": "2026-10-14T12:54:51+00:00"
         },
         {
             "name": "discord-php/http",
