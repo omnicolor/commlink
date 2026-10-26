@@ -216,7 +216,7 @@ class ImportChummerData extends Command implements Isolatable
         }
 
         if (null !== $this->option('output-dir')) {
-            $this->outputDir = (string)$this->option('output-dir');
+            $this->outputDir = (string)$this->input()->string('output-dir');
         }
 
         if (file_exists($this->outputDir) && !is_dir($this->outputDir)) {
@@ -247,7 +247,7 @@ class ImportChummerData extends Command implements Isolatable
     {
         $this->chummerRepository = storage_path('app/chummer5a');
         if (null !== $this->option('chummer-path')) {
-            $this->chummerRepository = (string)$this->option('chummer-path');
+            $this->chummerRepository = (string)$this->input()->string('chummer-path');
             if (!file_exists($this->chummerRepository)) {
                 throw new RuntimeException(
                     'Path given by --chummer-path does not exist'
