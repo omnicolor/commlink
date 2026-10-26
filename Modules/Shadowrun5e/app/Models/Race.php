@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Model;
 use Override;
 use RuntimeException;
@@ -46,11 +47,10 @@ use const JSON_THROW_ON_ERROR;
  * @property-read int $wil_max
  * @property-read int $wil_min
  */
+#[WithoutIncrementing]
 class Race extends Model implements Stringable
 {
     use Sushi;
-
-    public $incrementing = false;
     protected $keyType = 'string';
 
     /**

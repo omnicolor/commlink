@@ -82,7 +82,7 @@ class MakeModuleRollCommand extends GeneratorCommand
 
     private function getRollName(): string
     {
-        return Str::studly($this->argument('roll'));
+        return Str::studly((string)$this->input()->string('roll'));
     }
 
     #[Override]
