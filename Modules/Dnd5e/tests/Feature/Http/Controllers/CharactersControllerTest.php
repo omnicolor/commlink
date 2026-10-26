@@ -30,7 +30,6 @@ final class CharactersControllerTest extends TestCase
      */
     public function testAuthenticatedNoCharacters(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
             ->getJson(route('dnd5e.characters.index'))
@@ -44,10 +43,9 @@ final class CharactersControllerTest extends TestCase
      */
     public function testAuthenticatedNoCharactersFromSystem(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $character = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'cyberpunkred',
         ]);
         self::actingAs($user)
@@ -64,16 +62,13 @@ final class CharactersControllerTest extends TestCase
      */
     public function testAuthenticatedWithSR5ECharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Character */
         $character1 = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun6e',
         ]);
-        /** @var Character */
         $character2 = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'dnd5e',
         ]);
         self::actingAs($user)
@@ -95,16 +90,14 @@ final class CharactersControllerTest extends TestCase
 
     public function testShowCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'dnd5e']);
-        /** @var Character */
         $character = Character::factory()->create([
             'campaign_id' => $campaign->id,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'dnd5e',
         ]);
+
         self::actingAs($user)
             ->getJson(route('dnd5e.characters.show', $character->id))
             ->assertOk()
