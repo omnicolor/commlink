@@ -12,6 +12,7 @@ jobs:
       matrix:
         php-version:
           - "8.4"
+          - "8.5"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7.0.1
