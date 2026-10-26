@@ -1,7 +1,3 @@
-@php
-    use Modules\Stillfleet\Models\Role;
-    use Modules\Stillfleet\Enums\AdvancedPowersCategory;
-@endphp
 <x-app>
     <x-slot name="title">Create character: Class</x-slot>
     <x-slot name="head">
@@ -16,6 +12,7 @@
             }
         </style>
     </x-slot>
+    @include('stillfleet::create-navigation')
 
     @if ($errors->any())
         <div class="my-4 row">
@@ -67,9 +64,7 @@
                                 </button>
                             </h2>
                             <div aria-labelledby="heading-{{ $role->id }}"
-                                 class="accordion-collapse collapse
-                        @if ($chosenRole?->id === $role->id) show @endif
-                        "
+                                 class="accordion-collapse collapse @if ($chosenRole?->id === $role->id) show @endif"
                                  data-bs-parent="#roles-list"
                                  id="collapse-{{ $role->id }}">
                                 <div class="accordion-body">
@@ -100,7 +95,7 @@
                                         <strong>Marquee power:</strong>
                                         {{ $role->marquee_power }}
                                         @can ('view data')
-                                            &mdash; {{ $role->power_marquee->description }}
+                                            &mdash; {{ $role->marquee_power->description }}
                                         @endcan
                                     </p>
 
@@ -116,7 +111,7 @@
                                         @endforeach
                                     </ul>
 
-                                    <p><strong>Optional powers:</strong> (chosen on the next page)</p>
+                                    <p><strong>Optional powers:</strong> ({{ $role->optional_choices }} chosen on the next page)</p>
                                     <ul>
                                         @foreach ($role->optional_powers as $power)
                                             <li>
@@ -144,12 +139,4 @@
         </div>
         <div class="col-1"></div>
     </div>
-
-    <x-slot name="javascript">
-        <script>
-            $(function () {
-                'use strict';
-            });
-        </script>
-    </x-slot>
 </x-app>
