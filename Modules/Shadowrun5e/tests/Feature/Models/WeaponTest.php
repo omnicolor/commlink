@@ -272,12 +272,12 @@ final class WeaponTest extends TestCase
         ];
         $weapon = Weapon::buildWeapon($array);
         self::assertNotNull($weapon->modifications[0]);
-        self::assertEquals(
+        self::assertSame(
             'Internal Smartlink',
             $weapon->modifications[0]->name
         );
         self::assertNotNull($weapon->accessories['barrel']);
-        self::assertEquals('Bayonet', $weapon->accessories['barrel']->name);
+        self::assertSame('Bayonet', $weapon->accessories['barrel']->name);
     }
 
     #[Test]
