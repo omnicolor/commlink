@@ -73,7 +73,23 @@ final class Armor implements Stringable
 
     /**
      * List of all armor.
-     * @var ?array<mixed>
+     * @var ?array<string, array{
+     *     availability: string,
+     *     capacity?: int,
+     *     chummer-id?: string,
+     *     container-type: array<int, string>,
+     *     cost: int,
+     *     description: string,
+     *     effects?: array<string, int>,
+     *     features: array<int, string>,
+     *     id: string,
+     *     name: string,
+     *     page: int,
+     *     rating?: int,
+     *     ruleset: string,
+     *     stack-rating: int,
+     *     wireless-effects?: array<string, int>
+     * }>
      */
     public static ?array $armor;
 

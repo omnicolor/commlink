@@ -11,6 +11,7 @@ return [
         'availability' => '',
         'capacity' => ,
         'chummer-id' => '',
+        'container-type' => ['armor', 'audio', 'vision'],
         'cost' => ,
         'description' => '',
         'effects' => [],
