@@ -10038,16 +10038,16 @@
         },
         {
             "name": "cypresslab/gitelephant",
-            "version": "v5.0.0",
+            "version": "v5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matteosister/GitElephant.git",
-                "reference": "6fc83ea0477017b72c2d45e9a5f2957a19c7aacf"
+                "reference": "97d57185624d4f9a7c9efe95e0d07bccccb6dd86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matteosister/GitElephant/zipball/6fc83ea0477017b72c2d45e9a5f2957a19c7aacf",
-                "reference": "6fc83ea0477017b72c2d45e9a5f2957a19c7aacf",
+                "url": "https://api.github.com/repos/matteosister/GitElephant/zipball/97d57185624d4f9a7c9efe95e0d07bccccb6dd86",
+                "reference": "97d57185624d4f9a7c9efe95e0d07bccccb6dd86",
                 "shasum": ""
             },
             "require": {
@@ -10088,15 +10088,9 @@
             ],
             "support": {
                 "issues": "https://github.com/matteosister/GitElephant/issues",
-                "source": "https://github.com/matteosister/GitElephant/tree/v5.0.0"
+                "source": "https://github.com/matteosister/GitElephant/tree/v5.1.0"
             },
-            "funding": [
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/cypresslab/gitelephant",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-10-05T16:05:57+00:00"
+            "time": "2026-10-30T15:09:29+00:00"
         },
         {
             "name": "driftingly/rector-laravel",
@@ -14907,16 +14901,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v8.1.9",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "43d109c803d22c00bb820ed45df250b6a8792ca2"
+                "reference": "58f57b6a33e3495f7f41e01258f1ae5ef76cccd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/43d109c803d22c00bb820ed45df250b6a8792ca2",
-                "reference": "43d109c803d22c00bb820ed45df250b6a8792ca2",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/58f57b6a33e3495f7f41e01258f1ae5ef76cccd2",
+                "reference": "58f57b6a33e3495f7f41e01258f1ae5ef76cccd2",
                 "shasum": ""
             },
             "require": {
@@ -14954,7 +14948,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v8.1.9"
+                "source": "https://github.com/symfony/filesystem/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -14974,7 +14968,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-06T20:05:50+00:00"
+            "time": "2026-11-04T08:39:20+00:00"
         },
         {
             "name": "symfony/polyfill-php81",
