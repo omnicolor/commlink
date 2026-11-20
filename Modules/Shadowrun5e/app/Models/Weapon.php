@@ -40,12 +40,12 @@ final class Weapon implements Stringable
     /**
      * Unique identifier for this instance of the weapon.
      */
-    public ?string $link;
+    public ?string $link = null;
 
     /**
      * Identifier for the clip currently loaded.
      */
-    public ?string $loaded;
+    public ?string $loaded = null;
 
     /** @var array<int, FiringMode> */
     public readonly array $modes;

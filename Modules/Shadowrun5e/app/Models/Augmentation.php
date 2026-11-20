@@ -79,7 +79,7 @@ final class Augmentation implements Stringable
      * Loaded know- or skill- softs for Skilljacks.
      * @var ?array<mixed>
      */
-    public ?array $softs;
+    public ?array $softs = null;
 
     /**
      * List of all augmentations.
