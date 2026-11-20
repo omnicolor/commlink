@@ -6,12 +6,13 @@ namespace Modules\Subversion\Models;
 
 use Override;
 use RuntimeException;
+use Stringable;
 
 use function array_keys;
 use function config;
 use function sprintf;
 
-class RelationAspect
+class RelationAspect implements Stringable
 {
     public string $description;
     public bool $factionOnly;

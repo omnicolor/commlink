@@ -19,9 +19,7 @@ final class Campaign extends BaseCampaign
         /** @var Character $character */
         foreach ($this->characters() as $character) {
             foreach ($character->getContacts() as $contact) {
-                if (!isset($contacts[(string)$contact])) {
-                    $contacts[(string)$contact] = $contact;
-                }
+                $contacts[(string)$contact] ??= $contact;
                 assert($contacts[(string)$contact] instanceof Contact);
                 $contacts[(string)$contact]->characters[] = [
                     'character' => (string)$character,

@@ -212,9 +212,7 @@ class Number extends Roll
             return $content;
         }
 
-        if (null === $this->character->edgeCurrent) {
-            $this->character->edgeCurrent = $this->character->edge ?? 0;
-        }
+        $this->character->edgeCurrent ??= $this->character->edge ?? 0;
 
         // If the character is out of edge or glitched, second chance can't be
         // used.
@@ -230,7 +228,7 @@ class Number extends Roll
         $event = $this->event;
         $button = Button::new(Button::STYLE_SUCCESS)
             ->setLabel('2nd chance')
-            ->setListener([$this, 'secondChance'], $event->discord);
+            ->setListener($this->secondChance(...), $event->discord);
         $row = ActionRow::new()->addComponent($button);
         $message = new MessageBuilder();
         $message->setContent($content)->addComponent($row);

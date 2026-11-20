@@ -26,7 +26,7 @@ final class CharactersControllerTest extends TestCase
     private User $user;
 
     #[Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         if (!isset($this->user)) {

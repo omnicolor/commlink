@@ -44,7 +44,7 @@ class Role extends Model implements Stringable
     #[Override]
     public function __toString(): string
     {
-        return $this->attributes['name'];
+        return (string)$this->attributes['name'];
     }
 
     public function addPowers(Power ...$powers): self

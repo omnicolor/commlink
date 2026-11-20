@@ -27,7 +27,7 @@ final class ConditionArrayTest extends TestCase
      * Set up a clean subject.
      */
     #[Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->array = new ConditionArray();

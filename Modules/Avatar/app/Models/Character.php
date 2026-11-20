@@ -21,7 +21,6 @@ use Override;
 use Stringable;
 
 use function array_map;
-use function get_class;
 
 /**
  * @property string $appearance
@@ -152,9 +151,7 @@ class Character extends BaseCharacter implements Stringable
         return EloquentAttribute::make(
             get: function (?array $conditions): array {
                 return array_map(
-                    function (string $condition): Condition {
-                        return Condition::from($condition);
-                    },
+                    Condition::from(...),
                     $conditions ?? [],
                 );
             },
@@ -272,7 +269,7 @@ class Character extends BaseCharacter implements Stringable
             get: function (): Playbook {
                 $playbook = new Playbook($this->attributes['playbook']);
                 if (isset($this->attributes['playbook_options'])) {
-                    $class = get_class($playbook->feature);
+                    $class = $playbook->feature::class;
                     $playbook->feature = new $class($this->attributes['playbook_options']);
                 }
                 return $playbook;

@@ -15,7 +15,7 @@ final class FormulaConverterTest extends TestCase
     private object $formula_converter;
 
     #[Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->formula_converter = new readonly class() {

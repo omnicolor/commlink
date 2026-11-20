@@ -27,7 +27,7 @@ use function route;
 final class VarzControllerTest extends TestCase
 {
     #[Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

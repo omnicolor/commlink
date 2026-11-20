@@ -154,7 +154,7 @@ final class KarmaLogTest extends TestCase
     {
         self::assertNull(array_reduce(
             [],
-            [KarmaLog::class, 'countSkillPoints']
+            KarmaLog::countSkillPoints(...)
         ));
     }
 
@@ -171,7 +171,7 @@ final class KarmaLogTest extends TestCase
             5,
             array_reduce(
                 $knowledgeSkills,
-                [KarmaLog::class, 'countSkillPoints']
+                KarmaLog::countSkillPoints(...)
             )
         );
     }
@@ -189,7 +189,7 @@ final class KarmaLogTest extends TestCase
             2,
             array_reduce(
                 $knowledgeSkills,
-                [KarmaLog::class, 'countSkillPoints']
+                KarmaLog::countSkillPoints(...)
             )
         );
     }
@@ -207,7 +207,7 @@ final class KarmaLogTest extends TestCase
             3,
             array_reduce(
                 $knowledgeSkills,
-                [KarmaLog::class, 'countSkillPoints']
+                KarmaLog::countSkillPoints(...)
             )
         );
     }
@@ -226,7 +226,7 @@ final class KarmaLogTest extends TestCase
         ];
         $specializations = array_filter(
             $skills,
-            [$this->log, 'filterUnspecialized']
+            $this->log->filterUnspecialized(...)
         );
         self::assertCount(2, $specializations);
     }

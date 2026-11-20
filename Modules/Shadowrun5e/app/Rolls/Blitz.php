@@ -56,9 +56,7 @@ final class Blitz extends Init
             return;
         }
 
-        if (null === $this->character->edgeCurrent) {
-            $this->character->edgeCurrent = $this->character->edge ?? 0;
-        }
+        $this->character->edgeCurrent ??= $this->character->edge ?? 0;
         if (0 === $this->character->edgeCurrent) {
             $this->error = 'It looks like you\'re out of edge!';
             return;

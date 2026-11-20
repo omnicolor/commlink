@@ -12,11 +12,11 @@ use function sprintf;
 /**
  * Representation of a Shadowrun 5E fake license.
  */
-final class License implements Stringable
+final readonly class License implements Stringable
 {
     public function __construct(
-        public readonly int $rating,
-        public readonly string $name,
+        public int $rating,
+        public string $name,
     ) {
     }
 

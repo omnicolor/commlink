@@ -21,7 +21,7 @@ final class GearArrayTest extends TestCase
     private GearArray $gears;
 
     #[Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->gears = new GearArray();

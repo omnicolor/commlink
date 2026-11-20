@@ -207,11 +207,8 @@ final class VehicleModification implements Stringable
      */
     public function isAllowed(Vehicle $vehicle): bool
     {
-        foreach ($this->requirements as $requirement) {
-            if (!$requirement($vehicle)) {
-                return false;
-            }
-        }
-        return true;
+        return array_all($this->requirements, static function (callable $requirement) use ($vehicle) {
+            return $requirement($vehicle);
+        });
     }
 }

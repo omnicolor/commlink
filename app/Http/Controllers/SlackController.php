@@ -111,7 +111,7 @@ class SlackController extends Controller
                     RollEvent::dispatch($roll, $channel);
                 }
                 return $roll->forSlack();
-            } catch (Error $ex) {
+            } catch (Error) {
                 // Again, ignore errors, they might want a generic command.
             }
         }
@@ -235,14 +235,12 @@ class SlackController extends Controller
         $social_user = Socialite::driver('slack')->user();
 
         $user = User::where('email', $social_user->email)->first();
-        if (null === $user) {
-            // The user wasn't found, create a new one.
-            $user = User::create([
-                'email' => $social_user->email,
-                'name' => $social_user->name,
-                'password' => 'reset me',
-            ]);
-        }
+        // The user wasn't found, create a new one.
+        $user ??= User::create([
+            'email' => $social_user->email,
+            'name' => $social_user->name,
+            'password' => 'reset me',
+        ]);
 
         $chat_user = ChatUser::slack()
             ->where('server_id', $social_user->attributes['organization_id'])
