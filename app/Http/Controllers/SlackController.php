@@ -111,7 +111,7 @@ class SlackController extends Controller
                     RollEvent::dispatch($roll, $channel);
                 }
                 return $roll->forSlack();
-            } catch (Error $ex) {
+            } catch (Error) {
                 // Again, ignore errors, they might want a generic command.
             }
         }

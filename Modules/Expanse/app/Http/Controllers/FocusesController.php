@@ -37,7 +37,7 @@ class FocusesController extends Controller
                         'collection' => route('expanse.focuses.index'),
                     ],
                 ]);
-        } catch (RuntimeException $ex) {
+        } catch (RuntimeException) {
             abort(
                 Response::HTTP_NOT_FOUND,
                 sprintf('%s not found', $id),
