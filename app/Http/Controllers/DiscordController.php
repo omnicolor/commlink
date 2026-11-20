@@ -111,14 +111,12 @@ class DiscordController extends Controller
         }
         $user = User::where('email', $social_user->email)->first();
 
-        if (null === $user) {
-            // The user wasn't found, create a new one.
-            $user = User::create([
-                'email' => $social_user->email,
-                'name' => $social_user->name,
-                'password' => 'reset me',
-            ]);
-        }
+        // The user wasn't found, create a new one.
+        $user ??= User::create([
+            'email' => $social_user->email,
+            'name' => $social_user->name,
+            'password' => 'reset me',
+        ]);
 
         Auth::login($user);
         session(['discordUser' => [

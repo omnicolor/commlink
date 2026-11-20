@@ -212,9 +212,7 @@ class Number extends Roll
             return $content;
         }
 
-        if (null === $this->character->edgeCurrent) {
-            $this->character->edgeCurrent = $this->character->edge ?? 0;
-        }
+        $this->character->edgeCurrent ??= $this->character->edge ?? 0;
 
         // If the character is out of edge or glitched, second chance can't be
         // used.

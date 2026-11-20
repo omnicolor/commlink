@@ -113,9 +113,7 @@ final class KarmaLog extends ArrayObject
      */
     public static function countSkillPoints(?int $carry, Skill $item): int
     {
-        if (null === $carry) {
-            $carry = 0;
-        }
+        $carry ??= 0;
         // A character should only have one native language, or two with the
         // bilingual quality, which are free.
         if ('N' === $item->level) {
