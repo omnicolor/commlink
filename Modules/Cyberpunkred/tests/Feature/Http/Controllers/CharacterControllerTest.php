@@ -53,7 +53,6 @@ final class CharacterControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = Character::factory()->create([
-            'handle' => __FUNCTION__,
             'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
@@ -72,14 +71,11 @@ final class CharacterControllerTest extends TestCase
     public function testAuthenticatedWithCyberpunkCharacter(): void
     {
         $user = User::factory()->create();
-
         $character1 = Character::factory()->create([
-            'handle' => __FUNCTION__,
             'owner' => $user->email->address,
             'system' => 'shadowrun6e',
         ]);
         $character2 = Character::factory()->create([
-            'handle' => __FUNCTION__,
             'owner' => $user->email->address,
             'system' => 'cyberpunkred',
         ]);
@@ -107,12 +103,8 @@ final class CharacterControllerTest extends TestCase
     public function testShowCharacter(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'cyberpunkred']);
-
-        /** @var Character */
         $character = Character::factory()->create([
-            'handle' => __FUNCTION__,
             'owner' => $user->email->address,
             'system' => 'cyberpunkred',
             'campaign_id' => $campaign->id,
@@ -149,10 +141,7 @@ final class CharacterControllerTest extends TestCase
     public function testShowCharacterOtherSystem(): void
     {
         $user = User::factory()->create();
-
-        /** @var Character */
         $character = Character::factory()->create([
-            'handle' => __FUNCTION__,
             'owner' => $user->email->address,
             'system' => 'shadowrun6e',
         ]);
@@ -171,7 +160,6 @@ final class CharacterControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = Character::factory()->create([
-            'handle' => __FUNCTION__,
             'owner' => $user->email->address,
             'system' => 'cyberpunkred',
         ]);
@@ -215,14 +203,13 @@ final class CharacterControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'handle' => __FUNCTION__,
             'owner' => $user->email->address,
         ]);
 
         self::actingAs($user)
             ->get(route('cyberpunkred.create'))
             ->assertOk()
-            ->assertSee(__FUNCTION__);
+            ->assertSee($character->handle, false);
 
         $character->delete();
     }
@@ -234,7 +221,7 @@ final class CharacterControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'handle' => __FUNCTION__,
+            'handle' => $this->faker->name(),
             'owner' => $user->email->address,
         ]);
 
@@ -253,7 +240,6 @@ final class CharacterControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'handle' => __FUNCTION__,
             'owner' => $user->email->address,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
@@ -284,10 +270,7 @@ final class CharacterControllerTest extends TestCase
     public function testSaveForLater(): void
     {
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
-            'handle' => __FUNCTION__,
             'owner' => $user->email->address,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
@@ -307,8 +290,6 @@ final class CharacterControllerTest extends TestCase
     public function testNameCharacter(): void
     {
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
         ]);
@@ -334,10 +315,7 @@ final class CharacterControllerTest extends TestCase
     public function testLoadRolePage(): void
     {
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
-            'handle' => __FUNCTION__,
             'owner' => $user->email->address,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
@@ -356,10 +334,7 @@ final class CharacterControllerTest extends TestCase
     public function testLoadRolePageAlreadyChosen(): void
     {
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
-            'handle' => __FUNCTION__,
             'owner' => $user->email->address,
             'roles' => [
                 [
@@ -384,8 +359,6 @@ final class CharacterControllerTest extends TestCase
     public function testAssignRole(): void
     {
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'handle' => $this->faker->name(),
             'owner' => $user->email->address,
@@ -419,8 +392,6 @@ final class CharacterControllerTest extends TestCase
     public function testLoadLifepathPage(): void
     {
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
         ]);
@@ -440,8 +411,6 @@ final class CharacterControllerTest extends TestCase
     public function testLoadRoleBasedLifepathPageWithoutARole(): void
     {
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
         ]);
@@ -460,8 +429,6 @@ final class CharacterControllerTest extends TestCase
     public function testLoadRoleBasedLifepathPage(): void
     {
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
             'roles' => [
@@ -487,10 +454,8 @@ final class CharacterControllerTest extends TestCase
     public function testAssignLifepath(): void
     {
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
-            'handle' => __FUNCTION__,
+            'handle' => $this->faker()->name(),
             'lifepath' => [
                 'affectation' => [
                     'rolled' => 1,
@@ -586,8 +551,6 @@ final class CharacterControllerTest extends TestCase
     public function testLoadStatsPage(): void
     {
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email->address,
         ]);
@@ -607,10 +570,8 @@ final class CharacterControllerTest extends TestCase
     public function testStoreStats(): void
     {
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
-            'handle' => __FUNCTION__,
+            'handle' => $this->faker()->name(),
             'lifepath' => [],
             'owner' => $user->email->address,
             'roles' => [
@@ -664,11 +625,9 @@ final class CharacterControllerTest extends TestCase
     public function testReview(): void
     {
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'body' => 4,
-            'handle' => __FUNCTION__,
+            'handle' => $this->faker()->name(),
             'lifepath' => [
                 'affectation' => [
                     'rolled' => 1,
