@@ -7,12 +7,13 @@ namespace Modules\Transformers\Models;
 use Modules\Transformers\Enums\Classification;
 use Override;
 use RuntimeException;
+use Stringable;
 
 use function config;
 use function sprintf;
 use function strtolower;
 
-class Subgroup
+class Subgroup implements Stringable
 {
     public Classification $class;
 

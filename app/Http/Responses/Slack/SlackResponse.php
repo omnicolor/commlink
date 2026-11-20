@@ -76,7 +76,7 @@ class SlackResponse extends JsonResponse implements Stringable
     #[Override]
     public function __toString(): string
     {
-        return $this->data;
+        return (string)$this->data;
     }
 
     /**

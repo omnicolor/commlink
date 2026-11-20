@@ -369,7 +369,7 @@ class CharactersController extends Controller
             ];
         }
         foreach ($request->input('boosts') as $boost) {
-            [$powerId, $boostId] = explode('+', (string) $boost);
+            [$powerId, $boostId] = explode('+', (string)$boost);
             $powers[$powerId]['boosts'][] = $boostId;
         }
         $character->powers = $powers;
