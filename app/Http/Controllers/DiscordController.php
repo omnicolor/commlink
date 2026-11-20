@@ -205,15 +205,9 @@ class DiscordController extends Controller
             ->flip();
 
         if ($was_discord_login) {
-            $all_guilds_registered = true;
-            // Check to see if all guilds have already been registered.
-            foreach ($guilds as $guild) {
-                if (!$registered_guilds->has((string)$guild['snowflake'])) {
-                    $all_guilds_registered = false;
-                    break;
-                }
-            }
-
+            $all_guilds_registered = array_all($guilds, static function (array $guild) use ($registered_guilds) {
+                return $registered_guilds->has((string)$guild['snowflake']);
+            });
             // If the user has already registered all of their guilds, don't
             // show the guild registration page, just go to the dashboard.
             if ($all_guilds_registered) {
