@@ -26,7 +26,7 @@ final class RoleArrayTest extends TestCase
     /**
      * Set up a clean subject.
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->roles = new RoleArray();

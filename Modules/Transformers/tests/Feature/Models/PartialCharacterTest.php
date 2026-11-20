@@ -17,7 +17,6 @@ final class PartialCharacterTest extends TestCase
     {
         $character = new PartialCharacter([
             'name' => 'Test Transformers character',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         $character->save();
 

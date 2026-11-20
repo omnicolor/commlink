@@ -28,7 +28,7 @@ final class AdeptPowerArrayTest extends TestCase
      * Set up a clean subject.
      */
     #[Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->powers = new AdeptPowerArray();

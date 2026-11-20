@@ -26,7 +26,7 @@ final class InteractsWithSlackTest extends TestCase
     private Channel $mock;
 
     #[Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->mock = new Channel(['type' => ChannelType::Slack]);

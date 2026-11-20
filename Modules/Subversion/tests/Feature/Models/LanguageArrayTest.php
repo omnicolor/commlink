@@ -21,7 +21,7 @@ final class LanguageArrayTest extends TestCase
     private LanguageArray $languages;
 
     #[Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->languages = new LanguageArray();

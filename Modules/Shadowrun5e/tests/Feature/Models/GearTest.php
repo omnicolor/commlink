@@ -24,7 +24,7 @@ final class GearTest extends TestCase
     private Gear $item;
 
     #[Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->item = new Gear('credstick-gold');

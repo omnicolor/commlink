@@ -30,7 +30,7 @@ final class SpiritTest extends TestCase
      * Set up the data file's contents.
      */
     #[Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $filename = Config::get('shadowrun5e.data_path') . 'spirits.php';
