@@ -151,9 +151,7 @@ class Character extends BaseCharacter implements Stringable
         return EloquentAttribute::make(
             get: function (?array $conditions): array {
                 return array_map(
-                    function (string $condition): Condition {
-                        return Condition::from($condition);
-                    },
+                    Condition::from(...),
                     $conditions ?? [],
                 );
             },
