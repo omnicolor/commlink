@@ -230,7 +230,7 @@ class Number extends Roll
         $event = $this->event;
         $button = Button::new(Button::STYLE_SUCCESS)
             ->setLabel('2nd chance')
-            ->setListener([$this, 'secondChance'], $event->discord);
+            ->setListener($this->secondChance(...), $event->discord);
         $row = ActionRow::new()->addComponent($button);
         $message = new MessageBuilder();
         $message->setContent($content)->addComponent($row);

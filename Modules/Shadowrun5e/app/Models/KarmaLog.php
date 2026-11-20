@@ -629,7 +629,7 @@ final class KarmaLog extends ArrayObject
         $skills = $this->processMagicalSkills($this->character->getSkills());
         /** @var array<int, ActiveSkill> $skills */
         $skills = (array)$skills;
-        $deficit = (int)array_reduce($skills, [$this, 'countSkillPoints'])
+        $deficit = (int)array_reduce($skills, $this->countSkillPoints(...))
             - $this->skillPoints;
         if (0 >= $deficit) {
             // If they didn't spend too much, don't worry about the rest.
@@ -638,9 +638,9 @@ final class KarmaLog extends ArrayObject
         /** @var array<int, ActiveSkill> $specializations */
         $specializations = array_filter(
             $skills,
-            [$this, 'filterUnspecialized']
+            $this->filterUnspecialized(...)
         );
-        usort($skills, [$this, 'compareSkills']);
+        usort($skills, $this->compareSkills(...));
 
         $skill = array_shift($skills);
         while (0 < $deficit && null !== $skill) {
@@ -697,7 +697,7 @@ final class KarmaLog extends ArrayObject
         $points = ($this->character->intuition + $this->character->logic) * 2;
         /** @var array<int, KnowledgeSkill> $skills */
         $skills = (array)$this->character->getKnowledgeSkills();
-        $deficit = (int)array_reduce($skills, [$this, 'countSkillPoints']) - $points;
+        $deficit = (int)array_reduce($skills, $this->countSkillPoints(...)) - $points;
         if (0 >= $deficit) {
             // They didn't overspend.
             return;
@@ -705,9 +705,9 @@ final class KarmaLog extends ArrayObject
         /** @var array<int, KnowledgeSkill> $specializations */
         $specializations = array_filter(
             $skills,
-            [$this, 'filterUnspecialized']
+            $this->filterUnspecialized(...)
         );
-        usort($skills, [$this, 'compareSkills']);
+        usort($skills, $this->compareSkills(...));
 
         /** @var KnowledgeSkill $skill */
         $skill = array_shift($skills);
