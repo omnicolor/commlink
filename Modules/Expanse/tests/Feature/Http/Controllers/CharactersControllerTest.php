@@ -155,7 +155,6 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = CprCharacter::factory()->create([
             'owner' => $user->email,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
