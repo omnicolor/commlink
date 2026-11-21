@@ -11,7 +11,6 @@ use RuntimeException;
 use TypeError;
 
 use function array_filter;
-use function array_key_exists;
 use function array_merge;
 use function array_reduce;
 use function array_search;
@@ -490,8 +489,8 @@ final class KarmaLog extends ArrayObject
         for ($i = array_sum($attributeList) - 8 - $this->attributePoints; $i > 0; --$i) {
             asort($attributeList);
             $value = (int)current($attributeList);
-            $key = (string)key($attributeList);
-            assert(array_key_exists($key, $attributeList));
+            /** @var string $key */
+            $key = key($attributeList);
             $this[] = new KarmaLogEntry(
                 sprintf('Increase %s to %d', $key, $value),
                 $value * -5,
