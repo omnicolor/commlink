@@ -98,7 +98,7 @@ class Character extends BaseCharacter implements Stringable
     #[Override]
     public function __toString(): string
     {
-        return $this->attributes['name'] ?? 'Unnamed character';
+        return (string)($this->attributes['name'] ?? 'Unnamed character');
     }
 
     public function aegis(): Attribute

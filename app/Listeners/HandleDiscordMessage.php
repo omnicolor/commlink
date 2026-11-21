@@ -35,13 +35,11 @@ class HandleDiscordMessage
             ->where('channel_id', $textChannel->id)
             ->where('server_id', $event->server->id)
             ->first();
-        if (null === $channel) {
-            $channel = new Channel([
-                'channel_id' => $textChannel->id,
-                'server_id' => $event->server->id,
-                'type' => ChannelType::Discord,
-            ]);
-        }
+        $channel ??= new Channel([
+            'channel_id' => $textChannel->id,
+            'server_id' => $event->server->id,
+            'type' => ChannelType::Discord,
+        ]);
         $channel->user = (string)$event->user?->id;
         $channel->username = $event->user->username
             ?? $event->user->displayname

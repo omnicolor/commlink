@@ -30,7 +30,7 @@ abstract class Skill implements Stringable
     /**
      * Specialization(s) if any, comma-separated.
      */
-    public ?string $specialization;
+    public ?string $specialization = null;
 
     /**
      * Limit the skill uses.

@@ -20,7 +20,7 @@ $rules = [
     'blank_lines_before_namespace' => true,
     'blank_line_between_import_groups' => true,
     'braces_position' => true,
-    'cast_spaces' => false,
+    'cast_spaces' => ['space' => 'none'],
     'class_attributes_separation' => [
         'elements' => [
             'method' => 'one',

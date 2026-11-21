@@ -20,7 +20,7 @@ final class PreparationTest extends TestCase
     private Preparation $preparation;
 
     #[Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->preparation = new Preparation();

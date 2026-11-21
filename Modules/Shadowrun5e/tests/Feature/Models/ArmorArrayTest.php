@@ -21,7 +21,7 @@ final class ArmorArrayTest extends TestCase
     private ArmorArray $armors;
 
     #[Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->armors = new ArmorArray();

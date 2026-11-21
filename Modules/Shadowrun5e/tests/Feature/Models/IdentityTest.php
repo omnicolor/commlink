@@ -51,7 +51,7 @@ final class IdentityTest extends TestCase
             'sin' => 1,
         ];
         $identity = Identity::fromArray($example);
-        self::assertSame('Elvis', (string) $identity);
+        self::assertSame('Elvis', (string)$identity);
     }
 
     /**

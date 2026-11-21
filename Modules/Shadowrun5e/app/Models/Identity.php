@@ -43,7 +43,7 @@ final class Identity implements Stringable
      * Optional notes about the identity, its licenses, its SIN, and/or its
      * lifestyles.
      */
-    public ?string $notes;
+    public ?string $notes = null;
 
     /**
      * If the Identity is for a SINner quality, denotes what level of SINner.

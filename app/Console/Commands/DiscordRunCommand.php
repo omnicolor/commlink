@@ -85,7 +85,7 @@ class DiscordRunCommand extends Command
         );
         $discord->on(
             Event::MESSAGE_REACTION_ADD,
-            [$this, 'handleMessageReaction'],
+            $this->handleMessageReaction(...),
         );
 
         $discord->run();

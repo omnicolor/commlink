@@ -91,7 +91,7 @@ final class GruntTest extends TestCase
         self::assertSame('core', $grunt->ruleset);
         self::assertSame(383, $grunt->page);
 
-        self::assertSame('Organized crime gang - Lieutenant', (string) $grunt);
+        self::assertSame('Organized crime gang - Lieutenant', (string)$grunt);
         self::assertStringContainsString('technomancer', $grunt->description);
 
         self::assertNull($grunt->adept_powers);

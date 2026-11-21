@@ -18,7 +18,7 @@ final class RockerboyTest extends TestCase
     private Rockerboy $role;
 
     #[Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->role = new Rockerboy([

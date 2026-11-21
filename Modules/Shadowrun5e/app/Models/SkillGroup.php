@@ -48,9 +48,7 @@ final class SkillGroup implements Stringable
                 }
 
                 $group = (string)$skill['group'];
-                if (!isset(self::$skillGroups[$group])) {
-                    self::$skillGroups[$group] = [];
-                }
+                self::$skillGroups[$group] ??= [];
 
                 self::$skillGroups[$group][] = new ActiveSkill($skill['id'], 0);
             }

@@ -40,9 +40,9 @@ final class GearFactory
             $quantity = (int)$gear['quantity'];
         }
         if (
-            str_starts_with((string) $gear['id'], 'cyberdeck-')
-            || str_starts_with((string) $gear['id'], 'commlink-')
-            || str_starts_with((string) $gear['id'], 'rcc-')
+            str_starts_with((string)$gear['id'], 'cyberdeck-')
+            || str_starts_with((string)$gear['id'], 'commlink-')
+            || str_starts_with((string)$gear['id'], 'rcc-')
         ) {
             $commlink = new Commlink($gear['id'], $quantity);
             if (isset($gear['sin'])) {

@@ -2,31 +2,20 @@
 
 declare(strict_types=1);
 
-use Rector\CodeQuality\Rector\BooleanAnd\RepeatedAndNotEqualToNotInArrayRector;
-use Rector\CodeQuality\Rector\BooleanOr\RepeatedOrEqualToInArrayRector;
 use Rector\CodeQuality\Rector\Catch_\ThrowWithPreviousExceptionRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
 use Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector;
 use Rector\CodingStyle\Rector\ClassLike\NewlineBetweenClassLikeStmtsRector;
-use Rector\CodingStyle\Rector\ClassMethod\MakeInheritedMethodVisibilitySameAsParentRector;
 use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\CodingStyle\Rector\String_\SimplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
-use Rector\DeadCode\Rector\ClassMethod\RemoveReturnTagIncompatibleWithNativeTypeRector;
+use Rector\DowngradePhp74\Rector\ArrowFunction\ArrowFunctionToAnonymousFunctionRector;
 use Rector\PHPUnit\CodeQuality\Rector\ClassMethod\NoSetupWithParentCallOverrideRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitSelfCallRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
-use Rector\Php53\Rector\FuncCall\DirNameFileConstantToDirConstantRector;
-use Rector\Php70\Rector\FunctionLike\ExceptionHandlerTypehintRector;
-use Rector\Php70\Rector\MethodCall\ThisCallOnStaticMethodToStaticCallRector;
-use Rector\Php71\Rector\TryCatch\MultiExceptionCatchRector;
-use Rector\Php73\Rector\FuncCall\ArrayKeyFirstLastRector;
-use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
-use Rector\Php83\Rector\ClassConst\AddTypeToConstRector;
-use Rector\Php83\Rector\Class_\ReadOnlyAnonymousClassRector;
-use Rector\Php84\Rector\FuncCall\RoundingModeEnumRector;
-use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
+use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
+use Rector\Php84\Rector\MethodCall\NewMethodCallWithoutParenthesesRector;
 use RectorLaravel\Rector\ClassMethod\MigrateToSimplifiedAttributeRector;
 use RectorLaravel\Rector\Class_\FillablePropertyToFillableAttributeRector;
 use RectorLaravel\Rector\Class_\HiddenPropertyToHiddenAttributeRector;
@@ -53,7 +42,8 @@ return RectorConfig::configure()
         symfony: true,
         laravel: true,
     )
-    ->withImportNames(removeUnusedImports: true)
+    ->withImportNames()
+    ->withPhpSets(php84: true)
     ->withPreparedSets(
         deadCode: true,
         codeQuality: true,
@@ -61,45 +51,35 @@ return RectorConfig::configure()
         typeDeclarations: true,
         privatization: true,
         instanceOf: true,
+        if: true,
         earlyReturn: true,
         carbon: true,
         rectorPreset: true,
         phpunitCodeQuality: true,
+        phpunitNarrowAsserts: true,
+        phpunitMockToStub: true,
         symfonyCodeQuality: true,
         symfonyConfigs: true,
     )
     ->withRules([
-        AddTypeToConstRector::class,
-        ArrayKeyFirstLastRector::class,
-        DirNameFileConstantToDirConstantRector::class,
-        ExceptionHandlerTypehintRector::class,
-        ExplicitNullableParamTypeRector::class,
-        MultiExceptionCatchRector::class,
+        ArrowFunctionToAnonymousFunctionRector::class,
         PreferPHPUnitSelfCallRector::class,
-        ReadOnlyAnonymousClassRector::class,
-        ReadOnlyPropertyRector::class,
-        RoundingModeEnumRector::class,
-        ThisCallOnStaticMethodToStaticCallRector::class,
     ])
     ->withSkip([
         AssertSeeToAssertSeeHtmlRector::class,
         CatchExceptionNameMatchingTypeRector::class,
+        ClosureToArrowFunctionRector::class,
         FillablePropertyToFillableAttributeRector::class,
         HiddenPropertyToHiddenAttributeRector::class,
         IssetOnPropertyObjectToPropertyExistsRector::class,
-        MakeInheritedMethodVisibilitySameAsParentRector::class,
         // Breaks many of the attribute-related methods in RPG systems.
         MigrateToSimplifiedAttributeRector::class,
+        NewMethodCallWithoutParenthesesRector::class,
         NewlineAfterStatementRector::class,
         NewlineBeforeNewAssignSetRector::class,
         NewlineBetweenClassLikeStmtsRector::class,
         NoSetupWithParentCallOverrideRector::class,
         PreferPHPUnitThisCallRector::class,
-        RemoveReturnTagIncompatibleWithNativeTypeRector::class => [
-            'Modules/Shadowrun5e/app/Http/Resources/WeaponResource.php',
-        ],
-        RepeatedAndNotEqualToNotInArrayRector::class,
-        RepeatedOrEqualToInArrayRector::class,
         ReplaceFakerInstanceWithHelperRector::class,
         SimplifyQuoteEscapeRector::class,
         ThrowWithPreviousExceptionRector::class,

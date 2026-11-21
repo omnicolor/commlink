@@ -53,15 +53,15 @@ class IrcRunCommand extends SignalAwareCommand
             $this->setClientOptions(),
         );
 
-        $this->client->on('kick', [$this, 'handleKick']);
-        $this->client->on('invite', [$this, 'handleInvite']);
-        $this->client->on('message', [$this, 'handleMessage']);
-        $this->client->on('mode', [$this, 'handleMode']);
-        $this->client->on('motd', [$this, 'handleMotd']);
-        $this->client->on('registered', [$this, 'handleRegistration']);
-        $this->client->on('names', [$this, 'handleNames']);
-        $this->client->on('nick-is-registered', [$this, 'handleWhois']);
-        $this->client->on('renamed', [$this, 'handleRename']);
+        $this->client->on('kick', $this->handleKick(...));
+        $this->client->on('invite', $this->handleInvite(...));
+        $this->client->on('message', $this->handleMessage(...));
+        $this->client->on('mode', $this->handleMode(...));
+        $this->client->on('motd', $this->handleMotd(...));
+        $this->client->on('registered', $this->handleRegistration(...));
+        $this->client->on('names', $this->handleNames(...));
+        $this->client->on('nick-is-registered', $this->handleWhois(...));
+        $this->client->on('renamed', $this->handleRename(...));
 
         try {
             $this->client->connect();
