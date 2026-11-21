@@ -19,7 +19,7 @@
     },
     "type": "module",
     "dependencies": {
-        "npm": "^11.21.0",
+        "npm": "^12.2.3",
         "yaml": "^2.8.2"
     }
 }
