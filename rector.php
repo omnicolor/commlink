@@ -24,11 +24,9 @@ use Rector\Php71\Rector\TryCatch\MultiExceptionCatchRector;
 use Rector\Php73\Rector\FuncCall\ArrayKeyFirstLastRector;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Php83\Rector\ClassConst\AddTypeToConstRector;
-use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
 use Rector\Php83\Rector\Class_\ReadOnlyAnonymousClassRector;
 use Rector\Php84\Rector\FuncCall\RoundingModeEnumRector;
 use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
-use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
 use RectorLaravel\Rector\ClassMethod\MigrateToSimplifiedAttributeRector;
 use RectorLaravel\Rector\Class_\FillablePropertyToFillableAttributeRector;
 use RectorLaravel\Rector\Class_\HiddenPropertyToHiddenAttributeRector;
@@ -71,7 +69,6 @@ return RectorConfig::configure()
         symfonyConfigs: true,
     )
     ->withRules([
-        AddOverrideAttributeToOverriddenMethodsRector::class,
         AddTypeToConstRector::class,
         ArrayKeyFirstLastRector::class,
         DirNameFileConstantToDirConstantRector::class,
@@ -87,8 +84,6 @@ return RectorConfig::configure()
     ->withSkip([
         AssertSeeToAssertSeeHtmlRector::class,
         CatchExceptionNameMatchingTypeRector::class,
-        // Adds strict_types grot to blade files in modules.
-        DeclareStrictTypesRector::class,
         FillablePropertyToFillableAttributeRector::class,
         HiddenPropertyToHiddenAttributeRector::class,
         IssetOnPropertyObjectToPropertyExistsRector::class,

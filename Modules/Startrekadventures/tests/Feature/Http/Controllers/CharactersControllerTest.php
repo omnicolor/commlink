@@ -84,13 +84,9 @@ final class CharactersControllerTest extends TestCase
      */
     public function testListCharacters(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)

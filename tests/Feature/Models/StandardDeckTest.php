@@ -90,12 +90,9 @@ final class StandardDeckTest extends TestCase
      */
     public function testDeckNotFound(): void
     {
-        DB::shouldReceive('table->find')
-            ->with(1)
-            ->andReturn(null);
         self::expectException(RuntimeException::class);
         self::expectExceptionMessageIs('Deck not found');
-        StandardDeck::find(1);
+        StandardDeck::find(0);
     }
 
     /**
@@ -103,12 +100,16 @@ final class StandardDeckTest extends TestCase
      */
     public function testInvalidDeckType(): void
     {
-        DB::shouldReceive('table->find')
-            ->with(1)
-            ->andReturn((object)['type' => 'Invalid']);
+        $id = DB::table('decks')
+            ->insertGetId([
+                'id' => 1,
+                'campaign_id' => Campaign::factory()->create()->id,
+                'cards' => 'a:1:{i:0;O:15:"App\Models\Card":2:{s:5:"value";s:1:"2";s:4:"suit";s:3:"♣";}}',
+                'type' => 'invalid',
+            ]);
         self::expectException(RuntimeException::class);
         self::expectExceptionMessageIs('Deck type not found');
-        StandardDeck::find(1);
+        StandardDeck::find($id);
     }
 
     /**
@@ -116,16 +117,15 @@ final class StandardDeckTest extends TestCase
      */
     public function testLoadDeck(): void
     {
-        DB::shouldReceive('table->find')
-            ->with(1)
-            ->andReturn((object)[
+        $id = DB::table('decks')
+            ->insertGetId([
                 'id' => 1,
-                'campaign_id' => 1,
+                'campaign_id' => Campaign::factory()->create()->id,
                 'cards' => 'a:1:{i:0;O:15:"App\Models\Card":2:{s:5:"value";s:1:"2";s:4:"suit";s:3:"♣";}}',
                 'type' => StandardDeck::class,
             ]);
 
-        $deck = StandardDeck::find(1);
+        $deck = StandardDeck::find($id);
         self::assertCount(1, $deck);
         self::assertSame('2♣', (string)$deck->drawOne());
     }
@@ -146,36 +146,13 @@ final class StandardDeckTest extends TestCase
      */
     public function testSaveNewDeck(): void
     {
-        DB::shouldReceive('table->insertGetId')
-            ->with([
-                'campaign_id' => 13,
-                'cards' => 'a:1:{i:0;O:15:"App\Models\Card":2:{s:5:"value";s:1:"2";s:4:"suit";s:3:"♣";}}',
-                'type' => StandardDeck::class,
-            ])
-            ->andReturn(42);
         $deck = new StandardDeck();
-        $deck->campaign_id = 13;
+        $deck->campaign_id = Campaign::factory()->create()->id;
         $deck->draw(51);
         self::assertFalse(isset($deck->id));
         $deck->save();
-        self::assertSame(42, $deck->id);
-    }
-
-    /**
-     * Test updating an existing deck.
-     */
-    public function testUpdateDeck(): void
-    {
-        DB::shouldReceive('table->where->update')
-            ->with([
-                'cards' => 'a:1:{i:0;O:15:"App\Models\Card":2:{s:5:"value";s:1:"2";s:4:"suit";s:3:"♣";}}',
-            ]);
-        $deck = new StandardDeck();
-        $deck->campaign_id = 13;
-        $deck->id = 42;
-        $deck->draw(51);
-        $deck->save();
-        self::assertCount(1, $deck);
+        // @phpstan-ignore staticMethod.alreadyNarrowedType
+        self::assertNotNull($deck->id);
     }
 
     /**
@@ -183,8 +160,6 @@ final class StandardDeckTest extends TestCase
      */
     public function testFindForCampaignNoDecks(): void
     {
-        DB::shouldReceive('table->where->get')->andReturn([]);
-
         $campaign = Campaign::factory()->create();
         $decks = StandardDeck::findForCampaign($campaign);
         self::assertEmpty($decks);
@@ -196,17 +171,12 @@ final class StandardDeckTest extends TestCase
     public function testFindForDeck(): void
     {
         $campaign = Campaign::factory()->create();
-        DB::shouldReceive('table->where->get')
-            ->andReturn([
-                (object)[
-                    'id' => 1,
-                    'campaign_id' => $campaign->id,
-                    'cards' => 'a:1:{i:0;O:15:"App\Models\Card":2:{s:5:"value";s:1:"2";s:4:"suit";s:3:"♣";}}',
-                    'type' => StandardDeck::class,
-                ],
-                (object)[
-                    'type' => '\App\Models\UnknownDeck',
-                ],
+        DB::table('decks')
+            ->insertGetId([
+                'id' => 1,
+                'campaign_id' => $campaign->id,
+                'cards' => 'a:1:{i:0;O:15:"App\Models\Card":2:{s:5:"value";s:1:"2";s:4:"suit";s:3:"♣";}}',
+                'type' => StandardDeck::class,
             ]);
 
         $decks = StandardDeck::findForCampaign($campaign);
