@@ -92,6 +92,7 @@
         "phpstan/phpstan-phpunit": "^2.0",
         "phpstan/phpstan-strict-rules": "^2.0",
         "phpunit/phpunit": "^13.0",
+        "phpwarden/phpwarden": "^1.0",
         "rector/rector": "^2.0",
         "roave/security-advisories": "dev-latest",
         "spatie/laravel-ignition": "^2.0",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "43cac9918b45c7abb8d7fb946cfa497b",
+    "content-hash": "57685e74b08b8a608f7f4712c3397438",
     "packages": [
         {
             "name": "brick/math",
@@ -12073,6 +12073,59 @@
                 }
             ],
             "time": "2026-11-02T07:12:28+00:00"
+        },
+        {
+            "name": "phpwarden/phpwarden",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oroma-alfred/phpwarden-composer.git",
+                "reference": "08e015caed07ec02b58918367952451b841d59a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oroma-alfred/phpwarden-composer/zipball/08e015caed07ec02b58918367952451b841d59a7",
+                "reference": "08e015caed07ec02b58918367952451b841d59a7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "bin": [
+                "bin/phpwarden"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "phpwarden",
+                    "homepage": "https://phpwarden.io"
+                }
+            ],
+            "description": "Scan composer.lock, WordPress and the PHP engine for vulnerable packages, ranked by real-world exploitation (CISA KEV, then EPSS) — not CVSS. vendor/bin/phpwarden, offline, zero deps.",
+            "homepage": "https://phpwarden.io",
+            "keywords": [
+                "composer",
+                "cve",
+                "epss",
+                "kev",
+                "php-security",
+                "sca",
+                "scanner",
+                "security",
+                "supply-chain",
+                "vulnerability",
+                "wordpress"
+            ],
+            "support": {
+                "docs": "https://phpwarden.io",
+                "issues": "https://github.com/oroma-alfred/phpwarden/issues",
+                "source": "https://github.com/oroma-alfred/phpwarden"
+            },
+            "time": "2026-11-14T08:59:08+00:00"
         },
         {
             "name": "psy/psysh",
