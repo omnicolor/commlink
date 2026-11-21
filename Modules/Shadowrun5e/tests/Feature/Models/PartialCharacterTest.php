@@ -20,7 +20,6 @@ final class PartialCharacterTest extends TestCase
     {
         $character = new PartialCharacter([
             'handle' => 'Test SR5E character',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         $character->save();
 
